@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { TokenStorageService } from './token-storage.service';
 
-describe('CookieService', () => {
+describe('TokenStorageService', () => {
   let service: TokenStorageService;
 
   beforeEach(() => {

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {SpotifyAPIService} from '../../services/spotifyAPI/spotify-api.service';
+import {SpotifyAuthenticationService} from '../../services/spotifyAuthentication/spotify-authentication.service';
 
 @Component({
   selector: 'app-navbar',
@@ -8,13 +8,13 @@ import {SpotifyAPIService} from '../../services/spotifyAPI/spotify-api.service';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private readonly spotifyAPI: SpotifyAPIService) {
+  constructor(private readonly spotifyAuth: SpotifyAuthenticationService) {
   }
 
   ngOnInit(): void {
   }
 
   isLoggedIn(): boolean {
-    return this.spotifyAPI.isLoggedIn();
+    return this.spotifyAuth.isLoggedIn();
   }
 }

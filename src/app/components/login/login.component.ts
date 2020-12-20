@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {faSpotify} from '@fortawesome/free-brands-svg-icons';
-import {SpotifyAPIService} from '../../services/spotifyAPI/spotify-api.service';
+import {SpotifyAuthenticationService} from '../../services/spotifyAuthentication/spotify-authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -11,8 +11,8 @@ export class LoginComponent implements OnInit {
   authenticationUrl: string;
   spotify = faSpotify;
 
-  constructor(private readonly spotifyAPI: SpotifyAPIService) {
-    this.authenticationUrl = spotifyAPI.authenticationURL;
+  constructor(private readonly spotifyAuth: SpotifyAuthenticationService) {
+    this.authenticationUrl = spotifyAuth.authenticationURL;
   }
 
   ngOnInit(): void {

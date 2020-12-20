@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {SpotifyAPIService} from '../../services/spotifyAPI/spotify-api.service';
+import {SpotifyAuthenticationService} from '../../services/spotifyAuthentication/spotify-authentication.service';
 
 @Component({
   selector: 'app-authorize',
@@ -10,10 +11,7 @@ import {SpotifyAPIService} from '../../services/spotifyAPI/spotify-api.service';
 export class AuthorizeComponent implements OnInit {
   private _code: string;
 
-  constructor(private spotifyAPI: SpotifyAPIService, private readonly route: ActivatedRoute) {
-
-
-  }
+  constructor(private spotifyAuth: SpotifyAuthenticationService, private readonly route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -23,6 +21,6 @@ export class AuthorizeComponent implements OnInit {
   }
 
   authorize(): void {
-    this.spotifyAPI.authorize(this._code);
+    this.spotifyAuth.authorize(this._code);
   }
 }
