@@ -1,0 +1,21 @@
+@function getColor($key) {
+  @return map-get($theme-colors, $key);
+}
+
+$theme-colors: (
+  "primary": #ef6603,
+  "secondary": #248188,
+  "tertiary": #073242,
+  "quaternary": #99BFC1,
+);
+
+$primary: getColor("primary");
+$secondary: getColor("secondary");
+$tertiary: getColor("tertiary");
+$quaternary: getColor("quaternary");
+
+
+$btn-padding-y:               12px;
+$btn-padding-x:               32px;
+$btn-font-family:             "Raleway", sans-serif;
+$btn-font-size:               14px;

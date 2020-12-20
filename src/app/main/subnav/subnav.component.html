@@ -1,0 +1,20 @@
+<ul class="nav nav-tabs row d-flex mb-5">
+  <li class="nav-item col-3" data-aos="zoom-in">
+    <div class="nav-link">
+      <a class="font-weight-bold" [routerLink]="['./account']">
+        <fa-icon class="mr-0 mr-md-2" [icon]="account"></fa-icon>
+        <span class="d-none d-lg-inline">Account</span>
+      </a>
+    </div>
+  </li>
+  <li class="nav-item col-3" data-aos="zoom-in">
+    <div class="nav-link">
+      <a class="font-weight-bold" [routerLink]="['./playlist']">
+        <fa-icon class="mr-0 mr-md-2" [icon]="playlist"></fa-icon>
+        <span class="d-none d-lg-inline">Playlists</span>
+      </a>
+    </div>
+  </li>
+</ul>
+
+<router-outlet></router-outlet>
