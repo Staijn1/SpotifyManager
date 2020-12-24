@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {SpotifyAPIService} from '../../services/spotifyAPI/spotify-api.service';
+import {Router} from '@angular/router';
 import {SpotifyAuthenticationService} from '../../services/spotifyAuthentication/spotify-authentication.service';
+import {CustomError} from '../../types/CustomError';
 
 @Component({
   selector: 'app-authorize',
@@ -10,17 +10,26 @@ import {SpotifyAuthenticationService} from '../../services/spotifyAuthentication
 })
 export class AuthorizeComponent implements OnInit {
   private _code: string;
+  private _state: string;
+  error: CustomError;
 
-  constructor(private spotifyAuth: SpotifyAuthenticationService, private readonly route: ActivatedRoute) {}
+  constructor(private spotifyAuth: SpotifyAuthenticationService, private readonly router: Router) {
+    this.spotifyAuth.errorEvent.subscribe(error => {
+      this.error = error;
+    });
+  }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this._code = params.code;
-    });
-    this.authorize();
+    this.spotifyAuth.completeLogin().then(
+      data => {
+        if (!this.error) {
+          this.router.navigate(['overview']).then();
+        }
+      }
+    );
   }
 
   authorize(): void {
-    this.spotifyAuth.authorize(this._code);
+    // this.spotifyAuth.authorize(this._code, this._state);
   }
 }

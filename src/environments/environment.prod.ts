@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  redirect_uri: 'https://www.steinjonker.nl/callback'
 };

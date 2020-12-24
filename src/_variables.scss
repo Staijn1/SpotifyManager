@@ -4,7 +4,7 @@
 
 $theme-colors: (
   "primary": #ef6603,
-  "secondary": #248188,
+  "secondary": rgba(42, 44, 57, 1),
   "tertiary": #073242,
   "quaternary": #99BFC1,
 );
@@ -15,7 +15,9 @@ $tertiary: getColor("tertiary");
 $quaternary: getColor("quaternary");
 
 
-$btn-padding-y:               12px;
-$btn-padding-x:               32px;
-$btn-font-family:             "Raleway", sans-serif;
-$btn-font-size:               14px;
+$btn-padding-y: 12px;
+$btn-padding-x: 32px;
+$btn-font-family: "Raleway", sans-serif;
+$btn-font-size: 14px;
+
+$body-color: #444444;

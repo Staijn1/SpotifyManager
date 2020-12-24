@@ -1,104 +1,156 @@
-import {Injectable} from '@angular/core';
-import * as querystring from 'querystring';
-import {SessionType} from '../../types/SessionType';
-import {TokenStorageService} from '../tokenStorage/token-storage.service';
+import {EventEmitter, Injectable, Output} from '@angular/core';
+import {environment} from '../../../environments/environment';
+import {CustomError} from '../../types/CustomError';
+import {SpotifyErrorService} from '../spotify-error/spotify-error.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SpotifyAuthenticationService {
-  public authenticationURL: string;
-
   private readonly CLIENT_ID = '4d7a0730965f4a2d99625e07d0307efd';
-  private readonly CLIENT_SECRET = '9cf04dc7d1c3403da8fcebedf6e9818b';
   private readonly SCOPES = 'user-top-read playlist-modify-public playlist-modify-private playlist-read-private playlist-read-collaborative';
-  private readonly REDIRECT_URI = 'http://172.16.54.112:4200/authorize';
-  private _accessToken: string;
-  private _refreshToken: string;
+  private readonly REDIRECT_URI = environment.redirect_uri;
+  @Output() errorEvent = new EventEmitter<CustomError>();
 
-  constructor(private readonly tokenStorageService: TokenStorageService) {
-    this.authenticationURL = 'https://accounts.spotify.com/authorize?' +
-      querystring.stringify({
-        response_type: 'code',
-        client_id: this.CLIENT_ID,
-        scope: this.SCOPES.replace(' ', '%20'),
-        redirect_uri: this.REDIRECT_URI,
-      });
-
-    this._accessToken = this.getTokens().accessToken;
-    this._refreshToken = this.getTokens().refreshToken;
+  constructor(private readonly errorHandler: SpotifyErrorService) {
   }
 
-  authorize(codeReceived: string): void {
-    const details = {
-      grant_type: 'authorization_code',
-      code: codeReceived,
+  async beginLogin(): Promise<string> {
+    // https://tools.ietf.org/html/rfc7636#section-4.1
+    const codeVerifier = this.base64url(this.randomBytes(96));
+    const generatedState = this.base64url(this.randomBytes(96));
+
+    const params = new URLSearchParams({
+      client_id: this.CLIENT_ID,
+      response_type: 'code',
       redirect_uri: this.REDIRECT_URI,
-    };
-
-    this.requestToken(details);
-  }
-
-  private requestToken(body): void {
-    let formBody: any = [];
-    for (const property in body) {
-      if (body.hasOwnProperty(property)) {
-        const encodedKey = encodeURIComponent(property);
-        const encodedValue = encodeURIComponent(body[property]);
-        formBody.push(encodedKey + '=' + encodedValue);
-      }
-    }
-    formBody = formBody.join('&');
-
-    const encoded = btoa(`${this.CLIENT_ID}:${this.CLIENT_SECRET}`);
-
-    fetch('https://accounts.spotify.com/api/token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-        Authorization: `Basic ${encoded}`
-      },
-      body: formBody
-    }).then(response => response.json())
-      .then(data => {
-        if (data.refresh_token) {
-          this._refreshToken = data.refresh_token;
-          console.log('Yes!');
-        }
-        this._accessToken = data.access_token;
-
-        this.tokenStorageService.writeSession(this._accessToken, this._refreshToken);
-      }).catch(err => {
-      console.error(err);
+      code_challenge_method: 'S256',
+      code_challenge: await this.generateCodeChallenge(codeVerifier),
+      state: generatedState,
+      scope: this.SCOPES.replace(/\s/g, '%20'),
     });
 
+    sessionStorage.setItem('codeVerifier', codeVerifier);
+    console.log('setting state');
+    sessionStorage.setItem('state', generatedState);
+
+    return `https://accounts.spotify.com/authorize?${params}`;
   }
 
-  refreshAccessToken(): void {
-    const body = {
-      grant_type: 'refresh_token',
-      refresh_token: this._refreshToken
-    };
-    this.requestToken(body);
+  /**
+   * https://tools.ietf.org/html/rfc7636#section-4.2
+   * @param codeVerifier - Code verifier to use further with authentication
+   */
+  async generateCodeChallenge(codeVerifier): Promise<string> {
+    const codeVerifierBytes = new TextEncoder().encode(codeVerifier);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', codeVerifierBytes);
+    return this.base64url(new Uint8Array(hashBuffer));
   }
 
-  setTokens(): void {
-    const received = this.tokenStorageService.getStorage();
-
-    if (received) {
-      this._accessToken = received.accessToken;
-      this._refreshToken = received.refreshToken;
-    } else {
-      this._accessToken = undefined;
-      this._refreshToken = undefined;
-    }
+  /**
+   * @param size - Size of array to generate
+   */
+  randomBytes(size): Uint8Array {
+    return crypto.getRandomValues(new Uint8Array(size));
   }
 
-  getTokens(): SessionType {
-    return this.tokenStorageService.getStorage();
+  /**
+   * @param bytes - Bytes to encode
+   */
+  base64url(bytes: Uint8Array): string {
+    return btoa(String.fromCharCode(...bytes))
+      .replace(/=/g, '')
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_');
   }
 
   isLoggedIn(): boolean {
-    return (!!this._accessToken);
+    return (!!sessionStorage.getItem('tokenSet'));
+  }
+
+  async completeLogin(): Promise<void> {
+    const codeVerifier = sessionStorage.getItem('codeVerifier');
+    const state = sessionStorage.getItem('state');
+
+    const params = new URLSearchParams(location.search);
+
+    // if (params.has('error')) {
+    //   throw new Error(params.get('error'));
+    // } else if (!params.has('state')) {
+    //   throw new Error('State missing from response');
+    // } else if (params.get('state') !== state) {
+    //   console.log('expected', state);
+    //   console.log('got', params.get('state'));
+    //   throw new Error('State mismatch');
+    // } else if (!params.has('code')) {
+    //   throw new Error('Code missing from response');
+    // }
+
+    await this.createAccessToken({
+      grant_type: 'authorization_code',
+      code: params.get('code'),
+      redirect_uri: `${location.origin}/callback`,
+      code_verifier: codeVerifier,
+    });
+  }
+
+  /**
+   * Fetches JSON from endpoint
+   * @param input - URL to fetch from
+   * @param init - options with request
+   */
+  async fetchJSON(input, init): Promise<any> {
+    const response = await fetch(input, init);
+    const body = await response.json();
+    if (!response.ok) {
+      throw this.errorHandler.handleError(body);
+    }
+    return body;
+  }
+
+  /**
+   * @param params - Params to send with request
+   * @returns - Promise with access token as string
+   */
+  async createAccessToken(params: Record<string, string>): Promise<string> {
+    try {
+      const response = await this.fetchJSON('https://accounts.spotify.com/api/token', {
+        method: 'POST',
+        body: new URLSearchParams({
+          client_id: this.CLIENT_ID,
+          ...params,
+        }),
+      });
+
+      const accessToken = response.access_token;
+      const expiresAt = Date.now() + 1000 * response.expires_in;
+
+      sessionStorage.setItem('tokenSet', JSON.stringify({...response, expires_at: expiresAt}));
+      this.errorEvent.emit(undefined);
+      return accessToken;
+    } catch (e) {
+      console.log('caught:', e);
+      this.errorEvent.emit(e);
+    }
+  }
+
+  /**
+   * @returns Promise<string> - Contains the current tokenset if still valid
+   */
+  async getAccessToken(): Promise<string> {
+    let tokenSet = JSON.parse(sessionStorage.getItem('tokenSet'));
+
+    if (!tokenSet) {
+      return;
+    }
+
+    if (tokenSet.expires_at < Date.now()) {
+      tokenSet = await this.createAccessToken({
+        grant_type: 'refresh_token',
+        refresh_token: tokenSet.refresh_token,
+      });
+    }
+
+    return tokenSet.access_token;
   }
 }

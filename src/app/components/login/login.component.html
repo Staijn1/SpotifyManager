@@ -2,7 +2,6 @@
   <!-- ======= About Section ======= -->
   <section id="about" class="about">
     <div class="container">
-
       <div class="section-title" data-aos="zoom-out">
         <h2>Getting Started</h2>
         <p>Get up to speed fast!</p>
@@ -14,7 +13,13 @@
         You can use the website after.
       </p>
       <p class="text-right mt-3">
-        <a [href]="authenticationUrl" class="btn btn-primary"><fa-icon [icon]="spotify" size="2x"><br>Authenticate</fa-icon> </a>
+        <button class="btn btn-primary" (click)="login()">
+          <fa-icon *ngIf="!isLoading; else loading" [icon]="spotify" size="2x"><br>Authenticate</fa-icon>
+          <ng-template #loading>
+            <fa-icon [icon]="loadingIcon" spin="true" size="2x"></fa-icon>
+          </ng-template>
+
+        </button>
       </p>
 
 

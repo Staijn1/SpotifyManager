@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TokenStorageService } from './token-storage.service';
+import { SpotifyErrorService } from './spotify-error.service';
 
-describe('TokenStorageService', () => {
-  let service: TokenStorageService;
+describe('SpotifyErrorService', () => {
+  let service: SpotifyErrorService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(TokenStorageService);
+    service = TestBed.inject(SpotifyErrorService);
   });
 
   it('should be created', () => {

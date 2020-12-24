@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {faSpotify} from '@fortawesome/free-brands-svg-icons';
+import {faSpinner} from '@fortawesome/free-solid-svg-icons';
 import {SpotifyAuthenticationService} from '../../services/spotifyAuthentication/spotify-authentication.service';
 
 @Component({
@@ -8,14 +9,27 @@ import {SpotifyAuthenticationService} from '../../services/spotifyAuthentication
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  authenticationUrl: string;
   spotify = faSpotify;
+  authUrl: string;
+  isLoading: boolean;
+  loadingIcon = faSpinner;
 
-  constructor(private readonly spotifyAuth: SpotifyAuthenticationService) {
-    this.authenticationUrl = spotifyAuth.authenticationURL;
+  constructor(readonly spotifyAuth: SpotifyAuthenticationService) {
   }
 
   ngOnInit(): void {
+    this.isLoading = true;
+    this.spotifyAuth.beginLogin().then(url => {
+        this.isLoading = false;
+        this.authUrl = url;
+      }
+    );
   }
 
+  login(): void {
+    if (this.authUrl === undefined) {
+      return;
+    }
+    location.href = this.authUrl;
+  }
 }

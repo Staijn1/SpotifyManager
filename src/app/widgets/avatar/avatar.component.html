@@ -1,0 +1,17 @@
+<div class="card">
+  <div class="header">
+    <div class="avatar">
+      <img [src]="image" alt="Profile picture">
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="user-meta has-text-centered">
+      <h3 class="title">{{title}}</h3>
+      <h5 class="followers"> <fa-icon [icon]="followersIcon" size="lg"></fa-icon> {{followers}}</h5>
+    </div>
+    <div class="user-bio has-text-centered"></div>
+    <div class="action text-center mt-5">
+      <a [href]="href" target="_blank" class="btn btn-outline-primary">View profile</a>
+    </div>
+  </div>
+</div>

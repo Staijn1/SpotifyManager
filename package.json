@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --host 0.0.0.0",
+    "start": "ng serve",
     "build": "ng build",
+    "build:prod": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -24,6 +25,7 @@
     "@fortawesome/free-brands-svg-icons": "^5.15.1",
     "@fortawesome/free-regular-svg-icons": "^5.15.1",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
+    "aos": "^2.3.4",
     "bootstrap": "^4.5.3",
     "fetch": "^1.1.0",
     "jquery": "^3.5.1",
@@ -38,6 +40,7 @@
     "@angular/compiler-cli": "~11.0.5",
     "@types/jasmine": "~3.6.0",
     "@types/node": "^12.11.1",
+    "buffer": "^6.0.3",
     "codelyzer": "^6.0.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
