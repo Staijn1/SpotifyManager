@@ -13,7 +13,6 @@ export class ErrorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // $('.toast').toast(option);
   }
 
 }

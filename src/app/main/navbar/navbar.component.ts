@@ -17,4 +17,8 @@ export class NavbarComponent implements OnInit {
   isLoggedIn(): boolean {
     return this.spotifyAuth.isLoggedIn();
   }
+
+  logOut(): void {
+    this.spotifyAuth.logOut();
+  }
 }

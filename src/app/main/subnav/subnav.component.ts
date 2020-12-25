@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {faList, faUser} from '@fortawesome/free-solid-svg-icons';
+import {faBalanceScale, faList, faUser} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-subnav',
@@ -9,6 +9,7 @@ import {faList, faUser} from '@fortawesome/free-solid-svg-icons';
 export class SubnavComponent implements OnInit {
   account = faUser;
   playlist = faList;
+  compare = faBalanceScale;
 
   constructor() {
   }

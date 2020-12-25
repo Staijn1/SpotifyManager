@@ -4,7 +4,7 @@ import {AccountComponent} from './components/account/account.component';
 import {AuthorizeComponent} from './components/authorize/authorize.component';
 import {LoginComponent} from './components/login/login.component';
 import {OverviewComponent} from './components/overview/overview.component';
-import {PlaylistComponent} from './components/playlist/playlist.component';
+import {MergeComponent} from './components/merge/merge.component';
 import {HomeComponent} from './main/home/home.component';
 import {PageNotFoundComponent} from './main/page-not-found/page-not-found.component';
 
@@ -17,7 +17,7 @@ const routes: Routes = [
     children: [
       {path: '', redirectTo: 'account', pathMatch: 'full'},
       {path: 'account', component: AccountComponent},
-      {path: 'playlist', component: PlaylistComponent}
+      {path: 'merge', component: MergeComponent}
     ]
   },
   {path: '**', component: PageNotFoundComponent},

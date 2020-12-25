@@ -2,19 +2,27 @@
   <li class="nav-item col-3" data-aos="zoom-in">
     <div class="nav-link">
       <a class="font-weight-bold" [routerLink]="['./account']">
-        <fa-icon class="mr-0 mr-md-2" [icon]="account"></fa-icon>
+        <fa-icon [icon]="account" class="mr-0 mr-md-2"></fa-icon>
         <span class="d-none d-lg-inline">Account</span>
       </a>
     </div>
   </li>
   <li class="nav-item col-3" data-aos="zoom-in">
     <div class="nav-link">
-      <a class="font-weight-bold" [routerLink]="['./playlist']">
-        <fa-icon class="mr-0 mr-md-2" [icon]="playlist"></fa-icon>
-        <span class="d-none d-lg-inline">Playlists</span>
+      <a class="font-weight-bold" [routerLink]="['./merge']">
+        <fa-icon [icon]="playlist" class="mr-0 mr-md-2"></fa-icon>
+        <span class="d-none d-lg-inline">Playlists Merger</span>
+      </a>
+    </div>
+  </li>
+  <li class="nav-item col-3" data-aos="zoom-in">
+    <div class="nav-link">
+      <a class="font-weight-bold" [routerLink]="['./compare']">
+        <fa-icon [icon]="compare" class="mr-0 mr-md-2"></fa-icon>
+        <span class="d-none d-lg-inline">Playlists Comparer</span>
       </a>
     </div>
   </li>
 </ul>
 
-<router-outlet></router-outlet>
+

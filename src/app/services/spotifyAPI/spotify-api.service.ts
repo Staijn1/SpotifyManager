@@ -39,7 +39,7 @@ export class SpotifyAPIService {
       name: playlistName,
       public: true,
       collaborative: false,
-      description: 'This playlist was merged with Spotify Manager! Check it out here: www.steinjonker.nl'
+      description: 'This merge was merged with Spotify Manager! Check it out here: www.steinjonker.nl'
     };
     const createdPlaylistResponse = await this._spotifyApi.createPlaylist(currentUserId, createPlaylistBody);
     const createdPlaylistId = createdPlaylistResponse.id;

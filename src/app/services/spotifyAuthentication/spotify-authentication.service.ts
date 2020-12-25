@@ -7,8 +7,9 @@ import {SpotifyErrorService} from '../spotify-error/spotify-error.service';
   providedIn: 'root'
 })
 export class SpotifyAuthenticationService {
-  private readonly CLIENT_ID = '4d7a0730965f4a2d99625e07d0307efd';
-  private readonly SCOPES = 'user-top-read playlist-modify-public playlist-modify-private playlist-read-private playlist-read-collaborative';
+  private readonly CLIENT_ID = 'd9b8ea58cd5a48fb94ad8fe63d88ce76';
+  private readonly SCOPES = 'user-top-read merge-modify-public merge-modify-private merge-read-private merge-read-collaborative';
+  // private readonly SCOPES = 'user-top-read%20merge-modify-public';
   private readonly REDIRECT_URI = environment.redirect_uri;
   @Output() errorEvent = new EventEmitter<CustomError>();
 
@@ -27,7 +28,7 @@ export class SpotifyAuthenticationService {
       code_challenge_method: 'S256',
       code_challenge: await this.generateCodeChallenge(codeVerifier),
       state: generatedState,
-      scope: this.SCOPES.replace(/\s/g, '%20'),
+      scope: this.SCOPES.replace(/\s/g, '%20')
     });
 
     sessionStorage.setItem('codeVerifier', codeVerifier);
@@ -152,5 +153,9 @@ export class SpotifyAuthenticationService {
     }
 
     return tokenSet.access_token;
+  }
+
+  logOut(): void {
+    // sessionStorage.clear();
   }
 }

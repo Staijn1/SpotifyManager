@@ -5,11 +5,11 @@ import {SpotifyAPIService} from '../../services/spotifyAPI/spotify-api.service';
 import {CustomError} from '../../types/CustomError';
 
 @Component({
-  selector: 'app-playlist',
-  templateUrl: './playlist.component.html',
-  styleUrls: ['./playlist.component.scss']
+  selector: 'app-merge',
+  templateUrl: './merge.component.html',
+  styleUrls: ['./merge.component.scss']
 })
-export class PlaylistComponent implements OnInit {
+export class MergeComponent implements OnInit {
   playlists: SpotifyApi.ListOfUsersPlaylistsResponse;
   playlistsToMerge: string[] = [];
   playlistName: string;
@@ -17,10 +17,7 @@ export class PlaylistComponent implements OnInit {
   isLoading: boolean;
   refreshIcon = faSync;
 
-  error: CustomError = {
-    code: '', message: 'Testing'
-
-  };
+  error: CustomError;
 
   constructor(private readonly spotifyAPI: SpotifyAPIService) {
   }

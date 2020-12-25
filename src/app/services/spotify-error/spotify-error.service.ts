@@ -7,7 +7,7 @@ import {SpotifyError} from '../../types/SpotifyError';
 })
 export class SpotifyErrorService {
   private readonly authenticationErrors = {
-    invalid_grant: {message: 'The provided token or code is not valid or has expired. Please try again.'},
+    invalid_grant: {message: 'The provided token or code is not valid or has expired. Please login again.'},
     invalid_client: {message: 'Authentication failed, please login.'},
     invalid_request: {message: 'The request made is not valid.'},
   };

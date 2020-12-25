@@ -9,7 +9,7 @@ import {AuthorizeComponent} from './components/authorize/authorize.component';
 import {HeroComponent} from './components/hero/hero.component';
 import {LoginComponent} from './components/login/login.component';
 import {OverviewComponent} from './components/overview/overview.component';
-import {PlaylistComponent} from './components/playlist/playlist.component';
+import {MergeComponent} from './components/merge/merge.component';
 import {ErrorComponent} from './main/error/error.component';
 import {FooterComponent} from './main/footer/footer.component';
 import {HomeComponent} from './main/home/home.component';
@@ -32,7 +32,7 @@ import {AvatarComponent} from './widgets/avatar/avatar.component';
     OverviewComponent,
     AccountComponent,
     SubnavComponent,
-    PlaylistComponent,
+    MergeComponent,
     PageNotFoundComponent,
     ErrorComponent,
     AvatarComponent
