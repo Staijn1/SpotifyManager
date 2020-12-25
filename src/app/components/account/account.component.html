@@ -3,15 +3,37 @@
   <p>See your own account and statistics here!</p>
 </div>
 
-<div class="row justify-content-center">
+<div class="row mb-5 d-flex justify-content-center h-50">
   <div class="col-12 col-md-6 col-lg-6">
-    <fa-icon [icon]="loading" *ngIf="isLoading" spin="true" size="lg"></fa-icon>
     <app-avatar
       *ngIf="accountInformation"
       [title]="accountInformation.display_name"
       [image]="accountInformation.images[0] ? accountInformation.images[0].url : ''"
       [followers]="accountInformation.followers.total"
-      [href]="accountInformation.external_urls.spotify">
+      [href]="accountInformation.external_urls.spotify"
+      data-aos="fade-left">
     </app-avatar>
   </div>
 </div>
+
+<div class="row" data-aos="fade-up">
+  <fa-icon [icon]="loading" *ngIf="isLoading" spin="true" size="lg"></fa-icon>
+  <div class="col-12 col-md-6">
+    <h2>Top Artists</h2>
+    <ol>
+      <li class="border-bottom" *ngFor="let artist of topArtists.items">
+        <a target="_blank" [href]="artist.external_urls.spotify">{{artist.name}}</a>
+        <img [src]="artist.images[0].url" alt="Image of {{artist.name}}"/>
+      </li>
+    </ol>
+  </div>
+  <div class="col-12 col-md-6">
+    <h2>Top Tracks</h2>
+    <ol>
+      <li class="border-bottom" *ngFor="let track of topTracks.items">
+        <a target="_blank" [href]="track.external_urls.spotify">{{track.name}}</a>
+      </li>
+    </ol>
+  </div>
+</div>
+

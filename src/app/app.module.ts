@@ -18,6 +18,7 @@ import {NavbarComponent} from './main/navbar/navbar.component';
 import {PageNotFoundComponent} from './main/page-not-found/page-not-found.component';
 import {SubnavComponent} from './main/subnav/subnav.component';
 import {AvatarComponent} from './widgets/avatar/avatar.component';
+import { BoxComponent } from './widgets/box/box.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import {AvatarComponent} from './widgets/avatar/avatar.component';
     MergeComponent,
     PageNotFoundComponent,
     ErrorComponent,
-    AvatarComponent
+    AvatarComponent,
+    BoxComponent
   ],
   imports: [
     BrowserModule,

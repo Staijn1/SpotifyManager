@@ -7,9 +7,8 @@ import {SpotifyErrorService} from '../spotify-error/spotify-error.service';
   providedIn: 'root'
 })
 export class SpotifyAuthenticationService {
-  private readonly CLIENT_ID = 'd9b8ea58cd5a48fb94ad8fe63d88ce76';
-  private readonly SCOPES = 'user-top-read merge-modify-public merge-modify-private merge-read-private merge-read-collaborative';
-  // private readonly SCOPES = 'user-top-read%20merge-modify-public';
+  private readonly CLIENT_ID = '0ad647aa391e490ba42610b5dde235b4';
+  private readonly SCOPES = 'user-top-read playlist-modify-public playlist-modify-private playlist-read-private playlist-read-collaborative';
   private readonly REDIRECT_URI = environment.redirect_uri;
   @Output() errorEvent = new EventEmitter<CustomError>();
 
@@ -156,6 +155,6 @@ export class SpotifyAuthenticationService {
   }
 
   logOut(): void {
-    // sessionStorage.clear();
+    sessionStorage.clear();
   }
 }

@@ -10,21 +10,22 @@ import {CustomError} from '../../types/CustomError';
   styleUrls: ['./account.component.scss']
 })
 export class AccountComponent implements OnInit {
-  isLoading: boolean;
-  accountInformation: SpotifyApi.CurrentUsersProfileResponse;
-  topArtists: SpotifyApi.UsersTopArtistsResponse;
-
   username = faUserCircle;
   spotify = faSpotify;
   loading = faSpinner;
   error: CustomError;
+  isLoading: boolean;
+  accountInformation: SpotifyApi.CurrentUsersProfileResponse;
+
+
+  topTracks: SpotifyApi.UsersTopTracksResponse;
+  topArtists: SpotifyApi.UsersTopArtistsResponse;
 
   constructor(private readonly spotifyAPI: SpotifyAPIService) {
   }
 
   ngOnInit(): void {
-    this.getCurrentAccount();
-    this.getStatistics();
+    this.getInformation();
   }
 
   getCurrentAccount(): void {
@@ -46,6 +47,26 @@ export class AccountComponent implements OnInit {
       this.topArtists = topArtists;
       return this.spotifyAPI.getTopTracks();
     }).then(topTracks => {
+      this.topTracks = topTracks;
+    }).catch(err => {
+      this.isLoading = false;
+      this.error = JSON.parse(err.response).error as CustomError;
+    });
+  }
+
+  private getInformation(): void {
+    this.isLoading = true;
+    this.spotifyAPI.getCurrentAccount().then(data => {
+      this.accountInformation = data;
+      this.isLoading = false;
+      sessionStorage.setItem('userId', data.id);
+      return this.spotifyAPI.getTopArtists();
+    }).then(topArtists => {
+      this.topArtists = topArtists;
+      return this.spotifyAPI.getTopTracks();
+    }).then(topTracks => {
+      this.topTracks = topTracks;
+      this.isLoading = false;
     }).catch(err => {
       this.isLoading = false;
       this.error = JSON.parse(err.response).error as CustomError;
