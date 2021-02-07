@@ -21,17 +21,14 @@ export class SpotifyAPIService {
     return this._spotifyApi.getMe();
   }
 
-  getAccount(id: string): Promise<SpotifyApi.UserProfileResponse> {
-    this.getAccessToken();
-    return this._spotifyApi.getUser(id);
-  }
-
   getUserPlaylist(param?: { limit: number }): Promise<SpotifyApi.ListOfUsersPlaylistsResponse> {
     this.getAccessToken();
     return this._spotifyApi.getUserPlaylists(undefined, param);
   }
 
   async mergePlaylists(playlistName: string, playlistsToMerge: string[]): Promise<void> {
+    this.tracks = [];
+    this.index = 0;
     this.getAccessToken();
     const currentUserId = sessionStorage.getItem('userId');
 
@@ -41,6 +38,7 @@ export class SpotifyAPIService {
       collaborative: false,
       description: 'This merge was merged with Spotify Manager! Check it out here: www.steinjonker.nl'
     };
+
     const createdPlaylistResponse = await this._spotifyApi.createPlaylist(currentUserId, createPlaylistBody);
     const createdPlaylistId = createdPlaylistResponse.id;
 
@@ -62,7 +60,7 @@ export class SpotifyAPIService {
 
   }
 
-  private async continueRetrievingTracksOfPlaylist(url: string): Promise<void> {
+  private async continueRetrievingTracksOfPlaylist(url: string, params?: any): Promise<void> {
     if (!url) {
       return;
     }
@@ -75,7 +73,7 @@ export class SpotifyAPIService {
       }
     }
     this.index++;
-    await this.continueRetrievingTracksOfPlaylist(response.next);
+    await this.continueRetrievingTracksOfPlaylist(response.next, params);
   }
 
   private getAccessToken(): void {
@@ -97,5 +95,23 @@ export class SpotifyAPIService {
   getTopTracks(): Promise<SpotifyApi.UsersTopTracksResponse> {
     this.getAccessToken();
     return this._spotifyApi.getMyTopTracks();
+  }
+
+  async getAllTracksInPlaylist(playlistid: string, params?: any): Promise<string[][]> {
+    this.getAccessToken();
+    this.tracks = [];
+    this.index = 0;
+    const playlistResponse = await this._spotifyApi.getPlaylistTracks(playlistid, params);
+
+    if (playlistResponse.next) {
+      await this.continueRetrievingTracksOfPlaylist(playlistResponse.next, params);
+    }
+
+    return this.tracks;
+  }
+
+  getSeveralTracks(trackIds: string[], params?: any): Promise<SpotifyApi.MultipleTracksResponse> {
+    this.getAccessToken();
+    return this._spotifyApi.getTracks(trackIds, params);
   }
 }

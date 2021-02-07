@@ -8,7 +8,7 @@
   <form #form="ngForm" (ngSubmit)="onSubmit()">
     <div class="row">
       <div class="col">
-        <input type="text" class="form-control mb-5" placeholder="New playlist name" name="newPlaylist"
+        <input type="text" required class="form-control mb-5" placeholder="New playlist name" name="newPlaylist"
                [(ngModel)]="playlistName">
       </div>
       <div class="col-3 text-right">

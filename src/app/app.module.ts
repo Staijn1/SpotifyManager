@@ -19,6 +19,7 @@ import {PageNotFoundComponent} from './main/page-not-found/page-not-found.compon
 import {SubnavComponent} from './main/subnav/subnav.component';
 import {AvatarComponent} from './widgets/avatar/avatar.component';
 import { BoxComponent } from './widgets/box/box.component';
+import { CompareSelectComponent } from './components/compare-select/compare-select.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { BoxComponent } from './widgets/box/box.component';
     PageNotFoundComponent,
     ErrorComponent,
     AvatarComponent,
-    BoxComponent
+    BoxComponent,
+    CompareSelectComponent
   ],
   imports: [
     BrowserModule,
