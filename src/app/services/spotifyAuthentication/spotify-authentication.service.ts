@@ -74,18 +74,6 @@ export class SpotifyAuthenticationService {
 
     const params = new URLSearchParams(location.search);
 
-    // if (params.has('error')) {
-    //   throw new Error(params.get('error'));
-    // } else if (!params.has('state')) {
-    //   throw new Error('State missing from response');
-    // } else if (params.get('state') !== state) {
-    //   console.log('expected', state);
-    //   console.log('got', params.get('state'));
-    //   throw new Error('State mismatch');
-    // } else if (!params.has('code')) {
-    //   throw new Error('Code missing from response');
-    // }
-
     await this.createAccessToken({
       grant_type: 'authorization_code',
       code: params.get('code'),
