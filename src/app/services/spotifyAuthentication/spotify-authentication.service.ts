@@ -2,7 +2,6 @@ import {EventEmitter, Injectable, Output} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {CustomError} from '../../types/CustomError';
 import {SpotifyErrorService} from '../spotify-error/spotify-error.service';
-import * as querystring from 'querystring';
 
 
 /**
@@ -42,7 +41,6 @@ export class SpotifyAuthenticationService {
     sessionStorage.setItem('state', generatedState);
 
     return `https://accounts.spotify.com/authorize?${params}`;
-
   }
 
   /**
@@ -78,7 +76,6 @@ export class SpotifyAuthenticationService {
 
   async completeLogin(): Promise<void> {
     const codeVerifier = sessionStorage.getItem('codeVerifier');
-    const state = sessionStorage.getItem('state');
 
     const params = new URLSearchParams(location.search);
 
@@ -95,7 +92,7 @@ export class SpotifyAuthenticationService {
    * @param input - URL to fetch from
    * @param init - options with request
    */
-  async fetchJSON(input, init): Promise<any> {
+  async request(input, init): Promise<any> {
     const response = await fetch(input, init);
     const body = await response.json();
     if (!response.ok) {
@@ -110,7 +107,7 @@ export class SpotifyAuthenticationService {
    */
   async createAccessToken(params: Record<string, string>): Promise<string> {
     try {
-      const response = await this.fetchJSON('https://accounts.spotify.com/api/token', {
+      const response = await this.request('https://accounts.spotify.com/api/token', {
         method: 'POST',
         body: new URLSearchParams({
           client_id: this.CLIENT_ID,
@@ -152,14 +149,5 @@ export class SpotifyAuthenticationService {
 
   logOut(): void {
     sessionStorage.clear();
-  }
-
-  private generateRandomString(length: number): string {
-    const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    let result = '';
-    for (let i = length; i > 0; --i) {
-      result += chars[Math.floor(Math.random() * chars.length)];
-    }
-    return result;
   }
 }
