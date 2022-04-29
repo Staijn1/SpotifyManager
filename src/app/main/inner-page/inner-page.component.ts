@@ -7,7 +7,4 @@ import {Component, Input} from '@angular/core';
 })
 export class InnerPageComponent {
   @Input() title: string;
-
-  constructor() {
-  }
 }

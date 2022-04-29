@@ -2,23 +2,31 @@ import {EventEmitter, Injectable, Output} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {CustomError} from '../../types/CustomError';
 import {SpotifyErrorService} from '../spotify-error/spotify-error.service';
+import * as querystring from 'querystring';
 
+
+/**
+ * Handles the authentication process with Spotify, using the Spotify Web API.
+ * It follows the Authorization code with PKCE flow.
+ * @see https://developer.spotify.com/documentation/general/guides/authorization-guide/
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class SpotifyAuthenticationService {
   private readonly CLIENT_ID = '0ad647aa391e490ba42610b5dde235b4';
   private readonly SCOPES = 'user-top-read playlist-modify-public playlist-modify-private playlist-read-private playlist-read-collaborative';
+
   private readonly REDIRECT_URI = environment.redirect_uri;
   @Output() errorEvent = new EventEmitter<CustomError>();
 
   constructor(private readonly errorHandler: SpotifyErrorService) {
   }
 
-  async beginLogin(): Promise<string> {
-    // https://tools.ietf.org/html/rfc7636#section-4.1
-    const codeVerifier = this.base64url(this.randomBytes(96));
-    const generatedState = this.base64url(this.randomBytes(96));
+  async generateAuthorizeURL(): Promise<string> {
+// https://tools.ietf.org/html/rfc7636#section-4.1
+    const codeVerifier = this.base64urlEncode(this.randomBytes(96));
+    const generatedState = this.base64urlEncode(this.randomBytes(96));
 
     const params = new URLSearchParams({
       client_id: this.CLIENT_ID,
@@ -27,14 +35,14 @@ export class SpotifyAuthenticationService {
       code_challenge_method: 'S256',
       code_challenge: await this.generateCodeChallenge(codeVerifier),
       state: generatedState,
-      scope: this.SCOPES.replace(/\s/g, '%20')
+      scope: this.SCOPES
     });
 
     sessionStorage.setItem('codeVerifier', codeVerifier);
-    console.log('setting state');
     sessionStorage.setItem('state', generatedState);
 
     return `https://accounts.spotify.com/authorize?${params}`;
+
   }
 
   /**
@@ -44,7 +52,7 @@ export class SpotifyAuthenticationService {
   async generateCodeChallenge(codeVerifier): Promise<string> {
     const codeVerifierBytes = new TextEncoder().encode(codeVerifier);
     const hashBuffer = await crypto.subtle.digest('SHA-256', codeVerifierBytes);
-    return this.base64url(new Uint8Array(hashBuffer));
+    return this.base64urlEncode(new Uint8Array(hashBuffer));
   }
 
   /**
@@ -57,7 +65,7 @@ export class SpotifyAuthenticationService {
   /**
    * @param bytes - Bytes to encode
    */
-  base64url(bytes: Uint8Array): string {
+  base64urlEncode(bytes: Uint8Array): string {
     return btoa(String.fromCharCode(...bytes))
       .replace(/=/g, '')
       .replace(/\+/g, '-')
@@ -144,5 +152,14 @@ export class SpotifyAuthenticationService {
 
   logOut(): void {
     sessionStorage.clear();
+  }
+
+  private generateRandomString(length: number): string {
+    const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    let result = '';
+    for (let i = length; i > 0; --i) {
+      result += chars[Math.floor(Math.random() * chars.length)];
+    }
+    return result;
   }
 }

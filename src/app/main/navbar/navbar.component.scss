@@ -1,19 +1,10 @@
 /*--------------------------------------------------------------
 # Header
 --------------------------------------------------------------*/
-#header {
-  min-height: 70px;
+header {
+  min-height: 100vh;
   transition: all 0.5s;
-  z-index: 997;
-  background: rgba(42, 44, 57, 0.9) !important;
-
-  .header-transparent {
-    background: transparent;
-  }
-
-  .header-scrolled {
-    background: rgba(42, 44, 57, 0.9);
-  }
+  background: rgba(42, 44, 57, 0.9);
 }
 
 .navbar-brand h1{

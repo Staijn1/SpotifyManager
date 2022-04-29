@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.spotifyAuth.beginLogin().then(url => {
+    this.spotifyAuth.generateAuthorizeURL().then(url => {
         this.isLoading = false;
         this.authUrl = url;
       }
