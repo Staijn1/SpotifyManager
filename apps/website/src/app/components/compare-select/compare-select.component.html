@@ -1,0 +1,61 @@
+<app-error [error]="error"></app-error>
+<div class="section-title">
+  <h2>Playlist Comparer</h2>
+  <p>Compare two playlists!</p>
+</div>
+
+<form #form="ngForm" (ngSubmit)="onSubmit(comparing)">
+  <div class="row">
+    <div class="col-3 offset-9 text-right">
+      <fa-icon [icon]="refreshIcon" (click)="getPlaylist()" size="lg" [spin]="isLoading"></fa-icon>
+    </div>
+  </div>
+
+
+  <div *ngIf="playlists">
+    <div class="row m-4">
+      <div class="col-12 col-md-4 mt-3" *ngFor="let playlist of playlists.items; let indexOfPlaylist = index">
+        <app-box
+          [image]="playlist.images[0] ? playlist.images[0].url : 'https://picsum.photos/200/200?random=' + indexOfPlaylist"
+        >
+          <h4 class="title mt-3 text-center text-break"><a [href]="playlist.external_urls.spotify"
+                                                           target="_blank">{{playlist.name}}</a></h4>
+          <p class="description text-center">Owner: {{playlist.owner.display_name}}</p>
+          <div class="row mt-3">
+            <div class="col d-flex justify-content-center">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="customCheck{{indexOfPlaylist}}"
+                       [value]="playlist.id" (change)="registerPlaylist(playlist.id, $event)">
+                <label class="custom-control-label" for="customCheck{{indexOfPlaylist}}"></label>
+              </div>
+            </div>
+          </div>
+        </app-box>
+      </div>
+    </div>
+    <div *ngIf="playlists.next" class="text-center">
+      <p class="btn btn-link" (click)="getMorePlaylists()">Load more results..
+        <fa-icon *ngIf="isLoading" [icon]="loading" [spin]="true"></fa-icon>
+      </p>
+
+    </div>
+  </div>
+  <div class="d-flex justify-content-center">
+    <fa-icon *ngIf="isLoading" [icon]="loading" [spin]="true" size="lg"></fa-icon>
+  </div>
+
+  <div class="d-flex justify-content-end mt-3">
+    <button class="btn btn-primary" type="submit">Compare!</button>
+  </div>
+</form>
+
+<div #comparing class="mt-5">
+  <div class="row">
+    <div class="col border">
+      Left
+    </div>
+    <div class="col border">
+      Right
+    </div>
+  </div>
+</div>
