@@ -4,7 +4,6 @@ import {faSpinner, faUserCircle} from '@fortawesome/free-solid-svg-icons';
 import {SpotifyAPIService} from '../../services/spotifyAPI/spotify-api.service';
 import {CustomError} from '../../types/CustomError';
 
-import Isotope from 'isotope-layout';
 
 @Component({
   selector: 'app-account',
@@ -34,7 +33,6 @@ export class AccountComponent implements OnInit {
     this.isLoading = true;
     this.spotifyAPI.getCurrentAccount().then(data => {
       this.accountInformation = data;
-      this.isLoading = false;
       sessionStorage.setItem('userId', data.id);
       return this.spotifyAPI.getTopArtists();
     }).then(topArtists => {
@@ -43,30 +41,12 @@ export class AccountComponent implements OnInit {
     }).then(topTracks => {
       this.topTracks = topTracks;
       this.isLoading = false;
-
-      setTimeout(() => this.initGrid(), 750);
     }).catch(err => {
       this.isLoading = false;
       this.error = JSON.parse(err.response).error as CustomError;
     });
   }
 
-  private initGrid(): void {
- /*   const portfolioIsotope = $('.content-container').isotope({
-      itemSelector: '.content-item',
-      filter: '.filter-artist'
-    });*/
-
-   /* $('#portfolio-filters li').on('click', filter);
-
-    function filter(): void {
-      $('#portfolio-filters li').removeClass('filter-active');
-      $(this).addClass('filter-active');
-      portfolioIsotope.isotope({
-        filter: $(this).data('filter')
-      });
-    }*/
-  }
 
   formatGenres(genresArray: string[]): string {
     let genres = '| ';
@@ -91,6 +71,5 @@ export class AccountComponent implements OnInit {
 
   private capitalizeFirstLetter(input: string): string {
     return input.charAt(0).toUpperCase() + input.slice(1);
-    // return input;
   }
 }

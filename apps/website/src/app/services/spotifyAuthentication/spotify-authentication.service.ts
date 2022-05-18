@@ -1,7 +1,7 @@
 import {EventEmitter, Injectable, Output} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {CustomError} from '../../types/CustomError';
-import {SpotifyErrorService} from '../spotify-error/spotify-error.service';
+import {HTTPService} from '../http/http-service.service';
 
 
 /**
@@ -12,16 +12,22 @@ import {SpotifyErrorService} from '../spotify-error/spotify-error.service';
 @Injectable({
   providedIn: 'root'
 })
-export class SpotifyAuthenticationService {
+export class SpotifyAuthenticationService extends HTTPService{
+  // The ID of the spotify application registered in the Spotify developer portal.
   private readonly CLIENT_ID = '0ad647aa391e490ba42610b5dde235b4';
+  // Scopes is a space-separated list of scopes, found in the spotify API documentation.
   private readonly SCOPES = 'user-top-read playlist-modify-public playlist-modify-private playlist-read-private playlist-read-collaborative';
-
+  // The redirect URI is the URL where the user will be redirected after the authentication process.
+  // It must be registered in the Spotify developer portal.
   private readonly REDIRECT_URI = environment.redirect_uri;
   @Output() errorEvent = new EventEmitter<CustomError>();
 
-  constructor(private readonly errorHandler: SpotifyErrorService) {
-  }
-
+  /**
+   * Returns the URL to start the authentication process.
+   * The user will be redirected to this URL, where he will have to authorize with Spotify.
+   * He will be redirected to the redirect_uri specified.
+   * @returns {string}
+   */
   async generateAuthorizeURL(): Promise<string> {
 // https://tools.ietf.org/html/rfc7636#section-4.1
     const codeVerifier = this.base64urlEncode(this.randomBytes(96));
@@ -44,6 +50,7 @@ export class SpotifyAuthenticationService {
   }
 
   /**
+   * Helper function to generate the code_challenge for the authorization code flow.
    * https://tools.ietf.org/html/rfc7636#section-4.2
    * @param codeVerifier - Code verifier to use further with authentication
    */
@@ -54,6 +61,7 @@ export class SpotifyAuthenticationService {
   }
 
   /**
+   * Helper function to generate a random byte array which is used as a code verifier and state.
    * @param size - Size of array to generate
    */
   randomBytes(size: number): Uint8Array {
@@ -61,6 +69,7 @@ export class SpotifyAuthenticationService {
   }
 
   /**
+   * Helper function to encode a byte array to a base64 string.
    * @param bytes - Bytes to encode
    */
   base64urlEncode(bytes: Uint8Array): string {
@@ -70,10 +79,18 @@ export class SpotifyAuthenticationService {
       .replace(/\//g, '_');
   }
 
+  /**
+   * Helper function to check if the user is authenticated.
+   * @returns {boolean}
+   */
   isLoggedIn(): boolean {
     return (!!sessionStorage.getItem('tokenSet'));
   }
 
+  /**
+   * Last step of the authentication process., by requesting an access token.
+   * @returns {Promise<void>}
+   */
   async completeLogin(): Promise<void> {
     const codeVerifier = sessionStorage.getItem('codeVerifier') as string;
 
@@ -85,20 +102,6 @@ export class SpotifyAuthenticationService {
       redirect_uri: `${location.origin}/callback`,
       code_verifier: codeVerifier,
     });
-  }
-
-  /**
-   * Fetches JSON from endpoint
-   * @param input - URL to fetch from
-   * @param init - options with request
-   */
-  async request(input: string, init: RequestInit): Promise<any> {
-    const response = await fetch(input, init);
-    const body = await response.json();
-    if (!response.ok) {
-      throw this.errorHandler.handleError(body);
-    }
-    return body;
   }
 
   /**

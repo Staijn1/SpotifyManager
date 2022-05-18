@@ -8,15 +8,15 @@
 <div class="row mb-5 d-flex justify-content-center h-50">
   <div class="col-12 col-md-6 col-lg-6">
     <fa-icon [icon]="loading" *ngIf="isLoading" [spin]="true" size="lg"></fa-icon>
-  <!--  <app-avatar
-      *ngIf="accountInformation"
-      [title]="accountInformation.display_name"
-      [image]="accountInformation?.images[0] ? accountInformation?.images[0]?.url : ''"
-      [followers]="accountInformation.followers?.total"
-      [href]="accountInformation.external_urls.spotify"
-      data-aos="fade-left">
-    </app-avatar>-->
-    app avatar hier
+    <div *ngIf="accountInformation">
+      <app-avatar
+        [username]="accountInformation.display_name"
+        [images]="accountInformation.images"
+        [followers]="accountInformation.followers"
+        [externalUrls]="accountInformation.external_urls"
+        data-aos="fade-left">
+      </app-avatar>
+    </div>
   </div>
 </div>
 
@@ -74,7 +74,8 @@
         </div>
       </div>
 
-      <div class="col-lg-4 col-md-6 content-item filter-track" *ngFor="let track of topTracks.items; let indexOfTrack = index">
+      <div class="col-lg-4 col-md-6 content-item filter-track"
+           *ngFor="let track of topTracks.items; let indexOfTrack = index">
         <div class="portfolio-img"><img [src]="track.album.images[0].url" class="img-fluid" alt=""></div>
         <div class="portfolio-info">
           <div>

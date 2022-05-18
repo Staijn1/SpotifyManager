@@ -5,14 +5,14 @@ import {SpotifyError} from '../../types/SpotifyError';
 @Injectable({
   providedIn: 'root'
 })
-export class SpotifyErrorService {
+export class HTTPService {
   private readonly authenticationErrors: { [key: string]: any } = {
     invalid_grant: {message: 'The provided token or code is not valid or has expired. Please login again.'},
     invalid_client: {message: 'Authentication failed, please login.'},
     invalid_request: {message: 'The request made is not valid.'},
   };
 
-  public handleError(err: SpotifyError): CustomError {
+  private handleError(err: SpotifyError): CustomError {
     const userFriendlyError: CustomError = {
       code: undefined,
       message: undefined,
@@ -25,5 +25,19 @@ export class SpotifyErrorService {
     }
 
     return userFriendlyError;
+  }
+
+  /**
+   * Helper function to perform a request and handle the response with the error handler.
+   * @param input - URL to fetch from
+   * @param init - options with request
+   */
+  protected async request(input: string, init: RequestInit): Promise<any> {
+    const response = await fetch(input, init);
+    const body = await response.json();
+    if (!response.ok) {
+      throw this.handleError(body);
+    }
+    return body;
   }
 }

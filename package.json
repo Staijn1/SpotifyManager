@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nx serve",
+    "start:api": "nx serve",
+    "start:website": "nx serve website",
     "build": "nx build",
     "test": "nx test",
     "postinstall": "ngcc --properties es2015 browser module main"
@@ -29,7 +30,6 @@
     "@nrwl/angular": "^14.0.5",
     "aos": "^2.3.4",
     "bootstrap": "^4.5.3",
-    "isotope-layout": "^3.0.6",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.0.0",
     "spotify-web-api-js": "^1.5.1",
@@ -55,7 +55,6 @@
     "@nrwl/node": "13.10.3",
     "@nrwl/workspace": "13.10.3",
     "@types/aos": "^3.0.4",
-    "@types/isotope-layout": "^3.0.9",
     "@types/jasmine": "~3.6.0",
     "@types/jest": "27.0.2",
     "@types/node": "16.11.7",
