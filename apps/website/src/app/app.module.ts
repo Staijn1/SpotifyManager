@@ -13,7 +13,6 @@ import {ErrorComponent} from './main/error/error.component';
 import {HomeComponent} from './main/home/home.component';
 import {NavbarComponent} from './main/navbar/navbar.component';
 import {PageNotFoundComponent} from './main/page-not-found/page-not-found.component';
-import {SubnavComponent} from './main/subnav/subnav.component';
 import {AvatarComponent} from './widgets/avatar/avatar.component';
 import {BoxComponent} from './widgets/box/box.component';
 import {CompareSelectComponent} from './components/compare-select/compare-select.component';
@@ -29,7 +28,6 @@ import {InnerPageComponent} from './main/inner-page/inner-page.component';
     InnerPageComponent,
     OverviewComponent,
     AccountComponent,
-    SubnavComponent,
     MergeComponent,
     PageNotFoundComponent,
     ErrorComponent,

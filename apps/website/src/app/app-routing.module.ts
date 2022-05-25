@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import {Route, RouterModule, Routes} from '@angular/router';
 import {AccountComponent} from './components/account/account.component';
 import {AuthorizeComponent} from './components/authorize/authorize.component';
 import {CompareSelectComponent} from './components/compare-select/compare-select.component';
@@ -9,20 +9,20 @@ import {OverviewComponent} from './components/overview/overview.component';
 import {HomeComponent} from './main/home/home.component';
 import {PageNotFoundComponent} from './main/page-not-found/page-not-found.component';
 
-const routes: Routes = [
-  {path: '', component: HomeComponent},
-  {path: 'login', component: LoginComponent},
-  {path: 'callback', component: AuthorizeComponent},
-  {
-    path: 'overview', component: OverviewComponent,
-    children: [
-      {path: '', redirectTo: 'account', pathMatch: 'full'},
-      {path: 'account', component: AccountComponent},
-      {path: 'merge', component: MergeComponent},
-      {path: 'compare', component: CompareSelectComponent}
-    ]
-  },
-  {path: '**', component: PageNotFoundComponent},
+export type ExtendedRoute = Route & {
+  title: string;
+  isVisible: boolean;
+};
+
+export const routes: ExtendedRoute[] = [
+  {path: '', component: HomeComponent, title: 'Home', isVisible: true},
+  {path: 'login', component: LoginComponent, title: 'Login', isVisible: true},
+  {path: 'callback', component: AuthorizeComponent, title: '', isVisible: false},
+  {path: 'overview', component: OverviewComponent, title: 'Overview', isVisible: true},
+  {path: 'account', component: AccountComponent, title: 'Account', isVisible: true},
+  {path: 'merge', component: MergeComponent, title: 'Merge playlists', isVisible: true},
+  {path: 'compare', component: CompareSelectComponent, title: 'Compare playlists', isVisible: true},
+  {path: '**', component: PageNotFoundComponent, title: '', isVisible: false},
 ];
 
 @NgModule({

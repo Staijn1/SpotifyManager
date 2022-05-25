@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {SpotifyAuthenticationService} from '../../services/spotifyAuthentication/spotify-authentication.service';
+import {routes} from '../../app-routing.module';
 
 @Component({
   selector: 'app-navbar',
@@ -7,6 +8,7 @@ import {SpotifyAuthenticationService} from '../../services/spotifyAuthentication
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+  readonly routes = routes;
 
   constructor(private readonly spotifyAuth: SpotifyAuthenticationService) {
   }
