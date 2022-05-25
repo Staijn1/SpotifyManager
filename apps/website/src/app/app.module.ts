@@ -15,7 +15,6 @@ import {NavbarComponent} from './main/navbar/navbar.component';
 import {PageNotFoundComponent} from './main/page-not-found/page-not-found.component';
 import {AvatarComponent} from './widgets/avatar/avatar.component';
 import {BoxComponent} from './widgets/box/box.component';
-import {CompareSelectComponent} from './components/compare-select/compare-select.component';
 import {InnerPageComponent} from './main/inner-page/inner-page.component';
 
 @NgModule({
@@ -33,7 +32,6 @@ import {InnerPageComponent} from './main/inner-page/inner-page.component';
     ErrorComponent,
     AvatarComponent,
     BoxComponent,
-    CompareSelectComponent
   ],
   imports: [
     BrowserModule,
