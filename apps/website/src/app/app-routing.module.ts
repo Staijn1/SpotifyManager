@@ -1,12 +1,12 @@
 import {NgModule} from '@angular/core';
 import {Route, RouterModule} from '@angular/router';
-import {AccountComponent} from './components/account/account.component';
-import {AuthorizeComponent} from './components/authorize/authorize.component';
-import {LoginComponent} from './components/login/login.component';
-import {MergeComponent} from './components/merge/merge.component';
-import {OverviewComponent} from './components/overview/overview.component';
-import {HomeComponent} from './main/home/home.component';
-import {PageNotFoundComponent} from './main/page-not-found/page-not-found.component';
+import {AccountComponent} from './pages/account/account.component';
+import {AuthorizeComponent} from './pages/authorize/authorize.component';
+import {LoginComponent} from './pages/login/login.component';
+import {MergeComponent} from './pages/merge/merge.component';
+import {OverviewComponent} from './pages/overview/overview.component';
+import {HomeComponent} from './pages/home/home.component';
+import {PageNotFoundComponent} from './pages/page-not-found/page-not-found.component';
 
 export type ExtendedRoute = Route & {
   title: string;
