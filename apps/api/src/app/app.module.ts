@@ -1,15 +1,12 @@
-import {MiddlewareConsumer, Module, NestModule, RequestMethod} from '@nestjs/common';
-
-import {AppController} from './controllers/app.controller';
-import {AppService} from './services/app.service';
-import {PlaylistController} from './controllers/playlist-controller/playlist.controller';
+import {MiddlewareConsumer, Module, NestModule} from '@nestjs/common';
+import {PlaylistController} from './modules/playlist/controllers/playlist-controller/playlist.controller';
 import {SpotifyAuthenticationMiddleware} from './middleware/spotify-authentication.middleware';
 import {SpotifyModule} from './spotify/spotify.module';
+import {PlaylistModule} from './modules/playlist/playlist.module';
 
 @Module({
-  imports: [SpotifyModule],
-  controllers: [AppController, PlaylistController],
-  providers: [AppService, SpotifyAuthenticationMiddleware],
+  imports: [SpotifyModule, PlaylistModule],
+  providers: [SpotifyAuthenticationMiddleware],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

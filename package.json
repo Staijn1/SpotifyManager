@@ -33,6 +33,7 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.0.0",
     "spotify-web-api-js": "^1.5.1",
+    "spotify-web-api-node": "^5.0.2",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.4"
   },

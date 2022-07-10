@@ -1,15 +1,16 @@
 import {Injectable} from '@nestjs/common';
-import SpotifyWebApi from 'spotify-web-api-js';
+
+import * as SpotifyWebApi from 'spotify-web-api-node';
 
 @Injectable()
 export class SpotifyService {
-  private _spotifyWebApi: SpotifyWebApi.SpotifyWebApiJs;
+  private _spotifyApi: SpotifyWebApi.SpotifyWebApiJs;
 
   constructor() {
-    // this._spotifyWebApi = new SpotifyWebApi();
+    this._spotifyApi = new SpotifyWebApi();
   }
 
   setAccessToken(accessToken: string) {
-    // this._spotifyWebApi.setAccessToken(accessToken);
+    this._spotifyApi.setAccessToken(accessToken);
   }
 }
