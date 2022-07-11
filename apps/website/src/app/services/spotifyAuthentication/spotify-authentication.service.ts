@@ -12,7 +12,7 @@ import {HTTPService} from '../http/http-service.service';
 @Injectable({
   providedIn: 'root'
 })
-export class SpotifyAuthenticationService extends HTTPService{
+export class SpotifyAuthenticationService extends HTTPService {
   // The ID of the spotify application registered in the Spotify developer portal.
   private readonly CLIENT_ID = '0ad647aa391e490ba42610b5dde235b4';
   // Scopes is a space-separated list of scopes, found in the spotify API documentation.
@@ -122,6 +122,7 @@ export class SpotifyAuthenticationService extends HTTPService{
       const expiresAt = Date.now() + 1000 * response.expires_in;
 
       sessionStorage.setItem('tokenSet', JSON.stringify({...response, expires_at: expiresAt}));
+      console.log(response)
       this.errorEvent.emit(undefined);
       return accessToken;
     } catch (e) {
