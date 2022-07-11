@@ -119,10 +119,10 @@ export class SpotifyAuthenticationService extends HTTPService {
       });
 
       const accessToken = response.access_token;
-      const expiresAt = Date.now() + 1000 * response.expires_in;
 
-      sessionStorage.setItem('tokenSet', JSON.stringify({...response, expires_at: expiresAt}));
+      sessionStorage.setItem('tokenSet', JSON.stringify(response));
       console.log(response)
+
       this.errorEvent.emit(undefined);
       return accessToken;
     } catch (e) {

@@ -7,6 +7,7 @@ import {MergeComponent} from './pages/merge/merge.component';
 import {OverviewComponent} from './pages/overview/overview.component';
 import {HomeComponent} from './pages/home/home.component';
 import {PageNotFoundComponent} from './pages/page-not-found/page-not-found.component';
+import {ForkComponent} from './pages/fork/fork.component';
 
 export type ExtendedRoute = Route & {
   title: string;
@@ -20,6 +21,7 @@ export const routes: ExtendedRoute[] = [
   {path: 'overview', component: OverviewComponent, title: 'Overview', isVisible: true},
   {path: 'account', component: AccountComponent, title: 'Account', isVisible: true},
   {path: 'merge', component: MergeComponent, title: 'Merge playlists', isVisible: true},
+  {path: 'fork', component: ForkComponent, title: 'Fork playlists', isVisible: true},
   {path: '**', component: PageNotFoundComponent, title: '', isVisible: false},
 ];
 

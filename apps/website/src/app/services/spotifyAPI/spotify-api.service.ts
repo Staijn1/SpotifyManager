@@ -16,16 +16,33 @@ export class SpotifyAPIService {
     this.getAccessToken();
   }
 
+  /**
+   * Get the account information of the current user.
+   * todo: move to own api
+   * @returns {Promise<SpotifyApi.CurrentUsersProfileResponse>}
+   */
   getCurrentAccount(): Promise<SpotifyApi.CurrentUsersProfileResponse> {
     this.getAccessToken();
     return this._spotifyApi.getMe();
   }
 
+  /**
+   * Get all playlists of the current user.
+   * todo: move to own api
+   * @param {{limit: number}} param
+   * @returns {Promise<SpotifyApi.ListOfUsersPlaylistsResponse>}
+   */
   getUserPlaylist(param?: { limit: number }): Promise<SpotifyApi.ListOfUsersPlaylistsResponse> {
     this.getAccessToken();
     return this._spotifyApi.getUserPlaylists(undefined, param);
   }
 
+  /**
+   * Todo: remove or move to own api??
+   * @param {string} playlistName
+   * @param {string[]} playlistsToMerge
+   * @returns {Promise<void>}
+   */
   async mergePlaylists(playlistName: string, playlistsToMerge: string[]): Promise<void> {
     this.tracks = [];
     this.index = 0;
