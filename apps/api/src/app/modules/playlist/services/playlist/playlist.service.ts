@@ -12,7 +12,7 @@ export class PlaylistService {
    * @param {string} playlistid
    * @returns {string}
    */
-  public async forkPlaylist(playlistid: string): Promise<any> {
+  public async forkPlaylist(playlistid: string): Promise<SpotifyApi.CreatePlaylistResponse> {
     const playlist = await this.spotifyService.getPlaylistInformation(playlistid);
 
     const newPlaylistName = `Fork - ${playlist.name}`;
@@ -22,15 +22,15 @@ export class PlaylistService {
     // So we need to get the tracks in chunks of 100.
     // These chunks will also be saved in the database, and put in the new playlist.
     const amountOfChunks = Math.ceil(playlist.tracks.total / 100);
-    console.log(`Amount of chunks: ${amountOfChunks}`);
+
     for (let i = 0; i < amountOfChunks; i++) {
       const options = {
         offset: i * 100,
       };
       const tracks = await this.spotifyService.getTracksInPlaylist(playlistid, options);
-      console.log(tracks.items.length, tracks.items[0].track.name);
+
       await this.spotifyService.addTracksToPlaylist(newPlaylist.id, tracks.items.map(track => track.track.uri));
     }
-    return playlist
+    return newPlaylist
   }
 }

@@ -1,6 +1,5 @@
 import {HttpException, Injectable} from '@nestjs/common';
 import SpotifyWebApi from 'spotify-web-api-node';
-import * as util from 'util';
 
 @Injectable()
 export class SpotifyService {
@@ -32,9 +31,6 @@ export class SpotifyService {
    * @returns {any}
    */
   async getPlaylistInformation(playlistid: string): Promise<SpotifyApi.SinglePlaylistResponse> {
-    // const promise = util.promisify(this._spotifyApi.getPlaylist.bind(this._spotifyApi));
-    // console.log("Getting playlist information for: " + playlistid);
-    // const response = await promise(playlistid);
     const response = await this._spotifyApi.getPlaylist(playlistid);
     return response.body
   }

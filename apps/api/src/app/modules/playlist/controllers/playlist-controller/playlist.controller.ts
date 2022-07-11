@@ -8,8 +8,11 @@ export class PlaylistController {
   }
 
 
+  /**
+   * Copy a playlist to a new playlist.
+   */
   @Get('fork/:playlistid')
-  public async forkPlaylist(@Param() params): Promise<string> {
+  public async forkPlaylist(@Param() params): Promise<SpotifyApi.CreatePlaylistResponse> {
     return this.playlistService.forkPlaylist(params.playlistid);
   }
 }
