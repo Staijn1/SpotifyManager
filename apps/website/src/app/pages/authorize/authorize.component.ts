@@ -21,7 +21,7 @@ export class AuthorizeComponent implements OnInit {
     this.spotifyAuth.completeLogin().then(
       data => {
         if (!this.error) {
-          this.router.navigate(['overview']).then();
+          this.router.navigate(['account']).then();
         }
       }
     );

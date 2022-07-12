@@ -17,7 +17,6 @@ export class ApiService extends HTTPService {
    * @param {string} playlistId
    */
   async forkPlaylist(playlistId: string): Promise<void> {
-    console.log('Test')
     const token = await this.spotifyAuth.refreshAccessToken();
     await this.request(`${environment.url}/playlists/fork/${playlistId}/?accessToken=${token}`, {method: 'GET'})
   }
