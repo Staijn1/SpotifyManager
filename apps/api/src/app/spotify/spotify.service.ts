@@ -4,6 +4,8 @@ import SpotifyWebApi from 'spotify-web-api-node';
 @Injectable()
 export class SpotifyService {
   private _spotifyApi: SpotifyWebApi;
+  readonly MAX_RETRIES = 15;
+  currentRetryAttempt = 0;
 
   /**
    * Create an instance of the SpotifyWebApi class.
@@ -68,10 +70,15 @@ export class SpotifyService {
   async addTracksToPlaylist(id, trackURIs: string[], options?: any): Promise<SpotifyApi.AddTracksToPlaylistResponse> {
     try {
       const response = await this._spotifyApi.addTracksToPlaylist(id, trackURIs, options);
+      this.currentRetryAttempt = 0;
       return response.body
     } catch (e) {
-      console.log("Caught error for a batch, retrying..." )
-      return this.addTracksToPlaylist(id, trackURIs, options);
+      console.log(`Caught error for a batch, retrying... Retry attempt ${++this.currentRetryAttempt}`)
+      if (this.currentRetryAttempt < this.MAX_RETRIES)
+        return this.addTracksToPlaylist(id, trackURIs, options);
+      else {
+        throw new HttpException('Failed to add tracks to playlist', 500);
+      }
     }
   }
 }

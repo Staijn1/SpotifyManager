@@ -40,14 +40,13 @@ export class ForkComponent implements OnInit {
     this.isLoading = true;
     this.spotifyAPI.getGeneric(this.playlists.next).then(
       data => {
-        this.isLoading = false;
         const currentPlaylists = this.playlists.items;
         this.playlists = this.filterPlaylists(data as SpotifyApi.ListOfUsersPlaylistsResponse);
         this.playlists.items = currentPlaylists.concat(this.playlists.items);
       }
     ).catch(err => {
       this.error = JSON.parse(err.response).error as CustomError;
-    });
+    }).finally(() => this.isLoading = false);
   }
 
   /**
@@ -63,6 +62,7 @@ export class ForkComponent implements OnInit {
    * @param {string} id
    */
   forkPlaylist(id: string) {
-    this.api.forkPlaylist(id).then().catch(e => this.error = e);
+    this.isLoading = true;
+    this.api.forkPlaylist(id).then().catch(e => this.error = e).finally(() => this.isLoading = false);
   }
 }

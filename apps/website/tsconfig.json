@@ -19,7 +19,8 @@
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "lib": ["es2015", "es2016", "dom", "es2018.promise"]
   },
   "angularCompilerOptions": {
     "strictInjectionParameters": true,

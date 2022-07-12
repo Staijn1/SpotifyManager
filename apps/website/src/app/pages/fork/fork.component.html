@@ -22,7 +22,7 @@
               <div class="col d-flex justify-content-center">
                 <div class="custom-control custom-checkbox">
                   <button class="btn btn-primary" type="button" (click)="forkPlaylist(playlist.id)">
-                    <fa-icon [icon]="forkIcon"></fa-icon>
+                    <fa-icon [icon]="!isLoading ? forkIcon : loading" [spin]="isLoading"></fa-icon>
                   </button>
                 </div>
               </div>
