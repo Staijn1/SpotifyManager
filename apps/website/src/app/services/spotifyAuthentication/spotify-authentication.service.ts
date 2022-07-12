@@ -132,10 +132,11 @@ export class SpotifyAuthenticationService extends HTTPService {
     }
   }
 
+
   /**
    * @returns Promise<string> - Contains the current tokenset if still valid
    */
-  async getAccessToken(): Promise<string | null> {
+  async refreshAccessToken(): Promise<string | null> {
     let tokenSet = JSON.parse(sessionStorage.getItem('tokenSet') as string);
 
     if (!tokenSet) {

@@ -94,7 +94,7 @@ export class SpotifyAPIService {
   }
 
   private getAccessToken(): void {
-    this.spotifyAuth.getAccessToken().then(data => this._spotifyApi.setAccessToken(data));
+    this.spotifyAuth.refreshAccessToken().then(data => this._spotifyApi.setAccessToken(data));
   }
 
   getGeneric(url: string, params?: any): Promise<object> {

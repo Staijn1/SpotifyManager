@@ -4,21 +4,11 @@
     <h2>Fork a playlist</h2>
     <p>Do you like a someone's playlist but want to remove some songs from it? Now you can!<br/>
       With this page you can create a copy of this playlist. After that, you can sync remove the songs you dislike. <br>
-      This copied playlist can then be synchronized with the original with a press of a button, so you can keep up with the newest songs!</p>
+      This copied playlist can then be synchronized with the original with a press of a button, so you can keep up with
+      the newest songs!</p>
   </div>
 
-  <form #form="ngForm" (ngSubmit)="onSubmit()">
-    <div class="row">
-      <div class="col">
-        <input type="text" required class="form-control mb-5" placeholder="New playlist name" name="newPlaylist"
-               [(ngModel)]="playlistName">
-      </div>
-      <div class="col-3 text-right">
-        <fa-icon [icon]="refreshIcon" (click)="getPlaylists()" size="lg" [spin]="isLoading"></fa-icon>
-      </div>
-    </div>
-
-
+  <form #form="ngForm">
     <div *ngIf="playlists">
       <div class="row m-4">
         <div class="col-12 col-md-4 mt-3" *ngFor="let playlist of playlists.items; let indexOfPlaylist = index">
@@ -31,9 +21,9 @@
             <div class="row mt-3">
               <div class="col d-flex justify-content-center">
                 <div class="custom-control custom-checkbox">
-              <!--    <input type="checkbox" class="custom-control-input" id="customCheck{{indexOfPlaylist}}"
-                         [value]="playlist.id" (change)="registerPlaylist(playlist.id, $event)">
-                  <label class="custom-control-label" for="customCheck{{indexOfPlaylist}}"></label>-->
+                  <button class="btn btn-primary" type="button" (click)="forkPlaylist(playlist.id)">
+                    <fa-icon [icon]="forkIcon"></fa-icon>
+                  </button>
                 </div>
               </div>
             </div>

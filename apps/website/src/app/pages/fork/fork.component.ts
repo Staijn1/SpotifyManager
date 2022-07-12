@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {faSpinner, faSync} from '@fortawesome/free-solid-svg-icons';
+import {faCodeFork, faSpinner, faSync} from '@fortawesome/free-solid-svg-icons';
 import {CustomError} from '../../types/CustomError';
 import {SpotifyAPIService} from '../../services/spotifyAPI/spotify-api.service';
+import {ApiService} from '../../services/api/api.service';
 
 @Component({
   selector: 'app-fork',
@@ -10,15 +11,13 @@ import {SpotifyAPIService} from '../../services/spotifyAPI/spotify-api.service';
 })
 export class ForkComponent implements OnInit {
   playlists!: SpotifyApi.ListOfUsersPlaylistsResponse;
-  playlistsToMerge: string[] = [];
-  playlistName!: string;
   loading = faSpinner;
   isLoading = false;
-  refreshIcon = faSync;
 
   error: CustomError | undefined;
+  forkIcon = faCodeFork;
 
-  constructor(private readonly spotifyAPI: SpotifyAPIService, private readonly api: SpotifyAPIService) {
+  constructor(private readonly spotifyAPI: SpotifyAPIService, private readonly api: ApiService) {
   }
 
   ngOnInit(): void {
@@ -36,17 +35,6 @@ export class ForkComponent implements OnInit {
     });
   }
 
-  onSubmit(): void {
-    this.spotifyAPI.mergePlaylists(this.playlistName, this.playlistsToMerge).then(
-      data => {
-        console.log('success!');
-      }
-    ).catch(err => {
-      this.error = JSON.parse(err.response).error as CustomError;
-    });
-
-  }
-
   getMorePlaylists(): void {
     this.isLoading = true;
     this.spotifyAPI.getGeneric(this.playlists.next).then(
@@ -59,5 +47,13 @@ export class ForkComponent implements OnInit {
     ).catch(err => {
       this.error = JSON.parse(err.response).error as CustomError;
     });
+  }
+
+  /**
+   * Create a copy of the playlist
+   * @param {string} id
+   */
+  forkPlaylist(id: string) {
+    this.api.forkPlaylist(id).then().catch(e => this.error = e);
   }
 }

@@ -3,10 +3,10 @@
  * This is only a minimal backend to get started.
  */
 
-import { Logger } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import {Logger} from '@nestjs/common';
+import {NestFactory} from '@nestjs/core';
 
-import { AppModule } from './app/app.module';
+import {AppModule} from './app/app.module';
 import {DocumentBuilder, SwaggerModule} from '@nestjs/swagger';
 
 
@@ -16,6 +16,8 @@ import {DocumentBuilder, SwaggerModule} from '@nestjs/swagger';
  */
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.setGlobalPrefix('api');
+  app.enableCors()
 
   // read the version from package.json
   const config = new DocumentBuilder()
@@ -26,7 +28,6 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
-
 
   const port = process.env.PORT || 3333;
   await app.listen(port);
