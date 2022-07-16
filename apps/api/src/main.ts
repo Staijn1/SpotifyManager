@@ -24,6 +24,7 @@ async function bootstrap() {
     .setTitle('Spotify Manager API')
     .setDescription('The API behind spotify manager')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
