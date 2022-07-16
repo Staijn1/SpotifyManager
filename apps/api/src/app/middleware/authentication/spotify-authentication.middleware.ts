@@ -1,6 +1,6 @@
 import {HttpException, HttpStatus, Injectable, NestMiddleware} from '@nestjs/common';
 import {NextFunction, Request, Response} from 'express';
-import {SpotifyService} from '../spotify/spotify.service';
+import {SpotifyService} from '../../spotify/spotify.service';
 
 @Injectable()
 export class SpotifyAuthenticationMiddleware implements NestMiddleware {
@@ -14,7 +14,6 @@ export class SpotifyAuthenticationMiddleware implements NestMiddleware {
     // todo error handling, invalid crashes the api... wtf?
     this.spotifyService.setAccessToken(accessToken)
 
-    console.log('SpotifyAuthenticationMiddleware: accessToken:', accessToken);
     next();
   }
 }

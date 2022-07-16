@@ -16,7 +16,10 @@ export class PlaylistService {
     const playlist = await this.spotifyService.getPlaylistInformation(playlistid);
 
     const newPlaylistName = `Fork - ${playlist.name}`;
-    const newPlaylist = await this.spotifyService.createPlaylist(newPlaylistName);
+    const newPlaylist = await this.spotifyService.createPlaylist(newPlaylistName,
+      {
+        description: `This playlist has been forked using SpotifyManager. Please do not remove the original playlist id from the description. Original playlist: {${playlist.id}}`
+      });
 
     // The spotify api returns the tracks in the playlist but it limits the number of tracks to 100.
     // So we need to get the tracks in chunks of 100.
