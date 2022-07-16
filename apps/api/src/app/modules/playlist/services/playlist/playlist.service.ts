@@ -7,6 +7,26 @@ export class PlaylistService {
   }
 
   /**
+   * The spotify API returns only the first 100 tracks in a playlist.
+   * This method will loop through the playlist and get the tracks in chunks of 100, and then return all the tracks.
+   * @param {string} playlistid
+   * @returns {Promise<SpotifyApi.PlaylistTrackResponse>}
+   */
+  public async getAllSongsInPlaylist(playlistid: string): Promise<SpotifyApi.PlaylistTrackResponse> {
+    const response = await this.spotifyService.getTracksInPlaylist(playlistid);
+    const amountOfChunks = Math.ceil(response.total / 100);
+
+    for (let i = 1; i < amountOfChunks; i++) {
+      const options = {
+        offset: i * 100,
+      };
+      const tracks = await this.spotifyService.getTracksInPlaylist(playlistid, options);
+      response.items = response.items.concat(tracks.items);
+    }
+    return response
+  }
+
+  /**
    * Creates a new playlist and songs from the given playlist are copied to the new playlist.
    * The songs in the original playlist are saved in the database, so it can be used to sync the forked playlist with the original one later.
    * @param {string} playlistid
