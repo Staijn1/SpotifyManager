@@ -5,7 +5,10 @@ import {ApiBearerAuth, ApiParam} from '@nestjs/swagger';
 @ApiBearerAuth()
 @Controller('playlists')
 export class PlaylistController {
-
+  /**
+   * Inject dependencies
+   * @param {PlaylistService} playlistService
+   */
   constructor(private readonly playlistService: PlaylistService) {
   }
 

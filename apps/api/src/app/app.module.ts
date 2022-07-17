@@ -10,6 +10,10 @@ import {LoggingMiddleware} from './middleware/logging/logging.middleware';
   providers: [SpotifyAuthenticationMiddleware],
 })
 export class AppModule implements NestModule {
+  /**
+   * Configure middlewares
+   * @param {MiddlewareConsumer} consumer
+   */
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(SpotifyAuthenticationMiddleware)
