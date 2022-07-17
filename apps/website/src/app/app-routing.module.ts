@@ -3,7 +3,7 @@ import {Route, RouterModule} from '@angular/router';
 import {AccountComponent} from './pages/account/account.component';
 import {AuthorizeComponent} from './pages/authorize/authorize.component';
 import {LoginComponent} from './pages/login/login.component';
-import {MergeComponent} from './pages/merge/merge.component';
+import {ForkSyncComponent} from './pages/fork-sync/fork-sync.component';
 import {OverviewComponent} from './pages/overview/overview.component';
 import {HomeComponent} from './pages/home/home.component';
 import {PageNotFoundComponent} from './pages/page-not-found/page-not-found.component';
@@ -20,8 +20,8 @@ export const routes: ExtendedRoute[] = [
   {path: 'callback', component: AuthorizeComponent, title: '', isVisible: false},
   {path: 'overview', component: OverviewComponent, title: 'Overview', isVisible: true},
   {path: 'account', component: AccountComponent, title: 'Account', isVisible: true},
-  {path: 'merge', component: MergeComponent, title: 'Merge playlists', isVisible: true},
   {path: 'fork', component: ForkComponent, title: 'Fork playlists', isVisible: true},
+  {path: 'sync', component: ForkSyncComponent, title: 'Sync playlists', isVisible: true},
   {path: '**', component: PageNotFoundComponent, title: '', isVisible: false},
 ];
 

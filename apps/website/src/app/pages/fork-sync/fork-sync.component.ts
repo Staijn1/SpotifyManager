@@ -4,11 +4,11 @@ import {SpotifyAPIService} from '../../services/spotifyAPI/spotify-api.service';
 import {CustomError} from '../../types/CustomError';
 
 @Component({
-  selector: 'app-merge',
-  templateUrl: './merge.component.html',
-  styleUrls: ['./merge.component.scss']
+  selector: 'app-fork-sync',
+  templateUrl: './fork-sync.component.html',
+  styleUrls: ['./fork-sync.component.scss']
 })
-export class MergeComponent implements OnInit {
+export class ForkSyncComponent implements OnInit {
   playlists!: SpotifyApi.ListOfUsersPlaylistsResponse;
   loading = faSpinner;
   isLoading = false;

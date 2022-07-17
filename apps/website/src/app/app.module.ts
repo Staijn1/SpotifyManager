@@ -8,7 +8,7 @@ import { AccountComponent } from './pages/account/account.component';
 import { AuthorizeComponent } from './pages/authorize/authorize.component';
 import { LoginComponent } from './pages/login/login.component';
 import { OverviewComponent } from './pages/overview/overview.component';
-import { MergeComponent } from './pages/merge/merge.component';
+import { ForkSyncComponent } from './pages/fork-sync/fork-sync.component';
 import { ErrorComponent } from './components/error/error.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NavbarComponent } from './main/navbar/navbar.component';
@@ -29,7 +29,7 @@ import { PlaylistOverviewComponent } from './components/playlist-overview/playli
     InnerPageComponent,
     OverviewComponent,
     AccountComponent,
-    MergeComponent,
+    ForkSyncComponent,
     PageNotFoundComponent,
     ErrorComponent,
     AvatarComponent,
