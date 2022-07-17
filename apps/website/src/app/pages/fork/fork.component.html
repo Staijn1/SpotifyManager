@@ -9,47 +9,13 @@
     <br>
     This copied playlist can then be synchronized with the original with a press of a button, so you can keep up with
     the newest songs!</p>
-  <form #form="ngForm">
-    <app-playlist-overview [playlists]="playlists" (requestMore)="getMorePlaylists()"
-                           (actionClick)="forkPlaylist($event)">
-      <ng-template #action>
-        <button class="btn btn-primary" type="button">
-          <fa-icon [icon]="!isLoading ? forkIcon : loading" [spin]="isLoading"></fa-icon>
-        </button>
-      </ng-template>
-    </app-playlist-overview>
-    <div *ngIf="playlists">
-      <div class="row m-4">
-        <div class="col-12 col-md-4 mt-3" *ngFor="let playlist of playlists.items; let indexOfPlaylist = index">
-          <app-box
-            [image]="playlist.images[0] ? playlist.images[0].url : 'https://picsum.photos/200/200?random=' + indexOfPlaylist"
-          >
-            <h4 class="title mt-3 text-center text-break"><a [href]="playlist.external_urls.spotify"
-                                                             target="_blank">{{playlist.name}}</a></h4>
-            <p class="description text-center">Owner: {{playlist.owner.display_name}}</p>
-            <div class="row mt-3">
-              <div class="col d-flex justify-content-center">
-                <div class="custom-control custom-checkbox">
 
-                </div>
-              </div>
-            </div>
-          </app-box>
-        </div>
-      </div>
-      <div *ngIf="playlists.next" class="text-center">
-        <p class="btn btn-link" (click)="getMorePlaylists()">Load more results..
-          <fa-icon *ngIf="isLoading" [icon]="loading" [spin]="true"></fa-icon>
-        </p>
-
-      </div>
-    </div>
-    <div class="d-flex justify-content-center">
-      <fa-icon *ngIf="isLoading" [icon]="loading" [spin]="true" size="lg"></fa-icon>
-    </div>
-
-    <div class="d-flex justify-content-end mt-3">
-      <button class="btn btn-primary" type="submit">Merge!</button>
-    </div>
-  </form>
+  <app-playlist-overview [playlists]="playlists" (requestMore)="getMorePlaylists()"
+                         (actionClick)="forkPlaylist($event)">
+    <ng-template #action>
+      <button class="btn btn-primary" type="button">
+        <fa-icon [icon]="!isLoading ? forkIcon : loading" [spin]="isLoading"></fa-icon>
+      </button>
+    </ng-template>
+  </app-playlist-overview>
 </section>
