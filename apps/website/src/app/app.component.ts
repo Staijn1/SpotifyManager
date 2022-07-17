@@ -7,9 +7,10 @@ import * as AOS from 'aos';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  constructor() {
-  }
 
+  /**
+   * Initialize AOS on page load
+   */
   ngOnInit(): void {
     AOS.init();
   }

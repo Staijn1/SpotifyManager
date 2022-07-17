@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {faSpinner, faSync} from '@fortawesome/free-solid-svg-icons';
+import {faSpinner} from '@fortawesome/free-solid-svg-icons';
 import {SpotifyAPIService} from '../../services/spotifyAPI/spotify-api.service';
 import {CustomError} from '../../types/CustomError';
 
@@ -10,14 +10,15 @@ import {CustomError} from '../../types/CustomError';
 })
 export class MergeComponent implements OnInit {
   playlists!: SpotifyApi.ListOfUsersPlaylistsResponse;
-  playlistsToMerge: string[] = [];
-  playlistName!: string;
   loading = faSpinner;
   isLoading = false;
-  refreshIcon = faSync;
 
   error: CustomError | undefined;
 
+  /**
+   * Inject the spotify API
+   * @param {SpotifyAPIService} spotifyAPI
+   */
   constructor(private readonly spotifyAPI: SpotifyAPIService) {
   }
 

@@ -18,13 +18,24 @@ export class ForkComponent implements OnInit {
   error: CustomError | undefined;
   forkIcon = faCodeFork;
 
+  /**
+   * Inject the right dependencies
+   * @param {SpotifyAPIService} spotifyAPI
+   * @param {ApiService} api
+   */
   constructor(private readonly spotifyAPI: SpotifyAPIService, private readonly api: ApiService) {
   }
 
+  /**
+   * On page load, load the necessary data
+   */
   ngOnInit(): void {
     this.getPlaylists();
   }
 
+  /**
+   * Get the playlists for this user
+   */
   getPlaylists(): void {
     this.isLoading = true;
     this.spotifyAPI.getUserPlaylist({limit: 50}).then(data => {
@@ -36,6 +47,9 @@ export class ForkComponent implements OnInit {
     });
   }
 
+  /**
+   * Get more playlists to show. The spotify API uses paging for playlists. This method gets the next page
+   */
   getMorePlaylists(): void {
     this.isLoading = true;
     this.spotifyAPI.getGeneric(this.playlists.next).then(

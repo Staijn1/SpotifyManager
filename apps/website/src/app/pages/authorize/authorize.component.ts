@@ -11,12 +11,20 @@ import {CustomError} from '../../types/CustomError';
 export class AuthorizeComponent implements OnInit {
   error!: CustomError;
 
+  /**
+   * Inject dependencies and subscribe to any errors that occur
+   * @param {SpotifyAuthenticationService} spotifyAuth
+   * @param {Router} router
+   */
   constructor(private spotifyAuth: SpotifyAuthenticationService, private readonly router: Router) {
     this.spotifyAuth.errorEvent.subscribe(error => {
       this.error = error;
     });
   }
 
+  /**
+   * This page completes the login process for spotify
+   */
   ngOnInit(): void {
     this.spotifyAuth.completeLogin().then(
       data => {
@@ -25,9 +33,5 @@ export class AuthorizeComponent implements OnInit {
         }
       }
     );
-  }
-
-  authorize(): void {
-    // this.spotifyAuth.authorize(this._code, this._state);
   }
 }

@@ -22,13 +22,24 @@ export class AccountComponent implements OnInit {
   topTracks!: SpotifyApi.UsersTopTracksResponse;
   topArtists!: SpotifyApi.UsersTopArtistsResponse;
 
+  /**
+   * Inject dependencies
+   * @param {SpotifyAPIService} spotifyAPI
+   */
   constructor(private readonly spotifyAPI: SpotifyAPIService) {
   }
 
+  /**
+   * On page load, get all data
+   */
   ngOnInit(): void {
     this.getInformation();
   }
 
+  /**
+   * Get the information this page needs, like the account info, top artists and top songs
+   * @private
+   */
   private getInformation(): void {
     this.isLoading = true;
     this.spotifyAPI.getCurrentAccount().then(data => {
@@ -48,6 +59,12 @@ export class AccountComponent implements OnInit {
   }
 
 
+  /**
+   * Genres received from the spotify API need to be formatted
+   * Returns a string like | Edm | Gauze pop |
+   * @param {string[]} genresArray
+   * @returns {string}
+   */
   formatGenres(genresArray: string[]): string {
     let genres = '| ';
     if (genresArray.length === 0) {
@@ -69,6 +86,12 @@ export class AccountComponent implements OnInit {
     return genres;
   }
 
+  /**
+   * Capitalizes the first letter of a string
+   * @param {string} input
+   * @returns {string}
+   * @private
+   */
   private capitalizeFirstLetter(input: string): string {
     return input.charAt(0).toUpperCase() + input.slice(1);
   }

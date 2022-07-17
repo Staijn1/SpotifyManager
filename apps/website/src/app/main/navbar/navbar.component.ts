@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {SpotifyAuthenticationService} from '../../services/spotifyAuthentication/spotify-authentication.service';
 import {routes} from '../../app-routing.module';
 
@@ -7,20 +7,21 @@ import {routes} from '../../app-routing.module';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
   readonly routes = routes;
 
+  /**
+   * Inject dependencies
+   * @param {SpotifyAuthenticationService} spotifyAuth
+   */
   constructor(private readonly spotifyAuth: SpotifyAuthenticationService) {
   }
 
-  ngOnInit(): void {
-  }
-
+  /**
+   * Check if this user is logged in
+   * @returns {boolean}
+   */
   isLoggedIn(): boolean {
     return this.spotifyAuth.isLoggedIn();
-  }
-
-  logOut(): void {
-    this.spotifyAuth.logOut();
   }
 }

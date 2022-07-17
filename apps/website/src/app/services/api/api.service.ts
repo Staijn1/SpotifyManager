@@ -8,6 +8,10 @@ import {SpotifyAuthenticationService} from '../spotifyAuthentication/spotify-aut
 })
 export class ApiService extends HTTPService {
 
+  /**
+   * Inject the right dependencies
+   * @param {SpotifyAuthenticationService} spotifyAuth
+   */
   constructor(private readonly spotifyAuth: SpotifyAuthenticationService) {
     super();
   }

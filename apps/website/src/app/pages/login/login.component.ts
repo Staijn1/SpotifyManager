@@ -14,9 +14,16 @@ export class LoginComponent implements OnInit {
   isLoading = false;
   loadingIcon = faSpinner;
 
+  /**
+   * Inject spotify Auth service since we are logging in
+   * @param {SpotifyAuthenticationService} spotifyAuth
+   */
   constructor(readonly spotifyAuth: SpotifyAuthenticationService) {
   }
 
+  /**
+   * Initialize this component by generating the URL where the user can log into spotify
+   */
   ngOnInit(): void {
     this.isLoading = true;
     this.spotifyAuth.generateAuthorizeURL().then(url => {
@@ -26,6 +33,9 @@ export class LoginComponent implements OnInit {
     );
   }
 
+  /**
+   * Redirect to the login page of Spotify, to the URL created during initialization
+   */
   login(): void {
     if (this.authUrl === undefined) {
       return;
