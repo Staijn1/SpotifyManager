@@ -21,10 +21,16 @@ export class MergeComponent implements OnInit {
   constructor(private readonly spotifyAPI: SpotifyAPIService) {
   }
 
+  /**
+   * Get playlists on page load
+   */
   ngOnInit(): void {
     this.getPlaylist();
   }
 
+  /**
+   * Get the playlists of the logged in user
+   */
   getPlaylist(): void {
     this.isLoading = true;
     this.spotifyAPI.getUserPlaylist({limit: 50}).then(data => {
@@ -36,17 +42,9 @@ export class MergeComponent implements OnInit {
     });
   }
 
-  onSubmit(): void {
-    this.spotifyAPI.mergePlaylists(this.playlistName, this.playlistsToMerge).then(
-      data => {
-        console.log('success!');
-      }
-    ).catch(err => {
-      this.error = JSON.parse(err.response).error as CustomError;
-    });
-
-  }
-
+  /**
+   * The spotify api sends the playlist back in pages. When the "load more" button is pressed, this function will call the next page from the API
+   */
   getMorePlaylists(): void {
     this.isLoading = true;
     this.spotifyAPI.getGeneric(this.playlists.next).then(
@@ -61,6 +59,10 @@ export class MergeComponent implements OnInit {
     });
   }
 
+  /**
+   * Do something when the action has been clicked
+   * @param {SpotifyApi.PlaylistObjectSimplified} playlist
+   */
   onActionClick(playlist: SpotifyApi.PlaylistObjectSimplified) {
     console.log('action click', playlist);
   }

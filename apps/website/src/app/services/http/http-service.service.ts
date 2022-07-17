@@ -12,6 +12,12 @@ export class HTTPService {
     invalid_request: {message: 'The request made is not valid.'},
   };
 
+  /**
+   * Handle the error from spotify and map it to an error we can show
+   * @param {SpotifyError} err
+   * @returns {CustomError}
+   * @private
+   */
   private handleError(err: SpotifyError): CustomError {
     const userFriendlyError: CustomError = {
       code: undefined,

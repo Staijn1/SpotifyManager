@@ -153,6 +153,9 @@ export class SpotifyAuthenticationService extends HTTPService {
     return tokenSet.access_token;
   }
 
+  /**
+   * Log out by clearing the session storage
+   */
   logOut(): void {
     sessionStorage.clear();
   }

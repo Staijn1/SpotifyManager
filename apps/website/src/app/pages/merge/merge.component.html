@@ -7,7 +7,7 @@
   <p>You can use this page to synchronize a playlist you forked earlier to it's original. Pick for each added / removed
     song in the original what you would like to do: add it (back) or not</p>
 
-  <app-playlist-overview [playlists]="playlists" (actionClick)="onActionClick($event)">
+  <app-playlist-overview [playlists]="playlists" (actionClick)="onActionClick($event)" (requestMore)="getMorePlaylists()">
     <ng-template #action>content</ng-template>
   </app-playlist-overview>
 

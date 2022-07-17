@@ -6,12 +6,7 @@ import {faUser} from '@fortawesome/free-solid-svg-icons';
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss']
 })
-export class OverviewComponent implements OnInit {
+export class OverviewComponent {
   account = faUser;
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
 
 }
