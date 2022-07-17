@@ -17,6 +17,7 @@ import { AvatarComponent } from './components/avatar/avatar.component';
 import { BoxComponent } from './components/box/box.component';
 import { InnerPageComponent } from './main/inner-page/inner-page.component';
 import { ForkComponent } from './pages/fork/fork.component';
+import { PlaylistOverviewComponent } from './components/playlist-overview/playlist-overview.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { ForkComponent } from './pages/fork/fork.component';
     AvatarComponent,
     BoxComponent,
     ForkComponent,
+    PlaylistOverviewComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FontAwesomeModule, FormsModule],
   providers: [],

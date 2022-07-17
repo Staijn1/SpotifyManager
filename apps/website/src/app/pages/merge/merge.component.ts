@@ -36,19 +36,6 @@ export class MergeComponent implements OnInit {
     });
   }
 
-  registerPlaylist(id: string, event: Event): void {
-    throw new Error("Not implemented");
-    /*const iconbox = $((event as any).target.offsetParent.offsetParent.offsetParent);
-    const index = this.playlistsToMerge.findIndex(element => element === id);
-    if (index >= 0) {
-      this.playlistsToMerge.splice(index, 1);
-      iconbox.removeClass('selected');
-    } else {
-      this.playlistsToMerge.push(id);
-      iconbox.addClass('selected');
-    }*/
-  }
-
   onSubmit(): void {
     this.spotifyAPI.mergePlaylists(this.playlistName, this.playlistsToMerge).then(
       data => {
@@ -72,5 +59,9 @@ export class MergeComponent implements OnInit {
     ).catch(err => {
       this.error = JSON.parse(err.response).error as CustomError;
     });
+  }
+
+  onActionClick(playlist: SpotifyApi.PlaylistObjectSimplified) {
+    console.log('action click', playlist);
   }
 }
