@@ -2,7 +2,7 @@
   "projectType": "application",
   "root": "apps/website",
   "sourceRoot": "apps/website/src",
-  "prefix": "spotify",
+  "prefix": "app",
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
