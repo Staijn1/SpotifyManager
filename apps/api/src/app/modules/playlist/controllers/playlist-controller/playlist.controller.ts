@@ -25,9 +25,14 @@ export class PlaylistController {
   /**
    * Get all songs of a playlist.
    */
-  @Get(':playlistid')
+  @Get(':playlistid/songs')
   @ApiParam({name: 'playlistid', required: true, description: 'The ID of the playlist to get all the songs for', schema: { oneOf: [{type: 'string'}], example: '6vDGVr652ztNWKZuHvsFvx'}})
   public async getAllSongsInPlaylist(@Param() params): Promise<SpotifyApi.PlaylistTrackResponse> {
     return this.playlistService.getAllSongsInPlaylist(params.playlistid);
+  }
+
+  @Get()
+  public async getAllPlaylistsOfUser(): Promise<SpotifyApi.ListOfUsersPlaylistsResponse>{
+    return this.playlistService.getAllUserPlaylists();
   }
 }

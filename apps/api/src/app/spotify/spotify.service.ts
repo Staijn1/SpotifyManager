@@ -1,6 +1,7 @@
 import {HttpException, Injectable} from '@nestjs/common';
 import SpotifyWebApi from 'spotify-web-api-node';
-
+import {HttpService} from '@nestjs/axios';
+import {firstValueFrom} from 'rxjs';
 
 @Injectable()
 export class SpotifyService {
@@ -11,7 +12,7 @@ export class SpotifyService {
   /**
    * Create an instance of the SpotifyWebApi class.
    */
-  constructor() {
+  constructor(private httpService: HttpService) {
     this._spotifyApi = new SpotifyWebApi();
   }
 
@@ -81,5 +82,28 @@ export class SpotifyService {
         throw new HttpException('Failed to add tracks to playlist', 500);
       }
     }
+  }
+
+  /**
+   * Get the first page of user playlists
+   * @returns {Promise<SpotifyApi.ListOfUsersPlaylistsResponse>}
+   */
+  async getUserPlaylists() {
+    const response = await this._spotifyApi.getUserPlaylists();
+    return response.body
+  }
+
+  /**
+   * Fetch from the spotify API using a given url
+   * @param {string} url
+   * @returns {Promise<void>}
+   */
+  async getGeneric(url: string): Promise<any> {
+    const response = await firstValueFrom(this.httpService.get(url, {headers: {'Authorization': `Bearer ${this._spotifyApi.getAccessToken()}`}}))
+
+    if (response.status !== 200) {
+      throw new HttpException(response.statusText, response.status)
+    }
+    return response.data;
   }
 }

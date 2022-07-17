@@ -47,7 +47,6 @@ export class PlaylistService {
 
     // The spotify api returns the tracks in the playlist but it limits the number of tracks to 100.
     // So we need to get the tracks in chunks of 100.
-    // These chunks will also be saved in the database, and put in the new playlist.
     const amountOfChunks = Math.ceil(playlist.tracks.total / 100);
 
     for (let i = 0; i < amountOfChunks; i++) {
@@ -59,5 +58,21 @@ export class PlaylistService {
       await this.spotifyService.addTracksToPlaylist(newPlaylist.id, tracks.items.map(track => track.track.uri));
     }
     return newPlaylist
+  }
+
+  /**
+   * Get all the playlists that belong to the user that belongs to the given access token.
+   * @returns {Promise<SpotifyApi.ListOfUsersPlaylistsResponse>}
+   */
+  async getAllUserPlaylists(): Promise<SpotifyApi.ListOfUsersPlaylistsResponse> {
+    const playlists = await this.spotifyService.getUserPlaylists();
+
+    while (playlists.next != null) {
+      const morePlaylists = await this.spotifyService.getGeneric(playlists.next) as SpotifyApi.ListOfUsersPlaylistsResponse;
+      playlists.next = morePlaylists.next
+      playlists.items = playlists.items.concat(morePlaylists.items)
+    }
+
+    return playlists
   }
 }
