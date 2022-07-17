@@ -33,4 +33,14 @@ export class ApiService extends HTTPService {
     const token = await this.spotifyAuth.refreshAccessToken();
     return await this.request(`${environment.url}/playlists/?accessToken=${token}`, {method: 'GET'})
   }
+
+  /**
+   * Get all tracks of a playlist
+   * @param {string} playlistId
+   * @returns {Promise<SpotifyApi.PlaylistTrackResponse>}
+   */
+  async getAllTracksInPlaylist(playlistId: string): Promise<SpotifyApi.PlaylistTrackResponse> {
+    const token = await this.spotifyAuth.refreshAccessToken();
+    return this.request(`${environment.url}/playlists/${playlistId}/songs/?accessToken=${token}`, {method: 'GET'})
+  }
 }

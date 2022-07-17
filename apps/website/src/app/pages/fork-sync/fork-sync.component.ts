@@ -47,6 +47,6 @@ export class ForkSyncComponent implements OnInit {
     //Extract the ID of the original playlist
     const fullOrignalId = playlist.description?.match(this.originalIdRegex) as string[];
     const originalId = fullOrignalId[0].replace('{', '').replace('}', '');
-    this.router.navigate(['compare', playlist.id, originalId]);
+    this.router.navigate(['playlists/compare', originalId, playlist.id]);
   }
 }

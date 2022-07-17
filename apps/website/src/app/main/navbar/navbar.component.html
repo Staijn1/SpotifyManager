@@ -13,9 +13,26 @@
       <ng-template #loggedIn>
         <ul class="navbar-nav">
           <ng-template ngFor let-route [ngForOf]="routes">
-            <li class="nav-item" *ngIf="route.isVisible">
-              <a class="nav-link" [routerLink]="route.path">{{route.title}}</a>
-            </li>
+            <ng-container *ngIf="route.children; else noChildren">
+              <ul>
+                <li class="nav-item">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                     aria-haspopup="true" aria-expanded="false">
+                    {{route.title}}
+                  </a>
+                  <div class="bg-primary">
+                    <ng-template ngFor let-child [ngForOf]="route.children">
+                      <a class="dropdown-item" routerLink="{{route.path}}/{{child.path}}">{{child.title}}</a>
+                    </ng-template>
+                  </div>
+                </li>
+              </ul>
+            </ng-container>
+            <ng-template #noChildren>
+              <li class="nav-item" *ngIf="route.isVisible">
+                <a class="nav-link" [routerLink]="route.path">{{route.title}}</a>
+              </li>
+            </ng-template>
           </ng-template>
         </ul>
       </ng-template>

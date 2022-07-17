@@ -23,11 +23,11 @@ export const routes: ExtendedRoute[] = [
   {path: 'overview', component: OverviewComponent, title: 'Overview', isVisible: true},
   {path: 'account', component: AccountComponent, title: 'Account', isVisible: true},
   {
-    path: 'playlists', title: 'not shown', isVisible: false, children: [
+    path: 'playlists', title: 'Playlists', isVisible: true, children: [
       {path: 'fork', component: ForkComponent, title: 'Fork playlists', isVisible: true},
       {path: 'sync', component: ForkSyncComponent, title: 'Sync playlists', isVisible: true},
       // todo: maybe isVisible true and let the user choose which playlist to compare?
-      {path: 'compare', component: PlaylistComparePageComponent, title: 'Compare playlists', isVisible: false},
+      {path: 'compare/:playlistLeft/:playlistRight', component: PlaylistComparePageComponent, title: 'Compare playlists', isVisible: false},
     ]
   },
   {path: '**', component: PageNotFoundComponent, title: '', isVisible: false},
