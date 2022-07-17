@@ -3,6 +3,10 @@ import {SpotifyService} from '../../../../spotify/spotify.service';
 
 @Injectable()
 export class PlaylistService {
+  /**
+   * Inject dependencies
+   * @param {SpotifyService} spotifyService
+   */
   constructor(private readonly spotifyService: SpotifyService) {
   }
 
