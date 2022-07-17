@@ -8,10 +8,12 @@ import {OverviewComponent} from './pages/overview/overview.component';
 import {HomeComponent} from './pages/home/home.component';
 import {PageNotFoundComponent} from './pages/page-not-found/page-not-found.component';
 import {ForkComponent} from './pages/fork/fork.component';
+import {PlaylistComparePageComponent} from './pages/playlist-compare-page/playlist-compare-page.component';
 
 export type ExtendedRoute = Route & {
   title: string;
   isVisible: boolean;
+  children?: ExtendedRoute[];
 };
 
 export const routes: ExtendedRoute[] = [
@@ -20,8 +22,14 @@ export const routes: ExtendedRoute[] = [
   {path: 'callback', component: AuthorizeComponent, title: '', isVisible: false},
   {path: 'overview', component: OverviewComponent, title: 'Overview', isVisible: true},
   {path: 'account', component: AccountComponent, title: 'Account', isVisible: true},
-  {path: 'fork', component: ForkComponent, title: 'Fork playlists', isVisible: true},
-  {path: 'sync', component: ForkSyncComponent, title: 'Sync playlists', isVisible: true},
+  {
+    path: 'playlists', title: 'not shown', isVisible: false, children: [
+      {path: 'fork', component: ForkComponent, title: 'Fork playlists', isVisible: true},
+      {path: 'sync', component: ForkSyncComponent, title: 'Sync playlists', isVisible: true},
+      // todo: maybe isVisible true and let the user choose which playlist to compare?
+      {path: 'compare', component: PlaylistComparePageComponent, title: 'Compare playlists', isVisible: false},
+    ]
+  },
   {path: '**', component: PageNotFoundComponent, title: '', isVisible: false},
 ];
 

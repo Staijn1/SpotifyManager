@@ -18,6 +18,7 @@ import { BoxComponent } from './components/box/box.component';
 import { InnerPageComponent } from './main/inner-page/inner-page.component';
 import { ForkComponent } from './pages/fork/fork.component';
 import { PlaylistOverviewComponent } from './components/playlist-overview/playlist-overview.component';
+import { PlaylistComparePageComponent } from './pages/playlist-compare-page/playlist-compare-page.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { PlaylistOverviewComponent } from './components/playlist-overview/playli
     BoxComponent,
     ForkComponent,
     PlaylistOverviewComponent,
+    PlaylistComparePageComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FontAwesomeModule, FormsModule],
   providers: [],
