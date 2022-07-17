@@ -61,8 +61,8 @@ export class ForkComponent implements OnInit {
    * Create a copy of the playlist
    * @param {string} id
    */
-  forkPlaylist(id: string) {
+  forkPlaylist(playlist: SpotifyApi.PlaylistObjectSimplified) {
     this.isLoading = true;
-    this.api.forkPlaylist(id).then().catch(e => this.error = e).finally(() => this.isLoading = false);
+    this.api.forkPlaylist(playlist.id).then().catch(e => this.error = e).finally(() => this.isLoading = false);
   }
 }

@@ -5,10 +5,19 @@
     <p>Fork a playlist</p>
   </div>
   <p>Do you like a someone's playlist but want to remove some songs from it? Now you can!<br/>
-    With this page you can create a copy of this playlist. After that, you can remove the songs you dislike in Spotify. <br>
+    With this page you can create a copy of this playlist. After that, you can remove the songs you dislike in Spotify.
+    <br>
     This copied playlist can then be synchronized with the original with a press of a button, so you can keep up with
     the newest songs!</p>
   <form #form="ngForm">
+    <app-playlist-overview [playlists]="playlists" (requestMore)="getMorePlaylists()"
+                           (actionClick)="forkPlaylist($event)">
+      <ng-template #action>
+        <button class="btn btn-primary" type="button">
+          <fa-icon [icon]="!isLoading ? forkIcon : loading" [spin]="isLoading"></fa-icon>
+        </button>
+      </ng-template>
+    </app-playlist-overview>
     <div *ngIf="playlists">
       <div class="row m-4">
         <div class="col-12 col-md-4 mt-3" *ngFor="let playlist of playlists.items; let indexOfPlaylist = index">
@@ -21,9 +30,7 @@
             <div class="row mt-3">
               <div class="col d-flex justify-content-center">
                 <div class="custom-control custom-checkbox">
-                  <button class="btn btn-primary" type="button" (click)="forkPlaylist(playlist.id)">
-                    <fa-icon [icon]="!isLoading ? forkIcon : loading" [spin]="isLoading"></fa-icon>
-                  </button>
+
                 </div>
               </div>
             </div>
