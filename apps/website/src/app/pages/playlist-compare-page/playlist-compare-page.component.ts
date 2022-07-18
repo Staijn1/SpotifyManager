@@ -21,6 +21,7 @@ export class PlaylistComparePageComponent {
   leftPlaylist!: SpotifyApi.SinglePlaylistResponse;
   rightPlaylist!: SpotifyApi.SinglePlaylistResponse;
 
+  mergedTracks: SpotifyApi.PlaylistTrackObject[] = [];
   /**
    * Inject dependencies and start the compare process
    * @param {ActivatedRoute} activatedRoute
@@ -31,6 +32,7 @@ export class PlaylistComparePageComponent {
     this.getInformation().then(() => {
       this.changesLeft = this.calculateChanges(this.leftTracks, this.rightTracks);
       this.changesRight = this.calculateChanges(this.rightTracks, this.leftTracks);
+      this.mergedTracks = this.changesLeft.filter(change => change[0] === 0).map(change => change[1]);
       // this.differences = this.transformDifference(this.differences);
     }).catch(error => this.error = error);
   }
