@@ -2,7 +2,9 @@ import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {CustomError} from '../../types/CustomError';
 import {ApiService} from '../../services/api/api.service';
-import {Diff, diff_match_patch as DiffMatchPatch} from 'diff-match-patch';
+
+
+export type Diff = [number, SpotifyApi.PlaylistTrackObject];
 
 @Component({
   selector: 'app-playlist-compare-page',
@@ -11,12 +13,11 @@ import {Diff, diff_match_patch as DiffMatchPatch} from 'diff-match-patch';
 })
 export class PlaylistComparePageComponent {
   error: CustomError | undefined;
-  rightTracks!: SpotifyApi.PlaylistTrackResponse;
-  rightTracksNames: string[] = [];
-  leftTracks!: SpotifyApi.PlaylistTrackResponse;
-  leftTracksNames: string[] = [];
+  rightTracks!: SpotifyApi.PlaylistTrackObject[];
+  leftTracks!: SpotifyApi.PlaylistTrackObject[];
   html!: string;
-  differences: Diff[] = [];
+  changesLeft: Diff[] = [];
+  changesRight: Diff[] = [];
   leftPlaylist!: SpotifyApi.SinglePlaylistResponse;
   rightPlaylist!: SpotifyApi.SinglePlaylistResponse;
 
@@ -28,7 +29,8 @@ export class PlaylistComparePageComponent {
    */
   constructor(private readonly activatedRoute: ActivatedRoute, private apiService: ApiService) {
     this.getInformation().then(() => {
-      this.differences = this.calculateDiff();
+      this.changesLeft = this.calculateChanges(this.leftTracks, this.rightTracks);
+      this.changesRight = this.calculateChanges(this.rightTracks, this.leftTracks);
       // this.differences = this.transformDifference(this.differences);
     }).catch(error => this.error = error);
   }
@@ -46,41 +48,30 @@ export class PlaylistComparePageComponent {
     }
     const leftTracks = await this.apiService.getAllTracksInPlaylist(leftPlaylistId as string);
     this.leftPlaylist = await this.apiService.getPlaylist(leftPlaylistId as string);
-    this.leftTracks = leftTracks;
-    this.leftTracksNames = leftTracks.items.map(track => track.track.name + '<br>').sort();
+    this.leftTracks = leftTracks.items.sort()
 
     const rightTracks = await this.apiService.getAllTracksInPlaylist(rightPlaylistId as string);
     this.rightPlaylist = await this.apiService.getPlaylist(rightPlaylistId as string);
-    this.rightTracks = rightTracks;
-    this.rightTracksNames = rightTracks.items.map(track => track.track.name + '<br>').sort();
+    this.rightTracks = rightTracks.items.sort();
   }
 
   /**
    * Calculate the difference between the two playlists. Then generate the HTML for the diff.
    */
-  calculateDiff(): Diff[] {
-    const dmp = new DiffMatchPatch();
-    return dmp.diff_main(this.rightTracksNames.join(''), this.leftTracksNames.join(''));
-  }
-
-  /**
-   * Transform the diff into a list of differences for each song
-   * todo better example
-   * @param {Diff[]} differences
-   * @returns {any[]}
-   * @private
-   */
-  private transformDifference(differences: Diff[]): Diff[] {
-    const newDifferences: Diff[] = [];
-    for (const difference of differences) {
-      const [type, text] = difference;
-      const songs = text.split(',');
-      for (const song of songs) {
-        if (song !== '' && song !== ' ')
-          newDifferences.push([type, song]);
+  calculateChanges(primary: SpotifyApi.PlaylistTrackObject[], secondary: SpotifyApi.PlaylistTrackObject[]): Diff[] {
+    // Loop through the tracks of the primary playlist and compare them to the secondary playlist.
+    // If the track is in the other playlist, add it to the diff with the type of 0.
+    // If the track is not in the other playlist, add it to the diff with the type of 1.
+    const changes: Diff[] = [];
+    for (const primaryTrack of primary) {
+      const secondaryTrack = secondary.find(track => track.track.id === primaryTrack.track.id);
+      if (secondaryTrack) {
+        changes.push([0, primaryTrack]);
+      } else {
+        changes.push([1, primaryTrack]);
       }
     }
-    return newDifferences;
+    return changes;
   }
 
   /**
@@ -88,7 +79,7 @@ export class PlaylistComparePageComponent {
    * @param {[number, string]} diff
    * @returns {string}
    */
-  determineCSSClass(diff: [number, string]): string {
+  determineCSSClass(diff: Diff): string {
     switch (diff[0]) {
       case 0:
         return 'equal';

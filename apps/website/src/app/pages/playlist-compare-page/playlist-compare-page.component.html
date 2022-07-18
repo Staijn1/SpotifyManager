@@ -1,27 +1,39 @@
 <app-error [error]="error"></app-error>
 <div *ngIf="leftTracks && rightTracks" class="row">
   <div class="col-3">
+    <p>Changes of</p>
     <h1>{{leftPlaylist.name}}</h1>
-    <div *ngFor="let track of leftTracksNames;">
-      <div [innerHTML]="track"></div>
+    <div *ngFor="let diff of changesLeft; let i = index">
+      <ng-container
+        *ngTemplateOutlet="changeTemplate; context: {flip : false, change: diff, index: i} "></ng-container>
     </div>
   </div>
   <div class="col-3">
     <h1>Merged</h1>
-    <span *ngFor="let diff of differences;let i = index" [ngClass]="determineCSSClass(diff)">
-      <span [innerHTML]="diff[1]"></span>
-    </span>
+    <div>Empty</div>
   </div>
   <div class="col-3">
+    <p>Changes of</p>
     <h1>{{rightPlaylist.name}}</h1>
-    <div *ngFor="let track of rightTracksNames;">
-      <div [innerHTML]="track"></div>
+    <div *ngFor="let diff of changesRight;let i = index" [ngClass]="determineCSSClass(diff)">
+      <ng-container
+        *ngTemplateOutlet="changeTemplate; context: {flip : false, change: diff, index: i} "></ng-container>
     </div>
   </div>
   <div class="col-3">
-    <div *ngFor="let diff of differences">
+    <div *ngFor="let diff of changesLeft">
       {{diff | json}}
     </div>
   </div>
 </div>
 <div [innerHTML]="html" *ngIf="html"></div>
+
+<ng-template #changeTemplate let-flip="flip" let-change="change" let-index="index">
+  <div [ngClass]="determineCSSClass(change)" class="d-flex">
+    <div class="line-number px-2 d-flex flex-column justify-content-center">{{index}}</div>
+    <div class="d-flex flex-column">
+      <div>{{change[1].track.name}}</div>
+      <div>({{change[1].track.id}})</div>
+    </div>
+  </div>
+</ng-template>
