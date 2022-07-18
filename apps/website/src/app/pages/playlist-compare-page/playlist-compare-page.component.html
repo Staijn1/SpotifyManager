@@ -1,15 +1,27 @@
 <app-error [error]="error"></app-error>
 <div *ngIf="leftTracks && rightTracks" class="row">
-  <pre class="col">
-    {{leftTracksNames | json}}
-  </pre>
-  <div class="col">
-    <div *ngFor="let diff of difference">
+  <div class="col-3">
+    <h1>{{leftPlaylist.name}}</h1>
+    <div *ngFor="let track of leftTracksNames;">
+      <div [innerHTML]="track"></div>
+    </div>
+  </div>
+  <div class="col-3">
+    <h1>Merged</h1>
+    <span *ngFor="let diff of differences;let i = index" [ngClass]="determineCSSClass(diff)">
+      <span [innerHTML]="diff[1]"></span>
+    </span>
+  </div>
+  <div class="col-3">
+    <h1>{{rightPlaylist.name}}</h1>
+    <div *ngFor="let track of rightTracksNames;">
+      <div [innerHTML]="track"></div>
+    </div>
+  </div>
+  <div class="col-3">
+    <div *ngFor="let diff of differences">
       {{diff | json}}
     </div>
   </div>
-  <pre class="col">
-    {{rightTracksNames | json}}
-  </pre>
 </div>
 <div [innerHTML]="html" *ngIf="html"></div>

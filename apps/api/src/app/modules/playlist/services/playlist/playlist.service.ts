@@ -75,4 +75,13 @@ export class PlaylistService {
 
     return playlists
   }
+
+  /**
+   * Get a single playlist by id.
+   * @param {string} playlistid
+   * @returns {Promise<SpotifyApi.SinglePlaylistResponse>}
+   */
+  async getPlaylist(playlistid: string): Promise<SpotifyApi.SinglePlaylistResponse> {
+    return this.spotifyService.getPlaylistInformation(playlistid)
+  }
 }
