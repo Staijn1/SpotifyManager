@@ -106,4 +106,21 @@ export class SpotifyService {
     }
     return response.data;
   }
+
+  /**
+   * Get the access token
+   * @returns {string}
+   */
+  getAccessToken(): string {
+    return this._spotifyApi.getAccessToken()
+  }
+
+  /**
+   * Get the current signed in user
+   * @returns {Promise<SpotifyApi.CurrentUsersProfileResponse>}
+   */
+  async getMe(): Promise<SpotifyApi.CurrentUsersProfileResponse> {
+    const response = await this._spotifyApi.getMe();
+    return response.body
+  }
 }

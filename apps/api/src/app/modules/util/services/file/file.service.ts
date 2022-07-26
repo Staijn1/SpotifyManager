@@ -30,7 +30,9 @@ export class FileService {
    * @param {string[]} subdirectory
    */
   writeFile(fileName: string, data: string, subdirectory: string[] = []): string {
-    const filePath = path.join(this.rootPath, ...subdirectory, fileName);
+    const dirPath = path.join(this.rootPath, ...subdirectory);
+    this.createDirectoryIfNotExists(dirPath)
+    const filePath = path.join(dirPath, fileName)
     fs.writeFileSync(filePath, data);
     return filePath;
   }
