@@ -1,5 +1,6 @@
 import {Injectable} from '@nestjs/common';
 import {SpotifyService} from '../../../../spotify/spotify.service';
+import {PlaylistFileService} from '../playlist-file-service/playlist-file.service';
 
 @Injectable()
 export class PlaylistService {
@@ -7,7 +8,7 @@ export class PlaylistService {
    * Inject dependencies
    * @param {SpotifyService} spotifyService
    */
-  constructor(private readonly spotifyService: SpotifyService) {
+  constructor(private readonly spotifyService: SpotifyService, private readonly fileService: PlaylistFileService) {
   }
 
   /**
@@ -37,26 +38,29 @@ export class PlaylistService {
    * @returns {string}
    */
   public async forkPlaylist(playlistid: string): Promise<SpotifyApi.CreatePlaylistResponse> {
-    const playlist = await this.spotifyService.getPlaylistInformation(playlistid);
+    const originalPlaylist = await this.spotifyService.getPlaylistInformation(playlistid);
+    originalPlaylist.tracks.items = []
 
-    const newPlaylistName = `Fork - ${playlist.name}`;
+    const newPlaylistName = `Fork - ${originalPlaylist.name}`;
     const newPlaylist = await this.spotifyService.createPlaylist(newPlaylistName,
       {
-        description: `This playlist has been forked using SpotifyManager. Please do not remove the original playlist id from the description. Original playlist: {${playlist.id}}`
+        description: `This playlist has been forked using SpotifyManager. Please do not remove the original playlist id from the description. Original playlist: {${originalPlaylist.id}}`
       });
 
-    // The spotify api returns the tracks in the playlist but it limits the number of tracks to 100.
+    // The spotify api returns the tracks in the originalPlaylist but it limits the number of tracks to 100.
     // So we need to get the tracks in chunks of 100.
-    const amountOfChunks = Math.ceil(playlist.tracks.total / 100);
+    const amountOfChunks = Math.ceil(originalPlaylist.tracks.total / 100);
 
     for (let i = 0; i < amountOfChunks; i++) {
       const options = {
         offset: i * 100,
       };
       const tracks = await this.spotifyService.getTracksInPlaylist(playlistid, options);
-
+      originalPlaylist.tracks.items = originalPlaylist.tracks.items.concat(tracks.items)
       await this.spotifyService.addTracksToPlaylist(newPlaylist.id, tracks.items.map(track => track.track.uri));
     }
+
+    // We need to save the state of the original pla
     return newPlaylist
   }
 
