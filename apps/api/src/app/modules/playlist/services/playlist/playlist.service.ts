@@ -38,6 +38,7 @@ export class PlaylistService {
    * @returns {string}
    */
   public async forkPlaylist(playlistid: string): Promise<SpotifyApi.CreatePlaylistResponse> {
+    const me = await this.spotifyService.getMe();
     const originalPlaylist = await this.spotifyService.getPlaylistInformation(playlistid);
     originalPlaylist.tracks.items = []
 
@@ -60,6 +61,7 @@ export class PlaylistService {
       await this.spotifyService.addTracksToPlaylist(newPlaylist.id, tracks.items.map(track => track.track.uri));
     }
 
+    this.fileService.writePlaylist(originalPlaylist, me.id)
     // We need to save the state of the original pla
     return newPlaylist
   }
