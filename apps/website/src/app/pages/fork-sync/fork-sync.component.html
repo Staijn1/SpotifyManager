@@ -8,10 +8,16 @@
     song in the original what you would like to do: add it (back) or not</p>
 
   <app-playlist-overview [playlists]="playlists" (actionClick)="onActionClick($event)">
-    <ng-template #action><button type="button" class="btn btn-primary">Synchronize</button></ng-template>
+    <ng-template #action>
+      <button type="button" class="btn btn-primary">Synchronize</button>
+    </ng-template>
   </app-playlist-overview>
 
   <div class="d-flex justify-content-center">
     <fa-icon *ngIf="isLoading" [icon]="loading" [spin]="true" size="lg"></fa-icon>
   </div>
 </section>
+
+<app-modal>
+  <div body>Test</div>
+</app-modal>

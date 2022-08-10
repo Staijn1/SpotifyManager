@@ -1,6 +1,7 @@
 import {Controller, Get, Param} from '@nestjs/common';
 import {PlaylistService} from '../../services/playlist/playlist.service';
 import {ApiBearerAuth, ApiParam} from '@nestjs/swagger';
+import {ForkedPlaylistInformation} from '@spotify/data';
 
 @ApiBearerAuth()
 @Controller('playlists')
@@ -64,5 +65,23 @@ export class PlaylistController {
   })
   public async getPlaylist(@Param() params): Promise<SpotifyApi.SinglePlaylistResponse> {
     return this.playlistService.getPlaylist(params.playlistid);
+  }
+
+
+  /**
+   * Get the different versions available for the original playlist. These versions are created when the original playlists gets copied more than once
+   * Each time a version is created, the user will have to choose which version to compare the forked playlist with when syncing.
+   * @param params
+   * @returns {Promise<ForkedPlaylistInformation>}
+   */
+  @Get('forks/:playlistid/versions')
+  @ApiParam({
+    name: 'playlistid',
+    required: true,
+    description: 'The ID of the original playlist',
+    schema: {oneOf: [{type: 'string'}], example: '6vDGVr652ztNWKZuHvsFvx'}
+  })
+  public async getVersionsOfOriginalPlaylist(@Param() params): Promise<ForkedPlaylistInformation[]> {
+    return this.playlistService.getVersionsOfOriginalPlaylist(params.playlistid)
   }
 }

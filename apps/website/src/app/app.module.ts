@@ -19,6 +19,7 @@ import { InnerPageComponent } from './main/inner-page/inner-page.component';
 import { ForkComponent } from './pages/fork/fork.component';
 import { PlaylistOverviewComponent } from './components/playlist-overview/playlist-overview.component';
 import { PlaylistComparePageComponent } from './pages/playlist-compare-page/playlist-compare-page.component';
+import { ModalComponent } from './components/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { PlaylistComparePageComponent } from './pages/playlist-compare-page/play
     ForkComponent,
     PlaylistOverviewComponent,
     PlaylistComparePageComponent,
+    ModalComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FontAwesomeModule, FormsModule],
   providers: [],

@@ -1,6 +1,7 @@
 import {Injectable} from '@nestjs/common';
 import {SpotifyService} from '../../../../spotify/spotify.service';
 import {PlaylistFileService} from '../playlist-file-service/playlist-file.service';
+import {ForkedPlaylistInformation} from '@spotify/data';
 
 @Injectable()
 export class PlaylistService {
@@ -89,5 +90,15 @@ export class PlaylistService {
    */
   async getPlaylist(playlistid: string): Promise<SpotifyApi.SinglePlaylistResponse> {
     return this.spotifyService.getPlaylistInformation(playlistid)
+  }
+
+  /**
+   * A user can copy a playlist more than once. Get all the versions of the original playlist
+   * @param {string} playlistid
+   * @returns {Promise<ForkedPlaylistInformation>}
+   */
+  async getVersionsOfOriginalPlaylist(playlistid: string): Promise<ForkedPlaylistInformation[]> {
+    const me = await this.spotifyService.getMe();
+    return this.fileService.getOriginalVersionsForPlaylist(playlistid, me.id)
   }
 }
