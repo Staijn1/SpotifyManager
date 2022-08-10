@@ -19,6 +19,7 @@ export class ForkSyncComponent implements OnInit {
   isLoading = false;
   readonly originalIdRegex = /\{([^}]+)\}/g;
   error: CustomError | undefined;
+  versions: ForkedPlaylistInformation[] = [];
 
   /**
    * Inject the spotify API
@@ -51,8 +52,9 @@ export class ForkSyncComponent implements OnInit {
     const fullOrignalId = playlist.description?.match(this.originalIdRegex) as string[];
     const originalId = fullOrignalId[0].replace('{', '').replace('}', '');
     this.apiService.getForkedPlaylistInformation(originalId).then(data => {
+      this.versions = data;
       if (data.length > 1) {
-        this.openPopup(data, playlist);
+        this.openPopup();
       } else {
         this.startComparingPlaylist(originalId, playlist)
       }
@@ -64,7 +66,7 @@ export class ForkSyncComponent implements OnInit {
    * @param {ForkedPlaylistInformation[]} data
    * @private
    */
-  private openPopup(data: ForkedPlaylistInformation[], playlist: SpotifyApi.PlaylistObjectSimplified) {
+  private openPopup() {
     this.modal.open()
   }
 

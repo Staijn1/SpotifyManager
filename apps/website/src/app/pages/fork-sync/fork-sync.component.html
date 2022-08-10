@@ -19,5 +19,15 @@
 </section>
 
 <app-modal>
-  <div body>Test</div>
+  <div body>
+    <p>
+      We've detected you have forked the same playlist more than once. The lists below shows the dates where a copy of
+      the original playlist was created. <br>
+      Please pick one of the dates, we will compare the current <b>original</b> and the current <b>fork</b> to this
+      version of the original playlist.
+    </p>
+    <ul class="list-group" *ngIf="versions">
+      <li class="list-group-item" *ngFor="let version of versions">{{version.createdOn * 1000 | date :'dd-MM-yyyy hh:mm:ss'}}</li>
+    </ul>
+  </div>
 </app-modal>
