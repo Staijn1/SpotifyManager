@@ -20,6 +20,8 @@ export class ForkSyncComponent implements OnInit {
   readonly originalIdRegex = /\{([^}]+)\}/g;
   error: CustomError | undefined;
   versions: ForkedPlaylistInformation[] = [];
+  private selectedPlaylist: SpotifyApi.PlaylistObjectSimplified | undefined;
+  private originalPlaylistId: string | undefined;
 
   /**
    * Inject the spotify API
@@ -48,15 +50,16 @@ export class ForkSyncComponent implements OnInit {
    * @param {SpotifyApi.PlaylistObjectSimplified} playlist
    */
   onActionClick(playlist: SpotifyApi.PlaylistObjectSimplified) {
+    this.selectedPlaylist = playlist;
     //Extract the ID of the original playlist
     const fullOrignalId = playlist.description?.match(this.originalIdRegex) as string[];
-    const originalId = fullOrignalId[0].replace('{', '').replace('}', '');
-    this.apiService.getForkedPlaylistInformation(originalId).then(data => {
+    this.originalPlaylistId = fullOrignalId[0].replace('{', '').replace('}', '');
+    this.apiService.getForkedPlaylistInformation(this.originalPlaylistId).then(data => {
       this.versions = data;
       if (data.length > 1) {
         this.openPopup();
       } else {
-        this.startComparingPlaylist(originalId, playlist)
+        this.startComparingPlaylist()
       }
     })
   }
@@ -71,12 +74,17 @@ export class ForkSyncComponent implements OnInit {
   }
 
   /**
-   * Navigate to the compare page
-   * @param {string} originalId
+   * Navigate to the compare page, passing the forked playlist. Optionally, a timestamp is passed of a specific version of the original playlist
    * @param {SpotifyApi.PlaylistObjectSimplified} playlist
-   * @private
+   * @param {number} versionTimestamp
    */
-  private startComparingPlaylist(originalId: string, playlist: SpotifyApi.PlaylistObjectSimplified) {
-    this.router.navigate(['playlists/compare', originalId, playlist.id]);
+  startComparingPlaylist(versionTimestamp?: number) {
+    this.router.navigate(['playlists/compare'], {
+      state: {
+        forkedPlaylist: this.selectedPlaylist,
+        originalPlaylistId: this.originalPlaylistId,
+        versionTimestamp: versionTimestamp
+      }
+    });
   }
 }

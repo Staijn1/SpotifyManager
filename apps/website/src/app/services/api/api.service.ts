@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HTTPService} from '../http/http-service.service';
 import {environment} from '../../../environments/environment';
 import {SpotifyAuthenticationService} from '../spotifyAuthentication/spotify-authentication.service';
-import {ForkedPlaylistInformation} from '@spotify/data';
+import {Diff, ForkedPlaylistInformation} from '@spotify/data';
 
 @Injectable({
   providedIn: 'root'
@@ -63,5 +63,22 @@ export class ApiService extends HTTPService {
   async getForkedPlaylistInformation(playlistid: string): Promise<ForkedPlaylistInformation[]> {
     const token = await this.spotifyAuth.refreshAccessToken();
     return this.request(`${environment.url}/playlists/forks/${playlistid}/versions/?accessToken=${token}`, {method: 'GET'})
+  }
+
+  /**
+   * Compare a fork to it's original playlist. The versiontimestamp is optional, when a playlist is only forked once this is not needed.
+   * When a playlist is forked multiple times, this timestamp equals the timestamp of a specific fork date. This version will be used to compare
+   * @param {string} leftPlaylistId
+   * @param {number} versionTimestamp
+   */
+  async comparePlaylists(leftPlaylistId: string, versionTimestamp?: number): Promise<Diff> {
+    const token = await this.spotifyAuth.refreshAccessToken()
+    return this.request(`${environment.url}/playlists/compare?accessToken=${token}`, {
+      method: 'POST',
+      body: JSON.stringify({
+        leftPlaylistId: leftPlaylistId,
+        versionTimestamp: versionTimestamp
+      })
+    })
   }
 }
