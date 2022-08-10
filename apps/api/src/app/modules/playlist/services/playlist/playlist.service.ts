@@ -1,7 +1,7 @@
-import {Injectable} from '@nestjs/common';
+import {HttpException, Injectable} from '@nestjs/common';
 import {SpotifyService} from '../../../../spotify/spotify.service';
 import {PlaylistFileService} from '../playlist-file-service/playlist-file.service';
-import {ForkedPlaylistInformation} from '@spotify/data';
+import {Diff, ForkedPlaylistInformation} from '@spotify/data';
 
 @Injectable()
 export class PlaylistService {
@@ -100,5 +100,30 @@ export class PlaylistService {
   async getVersionsOfOriginalPlaylist(playlistid: string): Promise<ForkedPlaylistInformation[]> {
     const me = await this.spotifyService.getMe();
     return this.fileService.getOriginalVersionsForPlaylist(playlistid, me.id)
+  }
+
+  /**
+   * Compare a playlist to a version of the original playlist (forks)
+   * @param {string} playlistid
+   * @param {string} originalPlaylistid
+   * @param {number} versionTimestamp
+   * @returns {Promise<Diff[]>}
+   */
+  async comparePlaylist(playlistid: string, originalPlaylistid: string, versionTimestamp?: number): Promise<Diff[]> {
+    const me = await this.spotifyService.getMe()
+    const versionInformation = await this.fileService.getOriginalVersionsForPlaylist(originalPlaylistid, me.id);
+
+    if (versionInformation.length == 0) {
+      throw new HttpException('Currently comparing playlists to other playlists, which have not been forked, is not supported.', 501)
+    }
+
+    if (versionInformation.length > 1 && !versionTimestamp) {
+      throw new HttpException('Please specify a version of the original playlist to compare to. This should be the timestamp of which this version was created', 400)
+    }
+
+    const fileOfOriginalPlaylist = versionInformation.length == 1 ? `${versionInformation[0].createdOn}-${versionInformation[0].id}` : `${versionTimestamp}-${originalPlaylistid}`
+    const originalPlaylist = this.fileService.readPlaylist(fileOfOriginalPlaylist, me.id)
+    console.log(originalPlaylist)
+    return []
   }
 }

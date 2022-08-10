@@ -1,7 +1,7 @@
-import {Controller, Get, Param} from '@nestjs/common';
+import {Body, Controller, Get, Param, Post} from '@nestjs/common';
 import {PlaylistService} from '../../services/playlist/playlist.service';
 import {ApiBearerAuth, ApiParam} from '@nestjs/swagger';
-import {ForkedPlaylistInformation} from '@spotify/data';
+import {Diff, ForkedPlaylistInformation, PlaylistCompareRequest} from '@spotify/data';
 
 @ApiBearerAuth()
 @Controller('playlists')
@@ -83,5 +83,15 @@ export class PlaylistController {
   })
   public async getVersionsOfOriginalPlaylist(@Param() params): Promise<ForkedPlaylistInformation[]> {
     return this.playlistService.getVersionsOfOriginalPlaylist(params.playlistid)
+  }
+
+  /**
+   * Compare a playlist to another one and return the diff.
+   * @param {PlaylistCompareRequest} body
+   * @returns {Promise<Diff[]>}
+   */
+  @Post('compare')
+  public async compare(@Body() body: PlaylistCompareRequest): Promise<Diff[]> {
+    return this.playlistService.comparePlaylist(body.leftPlaylistId, body.rightPlaylistId, body.versionTimestamp)
   }
 }

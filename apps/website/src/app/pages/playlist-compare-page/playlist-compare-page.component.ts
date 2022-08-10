@@ -114,7 +114,7 @@ export class PlaylistComparePageComponent {
    * @private
    */
   private compareForkedPlaylistToOriginal(): void {
-    this.apiService.comparePlaylists(this.forkedPlaylistBasic?.id as string, this.versionTimestamp).then(compareResult => {
+    this.apiService.comparePlaylists(this.forkedPlaylistBasic?.id as string, this.originalPlaylistId as string, this.versionTimestamp).then(compareResult => {
       console.log(compareResult)
     })
   }

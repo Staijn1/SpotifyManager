@@ -71,14 +71,16 @@ export class ApiService extends HTTPService {
    * @param {string} leftPlaylistId
    * @param {number} versionTimestamp
    */
-  async comparePlaylists(leftPlaylistId: string, versionTimestamp?: number): Promise<Diff> {
+  async comparePlaylists(leftPlaylistId: string, rightPlaylistId: string, versionTimestamp?: number): Promise<Diff> {
     const token = await this.spotifyAuth.refreshAccessToken()
     return this.request(`${environment.url}/playlists/compare?accessToken=${token}`, {
       method: 'POST',
       body: JSON.stringify({
         leftPlaylistId: leftPlaylistId,
+        rightPlaylistId: rightPlaylistId,
         versionTimestamp: versionTimestamp
-      })
+      }),
+      headers: {'Content-Type': 'application/json'}
     })
   }
 }
