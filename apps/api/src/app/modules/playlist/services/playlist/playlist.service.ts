@@ -63,7 +63,7 @@ export class PlaylistService {
     }
 
     this.fileService.writePlaylist(originalPlaylist, me.id)
-    // We need to save the state of the original pla
+    // We need to save the state of the original playlist
     return newPlaylist
   }
 
@@ -123,7 +123,41 @@ export class PlaylistService {
 
     const fileOfOriginalPlaylist = versionInformation.length == 1 ? `${versionInformation[0].createdOn}-${versionInformation[0].id}` : `${versionTimestamp}-${originalPlaylistid}`
     const originalPlaylist = this.fileService.readPlaylist(fileOfOriginalPlaylist, me.id)
-    console.log(originalPlaylist)
-    return []
+
+    const fullPlaylist = await this.getAllSongsInPlaylist(playlistid);
+    return this.calculateChanges(originalPlaylist.tracks.items, fullPlaylist.items)
+  }
+
+  /**
+   * Calculate the difference between two playlists.
+   * Returns a two dimensional array  with the tracks of the two playlists combined.
+   * The first element in the nested array is a -1 (track removed), 1 (track added) or 0 (track unchanged).
+   * Example: [[0, track], [-1, track], [1, track]]
+   * @param {SpotifyApi.SinglePlaylistResponse} primary
+   * @param {SpotifyApi.SinglePlaylistResponse} secondary
+   */
+  private calculateChanges(primary: SpotifyApi.PlaylistTrackObject[], secondary: SpotifyApi.PlaylistTrackObject[]): Diff[] {
+    // Calculate the changes between the two playlists.
+    // Do this by: Check if track is in both playlists. If so, it's a 0.
+    // If the track is only present in the primary playlist, it's a -1.
+    // If the track is only present in the secondary playlist, it's a 1.
+    const changes: Diff[] = [];
+    for (const track of primary) {
+      const index = secondary.findIndex(t => t.track.id == track.track.id);
+      if (index == -1) {
+        changes.push([-1, track]);
+      } else {
+        changes.push([0, track]);
+      }
+    }
+
+    for (const track of secondary) {
+      const index = primary.findIndex(t => t.track.id == track.track.id);
+      if (index == -1) {
+        changes.push([1, track]);
+      }
+    }
+
+    return changes;
   }
 }
