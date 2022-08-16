@@ -1,2 +1,2 @@
-export type Diff = [Change, SpotifyApi.PlaylistTrackObject];
-type Change = 0 | 1 | -1;
+export type Diff = [DiffIdentifier, SpotifyApi.PlaylistTrackObject];
+export type DiffIdentifier = 0 | 1 | -1;

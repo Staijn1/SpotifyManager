@@ -71,7 +71,7 @@ export class ApiService extends HTTPService {
    * @param {string} leftPlaylistId
    * @param {number} versionTimestamp
    */
-  async comparePlaylists(leftPlaylistId: string, rightPlaylistId: string, versionTimestamp?: number): Promise<Diff> {
+  async comparePlaylists(leftPlaylistId: string, rightPlaylistId: string, versionTimestamp?: number): Promise<Diff[]> {
     const token = await this.spotifyAuth.refreshAccessToken()
     return this.request(`${environment.url}/playlists/compare?accessToken=${token}`, {
       method: 'POST',

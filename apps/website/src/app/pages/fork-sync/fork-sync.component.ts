@@ -85,6 +85,6 @@ export class ForkSyncComponent implements OnInit {
         originalPlaylistId: this.originalPlaylistId,
         versionTimestamp: versionTimestamp
       }
-    });
+    }).then(() => this.modal.close());
   }
 }

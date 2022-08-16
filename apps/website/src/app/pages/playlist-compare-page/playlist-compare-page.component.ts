@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {ActivatedRoute, Navigation, Router} from '@angular/router';
 import {CustomError} from '../../types/CustomError';
 import {ApiService} from '../../services/api/api.service';
-import { Diff } from '@spotify/data';
+import {Diff} from '@spotify/data';
 
 @Component({
   selector: 'app-playlist-compare-page',
@@ -11,19 +11,12 @@ import { Diff } from '@spotify/data';
 })
 export class PlaylistComparePageComponent {
   error: CustomError | undefined;
-  rightTracks!: SpotifyApi.PlaylistTrackObject[];
-  leftTracks!: SpotifyApi.PlaylistTrackObject[];
-  html!: string;
-  changesLeft: Diff[] = [];
-  changesRight: Diff[] = [];
-  leftPlaylist!: SpotifyApi.SinglePlaylistResponse;
-  rightPlaylist!: SpotifyApi.SinglePlaylistResponse;
 
-  mergedTracks: SpotifyApi.PlaylistTrackObject[] = [];
   private forkedPlaylistBasic: SpotifyApi.PlaylistObjectSimplified | undefined;
   private originalPlaylistId: string | undefined;
   private versionTimestamp: number | undefined;
-
+  changesInFork: Diff[] = [];
+  changesInOriginal: Diff[]= [];
   /**
    * Inject dependencies and start the compare process
    * @param router
@@ -32,7 +25,10 @@ export class PlaylistComparePageComponent {
   constructor(private readonly router: Router, private apiService: ApiService) {
     const nav: Navigation | null = this.router.getCurrentNavigation();
 
-    if (!nav) return;
+    if (!nav) {
+      this.router.navigate(['/overview']);
+      return;
+    }
 
     if (nav.extras && nav.extras.state) {
       this.forkedPlaylistBasic = nav.extras.state['forkedPlaylist'];
@@ -40,6 +36,9 @@ export class PlaylistComparePageComponent {
       this.versionTimestamp = nav.extras.state['versionTimestamp'];
 
       this.compareForkedPlaylistToOriginal();
+    } else {
+      this.router.navigate(['/overview']);
+      return;
     }
   }
 
@@ -66,8 +65,11 @@ export class PlaylistComparePageComponent {
    * @private
    */
   private compareForkedPlaylistToOriginal(): void {
-    this.apiService.comparePlaylists(this.forkedPlaylistBasic?.id as string, this.originalPlaylistId as string, this.versionTimestamp).then(compareResult => {
-      console.log(compareResult)
+    this.apiService.comparePlaylists(this.forkedPlaylistBasic?.id as string, this.originalPlaylistId as string, this.versionTimestamp).then(changesFork => {
+      this.changesInFork = changesFork;
+      return this.apiService.comparePlaylists(this.originalPlaylistId as string, this.originalPlaylistId as string, this.versionTimestamp)
+    }).then(changesOriginal => {
+      this.changesInOriginal = changesOriginal;
     })
   }
 }
