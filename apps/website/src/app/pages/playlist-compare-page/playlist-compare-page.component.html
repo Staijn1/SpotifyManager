@@ -1,41 +1,48 @@
 <app-error [error]="error"></app-error>
-<div *ngIf="changesInFork && changesInOriginal" class="row">
-  <div class="col px-0">
-    <p>Changes of</p>
-    <h1>Original</h1>
-    <div *ngFor="let diff of changesInOriginal; let i = index">
+<div class="container-fluid">
+  <div *ngIf="changesInFork && changesInOriginal" class="row">
+    <div class="col">
+      <p>Changes of</p>
+      <h1>Original</h1>
       <ng-container
-        *ngTemplateOutlet="changeTemplate; context: {flip : false, change: diff, index: i} "></ng-container>
+        *ngTemplateOutlet="changeTemplate; context: {direction: 'right', changes: changesInOriginal} "></ng-container>
+    </div>
+    <div class="col">
+      <p>Changes of</p>
+      <h1>Merged</h1>
+      <ng-container
+        *ngTemplateOutlet="changeTemplate; context: {changes: mergedChanges} "></ng-container>
+    </div>
+    <div class="col">
+      <p>Changes of</p>
+      <h1>Fork</h1>
+
+      <ng-container
+        *ngTemplateOutlet="changeTemplate; context: {direction: 'left', changes: changesInFork} "></ng-container>
     </div>
   </div>
-  <div class="col px-0">
-    <p>Changes of</p>
-    <h1>Merged</h1>
-    <!--<div *ngFor="let track of mergedTracks;let i = index" class="d-flex">
-      <div class="line-number px-2 d-flex flex-column justify-content-center">{{i}}</div>
-      <div class="d-flex flex-column">
-        <div>{{track.track.name}}</div>
-        <div>({{track.track.id}})</div>
+
+  <ng-template #changeTemplate let-direction="direction" let-changes="changes">
+    <div>
+      <div
+        *ngFor="let diff of changes; let i = index"
+        class="row track-diff"
+        [class.flex-row-reverse]="direction === 'right'">
+        <div class="col-1 d-flex">
+          <div class="line-number">
+            {{i}}
+          </div>
+          <div class="actions d-flex" *ngIf="diff[0] !== 0 && direction">
+            <fa-icon [icon]="determineAddBackIcon(direction)"></fa-icon>
+            <fa-icon *ngIf="diff[0] === -1" [icon]="keepRemovedIcon"></fa-icon>
+          </div>
+        </div>
+        <div
+          [ngClass]="determineCSSClass(diff)"
+          class="col"
+        >
+          {{diff[1].track.name}}</div>
       </div>
-
-    </div>-->
-  </div>
-  <div class="col px-0">
-    <p>Changes of</p>
-    <h1>Fork</h1>
-    <div *ngFor="let diff of changesInFork;let i = index">
-      <ng-container
-        *ngTemplateOutlet="changeTemplate; context: {flip : false, change: diff, index: i} "></ng-container>
     </div>
-  </div>
+  </ng-template>
 </div>
-
-<ng-template #changeTemplate let-flip="flip" let-change="change" let-index="index">
-  <div [ngClass]="determineCSSClass(change)" class="d-flex justify-content-between">
-    <div class="d-flex flex-column">
-      <div>{{change[1].track.name}}</div>
-      <div>({{change[1].track.id}})</div>
-    </div>
-    <div class="line-number px-2 d-flex flex-column justify-content-center">{{index}}</div>
-  </div>
-</ng-template>
