@@ -99,7 +99,7 @@ export class SpotifyAuthenticationService extends HTTPService {
     await this.createAccessToken({
       grant_type: 'authorization_code',
       code: params.get('code') as string,
-      redirect_uri: `${location.origin}/callback`,
+      redirect_uri: this.REDIRECT_URI,
       code_verifier: codeVerifier,
     });
   }
