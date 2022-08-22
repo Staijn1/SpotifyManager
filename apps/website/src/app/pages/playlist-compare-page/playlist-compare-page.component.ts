@@ -74,15 +74,15 @@ export class PlaylistComparePageComponent {
    * @private
    */
   private compareForkedPlaylistToOriginal(): void {
-    this.changesInFork = createMockForkDiff()
-    this.changesInOriginal = createMockOriginalDiff()
-    /*this.apiService.comparePlaylists(this.forkedPlaylistBasic?.id as string, this.originalPlaylistId as string, this.versionTimestamp).then(changesFork => {
+    // this.changesInFork = createMockForkDiff()
+    // this.changesInOriginal = createMockOriginalDiff()
+    this.apiService.comparePlaylists(this.forkedPlaylistBasic?.id as string, this.originalPlaylistId as string, this.versionTimestamp).then(changesFork => {
       this.changesInFork = changesFork;
       return this.apiService.comparePlaylists(this.originalPlaylistId as string, this.originalPlaylistId as string, this.versionTimestamp)
     }).then(changesOriginal => {
       this.changesInOriginal = changesOriginal;
-    })*/
-    this.mergeChanges(this.changesInOriginal, this.changesInFork);
+      this.mergeChanges(this.changesInOriginal, this.changesInFork);
+    })
   }
 
   /**
