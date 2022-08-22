@@ -8,6 +8,7 @@ export class PlaylistService {
   /**
    * Inject dependencies
    * @param {SpotifyService} spotifyService
+   * @param fileService
    */
   constructor(private readonly spotifyService: SpotifyService, private readonly fileService: PlaylistFileService) {
   }
@@ -159,5 +160,19 @@ export class PlaylistService {
     }
 
     return changes;
+  }
+
+  /**
+   * Remove all the songs in the given playlist and put the given tracks in the playlist.
+   * @param {string} playlistId
+   * @param {(SpotifyApi.TrackObjectFull | SpotifyApi.EpisodeObjectFull)[]} tracks
+   */
+  async syncPlaylist(playlistId: string, tracks: (SpotifyApi.TrackObjectFull | SpotifyApi.EpisodeObjectFull)[]) {
+    // Get all tracks in the playlist.
+    const tracksInPlaylist = await this.getAllSongsInPlaylist(playlistId);
+
+    // Remove all the tracks in the playlist.
+    await this.spotifyService.removeTracksFromPlaylist(playlistId, tracksInPlaylist.items.map(track => track.track));
+    await this.spotifyService.addTracksToPlaylist(playlistId, tracks.map(track => track.uri));
   }
 }

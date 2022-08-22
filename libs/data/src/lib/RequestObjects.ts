@@ -18,3 +18,17 @@ export class PlaylistCompareRequest {
   })
   versionTimestamp?: number;
 }
+
+export class PlaylistSyncRequest {
+  @ApiProperty({
+    type: 'string',
+    required: true
+  })
+  playlistId: string | undefined;
+
+  @ApiProperty({
+    type: 'string',
+    required: true
+  })
+  tracks: (SpotifyApi.TrackObjectFull | SpotifyApi.EpisodeObjectFull)[] = [];
+}

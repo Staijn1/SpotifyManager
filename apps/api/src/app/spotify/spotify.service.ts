@@ -123,4 +123,37 @@ export class SpotifyService {
     const response = await this._spotifyApi.getMe();
     return response.body
   }
+
+  /**
+   * Remove the given tracks from the given playlist
+   * @param {string} playlistId
+   * @param {{uri: string}[]} trackURIs
+   * @returns {Promise<Response<SpotifyApi.RemoveTracksFromPlaylistResponse>>}
+   */
+  async removeTracksFromPlaylist(playlistId: string, trackURIs: { uri: string }[]) {
+    // The spotify api only allows 100 tracks to be removed at a time
+    // So we need to split the tracks into chunks of 100 and remove them one by one
+    const chunks = this.splitArrayInChunks(trackURIs, 100);
+    for (const chunk of chunks) {
+      await this._spotifyApi.removeTracksFromPlaylist(playlistId, chunk.map(track => {
+        return {uri: track.uri}
+      }));
+    }
+  }
+
+  /**
+   * Split an array into chunks of a given size
+   * @param {any[]} array
+   * @param {number} chunkSize
+   * @returns {any[]}
+   * @private
+   */
+  private splitArrayInChunks(array: any[], chunkSize: number): any[][] {
+    const chunks = [];
+    let i = 0;
+    while (i < array.length) {
+      chunks.push(array.slice(i, i += chunkSize));
+    }
+    return chunks;
+  }
 }

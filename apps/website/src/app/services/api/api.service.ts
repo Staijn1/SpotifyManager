@@ -95,7 +95,7 @@ export class ApiService extends HTTPService {
     return this.request(`${environment.url}/playlists/sync?accessToken=${token}`, {
       method: 'POST',
       body: JSON.stringify({
-        playlistid: playlistID,
+        playlistId: playlistID,
         tracks: mergedTracks
       }),
       headers: {'Content-Type': 'application/json'}
