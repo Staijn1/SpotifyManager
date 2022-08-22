@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {SpotifyAuthenticationService} from '../../services/spotifyAuthentication/spotify-authentication.service';
 import {routes} from '../../app-routing.module';
+import {faBars} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-navbar',
@@ -9,7 +10,8 @@ import {routes} from '../../app-routing.module';
 })
 export class NavbarComponent {
   readonly routes = routes;
-
+  hamburgerIcon = faBars;
+  public isMenuCollapsed = true;
   /**
    * Inject dependencies
    * @param {SpotifyAuthenticationService} spotifyAuth

@@ -23,8 +23,12 @@
   filter;
   right: 0rem;
   top: -16rem !important;
-  ;
   backface-visibility: hidden;
   background-repeat: no-repeat;
   z-index: 0;
+}
+
+.promo-bg {
+  background: url(../../../assets/img/promo/promo-bg.png) no-repeat;
+  background-size: cover;
 }
