@@ -9,6 +9,7 @@ import {NestFactory} from '@nestjs/core';
 import {AppModule} from './app/app.module';
 import {DocumentBuilder, SwaggerModule} from '@nestjs/swagger';
 
+import {json, urlencoded} from 'express'
 
 /**
  * Bootstraps the application.
@@ -29,6 +30,9 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
+
+  app.use(json({ limit: '1mb' }));
+  app.use(urlencoded({ extended: true, limit: '1mb' }));
 
   const port = process.env.PORT || 3333;
   await app.listen(port);
