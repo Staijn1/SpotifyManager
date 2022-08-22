@@ -33,7 +33,7 @@ export class PlaylistComparePageComponent {
 
     // This page cannot be viewed without a redirect from another page, supplying the right parameters
     if (!nav) {
-      this.router.navigate(['/overview']);
+      this.router.navigate(['/account']);
       return;
     }
 
@@ -45,7 +45,7 @@ export class PlaylistComparePageComponent {
       this.compareForkedPlaylistToOriginal();
     } else {
       // This page cannot be viewed without a redirect from another page, supplying the right parameters
-      // this.router.navigate(['/overview']);
+      // this.router.navigate(['/account']);
       this.compareForkedPlaylistToOriginal()
       return;
     }

@@ -7,7 +7,6 @@ import {AppComponent} from './app.component';
 import {AccountComponent} from './pages/account/account.component';
 import {AuthorizeComponent} from './pages/authorize/authorize.component';
 import {LoginComponent} from './pages/login/login.component';
-import {OverviewComponent} from './pages/overview/overview.component';
 import {ForkSyncComponent} from './pages/fork-sync/fork-sync.component';
 import {ErrorComponent} from './components/error/error.component';
 import {HomeComponent} from './pages/home/home.component';
@@ -28,7 +27,6 @@ import {NgbCollapseModule, NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
     AuthorizeComponent,
     NavbarComponent,
     HomeComponent,
-    OverviewComponent,
     AccountComponent,
     ForkSyncComponent,
     PageNotFoundComponent,

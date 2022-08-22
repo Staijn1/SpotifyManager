@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {SpotifyAuthenticationService} from '../../services/spotifyAuthentication/spotify-authentication.service';
-import {routes} from '../../app-routing.module';
+import {ExtendedRoute, routes} from '../../app-routing.module';
 import {faBars} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -12,6 +12,7 @@ export class NavbarComponent {
   readonly routes = routes;
   hamburgerIcon = faBars;
   public isMenuCollapsed = true;
+
   /**
    * Inject dependencies
    * @param {SpotifyAuthenticationService} spotifyAuth
@@ -25,5 +26,17 @@ export class NavbarComponent {
    */
   isLoggedIn(): boolean {
     return this.spotifyAuth.isLoggedIn();
+  }
+
+  /**
+   * Determine if this route should be shown in the navigation bar
+   * @param {ExtendedRoute} route
+   */
+  shouldRouteBeShown(route: ExtendedRoute): boolean {
+    if (!route.isVisible) return false;
+
+    if (route.requiresLogin && !this.isLoggedIn()) return false;
+
+    return true;
   }
 }
