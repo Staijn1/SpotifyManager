@@ -1,25 +1,8 @@
-<!--Hero begin-->
-<div class="bg-dark">
-  <img class="img-fluid position-absolute end-0" src="assets/img/hero/hero-bg.png" alt=""/>
-  <section>
-    <div class="container">
-      <div class="row align-items-center py-lg-8 py-6">
-        <div class="col-lg-6 text-center text-lg-start">
-          <h1 class="text-white fs-5 fs-xl-6">Save time by building fast with Boldo Template</h1>
-          <p class="text-white py-lg-3 py-2">Funding handshake buyer business-to-business metrics iPad partnership.
-            First mover advantage innovator success deployment non-disclosure.</p>
-          <div class="d-sm-flex align-items-center gap-3">
-            <button class="btn btn-success text-black mb-3 w-75">Buy Template</button>
-            <button class="btn btn-outline-light mb-3 w-75">Explore</button>
-          </div>
-        </div>
-        <div class="col-lg-6 text-center text-lg-end mt-3 mt-lg-0"><img class="img-fluid"
-                                                                        src="assets/img/hero/hero-graphics.png" alt=""/>
-        </div>
-      </div>
-    </div>
-  </section>
-</div>
+<app-hero
+  title="Spotify Manager"
+  text="Add more functionality to your spotify account! I found Spotify was lacking some features, that's why this website was born. All features can be found below. You do not need additional accounts, and Spotify Premium is also not required. Get started below!">
+  <app-button icon="fas ArrowRight" [classes]="['btn-success', 'text-dark']" text="Get started" routerLink="/getstarted"></app-button>
+</app-hero>
 
 <section>
   <div class="container">

@@ -5,10 +5,10 @@ import {SpotifyAuthenticationService} from '../../services/spotifyAuthentication
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  templateUrl: './get-started.component.html',
+  styleUrls: ['./get-started.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class GetStartedComponent implements OnInit {
   spotify = faSpotify;
   authUrl!: string;
   isLoading = false;
