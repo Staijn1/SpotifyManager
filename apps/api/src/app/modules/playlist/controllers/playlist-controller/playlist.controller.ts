@@ -95,9 +95,12 @@ export class PlaylistController {
     return this.playlistService.comparePlaylist(body.leftPlaylistId, body.rightPlaylistId, body.versionTimestamp)
   }
 
+  /**
+   * Clear entire playlist and put given songs in it
+   * @param {PlaylistSyncRequest} body
+   */
   @Post('sync')
-  public async sync(@Body() body: PlaylistSyncRequest): Promise<void> {
-    console.log(body.playlistId)
+  public async putSongsInPlaylist(@Body() body: PlaylistSyncRequest): Promise<void> {
     return this.playlistService.syncPlaylist(body.playlistId, body.tracks)
   }
 }
