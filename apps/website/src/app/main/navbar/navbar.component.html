@@ -41,7 +41,7 @@
 </header>-->
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark" data-navbar-on-scroll="data-navbar-on-scroll">
   <div class="container">
-    <a class="navbar-brand" href="index.html">
+    <a class="navbar-brand" routerLink="">
       <img src="assets/img/Logo.png" alt=""/>
     </a>
     <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">
@@ -49,12 +49,25 @@
     </button>
     <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse navbarSupportedContent">
       <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
-        <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html">Home</a></li>
-        <li class="nav-item"><a class="nav-link" aria-current="page" href="about.html">About</a></li>
-        <li class="nav-item"><a class="nav-link" aria-current="page" href="blogs.html">Blogs</a></li>
-        <li class="nav-item mt-2 mt-lg-0">
-          <a class="nav-link btn btn-light text-black w-md-25 w-50 w-lg-100"
-             href="#">Log In</a></li>
+        <ng-template ngFor let-route [ngForOf]="routes">
+          <ng-container *ngIf="route.children; else noChildren">
+            <li class="nav-item" ngbDropdown>
+              <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button">
+                {{route.title}}
+              </a>
+              <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
+                <a ngbDropdownItem *ngFor="let child of route.children"  routerLink="{{route.path}}/{{child.path}}">{{child.title}}</a>
+              </div>
+            </li>
+          </ng-container>
+          <ng-template #noChildren>
+            <li class="nav-item" *ngIf="route.isVisible" routerLinkActive="active">
+              <a class="nav-link" [routerLink]="route.path">{{route.title}}</a>
+            </li>
+          </ng-template>
+        </ng-template>
+
+
       </ul>
     </div>
   </div>

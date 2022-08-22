@@ -19,7 +19,7 @@ import {ForkComponent} from './pages/fork/fork.component';
 import {PlaylistOverviewComponent} from './components/playlist-overview/playlist-overview.component';
 import {PlaylistComparePageComponent} from './pages/playlist-compare-page/playlist-compare-page.component';
 import {ModalComponent} from './components/modal/modal.component';
-import {NgbCollapseModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbCollapseModule, NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -40,7 +40,7 @@ import {NgbCollapseModule} from '@ng-bootstrap/ng-bootstrap';
     PlaylistComparePageComponent,
     ModalComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, FontAwesomeModule, FormsModule, NgbCollapseModule],
+  imports: [BrowserModule, AppRoutingModule, FontAwesomeModule, FormsModule, NgbCollapseModule, NgbDropdownModule],
   providers: [],
   bootstrap: [AppComponent],
 })
