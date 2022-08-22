@@ -3,7 +3,7 @@ import {FormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {AppRoutingModule} from './app-routing.module';
-import {AppComponent} from './app.component';
+import {AppComponent} from './main/app/app.component';
 import {AccountComponent} from './pages/account/account.component';
 import {AuthorizeComponent} from './pages/authorize/authorize.component';
 import {LoginComponent} from './pages/login/login.component';
