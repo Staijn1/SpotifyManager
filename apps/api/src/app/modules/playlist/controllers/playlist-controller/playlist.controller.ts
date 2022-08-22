@@ -100,7 +100,7 @@ export class PlaylistController {
    * @param {PlaylistSyncRequest} body
    */
   @Post('sync')
-  public async putSongsInPlaylist(@Body() body: PlaylistSyncRequest): Promise<void> {
+  public async syncForkWithOriginal(@Body() body: PlaylistSyncRequest): Promise<void> {
     return this.playlistService.syncPlaylist(body.playlistId, body.tracks)
   }
 }
