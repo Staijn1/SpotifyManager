@@ -149,4 +149,12 @@ export class PlaylistComparePageComponent {
   onKeepRemoved(diff: Diff) {
     diff[0] = 0;
   }
+
+  /**
+   * When user is done merging, this function is called
+   */
+  syncPlaylist(): void {
+    const mergedTracks = this.mergedChanges.map(d => d[1].track);
+    this.apiService.syncPlaylist(this.forkedPlaylistBasic?.id as string, mergedTracks).then().catch(e => this.error = e);
+  }
 }

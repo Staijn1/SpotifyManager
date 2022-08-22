@@ -83,4 +83,22 @@ export class ApiService extends HTTPService {
       headers: {'Content-Type': 'application/json'}
     })
   }
+
+  /**
+   * Make a request to the API to sync the playlist
+   * @param {string} playlistID
+   * @param {(SpotifyApi.TrackObjectFull | SpotifyApi.EpisodeObjectFull)[]} mergedTracks
+   * @returns {Promise<any>}
+   */
+  async syncPlaylist(playlistID: string, mergedTracks: (SpotifyApi.TrackObjectFull | SpotifyApi.EpisodeObjectFull)[]) {
+    const token = await this.spotifyAuth.refreshAccessToken()
+    return this.request(`${environment.url}/playlists/sync?accessToken=${token}`, {
+      method: 'POST',
+      body: JSON.stringify({
+        playlistid: playlistID,
+        tracks: mergedTracks
+      }),
+      headers: {'Content-Type': 'application/json'}
+    })
+  }
 }

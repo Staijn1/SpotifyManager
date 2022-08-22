@@ -1,4 +1,7 @@
 <app-error [error]="error"></app-error>
+<div class="d-flex my-2 justify-content-end">
+  <button class="btn btn-primary" (click)="syncPlaylist()">Sync!</button>
+</div>
 <div class="container-fluid">
   <div *ngIf="changesInFork && changesInOriginal" class="row">
     <div class="col">
