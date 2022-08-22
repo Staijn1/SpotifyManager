@@ -2,52 +2,85 @@
 <div class="d-flex my-2 justify-content-end">
   <button class="btn btn-primary" (click)="syncPlaylist()">Sync!</button>
 </div>
-<div class="container-fluid">
-  <div *ngIf="changesInFork && changesInOriginal" class="row">
+<div class="container-fluid" *ngIf="changesInFork && changesInOriginal">
+  <div class="row">
     <div class="col">
-      <p>Changes of</p>
-      <h1>Original</h1>
+      <h3>Current original playlist<br><small>vs</small><br> Old original playlist</h3>
+    </div>
+    <div class="col">
+      <h3>Merged result</h3>
+    </div>
+    <div class="col">
+      <h3>Current forked playlist<br><small>vs</small><br> Current original playlist</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
       <ng-container
         *ngTemplateOutlet="changeTemplate; context: {direction: 'right', changes: changesInOriginal} "></ng-container>
     </div>
     <div class="col">
-      <p>Changes of</p>
-      <h1>Merged</h1>
       <ng-container
         *ngTemplateOutlet="changeTemplate; context: {changes: mergedChanges} "></ng-container>
     </div>
     <div class="col">
-      <p>Changes of</p>
-      <h1>Fork</h1>
-
       <ng-container
         *ngTemplateOutlet="changeTemplate; context: {direction: 'left', changes: changesInFork} "></ng-container>
     </div>
   </div>
+</div>
 
-  <ng-template #changeTemplate let-direction="direction" let-changes="changes">
-    <div>
-      <div
-        *ngFor="let diff of changes; let i = index"
-        class="row track-diff"
-        [class.flex-row-reverse]="direction === 'right'">
-        <div class="col-1 d-flex">
-          <div class="line-number">
-            {{i + 1}}
-          </div>
-          <div class="actions d-flex" *ngIf="diff[0] !== 0 && direction">
-            <fa-icon [icon]="determineAddBackIcon(direction)" (click)="onAddBackAction(diff, i)"></fa-icon>
-            <fa-icon *ngIf="diff[0] === -1" [icon]="keepRemovedIcon" (click)="onKeepRemoved(diff)"></fa-icon>
-          </div>
+<ng-template #changeTemplate let-direction="direction" let-changes="changes">
+  <div>
+    <div
+      *ngFor="let diff of changes; let i = index"
+      class="card">
+      <div class="row g-0">
+        <div class="col-md-2">
+          <!-- The third image has the smallest resolution-->
+          <img [src]="diff[1].track.album.images[2].url" class="img-fluid rounded-start" alt="Album cover not found">
         </div>
-        <div
-          [ngClass]="determineCSSClass(diff)"
-          class="col border-bottom"
-        >
-          {{diff[1].track.name}}, {{diff[0]}}
-          <div> {{diff[1].track.id}}</div>
+        <div class="col-md-10">
+          <div class="card-body">
+            <h6 class="card-title">{{diff[1].track.name}}</h6>
+            <p class="card-text">
+              <small class="text-muted">
+                By:
+              </small></p>
+          </div>
         </div>
       </div>
     </div>
-  </ng-template>
+    <div
+      *ngFor="let diff of changes; let i = index"
+      class="row track-diff">
+      <div
+        class="col-1 px-1 d-flex actions-container align-items-center"
+        [class.flex-row-reverse]="direction === 'left'">
+        <div class="line-number">
+          {{i + 1 |number:'2.0'}}
+        </div>
+        <div class="actions d-flex" *ngIf="diff[0] !== 0 && direction">
+          <fa-icon [icon]="determineAddBackIcon(direction)" (click)="onAddBackAction(diff, i)"></fa-icon>
+          <fa-icon *ngIf="diff[0] === -1" [icon]="keepRemovedIcon" (click)="onKeepRemoved(diff)"></fa-icon>
+        </div>
+      </div>
+      <div
+        [ngClass]="determineCSSClass(diff)"
+        class="col border-bottom"
+      >
+        {{diff[1].track.name}}, {{diff[0]}}
+        <div> {{diff[1].track.id}}</div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<div class="card  mb-3" style="max-width: 18rem;">
+  <div class="card-header">Header</div>
+  <div class="card-body">
+    <h5 class="card-title">Primary card title</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+      content.</p>
+  </div>
 </div>
