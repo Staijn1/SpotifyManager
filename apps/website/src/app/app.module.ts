@@ -24,6 +24,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { HeroComponent } from './components/hero/hero.component';
 import { ButtonComponent } from './components/button/button.component';
+import { IllustrationCardComponent } from './components/illustration-card/illustration-card.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { ButtonComponent } from './components/button/button.component';
     ModalComponent,
     HeroComponent,
     ButtonComponent,
+    IllustrationCardComponent,
   ],
   imports: [
     BrowserModule,
