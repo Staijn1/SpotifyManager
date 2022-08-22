@@ -65,7 +65,7 @@
             <p>{{formatGenres(artist.genres)}}</p>
           </div>
           <div class="d-flex align-items-center">
-            <a [href]="artist.external_urls.spotify" target="_blank" class="details-link mr-3" title="Go to Spotify">
+            <a [href]="artist.external_urls.spotify" target="_blank" class="details-link me-3" title="Go to Spotify">
               <fa-icon [icon]="spotify" size="lg"></fa-icon>
             </a>
             <h1 class="text-white">{{indexOfArtist + 1}}</h1>
@@ -82,7 +82,7 @@
             <p>Popularity: {{track.popularity}}</p>
           </div>
           <div class="d-flex align-items-center">
-            <a [href]="track.external_urls.spotify" target="_blank" class="details-link mr-3" title="Go to Spotify">
+            <a [href]="track.external_urls.spotify" target="_blank" class="details-link me-3" title="Go to Spotify">
               <fa-icon [icon]="spotify" size="lg"></fa-icon>
             </a>
             <h1 class="text-white">{{indexOfTrack + 1}}</h1>
