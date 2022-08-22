@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {Route, RouterModule} from '@angular/router';
 import {AccountComponent} from './pages/account/account.component';
 import {AuthorizeComponent} from './pages/authorize/authorize.component';
-import {GetStartedComponent} from './pages/login/get-started.component';
+import {GetStartedComponent} from './pages/get-started/get-started.component';
 import {ForkSyncComponent} from './pages/fork-sync/fork-sync.component';
 import {HomeComponent} from './pages/home/home.component';
 import {PageNotFoundComponent} from './pages/page-not-found/page-not-found.component';

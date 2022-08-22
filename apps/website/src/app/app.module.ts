@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './main/app/app.component';
 import { AccountComponent } from './pages/account/account.component';
 import { AuthorizeComponent } from './pages/authorize/authorize.component';
-import { GetStartedComponent } from './pages/login/get-started.component';
+import { GetStartedComponent } from './pages/get-started/get-started.component';
 import { ForkSyncComponent } from './pages/fork-sync/fork-sync.component';
 import { ErrorComponent } from './components/error/error.component';
 import { HomeComponent } from './pages/home/home.component';

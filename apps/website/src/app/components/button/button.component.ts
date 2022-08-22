@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
 import {fas} from '@fortawesome/free-solid-svg-icons';
 import {far} from '@fortawesome/free-regular-svg-icons';
+import {fab} from '@fortawesome/free-brands-svg-icons';
 
 @Component({
   selector: 'app-button',
@@ -38,17 +39,23 @@ export class ButtonComponent implements OnInit {
         console.error('icon must contain 2 parameters. Example: far PlusSquare');
         this.faIcon = fas['faQuestion'];
       } else {
-        if (parts[0] == 'fas') {
-          this.faIcon = fas['fa' + parts[1]];
-        } else {
-          this.faIcon = far['fa' + parts[1]];
-        }
-
-        if (!this.faIcon) {
-          console.log('fa' + parts[1]);
-          console.log('fas', fas);
-          console.log('far', far);
-          this.faIcon = fas['faExclamation'];
+        const key = 'fa' + parts[1]
+        switch (parts[0]) {
+          case 'fas':
+            this.faIcon = fas[key];
+            break;
+          case 'far':
+            this.faIcon = far[key];
+            break;
+          case 'fab':
+            this.faIcon = fab[key];
+            break;
+          default:
+            console.log('fa' + parts[1]);
+            console.log('fas', fas);
+            console.log('far', far);
+            console.log('fab', fab);
+            this.faIcon = fas['faExclamation'];
         }
       }
     }
