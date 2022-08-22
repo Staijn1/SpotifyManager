@@ -1,10 +1,9 @@
 import {Component} from '@angular/core';
-import {ActivatedRoute, Navigation, Router} from '@angular/router';
+import {Navigation, Router} from '@angular/router';
 import {CustomError} from '../../types/CustomError';
 import {ApiService} from '../../services/api/api.service';
 import {Diff} from '@spotify/data';
 import {createMockForkDiff, createMockOriginalDiff} from '../../mocks';
-import {environment} from '../../../environments/environment';
 import {faChevronLeft, faChevronRight, faTimes, IconDefinition} from '@fortawesome/free-solid-svg-icons';
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
 
@@ -22,7 +21,6 @@ export class PlaylistComparePageComponent {
   changesInFork: Diff[] = [];
   changesInOriginal: Diff[] = [];
   mergedChanges: Diff[] = [];
-  addBackIcon = faChevronRight;
   keepRemovedIcon = faTimes;
 
   /**
@@ -84,12 +82,26 @@ export class PlaylistComparePageComponent {
     }).then(changesOriginal => {
       this.changesInOriginal = changesOriginal;
     })*/
-    const unchangedPredicate = (diff: Diff) => diff[0] === 0;
-    this.mergedChanges = this.changesInFork
-      .filter(unchangedPredicate)
-      .concat(
-        this.changesInOriginal.filter(unchangedPredicate)
-      )
+    this.mergeChanges(this.changesInOriginal, this.changesInFork);
+  }
+
+  /**
+   * Merge the two lists of diffs
+   * For a diff to make it into the merged list, the diff must be 0 'unchanged' in both lists
+   * @param {Diff[]} changesInOriginal
+   * @param {Diff[]} changesInFork
+   * @private
+   */
+  private mergeChanges(changesInOriginal: Diff[], changesInFork: Diff[]) {
+    this.mergedChanges = [];
+    for (let i = 0; i < changesInOriginal.length; i++) {
+      const originalDiff = changesInOriginal[i];
+      const forkDiff = changesInFork[i];
+      if (originalDiff[0] === 0 && forkDiff[0] === 0) {
+        this.mergedChanges.push(originalDiff);
+      }
+    }
+
   }
 
   /**
@@ -97,11 +109,44 @@ export class PlaylistComparePageComponent {
    * @param {"left" | "right" | undefined} direction
    * @returns {IconDefinition}
    */
-  determineAddBackIcon(direction: 'left' | 'right'):IconProp {
+  determineAddBackIcon(direction: 'left' | 'right'): IconProp {
     switch (direction) {
-      case 'left': return faChevronLeft
-      case 'right': return faChevronRight
-      default: throw Error(`Invalid direction: ${direction}`);
+      case 'left':
+        return faChevronLeft
+      case 'right':
+        return faChevronRight
+      default:
+        throw Error(`Invalid direction: ${direction}`);
     }
+  }
+
+  /**
+   * Fired when adding a song back to the playlist.
+   * Insert the song at the correct position.
+   * @param {Diff} diff
+   * @param {number} index
+   */
+  onAddBackAction(diff: Diff, index: number): void {
+    // Create a copy of the diff, so we can change it's state to 1 'inserted'
+    const copy = Object.assign({}, diff);
+    copy[0] = 1;
+
+    // Insert the copy at the correct position
+    this.mergedChanges.splice(index, 0, copy);
+
+    // Then find the diff in both lists and set its state to 0 'unchanged'
+    const findDiffPredicate = (d: Diff) => d[1].track.id === diff[1].track.id;
+    const foundChangeInOriginal = this.changesInOriginal.find(findDiffPredicate);
+    const foundChangeInFork = this.changesInFork.find(findDiffPredicate);
+    if (foundChangeInOriginal) foundChangeInOriginal[0] = 0;
+    if (foundChangeInFork) foundChangeInFork[0] = 0;
+  }
+
+  /**
+   * Fired when you want to keep a song removed
+   * @param {Diff} diff
+   */
+  onKeepRemoved(diff: Diff) {
+    diff[0] = 0;
   }
 }

@@ -30,18 +30,20 @@
         [class.flex-row-reverse]="direction === 'right'">
         <div class="col-1 d-flex">
           <div class="line-number">
-            {{i}}
+            {{i + 1}}
           </div>
           <div class="actions d-flex" *ngIf="diff[0] !== 0 && direction">
-            <fa-icon [icon]="determineAddBackIcon(direction)"></fa-icon>
-            <fa-icon *ngIf="diff[0] === -1" [icon]="keepRemovedIcon"></fa-icon>
+            <fa-icon [icon]="determineAddBackIcon(direction)" (click)="onAddBackAction(diff, i)"></fa-icon>
+            <fa-icon *ngIf="diff[0] === -1" [icon]="keepRemovedIcon" (click)="onKeepRemoved(diff)"></fa-icon>
           </div>
         </div>
         <div
           [ngClass]="determineCSSClass(diff)"
-          class="col"
+          class="col border-bottom"
         >
-          {{diff[1].track.name}}</div>
+          {{diff[1].track.name}}, {{diff[0]}}
+          <div> {{diff[1].track.id}}</div>
+        </div>
       </div>
     </div>
   </ng-template>
