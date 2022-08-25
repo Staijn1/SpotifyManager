@@ -22,29 +22,27 @@
 @import "~bootstrap/scss/pagination";
 @import "~bootstrap/scss/badge";
 
-// @import "~bootstrap/scss/alert";
+@import "~bootstrap/scss/alert";
 @import "~bootstrap/scss/progress";
-// @import "~bootstrap/scss/list-group";
+@import "~bootstrap/scss/list-group";
 @import "~bootstrap/scss/close";
 @import "~bootstrap/scss/toasts";
 @import "~bootstrap/scss/modal";
 @import "~bootstrap/scss/tooltip";
-// @import "~bootstrap/scss/popover";
+@import "~bootstrap/scss/popover";
 @import "~bootstrap/scss/carousel";
 @import "~bootstrap/scss/spinners";
 @import "~bootstrap/scss/offcanvas";
 
-
 // Helpers
 // @import "~bootstrap/scss/helpers";
 @import "~bootstrap/scss/helpers/clearfix";
-// @import "~bootstrap/scss/helpers/colored-links";
+@import "~bootstrap/scss/helpers/colored-links";
 @import "~bootstrap/scss/helpers/ratio";
 @import "~bootstrap/scss/helpers/position";
 @import "~bootstrap/scss/helpers/visually-hidden";
 @import "~bootstrap/scss/helpers/stretched-link";
 @import "~bootstrap/scss/helpers/text-truncation";
-
 
 // Utilities
 @import "~bootstrap/scss/utilities/api";
