@@ -1,4 +1,4 @@
-<div class="mb-5 mb-lg-0 d-flex flex-column align-items-center" *ngIf="avatar">
+<div class="mb-5 mb-lg-0 d-flex flex-column align-items-center" *ngIf="avatar" data-aos="fade-up">
   <a href="#" *ngIf="avatar.images"><img class="img-fluid" [src]="avatar.images[0].url" alt="Avatar image"/></a>
   <h1 class="fs-3 mt-3">{{avatar.display_name}}</h1>
   <small class="mb-2">Followers: {{avatar.followers?.total}}</small>
