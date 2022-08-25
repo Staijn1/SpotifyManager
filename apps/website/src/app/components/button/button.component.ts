@@ -13,6 +13,7 @@ export class ButtonComponent implements OnInit {
   @Input() type: 'submit' | 'button' = 'submit'
   @Input() text = ''
   @Input() icon: string | undefined
+  @Input() href: string | undefined
   _classes: string[] = ['btn-primary'];
   faIcon!: IconProp;
 
