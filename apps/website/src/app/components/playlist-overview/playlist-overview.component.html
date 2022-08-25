@@ -1,24 +1,25 @@
 <div *ngIf="playlists">
-  <div class="row m-4">
-    <div class="col-12 col-md-4 mt-3" *ngFor="let playlist of playlists.items; let indexOfPlaylist = index">
+  <div class="row mt-7 gx-xl-7">
+    <div class="col-md-4 text-center text-md-start h-auto mb-5"
+         *ngFor="let playlist of playlists.items; let indexOfPlaylist = index"
+         data-aos="fade-up">
       <app-box
         [image]="playlist.images[0] ? playlist.images[0].url : 'https://picsum.photos/200/200?random=' + indexOfPlaylist"
       >
-        <h4 class="title mt-3 text-center text-break"><a [href]="playlist.external_urls.spotify"
-                                                         target="_blank">{{playlist.name}}</a></h4>
-        <p class="description text-center">Owner: {{playlist.owner.display_name}}</p>
-        <div class="row mt-3">
-          <div class="col d-flex justify-content-center" (click)="onActionClick(playlist)">
-            <ng-container *ngTemplateOutlet="action"></ng-container>
-          </div>
+        <div class="d-flex align-items-center justify-content-center justify-content-md-start gap-3">
+          <p class="mb-0 text-gray">
+            <a [href]="playlist.owner.external_urls.spotify">
+              {{playlist.owner.display_name}}
+            </a>
+          </p>
         </div>
+        <a href="#">
+          <h5 class="mt-1 mb-3 fs-0 fs-md-1" [innerHTML]="playlist.description"></h5>
+        </a>
       </app-box>
     </div>
   </div>
-  <div *ngIf="playlists.next" class="text-center">
-    <p class="btn btn-link" (click)="requestMorePlaylists()">Load more results..
-      <fa-icon *ngIf="isLoading" [icon]="loading" [spin]="true"></fa-icon>
-    </p>
-
+  <div data-aos="fade-up" *ngIf="playlists.next" (click)="requestMorePlaylists()" class="d-flex justify-content-center mb-3">
+    <app-button [classes]="['btn-outline-dark']" text="Load More"></app-button>
   </div>
 </div>
