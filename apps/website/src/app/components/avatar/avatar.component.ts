@@ -1,8 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {faUserFriends} from '@fortawesome/free-solid-svg-icons';
-import FollowersObject = SpotifyApi.FollowersObject;
-import ExternalUrlObject = SpotifyApi.ExternalUrlObject;
-import ImageObject = SpotifyApi.ImageObject;
+import UserObjectPublic = SpotifyApi.UserObjectPublic;
 
 @Component({
   selector: 'app-avatar',
@@ -10,9 +8,6 @@ import ImageObject = SpotifyApi.ImageObject;
   styleUrls: ['./avatar.component.scss']
 })
 export class AvatarComponent {
-  @Input() username: string | undefined ;
-  @Input() images: ImageObject[] | undefined = [];
-  @Input() followers: FollowersObject | undefined;
-  @Input() externalUrls: ExternalUrlObject = {spotify: ''};
+  @Input() avatar: UserObjectPublic | undefined;
   followersIcon = faUserFriends;
 }

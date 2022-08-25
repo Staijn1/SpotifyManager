@@ -1,17 +1,6 @@
-<div class="card">
-  <div class="header">
-    <div class="avatar">
-      <img *ngIf="images" [src]="images[0].url" alt="Profile picture">
-    </div>
-  </div>
-  <div class="card-body">
-    <div class="user-meta has-text-centered">
-      <h3 class="title">{{username}}</h3>
-      <h5 class="followers"> <fa-icon [icon]="followersIcon" size="lg"></fa-icon> {{followers?.total}}</h5>
-    </div>
-    <div class="user-bio has-text-centered"></div>
-    <div class="action text-center mt-5">
-      <a [href]="externalUrls.spotify" target="_blank" class="btn btn-outline-primary">View profile on Spotify</a>
-    </div>
-  </div>
+<div class="mb-5 mb-lg-0 d-flex flex-column align-items-center" *ngIf="avatar">
+  <a href="#" *ngIf="avatar.images"><img class="img-fluid" [src]="avatar.images[0].url" alt="Avatar image"/></a>
+  <h1 class="fs-3 mt-3">{{avatar.display_name}}</h1>
+  <small class="mb-2">Followers: {{avatar.followers?.total}}</small>
+  <app-button icon="fab Spotify" [classes]="['p-3']" [href]="avatar.external_urls.spotify"></app-button>
 </div>

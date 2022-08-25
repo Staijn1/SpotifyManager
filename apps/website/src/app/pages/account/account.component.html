@@ -10,10 +10,7 @@
     <fa-icon [icon]="loading" *ngIf="isLoading" [spin]="true" size="lg"></fa-icon>
     <div *ngIf="accountInformation">
       <app-avatar
-        [username]="accountInformation.display_name"
-        [images]="accountInformation.images"
-        [followers]="accountInformation.followers"
-        [externalUrls]="accountInformation.external_urls"
+        [avatar]="accountInformation"
         data-aos="fade-left">
       </app-avatar>
     </div>
@@ -25,6 +22,7 @@
     <h2>Top Artists</h2>
     <ol>
       <li class="border-bottom" *ngFor="let artist of topArtists.items">
+        <pre>{{artist | json}}</pre>
         <a target="_blank" [href]="artist.external_urls.spotify">{{artist.name}}</a>
         <img [src]="artist.images[0].url" alt="Image of {{artist.name}}"/>
       </li>
@@ -92,5 +90,48 @@
     </div>
 
   </div>
-</section><!-- End Portfolio Section -->
+</section>
 
+<section class="pb-0">
+
+  <div class="container">
+    <div class="gallery-wrapper">
+      <div class="img-wrapper"><img class="img-fluid" src="assets/img/gallery/1.png" alt=""/></div>
+      <div class="img-wrapper"><img class="img-fluid" src="assets/img/gallery/2.png" alt=""/></div>
+      <div class="img-wrapper"><img class="img-fluid" src="assets/img/gallery/3.png" alt=""/></div>
+      <div class="img-wrapper"><img class="img-fluid" src="assets/img/gallery/4.png" alt=""/></div>
+      <div class="img-wrapper"><img class="img-fluid" src="assets/img/gallery/5.png" alt=""/></div>
+    </div>
+  </div>
+
+</section>
+<section>
+
+  <div class="container">
+    <div class="px-xl-8 px-md-5 px-3">
+      <p class="text-gray fs-1">Our team</p>
+      <h1 class="text-black fs-lg-6 fs-md-4 fs-3 my-4">The leadership team</h1>
+      <p class="text-gray fs-1 w-lg-75">Conversion angel investor entrepreneur first mover advantage. Handshake
+        infographic mass market crowdfunding iteration. Traction stock user experience deployment beta innovator
+        incubator focus.</p>
+    </div>
+    <div class="row mt-7">
+      <div class="col-md-4 col-sm-6 mb-5 mb-lg-0 text-center text-sm-left">
+        <a href="#"><img class="img-fluid" src="assets/img/team/1.png" alt=""/></a>
+        <h1 class="fs-3 mt-3">Michael Scott</h1>
+        <p class="fs-1">General Manager</p>
+      </div>
+      <div class="col-md-4 col-sm-6 mb-5 mb-lg-0 text-center text-sm-left">
+        <a href="#"><img class="img-fluid" src="assets/img/team/2.png" alt=""/></a>
+        <h1 class="fs-3 mt-3">Dwight Schrute</h1>
+        <p class="fs-1">General Manager</p>
+      </div>
+      <div class="col-md-4 col-sm-6 mb-5 mb-lg-0 text-center text-sm-left">
+        <a href="#"><img class="img-fluid" src="assets/img/team/3.png" alt=""/></a>
+        <h1 class="fs-3 mt-3">Pam Beetsley</h1>
+        <p class="fs-1">General Manager</p>
+      </div>
+    </div>
+  </div>
+
+</section>
