@@ -25,3 +25,8 @@
 |   Theme Styles
 -----------------------------------------------*/
 @import "theme/theme";
+
+
+.dropdown-menu{
+  border-radius: 0 0 $border-radius-sm $border-radius-sm;
+}
