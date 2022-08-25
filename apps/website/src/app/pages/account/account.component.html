@@ -1,5 +1,5 @@
 <app-error [error]="error"></app-error>
-<section class="container">
+<section class="container" data-aos="fade-up">
   <h2>Account</h2>
   <p>See your own account and statistics here!</p>
 </section>
@@ -10,8 +10,7 @@
     <fa-icon [icon]="loading" *ngIf="isLoading" [spin]="true" size="lg"></fa-icon>
     <div *ngIf="accountInformation">
       <app-avatar
-        [avatar]="accountInformation"
-        data-aos="fade-left">
+        [avatar]="accountInformation">
       </app-avatar>
     </div>
   </div>
@@ -21,7 +20,7 @@
   <div class="container">
     <h2>Top Artists</h2>
     <div class="row">
-      <div class="col-4 my-2" *ngFor="let artist of topArtists.items">
+      <div class="col-4 my-2" *ngFor="let artist of topArtists.items" data-aos="fade-up">
         <img class="img-fluid" [src]="artist.images[0].url" alt="Image of artist"/>
         <p>{{artist.name}}</p>
       </div>
@@ -33,7 +32,7 @@
   <div class="container">
     <h2>Top Tracks</h2>
     <div class="row">
-      <div class="col-4 my-2" *ngFor="let track of topTracks.items">
+      <div class="col-4 my-2" *ngFor="let track of topTracks.items" data-aos="fade-up">
         <img class="img-fluid" [src]="track.album.images[0].url" alt="Image of artist"/>
         <p>{{track.name}}</p>
       </div>
