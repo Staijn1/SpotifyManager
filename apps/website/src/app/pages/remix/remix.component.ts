@@ -1,22 +1,22 @@
 import {Component, OnInit} from '@angular/core';
-import {faCodeFork, faSpinner} from '@fortawesome/free-solid-svg-icons';
+import {faCompactDisc, faSpinner} from '@fortawesome/free-solid-svg-icons';
 import {CustomError} from '../../types/CustomError';
 import {SpotifyAPIService} from '../../services/spotifyAPI/spotify-api.service';
 import {ApiService} from '../../services/api/api.service';
 import ListOfUsersPlaylistsResponse = SpotifyApi.ListOfUsersPlaylistsResponse;
 
 @Component({
-  selector: 'app-fork',
-  templateUrl: './fork.component.html',
-  styleUrls: ['./fork.component.scss'],
+  selector: 'app-remix',
+  templateUrl: './remix.component.html',
+  styleUrls: ['./remix.component.scss'],
 })
-export class ForkComponent implements OnInit {
+export class RemixComponent implements OnInit {
   playlists!: SpotifyApi.ListOfUsersPlaylistsResponse;
   loading = faSpinner;
   isLoading = false;
 
   error: CustomError | undefined;
-  forkIcon = faCodeFork;
+  remixIcon = faCompactDisc;
 
   /**
    * Inject the right dependencies
@@ -75,8 +75,8 @@ export class ForkComponent implements OnInit {
    * Create a copy of the playlist
    * @param {string} id
    */
-  forkPlaylist(playlist: SpotifyApi.PlaylistObjectSimplified) {
+  remixPlaylist(playlist: SpotifyApi.PlaylistObjectSimplified) {
     this.isLoading = true;
-    this.api.forkPlaylist(playlist.id).then().catch(e => this.error = e).finally(() => this.isLoading = false);
+    this.api.remixPlaylist(playlist.id).then().catch(e => this.error = e).finally(() => this.isLoading = false);
   }
 }

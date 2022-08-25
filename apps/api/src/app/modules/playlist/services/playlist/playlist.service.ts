@@ -1,7 +1,7 @@
 import {HttpException, Injectable} from '@nestjs/common';
 import {SpotifyService} from '../../../../spotify/spotify.service';
 import {PlaylistFileService} from '../playlist-file-service/playlist-file.service';
-import {Diff, ForkedPlaylistInformation} from '@spotify/data';
+import {Diff, RemixedPlaylistInformation} from '@spotify/data';
 
 @Injectable()
 export class PlaylistService {
@@ -35,19 +35,19 @@ export class PlaylistService {
 
   /**
    * Creates a new playlist and songs from the given playlist are copied to the new playlist.
-   * The songs in the original playlist are saved in the database, so it can be used to sync the forked playlist with the original one later.
+   * The songs in the original playlist are saved in the database, so it can be used to sync the remixed playlist with the original one later.
    * @param {string} playlistid
    * @returns {string}
    */
-  public async forkPlaylist(playlistid: string): Promise<SpotifyApi.CreatePlaylistResponse> {
+  public async remixPlaylist(playlistid: string): Promise<SpotifyApi.CreatePlaylistResponse> {
     const me = await this.spotifyService.getMe();
     const originalPlaylist = await this.spotifyService.getPlaylistInformation(playlistid);
     originalPlaylist.tracks.items = []
 
-    const newPlaylistName = `Fork - ${originalPlaylist.name}`;
+    const newPlaylistName = `Remix - ${originalPlaylist.name}`;
     const newPlaylist = await this.spotifyService.createPlaylist(newPlaylistName,
       {
-        description: `This playlist has been forked using SpotifyManager. Please do not remove the original playlist id from the description. Original playlist: {${originalPlaylist.id}}`
+        description: `This playlist has been remixed using SpotifyManager. Please do not remove the original playlist id from the description. Original playlist: {${originalPlaylist.id}}`
       });
 
     // The spotify api returns the tracks in the originalPlaylist but it limits the number of tracks to 100.
@@ -96,15 +96,15 @@ export class PlaylistService {
   /**
    * A user can copy a playlist more than once. Get all the versions of the original playlist
    * @param {string} playlistid
-   * @returns {Promise<ForkedPlaylistInformation>}
+   * @returns {Promise<RemixedPlaylistInformation>}
    */
-  async getVersionsOfOriginalPlaylist(playlistid: string): Promise<ForkedPlaylistInformation[]> {
+  async getVersionsOfOriginalPlaylist(playlistid: string): Promise<RemixedPlaylistInformation[]> {
     const me = await this.spotifyService.getMe();
     return this.fileService.getOriginalVersionsForPlaylist(playlistid, me.id)
   }
 
   /**
-   * Compare a playlist to a version of the original playlist (forks)
+   * Compare a playlist to a version of the original playlist (remixes)
    * @param {string} playlistid
    * @param {string} originalPlaylistid
    * @param {number} versionTimestamp
@@ -115,7 +115,7 @@ export class PlaylistService {
     const versionInformation = await this.fileService.getOriginalVersionsForPlaylist(originalPlaylistid, me.id);
 
     if (versionInformation.length == 0) {
-      throw new HttpException('Currently comparing playlists to other playlists, which have not been forked, is not supported.', 501)
+      throw new HttpException('Currently comparing playlists to other playlists, which have not been remixed, is not supported.', 501)
     }
 
     if (versionInformation.length > 1 && !versionTimestamp) {

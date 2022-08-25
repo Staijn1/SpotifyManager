@@ -2,9 +2,9 @@
 <section>
   <div class="section-title">
     <h2>It's time to catch up!</h2>
-    <p>Sync forked playlists</p>
+    <p>Sync remixed playlists</p>
   </div>
-  <p>You can use this page to synchronize a playlist you forked earlier to it's original. Pick for each added / removed
+  <p>You can use this page to synchronize a playlist you remixed earlier to it's original. Pick for each added / removed
     song in the original what you would like to do: add it (back) or not</p>
 
   <app-playlist-overview [playlists]="playlists" (actionClick)="onActionClick($event)">
@@ -21,9 +21,9 @@
 <app-modal>
   <div body>
     <p>
-      We've detected you have forked this playlist more than once. The lists below shows the dates where a copy of
+      We've detected you have remixed this playlist more than once. The lists below shows the dates where a copy of
       the original playlist was created. <br>
-      Please pick one of the dates, we will compare the current <b>original</b> and the current <b>fork</b> to this
+      Please pick one of the dates, we will compare the current <b>original</b> and the current <b>remix</b> to this
       version of the original playlist.
     </p>
 

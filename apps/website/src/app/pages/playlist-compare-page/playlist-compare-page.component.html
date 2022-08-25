@@ -2,7 +2,7 @@
 <div class="d-flex my-2 justify-content-end">
   <button class="btn btn-primary" (click)="syncPlaylist()">Sync!</button>
 </div>
-<div class="container-fluid" *ngIf="changesInFork && changesInOriginal">
+<div class="container-fluid" *ngIf="changesInRemix && changesInOriginal">
   <div class="row">
     <div class="col">
       <h3>Current original playlist<br><small>vs</small><br> Old original playlist</h3>
@@ -11,7 +11,7 @@
       <h3>Merged result</h3>
     </div>
     <div class="col">
-      <h3>Current forked playlist<br><small>vs</small><br> Current original playlist</h3>
+      <h3>Current remixed playlist<br><small>vs</small><br> Current original playlist</h3>
     </div>
   </div>
   <div class="row">
@@ -25,7 +25,7 @@
     </div>
     <div class="col">
       <ng-container
-        *ngTemplateOutlet="changeTemplate; context: {direction: 'left', changes: changesInFork} "></ng-container>
+        *ngTemplateOutlet="changeTemplate; context: {direction: 'left', changes: changesInRemix} "></ng-container>
     </div>
   </div>
 </div>

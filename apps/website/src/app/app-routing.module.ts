@@ -3,10 +3,10 @@ import {Route, RouterModule} from '@angular/router';
 import {AccountComponent} from './pages/account/account.component';
 import {AuthorizeComponent} from './pages/authorize/authorize.component';
 import {GetStartedComponent} from './pages/get-started/get-started.component';
-import {ForkSyncComponent} from './pages/fork-sync/fork-sync.component';
+import {RemixSyncComponent} from './pages/remix-sync/remix-sync.component';
 import {HomeComponent} from './pages/home/home.component';
 import {PageNotFoundComponent} from './pages/page-not-found/page-not-found.component';
-import {ForkComponent} from './pages/fork/fork.component';
+import {RemixComponent} from './pages/remix/remix.component';
 import {PlaylistComparePageComponent} from './pages/playlist-compare-page/playlist-compare-page.component';
 
 export type ExtendedRoute = Route & {
@@ -23,8 +23,8 @@ export const routes: ExtendedRoute[] = [
   {path: 'account', component: AccountComponent, title: 'Account', isVisible: true, requiresLogin: true},
   {
     path: 'playlists', title: 'Playlists', isVisible: true, requiresLogin: true, children: [
-      {path: 'fork', component: ForkComponent, title: 'Fork playlists', isVisible: true, requiresLogin: true},
-      {path: 'sync', component: ForkSyncComponent, title: 'Sync playlists', isVisible: true, requiresLogin: true},
+      {path: 'remix', component: RemixComponent, title: 'Remix playlists', isVisible: true, requiresLogin: true},
+      {path: 'sync', component: RemixSyncComponent, title: 'Sync playlists', isVisible: true, requiresLogin: true},
       // todo: maybe isVisible true and let the user choose which playlist to compare?
       {
         path: 'compare',
