@@ -9,11 +9,14 @@
     This copied playlist can then be synchronized with the original with a press of a button, so you can keep up with
     the newest songs!</p>
 
+  <div class="d-flex justify-content-center" *ngIf="isLoading">
+        <fa-icon [icon]="loading" [spin]="true"></fa-icon>
+  </div>
   <app-playlist-overview [playlists]="playlists" (requestMore)="getMorePlaylists()"
                          (actionClick)="remixPlaylist($event)">
     <ng-template #action>
       <button class="btn btn-primary" type="button">
-        <fa-icon [icon]="!isLoading ? remixIcon : loading" [spin]="isLoading"></fa-icon>
+        <fa-icon [icon]="remixIcon"></fa-icon>
       </button>
     </ng-template>
   </app-playlist-overview>
