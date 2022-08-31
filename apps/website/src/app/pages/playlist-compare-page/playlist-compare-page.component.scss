@@ -3,8 +3,15 @@
 }
 
 .removed {
-  background: #e59292;
+  background: #e59494;
 
+  fa-icon {
+    color: dimgray;
+    transition: color 250ms ease-out;
+    &:hover {
+      color: white;
+    }
+  }
 }
 
 .inserted {
