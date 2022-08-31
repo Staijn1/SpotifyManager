@@ -392,9 +392,9 @@ $pagination-disabled-border-color: var(--#{$variable-prefix}pagination-disabled-
 //|   Cards
 //-----------------------------------------------*/
 
-$card-spacer-y: map_get($spacers, 5) !default;
-$card-spacer-x: map_get($spacers, 5) !default;
-$card-title-spacer-y: map_get($spacers, 3) !default;
+$card-spacer-y: map_get($spacers, 2) !default;
+$card-spacer-x: map_get($spacers, 3) !default;
+$card-title-spacer-y: map_get($spacers, 2) !default;
 $card-border-width: 1px !default;
 $card-border-radius: .50rem !default;
 $card-border-color: var(--#{$variable-prefix}card-border-color) !default;
