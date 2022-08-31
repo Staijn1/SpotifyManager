@@ -3,9 +3,10 @@ import {Navigation, Router} from '@angular/router';
 import {CustomError} from '../../types/CustomError';
 import {ApiService} from '../../services/api/api.service';
 import {Diff} from '@spotify/data';
-import {createMockRemixDiff, createMockOriginalDiff} from '../../mocks';
+import {createMockOriginalDiff, createMockRemixDiff} from '../../mocks';
 import {faChevronLeft, faChevronRight, faTimes, IconDefinition} from '@fortawesome/free-solid-svg-icons';
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
+import ArtistObjectFull = SpotifyApi.ArtistObjectFull;
 
 @Component({
   selector: 'app-playlist-compare-page',
@@ -45,8 +46,7 @@ export class PlaylistComparePageComponent {
       this.compareRemixToOriginal();
     } else {
       // This page cannot be viewed without a redirect from another page, supplying the right parameters
-      // this.router.navigate(['/account']);
-      this.compareRemixToOriginal()
+      this.router.navigate(['/account']);
       return;
     }
   }
@@ -74,15 +74,13 @@ export class PlaylistComparePageComponent {
    * @private
    */
   private compareRemixToOriginal(): void {
-    this.changesInRemix = createMockRemixDiff()
-    this.changesInOriginal = createMockOriginalDiff()
-  /*  this.apiService.comparePlaylists(this.remixedPlaylistBasic?.id as string, this.originalPlaylistId as string, this.versionTimestamp).then(changesRemix => {
+    this.apiService.comparePlaylists(this.remixedPlaylistBasic?.id as string, this.originalPlaylistId as string, this.versionTimestamp).then(changesRemix => {
       this.changesInRemix = changesRemix;
       return this.apiService.comparePlaylists(this.originalPlaylistId as string, this.originalPlaylistId as string, this.versionTimestamp)
     }).then(changesOriginal => {
       this.changesInOriginal = changesOriginal;
       this.mergeChanges(this.changesInOriginal, this.changesInRemix);
-    })*/
+    })
     this.mergeChanges(this.changesInOriginal, this.changesInRemix);
   }
 
@@ -157,5 +155,16 @@ export class PlaylistComparePageComponent {
   syncPlaylist(): void {
     const mergedTracks = this.mergedChanges.map(d => d[1].track);
     this.apiService.syncPlaylist(this.remixedPlaylistBasic?.id as string, mergedTracks).then().catch(e => this.error = e);
+  }
+
+  /**
+   * Generate a string to visualize the artists of the track in a nice way
+   * @param playlistTrack
+   * @returns {any}
+   */
+  generateArtistList(playlistTrack: any) {
+    //todo do this
+    console.warn('Using any type, but types are conflicting. Please fix asap.')
+    return playlistTrack.track.album.artists.map((artist: ArtistObjectFull) => `${artist.name}`).join(', ')
   }
 }
