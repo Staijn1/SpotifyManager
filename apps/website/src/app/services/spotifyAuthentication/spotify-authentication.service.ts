@@ -29,7 +29,7 @@ export class SpotifyAuthenticationService extends HTTPService {
    * @returns {string}
    */
   async generateAuthorizeURL(): Promise<string> {
-// https://tools.ietf.org/html/rfc7636#section-4.1
+    // https://tools.ietf.org/html/rfc7636#section-4.1
     const codeVerifier = this.base64urlEncode(this.randomBytes(96));
     const generatedState = this.base64urlEncode(this.randomBytes(96));
 

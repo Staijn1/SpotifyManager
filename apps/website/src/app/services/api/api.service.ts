@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HTTPService} from '../http/http-service.service';
 import {environment} from '../../../environments/environment';
 import {SpotifyAuthenticationService} from '../spotifyAuthentication/spotify-authentication.service';
-import {Diff, ForkedPlaylistInformation} from '@spotify/data';
+import {Diff, RemixedPlaylistInformation} from '@spotify/data';
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +18,12 @@ export class ApiService extends HTTPService {
   }
 
   /**
-   * Fork the playlist with given ID
+   * Remix the playlist with given ID
    * @param {string} playlistId
    */
-  async forkPlaylist(playlistId: string): Promise<void> {
+  async remixPlaylist(playlistId: string): Promise<void> {
     const token = await this.spotifyAuth.refreshAccessToken();
-    await this.request(`${environment.url}/playlists/fork/${playlistId}/?accessToken=${token}`, {method: 'GET'})
+    await this.request(`${environment.url}/playlists/remix/${playlistId}/?accessToken=${token}`, {method: 'GET'})
   }
 
   /**
@@ -56,18 +56,18 @@ export class ApiService extends HTTPService {
   }
 
   /**
-   * Get all forks of a playlist because a user can fork a playlist more than once
+   * Get all remixes of a playlist because a user can remix a playlist more than once
    * He will need to select which original version of the playlist he wants to compare it to.
-   * @returns {Promise<ForkedPlaylistInformation[]>}
+   * @returns {Promise<RemixedPlaylistInformation[]>}
    */
-  async getForkedPlaylistInformation(playlistid: string): Promise<ForkedPlaylistInformation[]> {
+  async getRemixedPlaylistInformation(playlistid: string): Promise<RemixedPlaylistInformation[]> {
     const token = await this.spotifyAuth.refreshAccessToken();
-    return this.request(`${environment.url}/playlists/forks/${playlistid}/versions/?accessToken=${token}`, {method: 'GET'})
+    return this.request(`${environment.url}/playlists/remixes/${playlistid}/versions/?accessToken=${token}`, {method: 'GET'})
   }
 
   /**
-   * Compare a fork to it's original playlist. The versiontimestamp is optional, when a playlist is only forked once this is not needed.
-   * When a playlist is forked multiple times, this timestamp equals the timestamp of a specific fork date. This version will be used to compare
+   * Compare a remix to its original playlist. The versiontimestamp is optional, when a playlist is only remixed once this is not needed.
+   * When a playlist is remixed multiple times, this timestamp equals the timestamp of a specific remix date. This version will be used to compare
    * @param {string} leftPlaylistId
    * @param {number} versionTimestamp
    */

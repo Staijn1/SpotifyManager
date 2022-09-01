@@ -3,16 +3,25 @@
 }
 
 .removed {
-  background: #e59292;
+  background: #e59494;
 
+  fa-icon {
+    color: dimgray;
+    transition: color 250ms ease-out;
+    &:hover {
+      color: white;
+    }
+  }
 }
 
 .inserted {
   background: #92e592;
 }
 
+.actions-container{
+  background: gainsboro;
+}
 
 .line-number {
-  background: lightgray;
   color: #646464;
 }

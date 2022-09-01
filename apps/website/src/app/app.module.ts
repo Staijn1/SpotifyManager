@@ -3,45 +3,60 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { AppComponent } from './main/app/app.component';
 import { AccountComponent } from './pages/account/account.component';
 import { AuthorizeComponent } from './pages/authorize/authorize.component';
-import { LoginComponent } from './pages/login/login.component';
-import { OverviewComponent } from './pages/overview/overview.component';
-import { ForkSyncComponent } from './pages/fork-sync/fork-sync.component';
+import { GetStartedComponent } from './pages/get-started/get-started.component';
+import { RemixSyncComponent } from './pages/remix-sync/remix-sync.component';
 import { ErrorComponent } from './components/error/error.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NavbarComponent } from './main/navbar/navbar.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { BoxComponent } from './components/box/box.component';
-import { InnerPageComponent } from './main/inner-page/inner-page.component';
-import { ForkComponent } from './pages/fork/fork.component';
+import { RemixComponent } from './pages/remix/remix.component';
 import { PlaylistOverviewComponent } from './components/playlist-overview/playlist-overview.component';
 import { PlaylistComparePageComponent } from './pages/playlist-compare-page/playlist-compare-page.component';
 import { ModalComponent } from './components/modal/modal.component';
+import {
+  NgbAlertModule,
+  NgbCollapseModule,
+  NgbDropdownModule,
+} from '@ng-bootstrap/ng-bootstrap';
+import { HeroComponent } from './components/hero/hero.component';
+import { ButtonComponent } from './components/button/button.component';
+import { IllustrationCardComponent } from './components/illustration-card/illustration-card.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
+    GetStartedComponent,
     AuthorizeComponent,
     NavbarComponent,
     HomeComponent,
-    InnerPageComponent,
-    OverviewComponent,
     AccountComponent,
-    ForkSyncComponent,
+    RemixSyncComponent,
     PageNotFoundComponent,
     ErrorComponent,
     AvatarComponent,
     BoxComponent,
-    ForkComponent,
+    RemixComponent,
     PlaylistOverviewComponent,
     PlaylistComparePageComponent,
     ModalComponent,
+    HeroComponent,
+    ButtonComponent,
+    IllustrationCardComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, FontAwesomeModule, FormsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FontAwesomeModule,
+    FormsModule,
+    NgbCollapseModule,
+    NgbDropdownModule,
+    NgbAlertModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

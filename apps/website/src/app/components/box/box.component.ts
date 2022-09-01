@@ -6,5 +6,5 @@ import {Component, Input} from '@angular/core';
   styleUrls: ['./box.component.scss']
 })
 export class BoxComponent {
-  @Input() image!: string;
+  @Input() image: { src: string, href: string } = {src: '', href: ''};
 }

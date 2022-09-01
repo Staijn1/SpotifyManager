@@ -1,0 +1,17 @@
+<button
+  *ngIf="!href else link"
+  [type]="type"
+  class="btn d-flex" [ngClass]="_classes">
+  <fa-icon class="me-1" *ngIf="icon" [icon]="faIcon"></fa-icon>
+  {{text}}
+</button>
+<ng-template #link>
+  <a
+    [href]="href"
+    target="_blank"
+    class="btn d-flex"
+    [ngClass]="_classes">
+    <fa-icon class="me-1" *ngIf="icon" [icon]="faIcon"></fa-icon>
+    {{text}}
+  </a>
+</ng-template>

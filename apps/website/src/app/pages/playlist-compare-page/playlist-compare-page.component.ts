@@ -3,9 +3,10 @@ import {Navigation, Router} from '@angular/router';
 import {CustomError} from '../../types/CustomError';
 import {ApiService} from '../../services/api/api.service';
 import {Diff} from '@spotify/data';
-import {createMockForkDiff, createMockOriginalDiff} from '../../mocks';
+import {createMockOriginalDiff, createMockRemixDiff} from '../../mocks';
 import {faChevronLeft, faChevronRight, faTimes, IconDefinition} from '@fortawesome/free-solid-svg-icons';
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
+import ArtistObjectFull = SpotifyApi.ArtistObjectFull;
 
 @Component({
   selector: 'app-playlist-compare-page',
@@ -15,10 +16,10 @@ import {IconProp} from '@fortawesome/fontawesome-svg-core';
 export class PlaylistComparePageComponent {
   error: CustomError | undefined;
 
-  private forkedPlaylistBasic: SpotifyApi.PlaylistObjectSimplified | undefined;
+  private remixedPlaylistBasic: SpotifyApi.PlaylistObjectSimplified | undefined;
   private originalPlaylistId: string | undefined;
   private versionTimestamp: number | undefined;
-  changesInFork: Diff[] = [];
+  changesInRemix: Diff[] = [];
   changesInOriginal: Diff[] = [];
   mergedChanges: Diff[] = [];
   keepRemovedIcon = faTimes;
@@ -33,20 +34,19 @@ export class PlaylistComparePageComponent {
 
     // This page cannot be viewed without a redirect from another page, supplying the right parameters
     if (!nav) {
-      this.router.navigate(['/overview']);
+      this.router.navigate(['/account']);
       return;
     }
 
     if (nav.extras && nav.extras.state) {
-      this.forkedPlaylistBasic = nav.extras.state['forkedPlaylist'];
+      this.remixedPlaylistBasic = nav.extras.state['remixedPlaylist'];
       this.originalPlaylistId = nav.extras.state['originalPlaylistId'];
       this.versionTimestamp = nav.extras.state['versionTimestamp'];
 
-      this.compareForkedPlaylistToOriginal();
+      this.compareRemixToOriginal();
     } else {
       // This page cannot be viewed without a redirect from another page, supplying the right parameters
-      // this.router.navigate(['/overview']);
-      this.compareForkedPlaylistToOriginal()
+      this.router.navigate(['/account']);
       return;
     }
   }
@@ -73,31 +73,30 @@ export class PlaylistComparePageComponent {
    * Compare the playlist to another
    * @private
    */
-  private compareForkedPlaylistToOriginal(): void {
-    // this.changesInFork = createMockForkDiff()
-    // this.changesInOriginal = createMockOriginalDiff()
-    this.apiService.comparePlaylists(this.forkedPlaylistBasic?.id as string, this.originalPlaylistId as string, this.versionTimestamp).then(changesFork => {
-      this.changesInFork = changesFork;
+  private compareRemixToOriginal(): void {
+    this.apiService.comparePlaylists(this.remixedPlaylistBasic?.id as string, this.originalPlaylistId as string, this.versionTimestamp).then(changesRemix => {
+      this.changesInRemix = changesRemix;
       return this.apiService.comparePlaylists(this.originalPlaylistId as string, this.originalPlaylistId as string, this.versionTimestamp)
     }).then(changesOriginal => {
       this.changesInOriginal = changesOriginal;
-      this.mergeChanges(this.changesInOriginal, this.changesInFork);
+      this.mergeChanges(this.changesInOriginal, this.changesInRemix);
     })
+    this.mergeChanges(this.changesInOriginal, this.changesInRemix);
   }
 
   /**
    * Merge the two lists of diffs
    * For a diff to make it into the merged list, the diff must be 0 'unchanged' in both lists
    * @param {Diff[]} changesInOriginal
-   * @param {Diff[]} changesInFork
+   * @param {Diff[]} changesInRemix
    * @private
    */
-  private mergeChanges(changesInOriginal: Diff[], changesInFork: Diff[]) {
+  private mergeChanges(changesInOriginal: Diff[], changesInRemix: Diff[]) {
     this.mergedChanges = [];
     for (let i = 0; i < changesInOriginal.length; i++) {
       const originalDiff = changesInOriginal[i];
-      const forkDiff = changesInFork[i];
-      if (originalDiff[0] === 0 && forkDiff[0] === 0) {
+      const remixDiff = changesInRemix[i];
+      if (originalDiff[0] === 0 && remixDiff[0] === 0) {
         this.mergedChanges.push(originalDiff);
       }
     }
@@ -137,9 +136,9 @@ export class PlaylistComparePageComponent {
     // Then find the diff in both lists and set its state to 0 'unchanged'
     const findDiffPredicate = (d: Diff) => d[1].track.id === diff[1].track.id;
     const foundChangeInOriginal = this.changesInOriginal.find(findDiffPredicate);
-    const foundChangeInFork = this.changesInFork.find(findDiffPredicate);
+    const foundChangeInRemix = this.changesInRemix.find(findDiffPredicate);
     if (foundChangeInOriginal) foundChangeInOriginal[0] = 0;
-    if (foundChangeInFork) foundChangeInFork[0] = 0;
+    if (foundChangeInRemix) foundChangeInRemix[0] = 0;
   }
 
   /**
@@ -155,6 +154,17 @@ export class PlaylistComparePageComponent {
    */
   syncPlaylist(): void {
     const mergedTracks = this.mergedChanges.map(d => d[1].track);
-    this.apiService.syncPlaylist(this.forkedPlaylistBasic?.id as string, mergedTracks).then().catch(e => this.error = e);
+    this.apiService.syncPlaylist(this.remixedPlaylistBasic?.id as string, mergedTracks).then().catch(e => this.error = e);
+  }
+
+  /**
+   * Generate a string to visualize the artists of the track in a nice way
+   * @param playlistTrack
+   * @returns {any}
+   */
+  generateArtistList(playlistTrack: any) {
+    //todo do this
+    console.warn('Using any type, but types are conflicting. Please fix asap.')
+    return playlistTrack.track.album.artists.map((artist: ArtistObjectFull) => `${artist.name}`).join(', ')
   }
 }

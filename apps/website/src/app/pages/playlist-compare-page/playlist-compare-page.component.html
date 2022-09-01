@@ -1,53 +1,65 @@
-<app-error [error]="error"></app-error>
-<div class="d-flex my-2 justify-content-end">
-  <button class="btn btn-primary" (click)="syncPlaylist()">Sync!</button>
-</div>
-<div class="container-fluid">
-  <div *ngIf="changesInFork && changesInOriginal" class="row">
-    <div class="col">
-      <p>Changes of</p>
-      <h1>Original</h1>
-      <ng-container
-        *ngTemplateOutlet="changeTemplate; context: {direction: 'right', changes: changesInOriginal} "></ng-container>
+<section class="container">
+  <app-error [error]="error"></app-error>
+  <div class="d-flex my-2 justify-content-end">
+    <button class="btn btn-primary" (click)="syncPlaylist()">Sync!</button>
+  </div>
+  <div class="container-fluid" *ngIf="changesInRemix && changesInOriginal">
+    <div class="row row-cols-3">
+      <div class="col">
+        <h3>Current original playlist<br><small>vs</small><br> Old original playlist</h3>
+      </div>
+      <div class="col">
+        <h3>Merged result</h3>
+      </div>
+      <div class="col">
+        <h3>Current remixed playlist<br><small>vs</small><br> Current original playlist</h3>
+      </div>
     </div>
-    <div class="col">
-      <p>Changes of</p>
-      <h1>Merged</h1>
-      <ng-container
-        *ngTemplateOutlet="changeTemplate; context: {changes: mergedChanges} "></ng-container>
-    </div>
-    <div class="col">
-      <p>Changes of</p>
-      <h1>Fork</h1>
-
-      <ng-container
-        *ngTemplateOutlet="changeTemplate; context: {direction: 'left', changes: changesInFork} "></ng-container>
+    <div class="row row-cols-3">
+      <div class="col">
+        <ng-container
+          *ngTemplateOutlet="changeTemplate; context: {direction: 'right', changes: changesInOriginal} "></ng-container>
+      </div>
+      <div class="col">
+        <ng-container
+          *ngTemplateOutlet="changeTemplate; context: {changes: mergedChanges} "></ng-container>
+      </div>
+      <div class="col">
+        <ng-container
+          *ngTemplateOutlet="changeTemplate; context: {direction: 'left', changes: changesInRemix} "></ng-container>
+      </div>
     </div>
   </div>
+</section>
 
-  <ng-template #changeTemplate let-direction="direction" let-changes="changes">
-    <div>
-      <div
-        *ngFor="let diff of changes; let i = index"
-        class="row track-diff"
-        [class.flex-row-reverse]="direction === 'right'">
-        <div class="col-1 d-flex">
-          <div class="line-number">
-            {{i + 1}}
-          </div>
-          <div class="actions d-flex" *ngIf="diff[0] !== 0 && direction">
-            <fa-icon [icon]="determineAddBackIcon(direction)" (click)="onAddBackAction(diff, i)"></fa-icon>
-            <fa-icon *ngIf="diff[0] === -1" [icon]="keepRemovedIcon" (click)="onKeepRemoved(diff)"></fa-icon>
+
+<ng-template #changeTemplate let-direction="direction" let-changes="changes">
+  <div>
+    <div
+      *ngFor="let diff of changes; let i = index"
+      class="card my-1"
+    >
+      <div class="row g-0">
+        <div class="col-md-2">
+          <!--          The third image has the smallest resolution-->
+          <img [src]="diff[1].track.album.images[2].url" class="h-100 img-fluid rounded-start"
+               alt="Album cover not found">
+        </div>
+        <div class="col-md-9" [ngClass]="determineCSSClass(diff)">
+          <div class="card-body">
+            <h6 class="card-title text-truncate">{{diff[1].track.name}}</h6>
+            <p class="card-text">
+              <small [innerHTML]="generateArtistList(diff[1])"></small>
+            </p>
           </div>
         </div>
-        <div
-          [ngClass]="determineCSSClass(diff)"
-          class="col border-bottom"
-        >
-          {{diff[1].track.name}}, {{diff[0]}}
-          <div> {{diff[1].track.id}}</div>
+        <div *ngIf="direction && diff[0] !== 0"
+             class="col-md-1 d-flex flex-column justify-content-between align-items-center py-1"
+             [ngClass]="determineCSSClass(diff)">
+          <fa-icon [icon]="determineAddBackIcon(direction)" (click)="onAddBackAction(diff, i)"></fa-icon>
+          <fa-icon *ngIf="diff[0] === -1" [icon]="keepRemovedIcon" (click)="onKeepRemoved(diff)"></fa-icon>
         </div>
       </div>
     </div>
-  </ng-template>
-</div>
+  </div>
+</ng-template>

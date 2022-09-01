@@ -1,96 +1,40 @@
-<app-error [error]="error"></app-error>
-<div class="section-title">
+<section class="container" data-aos="fade-up">
+  <app-error [error]="error"></app-error>
   <h2>Account</h2>
   <p>See your own account and statistics here!</p>
-</div>
+</section>
 
 
-<div class="row mb-5 d-flex justify-content-center h-50">
+<div class="row mx-0 mb-5 d-flex justify-content-center h-50">
   <div class="col-12 col-md-6 col-lg-6">
-    <fa-icon [icon]="loading" *ngIf="isLoading" [spin]="true" size="lg"></fa-icon>
     <div *ngIf="accountInformation">
       <app-avatar
-        [username]="accountInformation.display_name"
-        [images]="accountInformation.images"
-        [followers]="accountInformation.followers"
-        [externalUrls]="accountInformation.external_urls"
-        data-aos="fade-left">
+        [avatar]="accountInformation">
       </app-avatar>
     </div>
   </div>
 </div>
 
-<div class="row" data-aos="fade-up" *ngIf="topTracks && topArtists">
-  <div class="col-12 col-md-6">
-    <h2>Top Artists</h2>
-    <ol>
-      <li class="border-bottom" *ngFor="let artist of topArtists.items">
-        <a target="_blank" [href]="artist.external_urls.spotify">{{artist.name}}</a>
-        <img [src]="artist.images[0].url" alt="Image of {{artist.name}}"/>
-      </li>
-    </ol>
-  </div>
-  <div class="col-12 col-md-6">
-    <h2>Top Tracks</h2>
-    <ol>
-      <li class="border-bottom" *ngFor="let track of topTracks.items">
-        <a target="_blank" [href]="track.external_urls.spotify">{{track.name}}</a>
-      </li>
-    </ol>
-  </div>
-</div>
-
-
-<section id="portfolio" class="portfolio" *ngIf="topArtists && topTracks">
+<section class="pb-0" *ngIf="topArtists">
   <div class="container">
-
-    <div class="section-title" data-aos="zoom-out">
-      <h2>Statistics</h2>
-      <p>See your top artists and tracks!</p>
-    </div>
-
-    <ul id="portfolio-filters" class="d-flex justify-content-end" data-aos="fade-up">
-      <li data-filter=".filter-artist" class="filter-active">Artists</li>
-      <li data-filter=".filter-track">Tracks</li>
-    </ul>
-
-    <div class="row content-container" data-aos="fade-up">
-
-      <div class="col-lg-4 col-md-6 content-item filter-artist"
-           *ngFor="let artist of topArtists.items; let indexOfArtist = index">
-        <div class="portfolio-img"><img [src]="artist.images[0].url" class="img-fluid" alt=""></div>
-        <div class="portfolio-info">
-          <div>
-            <h4>{{artist.name}}</h4>
-            <p>{{formatGenres(artist.genres)}}</p>
-          </div>
-          <div class="d-flex align-items-center">
-            <a [href]="artist.external_urls.spotify" target="_blank" class="details-link me-3" title="Go to Spotify">
-              <fa-icon [icon]="spotify" size="lg"></fa-icon>
-            </a>
-            <h1 class="text-white">{{indexOfArtist + 1}}</h1>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-4 col-md-6 content-item filter-track"
-           *ngFor="let track of topTracks.items; let indexOfTrack = index">
-        <div class="portfolio-img"><img [src]="track.album.images[0].url" class="img-fluid" alt=""></div>
-        <div class="portfolio-info">
-          <div>
-            <h4>{{track.name}}</h4>
-            <p>Popularity: {{track.popularity}}</p>
-          </div>
-          <div class="d-flex align-items-center">
-            <a [href]="track.external_urls.spotify" target="_blank" class="details-link me-3" title="Go to Spotify">
-              <fa-icon [icon]="spotify" size="lg"></fa-icon>
-            </a>
-            <h1 class="text-white">{{indexOfTrack + 1}}</h1>
-          </div>
-        </div>
+    <h2>Top Artists</h2>
+    <div class="row">
+      <div class="col-4 my-2" *ngFor="let artist of topArtists.items" data-aos="fade-up">
+        <img class="img-fluid" [src]="artist.images[0].url" alt="Image of artist"/>
+        <p>{{artist.name}}</p>
       </div>
     </div>
-
   </div>
-</section><!-- End Portfolio Section -->
+</section>
 
+<section class="pb-0" *ngIf="topTracks">
+  <div class="container">
+    <h2>Top Tracks</h2>
+    <div class="row">
+      <div class="col-4 my-2" *ngFor="let track of topTracks.items" data-aos="fade-up">
+        <img class="img-fluid" [src]="track.album.images[0].url" alt="Image of artist"/>
+        <p>{{track.name}}</p>
+      </div>
+    </div>
+  </div>
+</section>

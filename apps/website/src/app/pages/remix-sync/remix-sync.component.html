@@ -1,0 +1,37 @@
+<section class="container">
+  <app-error [error]="error"></app-error>
+  <div class="section-title">
+    <h2>It's time to catch up!</h2>
+    <p>Sync remixed playlists</p>
+  </div>
+  <p>You can use this page to synchronize a playlist you remixed earlier to it's original. Pick for each added / removed
+    song in the original what you would like to do: add it (back) or not</p>
+
+  <app-playlist-overview [playlists]="playlists" (actionClick)="onActionClick($event)">
+    <ng-template #action>
+      <button type="button" class="btn btn-primary">Synchronize</button>
+    </ng-template>
+  </app-playlist-overview>
+
+  <div class="d-flex justify-content-center">
+    <fa-icon *ngIf="isLoading" [icon]="loading" [spin]="true" size="lg"></fa-icon>
+  </div>
+</section>
+
+<app-modal>
+  <div body>
+    <p>
+      We've detected you have remixed this playlist more than once. The lists below shows the dates where a copy of
+      the original playlist was created. <br>
+      Please pick one of the dates, we will compare the current <b>original</b> and the current <b>remix</b> to this
+      version of the original playlist.
+    </p>
+
+    <div class="list-group" *ngIf="versions">
+      <button *ngFor="let version of versions" type="button" class="list-group-item list-group-item-action"
+              (click)="startComparingPlaylist(version.createdOn)">
+        {{version.createdOn * 1000 | date :'dd-MM-yyyy HH:mm:ss'}}
+      </button>
+    </div>
+  </div>
+</app-modal>

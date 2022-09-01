@@ -1,5 +1,6 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, ViewChild} from '@angular/core';
 import {CustomError} from '../../types/CustomError';
+import {NgbAlert} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-error',
@@ -7,6 +8,23 @@ import {CustomError} from '../../types/CustomError';
   styleUrls: ['./error.component.scss']
 })
 export class ErrorComponent {
-  @Input() error: CustomError | undefined;
+  @ViewChild('staticAlert', {static: false}) staticAlert!: NgbAlert;
+
+  /**
+   * Setter for error
+   * When called the alert will be shown and closed after 5 seconds
+   * @param {CustomError | undefined} val
+   */
+  @Input() set error(val: CustomError | undefined) {
+    this._error = val;
+    console.log(this.staticAlert)
+    if (this.staticAlert) {
+      setTimeout(() => {
+        this.staticAlert.close()
+      }, 5000);
+    }
+  }
+
+  _error: CustomError | undefined
 
 }
