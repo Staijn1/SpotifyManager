@@ -47,6 +47,8 @@ export class SpotifyService {
    */
   async createPlaylist(name: string, options?: any): Promise<SpotifyApi.CreatePlaylistResponse> {
     const response = await this._spotifyApi.createPlaylist(name, options);
+    // todo: When this console.log is removed, sometimes the description is not added to the playlist.
+    console.log(response)
     return response.body
   }
 
