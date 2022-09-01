@@ -1,5 +1,5 @@
-<app-error [error]="error"></app-error>
 <section class="container">
+  <app-error [error]="error"></app-error>
 
   <h2>It's time to change it up!</h2>
   <p>Remix a playlist</p>
@@ -10,7 +10,7 @@
     the newest songs!</p>
 
   <div class="d-flex justify-content-center" *ngIf="isLoading">
-        <fa-icon [icon]="loading" [spin]="true"></fa-icon>
+    <fa-icon [icon]="loading" [spin]="true"></fa-icon>
   </div>
   <app-playlist-overview [playlists]="playlists" (requestMore)="getMorePlaylists()"
                          (actionClick)="remixPlaylist($event)">

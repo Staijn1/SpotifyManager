@@ -19,6 +19,7 @@ import { PlaylistOverviewComponent } from './components/playlist-overview/playli
 import { PlaylistComparePageComponent } from './pages/playlist-compare-page/playlist-compare-page.component';
 import { ModalComponent } from './components/modal/modal.component';
 import {
+  NgbAlertModule,
   NgbCollapseModule,
   NgbDropdownModule,
 } from '@ng-bootstrap/ng-bootstrap';
@@ -54,6 +55,7 @@ import { IllustrationCardComponent } from './components/illustration-card/illust
     FormsModule,
     NgbCollapseModule,
     NgbDropdownModule,
+    NgbAlertModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

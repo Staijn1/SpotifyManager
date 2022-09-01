@@ -1,5 +1,5 @@
-<app-error [error]="error"></app-error>
 <section class="container">
+  <app-error [error]="error"></app-error>
   <div class="section-title">
     <h2>It's time to catch up!</h2>
     <p>Sync remixed playlists</p>
@@ -28,7 +28,8 @@
     </p>
 
     <div class="list-group" *ngIf="versions">
-      <button *ngFor="let version of versions" type="button" class="list-group-item list-group-item-action" (click)="startComparingPlaylist(version.createdOn)">
+      <button *ngFor="let version of versions" type="button" class="list-group-item list-group-item-action"
+              (click)="startComparingPlaylist(version.createdOn)">
         {{version.createdOn * 1000 | date :'dd-MM-yyyy HH:mm:ss'}}
       </button>
     </div>
