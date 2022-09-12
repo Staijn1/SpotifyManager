@@ -51,6 +51,7 @@
             <p class="card-text">
               <small [innerHTML]="generateArtistList(diff[1])"></small>
             </p>
+            <app-audio [src]="diff[1].track.preview_url"></app-audio>
           </div>
         </div>
         <div *ngIf="direction && diff[0] !== 0"
