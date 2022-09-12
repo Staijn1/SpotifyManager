@@ -160,7 +160,7 @@ const setCookie = (name: string, value: any, expire: any) => {
 };
 
 const getCookie = (name: string) => {
-  var keyValue = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+  const keyValue = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
   return keyValue ? keyValue[2] : keyValue;
 };
 
