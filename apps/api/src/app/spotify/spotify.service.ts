@@ -73,7 +73,14 @@ export class SpotifyService {
    */
   async addTracksToPlaylist(id, trackURIs: string[], options?: any): Promise<SpotifyApi.AddTracksToPlaylistResponse> {
     try {
-      const response = await this._spotifyApi.addTracksToPlaylist(id, trackURIs, options);
+      // The spotify api only allows 100 tracks to be added at a time
+      // So we need to split the tracks into chunks of 100 and add them one by one
+      const chunks = this.splitArrayInChunks(trackURIs, 100);
+      let response;
+      for (const chunk of chunks) {
+        response = await this._spotifyApi.addTracksToPlaylist(id, chunk, options);
+      }
+
       this.currentRetryAttempt = 0;
       return response.body
     } catch (e) {
@@ -81,6 +88,7 @@ export class SpotifyService {
       if (this.currentRetryAttempt < this.MAX_RETRIES)
         return this.addTracksToPlaylist(id, trackURIs, options);
       else {
+        console.error(e)
         throw new HttpException('Failed to add tracks to playlist', 500);
       }
     }
