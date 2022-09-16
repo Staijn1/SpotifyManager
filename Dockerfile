@@ -1,9 +1,7 @@
-FROM node:alpine3.15 as builderARG
+FROM node:lts-alpine3.10 as builder
 
 ARG NODE_ENV
-ARG BUILD_FLAGWORKDIR  /app
-
-RUN apk add --no-cache python2 g++ make
+ARG BUILD_FLAGWORKDIR /app/builder
 
 COPY . .
 
