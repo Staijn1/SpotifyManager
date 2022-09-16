@@ -46,4 +46,4 @@ services:
       PORT: 4900
     networks:
       - corp
-    restart: on-failure
+#    restart: on-failure
