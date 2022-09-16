@@ -13,12 +13,12 @@ services:
     build:
       context: ./
       cache_from:
-        - spotifymanager:nx-base
+        - staijn/spotifymanager:nx-base
       dockerfile: ./apps/api/Dockerfile
       args:
         NODE_ENV: "development"
         BUILD_FLAG: ""
-    image: api:nx-dev
+    image: staijn/spotifymanager:api
     ports:
       - 4939:3333
     environment:
@@ -38,7 +38,7 @@ services:
       args:
         NODE_ENV: "development"
         BUILD_FLAG: ""
-    image: website:nx-dev
+    image: staijn/spotifymanager:website
     ports:
       - 4900:80
     environment:
