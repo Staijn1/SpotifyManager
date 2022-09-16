@@ -1,6 +1,6 @@
-# set DOCKER_BUILDKIT=0 & docker-compose build
+# set "DOCKER_BUILDKIT=0" & docker-compose build
 # docker run --rm -it id sh
-# set DOCKER_BUILDKIT=0 & docker build . -t spotifymanager:nx-base
+# set "DOCKER_BUILDKIT=0" & docker build . -t spotifymanager:nx-base
 version: "3.8"
 
 networks:
