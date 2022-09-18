@@ -52,13 +52,22 @@ export class ButtonComponent implements OnInit {
             this.faIcon = fab[key];
             break;
           default:
-            console.log('fa' + parts[1]);
-            console.log('fas', fas);
-            console.log('far', far);
-            console.log('fab', fab);
-            this.faIcon = fas['faExclamation'];
+            this.iconNotFoundState(parts[1]);
         }
+        if (!this.faIcon) this.iconNotFoundState(parts[1]);
+
       }
     }
+  }
+
+  /**
+   * Log icons and set exclamation mark icon if no icon is found
+   */
+  iconNotFoundState(iconName: string): void {
+    console.log('fa' + iconName);
+    console.log('fas', fas);
+    console.log('far', far);
+    console.log('fab', fab);
+    this.faIcon = fas['faExclamation'];
   }
 }

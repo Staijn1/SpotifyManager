@@ -21,7 +21,7 @@ import { ModalComponent } from './components/modal/modal.component';
 import {
   NgbAlertModule,
   NgbCollapseModule,
-  NgbDropdownModule,
+  NgbDropdownModule, NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { HeroComponent } from './components/hero/hero.component';
 import { ButtonComponent } from './components/button/button.component';
@@ -58,6 +58,7 @@ import { AudioComponent } from './components/audio/audio.component';
     NgbCollapseModule,
     NgbDropdownModule,
     NgbAlertModule,
+    NgbNavModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

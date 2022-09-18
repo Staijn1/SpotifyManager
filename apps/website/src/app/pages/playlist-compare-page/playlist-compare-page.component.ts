@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {Navigation, Router} from '@angular/router';
 import {CustomError} from '../../types/CustomError';
 import {ApiService} from '../../services/api/api.service';
@@ -7,6 +7,7 @@ import {createMockOriginalDiff, createMockRemixDiff} from '../../mocks';
 import {faChevronLeft, faChevronRight, faTimes, IconDefinition} from '@fortawesome/free-solid-svg-icons';
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
 import ArtistObjectFull = SpotifyApi.ArtistObjectFull;
+import {NgbNav} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-playlist-compare-page',
@@ -14,6 +15,7 @@ import ArtistObjectFull = SpotifyApi.ArtistObjectFull;
   styleUrls: ['./playlist-compare-page.component.scss'],
 })
 export class PlaylistComparePageComponent {
+  @ViewChild(NgbNav) nav!: NgbNav;
   error: CustomError | undefined;
 
   private remixedPlaylistBasic: SpotifyApi.PlaylistObjectSimplified | undefined;
@@ -23,6 +25,7 @@ export class PlaylistComparePageComponent {
   changesInOriginal: Diff[] = [];
   mergedChanges: Diff[] = [];
   keepRemovedIcon = faTimes;
+  activeTab = 1;
 
   /**
    * Inject dependencies and start the compare process
@@ -147,6 +150,14 @@ export class PlaylistComparePageComponent {
    */
   onKeepRemoved(diff: Diff) {
     diff[0] = 0;
+  }
+
+  /**
+   * Change the tab. Parameter -1 means previous tab, 1 means next tab
+   * @param {-1 | 1} nextOrPrevious
+   */
+  changeTab(nextOrPrevious: -1 | 1): void {
+    this.nav.select(this.activeTab + nextOrPrevious);
   }
 
   /**

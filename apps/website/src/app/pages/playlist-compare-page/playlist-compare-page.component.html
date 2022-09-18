@@ -1,33 +1,36 @@
-<section class="container">
+<section class="container-fluid px-4">
   <app-error [error]="error"></app-error>
-  <div class="d-flex my-2 justify-content-end">
+  <div class="d-flex my-2 justify-content-between">
+    <div class="d-flex">
+      <app-button [classes]="['btn-secondary']" (click)="changeTab(-1)" icon="fas ArrowLeft">Previous</app-button>
+      <app-button [classes]="['btn-secondary']" (click)="changeTab(1)" icon="fas ArrowRight">Next</app-button>
+    </div>
     <button class="btn btn-primary" (click)="syncPlaylist()">Sync!</button>
   </div>
-  <div class="container-fluid" *ngIf="changesInRemix && changesInOriginal">
-    <div class="row row-cols-3">
-      <div class="col">
-        <h3>Current original playlist<br><small>vs</small><br> Old original playlist</h3>
-      </div>
-      <div class="col">
-        <h3>Merged result</h3>
-      </div>
-      <div class="col">
-        <h3>Current remixed playlist<br><small>vs</small><br> Current original playlist</h3>
-      </div>
+  <div class="row row-cols-2">
+    <div class="col">
+      <h3>Merged result</h3>
+      <ng-container
+        *ngTemplateOutlet="changeTemplate; context: {changes: mergedChanges} "></ng-container>
     </div>
-    <div class="row row-cols-3">
-      <div class="col">
-        <ng-container
-          *ngTemplateOutlet="changeTemplate; context: {direction: 'right', changes: changesInOriginal} "></ng-container>
-      </div>
-      <div class="col">
-        <ng-container
-          *ngTemplateOutlet="changeTemplate; context: {changes: mergedChanges} "></ng-container>
-      </div>
-      <div class="col">
-        <ng-container
-          *ngTemplateOutlet="changeTemplate; context: {direction: 'left', changes: changesInRemix} "></ng-container>
-      </div>
+    <div class="col">
+      <ul ngbNav #nav="ngbNav" class="nav-tabs" [(activeId)]="activeTab">
+        <li [ngbNavItem]="1">
+          <ng-template ngbNavContent>
+            <h3>Current original playlist<br><small>vs</small><br> Old original playlist</h3>
+            <ng-container
+              *ngTemplateOutlet="changeTemplate; context: {direction: 'right', changes: changesInOriginal} "></ng-container>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="2">
+          <ng-template ngbNavContent>
+            <h3>Current remixed playlist<br><small>vs</small><br> Current original playlist</h3>
+            <ng-container
+              *ngTemplateOutlet="changeTemplate; context: {direction: 'left', changes: changesInRemix} "></ng-container>
+          </ng-template>
+        </li>
+      </ul>
+      <div [ngbNavOutlet]="nav"></div>
     </div>
   </div>
 </section>
