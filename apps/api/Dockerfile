@@ -1,4 +1,4 @@
-FROM spotifymanager:nx-base AS builder
+FROM staijn/spotifymanager:nx-base AS builder
 
 ARG NODE_ENV
 ARG BUILD_FLAG
