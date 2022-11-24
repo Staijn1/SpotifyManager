@@ -4,7 +4,7 @@ on:
   push:
     branches: [ "main" ]
   workflow_dispatch:
-  
+
 jobs:
 
   build:
@@ -17,12 +17,12 @@ jobs:
       with:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.TOKEN }}
-        
+
     # Add support for more platforms with QEMU (optional)
     # https://github.com/docker/setup-qemu-action
     - name: Set up QEMU
-      uses: docker/setup-qemu-action@v2    
-    
+      uses: docker/setup-qemu-action@v2
+
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
 
@@ -32,9 +32,9 @@ jobs:
       run: docker buildx use mybuilder
     - name: Bootstrap builder
       run: docker buildx inspect --bootstrap
-      
-      
-    - name: Build and push base image
-      run: docker buildx build --platform=linux/arm/v7 -t ${{ secrets.USERNAME }}/spotifymanager:nx-base --push .
+
+
+#    - name: Build and push base image
+#      run: docker buildx build --platform=linux/arm/v7 -t ${{ secrets.USERNAME }}/spotifymanager:nx-base --push .
     - name: Build sub-application images
       run: docker buildx bake --push --set *.platform=linux/arm/v7
