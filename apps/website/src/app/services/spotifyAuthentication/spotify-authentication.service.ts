@@ -17,9 +17,14 @@ export class SpotifyAuthenticationService extends HTTPService {
   private readonly CLIENT_ID = '0ad647aa391e490ba42610b5dde235b4';
   // Scopes is a space-separated list of scopes, found in the spotify API documentation.
   private readonly SCOPES = 'user-top-read playlist-modify-public playlist-modify-private playlist-read-private playlist-read-collaborative';
-  // The redirect URI is the URL where the user will be redirected after the authentication process.
-  // It must be registered in the Spotify developer portal.
-  private readonly REDIRECT_URI = environment.redirect_uri;
+  /**
+   * The redirect URI is the URL where the user will be redirected after the authentication process.
+   * It must be registered in the Spotify developer portal.
+   * The redirect URI is the current URL, with the last part replaced by 'spotify-callback'.
+   * Example, current URL = 'https://some-subdomain.domain.nl/some-path/home' will become 'https://some-subdomain.domain.nl/some-path/callback'
+   */
+  private readonly REDIRECT_URI = window.location.href.replace(/\/[^/]*$/, "/callback");
+
   @Output() errorEvent = new EventEmitter<CustomError>();
 
   /**

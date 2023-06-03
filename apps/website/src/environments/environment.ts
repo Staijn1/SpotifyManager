@@ -4,7 +4,6 @@
 
 export const environment = {
   production: false,
-  redirect_uri: 'http://localhost:4200/callback',
   url: 'http://localhost:3333/api',
 };
 
