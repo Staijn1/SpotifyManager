@@ -4,7 +4,7 @@ import * as fs from 'fs';
 
 @Injectable()
 export class FileService {
-  protected readonly rootPath = path.join(__dirname, '..', '..', 'assets')
+  protected readonly rootPath = path.join(__dirname, 'assets')
 
   /**
    * Create the root path if it doesn't exist
