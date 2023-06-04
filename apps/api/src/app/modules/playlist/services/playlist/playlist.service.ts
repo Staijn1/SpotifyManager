@@ -1,4 +1,4 @@
-import {HttpException, Injectable} from '@nestjs/common';
+import {HttpException, Injectable, Logger} from '@nestjs/common';
 import {SpotifyService} from '../../../../spotify/spotify.service';
 import {PlaylistFileService} from '../playlist-file-service/playlist-file.service';
 import {Diff, RemixedPlaylistInformation} from '@spotify/data';
@@ -45,10 +45,30 @@ export class PlaylistService {
     originalPlaylist.tracks.items = []
 
     const newPlaylistName = `Remix - ${originalPlaylist.name}`;
+    // Somehow the spotify API does not always add the description properly. So we keep track of the expected description.
+    // If the actual description does not match the expected description, we will update the playlist with the expected description.
+    const expectedDescription = `This playlist has been remixed using SpotifyManager. Please do not remove the original playlist id from the description. Original playlist: {${originalPlaylist.id}}`;
     const newPlaylist = await this.spotifyService.createPlaylist(newPlaylistName,
       {
         description: `This playlist has been remixed using SpotifyManager. Please do not remove the original playlist id from the description. Original playlist: {${originalPlaylist.id}}`
       });
+    let actualDescription = newPlaylist.description;
+    let retries = 0;
+    while (actualDescription != expectedDescription) {
+      Logger.log(`Description was not set properly for playlist ${newPlaylist.id}. Retrying...`)
+      // Sadly the spotify API does not return the updated playlist object.. so we need to fetch it again.
+      await this.spotifyService.changePlaylistDetails(newPlaylist.id, {description: expectedDescription});
+      const changedPlaylist = await this.spotifyService.getPlaylistInformation(newPlaylist.id);
+      actualDescription = changedPlaylist.description;
+      retries++;
+
+      if (retries > 20) {
+        throw new HttpException(`Could not set description for playlist. Please retry`, 500)
+      }
+    }
+
+    Logger.log(`Created new remix playlist with id ${newPlaylist.id} for original playlist ${playlistid}`);
+    Logger.log(`Creating took ${retries} retries.`);
 
     // The spotify api returns the tracks in the originalPlaylist but it limits the number of tracks to 100.
     // So we need to get the tracks in chunks of 100.

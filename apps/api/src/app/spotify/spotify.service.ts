@@ -47,8 +47,6 @@ export class SpotifyService {
    */
   async createPlaylist(name: string, options?: any): Promise<SpotifyApi.CreatePlaylistResponse> {
     const response = await this._spotifyApi.createPlaylist(name, options);
-    // todo: When this console.log is removed, sometimes the description is not added to the playlist.
-    console.log(response)
     return response.body
   }
 
@@ -165,5 +163,15 @@ export class SpotifyService {
       chunks.push(array.slice(i, i += chunkSize));
     }
     return chunks;
+  }
+
+  /**
+   * Change the details of a playlist, such as the description
+   * @param id
+   * @param options
+   */
+  async changePlaylistDetails(id: string, options: { description: string }) {
+    const newPlaylist = await this._spotifyApi.changePlaylistDetails(id, options)
+    return newPlaylist.body;
   }
 }
