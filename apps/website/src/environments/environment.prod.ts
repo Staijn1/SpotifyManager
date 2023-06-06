@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  url: 'http://localhost:4939/api',
+  url: 'https://api.spotify.steinjonker.nl/api',
 };
