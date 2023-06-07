@@ -3,11 +3,10 @@ import {Navigation, Router} from '@angular/router';
 import {CustomError} from '../../types/CustomError';
 import {ApiService} from '../../services/api/api.service';
 import {Diff} from '@spotify/data';
-import {createMockOriginalDiff, createMockRemixDiff} from '../../mocks';
-import {faChevronLeft, faChevronRight, faTimes, IconDefinition} from '@fortawesome/free-solid-svg-icons';
+import {faChevronLeft, faChevronRight, faThumbTack, faTimes, IconDefinition} from '@fortawesome/free-solid-svg-icons';
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
-import ArtistObjectFull = SpotifyApi.ArtistObjectFull;
 import {NgbNav} from '@ng-bootstrap/ng-bootstrap';
+import ArtistObjectFull = SpotifyApi.ArtistObjectFull;
 
 @Component({
   selector: 'app-playlist-compare-page',
@@ -26,6 +25,7 @@ export class PlaylistComparePageComponent {
   mergedChanges: Diff[] = [];
   keepRemovedIcon = faTimes;
   activeTab = 1;
+  pinnedIcon = faThumbTack;
 
   /**
    * Inject dependencies and start the compare process
@@ -84,7 +84,6 @@ export class PlaylistComparePageComponent {
       this.changesInOriginal = changesOriginal;
       this.mergeChanges(this.changesInOriginal, this.changesInRemix);
     })
-    this.mergeChanges(this.changesInOriginal, this.changesInRemix);
   }
 
   /**
@@ -177,5 +176,12 @@ export class PlaylistComparePageComponent {
     //todo do this
     console.warn('Using any type, but types are conflicting. Please fix asap.')
     return playlistTrack.track.album.artists.map((artist: ArtistObjectFull) => `${artist.name}`).join(', ')
+  }
+
+  /**
+   * Returns true when the original playlist has been changed after it has been remixed
+   */
+  get originalPlaylistHasChanged(): boolean {
+    return this.changesInOriginal.filter(diff => diff[0] !== 0).length !== 0
   }
 }

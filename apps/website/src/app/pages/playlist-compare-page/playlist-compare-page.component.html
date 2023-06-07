@@ -1,15 +1,16 @@
 <section class="container-fluid px-4">
   <app-error [error]="error"></app-error>
-  <div class="d-flex my-2 justify-content-between">
-    <div class="d-flex">
-      <app-button [classes]="['btn-secondary']" (click)="changeTab(-1)" icon="fas ArrowLeft">Previous</app-button>
-      <app-button [classes]="['btn-secondary']" (click)="changeTab(1)" icon="fas ArrowRight">Next</app-button>
-    </div>
+  <div class="d-flex my-2 justify-content-end">
+    <app-button [classes]="['btn-secondary']" (click)="changeTab(-1)" icon="fas ArrowLeft">Previous</app-button>
+    <app-button class="me-5" [classes]="['btn-secondary']" (click)="changeTab(1)" icon="fas ArrowRight">Next
+    </app-button>
     <button class="btn btn-primary" (click)="syncPlaylist()">Sync!</button>
   </div>
   <div class="row row-cols-2">
     <div class="col">
-      <h3>Merged result</h3>
+      <h3>Merged result
+        <fa-icon class="ms-3" [icon]="pinnedIcon"></fa-icon>
+      </h3>
       <ng-container
         *ngTemplateOutlet="changeTemplate; context: {changes: mergedChanges} "></ng-container>
     </div>
@@ -18,8 +19,13 @@
         <li [ngbNavItem]="1">
           <ng-template ngbNavContent>
             <h3>Current original playlist<br><small>vs</small><br> Old original playlist</h3>
-            <ng-container
-              *ngTemplateOutlet="changeTemplate; context: {direction: 'right', changes: changesInOriginal} "></ng-container>
+            <div *ngIf="originalPlaylistHasChanged;else noChangesInOriginal">
+              <ng-container
+                *ngTemplateOutlet="changeTemplate; context: {direction: 'left', changes: changesInOriginal} "></ng-container>
+            </div>
+            <ng-template #noChangesInOriginal>
+              <p>The original playlist has not changed after remixing took place.</p>
+            </ng-template>
           </ng-template>
         </li>
         <li [ngbNavItem]="2">
