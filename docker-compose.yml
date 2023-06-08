@@ -10,6 +10,11 @@ networks:
 services:
   spotify_api:
     container_name: spotify_api
+    build:
+      context: ./
+      cache_from:
+        - staijn/spotifymanager:nx-base
+      dockerfile: ./apps/api/Dockerfile
     image: staijn/spotifymanager:api
     ports:
       - 4901:3333
@@ -18,8 +23,14 @@ services:
     restart: on-failure
     volumes:
       - /data/spotifymanager:/app/dist/apps/api/assets
+  
   spotify_website:
     container_name: spotify_website
+    build:
+      context: ./
+      cache_from:
+        - staijn/spotifymanager:nx-base
+      dockerfile: ./apps/website/Dockerfile
     image: staijn/spotifymanager:website
     ports:
       - 4900:80
