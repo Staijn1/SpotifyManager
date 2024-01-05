@@ -17,7 +17,6 @@ export class ErrorComponent {
    */
   @Input() set error(val: CustomError | undefined) {
     this._error = val;
-    console.log(this.staticAlert)
     if (this.staticAlert) {
       setTimeout(() => {
         this.staticAlert.close()
