@@ -16,7 +16,6 @@ export class PlaylistFileService extends FileService {
     // Get unix timestamp and add it to the filename.
     const timestamp = Math.floor(Date.now() / 1000);
     const filename = `${timestamp}-${playlist.id}.json`;
-    const pathToPlaylist = path.join(this.rootPath, 'remixes', userId, filename);
     return this.writeFile(filename, JSON.stringify(playlist), ['remixes', userId]);
   }
 
