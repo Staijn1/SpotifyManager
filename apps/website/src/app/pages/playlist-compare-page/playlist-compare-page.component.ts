@@ -191,7 +191,7 @@ export class PlaylistComparePageComponent {
   syncPlaylist(): void {
     this.isSyncing = true;
     const mergedTracks = this.mergedChanges.map(d => d[1].track);
-    this.apiService.syncPlaylist(this.remixedPlaylistBasic?.id as string, mergedTracks)
+    this.apiService.syncPlaylist(this.originalPlaylistId as string,this.remixedPlaylistBasic?.id as string, mergedTracks)
       .then()
       .catch(e => this.error = e)
       .finally(() => this.isSyncing = false);
