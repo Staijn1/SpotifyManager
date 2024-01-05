@@ -14,6 +14,6 @@ export class AudioComponent {
 
   handlePlay(event: Event) {
     const audioElement = event.target as HTMLAudioElement;
-    this.audioService.play(audioElement).then();
+    this.audioService.playNextAudioAndPauseCurrentlyPlaying(audioElement).then();
   }
 }

@@ -7,6 +7,7 @@ import {faChevronLeft, faChevronRight, faThumbTack, faTimes, IconDefinition} fro
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
 import {NgbNav} from '@ng-bootstrap/ng-bootstrap';
 import ArtistObjectFull = SpotifyApi.ArtistObjectFull;
+import {AudioService} from "../../services/audioService/audio.service";
 
 @Component({
   selector: 'app-playlist-compare-page',
@@ -31,8 +32,9 @@ export class PlaylistComparePageComponent {
    * Inject dependencies and start the compare process
    * @param router
    * @param {ApiService} apiService
+   * @param audioService
    */
-  constructor(private readonly router: Router, private apiService: ApiService) {
+  constructor(private readonly router: Router, private apiService: ApiService, private readonly audioService: AudioService) {
     const nav: Navigation | null = this.router.getCurrentNavigation();
 
     // This page cannot be viewed without a redirect from another page, supplying the right parameters
@@ -128,6 +130,7 @@ export class PlaylistComparePageComponent {
    * @param {number} index
    */
   onAddBackAction(diff: Diff, index: number): void {
+    this.audioService.stopCurrentAudio();
     // Create a copy of the diff, so we can change it's state to 1 'inserted'
     const copy = Object.assign({}, diff);
     copy[0] = 1;
@@ -148,6 +151,7 @@ export class PlaylistComparePageComponent {
    * @param {Diff} diff
    */
   onKeepRemoved(diff: Diff) {
+    this.audioService.stopCurrentAudio();
     diff[0] = 0;
   }
 
