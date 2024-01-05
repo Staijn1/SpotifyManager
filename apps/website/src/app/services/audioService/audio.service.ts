@@ -7,14 +7,17 @@ export class AudioService {
   private currentAudio: HTMLAudioElement | null = null;
 
   /**
-   * Play the audio element, pausing the current one if it is playing.
-   * @param audio
+   * Play the nextAudio element, pausing the current one if it is playing.
+   * @param nextAudio
    */
-  async playNextAudioAndPauseCurrentlyPlaying(audio: HTMLAudioElement) {
-    if (this.currentAudio && !this.currentAudio.paused) {
-      this.currentAudio.pause();
+  async playNextAudioAndPauseCurrentlyPlaying(nextAudio: HTMLAudioElement) {
+    // If the next audio is the same as the current audio, do nothing.
+    if (nextAudio === this.currentAudio) {
+      return;
     }
-    this.currentAudio = audio;
+
+    this.stopCurrentAudio();
+    this.currentAudio = nextAudio;
     await this.currentAudio.play();
   }
 
@@ -22,8 +25,9 @@ export class AudioService {
    * Pause the current audio element.
    */
   stopCurrentAudio() {
-    if (this.currentAudio) {
+    if (this.currentAudio && !this.currentAudio.paused) {
       this.currentAudio.pause();
+      this.currentAudio.currentTime = 0;
     }
   }
 }
