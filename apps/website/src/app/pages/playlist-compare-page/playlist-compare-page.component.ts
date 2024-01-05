@@ -26,8 +26,8 @@ export class PlaylistComparePageComponent {
   error: CustomError | undefined;
 
   private remixedPlaylistBasic: SpotifyApi.PlaylistObjectSimplified | undefined;
-  private originalPlaylistId: string | undefined;
-  private versionTimestamp: number | undefined;
+  private readonly originalPlaylistId: string | undefined;
+  private readonly versionTimestamp: number | undefined;
   changesInRemix: Diff[] = [];
   changesInOriginal: Diff[] = [];
   mergedChanges: Diff[] = [];
@@ -175,10 +175,14 @@ export class PlaylistComparePageComponent {
 
   /**
    * Change the tab. Parameter -1 means previous tab, 1 means next tab
+   * If the new tab index is out of bounds, roll-over to the other side
    * @param {-1 | 1} nextOrPrevious
    */
   changeTab(nextOrPrevious: -1 | 1): void {
-    this.nav.select(this.activeTab + nextOrPrevious);
+    let newTab = this.activeTab + nextOrPrevious;
+    if (newTab < 1) newTab = this.nav.items.length;
+    if (newTab > this.nav.items.length) newTab = 1;
+    this.nav.select(newTab);
   }
 
   /**
