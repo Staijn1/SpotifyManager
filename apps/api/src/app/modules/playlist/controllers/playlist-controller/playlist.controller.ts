@@ -101,6 +101,6 @@ export class PlaylistController {
    */
   @Post('sync')
   public async syncRemixWithOriginal(@Body() body: PlaylistSyncRequest): Promise<void> {
-    return this.playlistService.syncPlaylist(body.playlistId, body.tracks)
+    return this.playlistService.syncPlaylist(body.originalPlaylistId, body.remixedPlaylistId, body.tracks)
   }
 }

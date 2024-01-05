@@ -1,27 +1,47 @@
+$inserted-color: #92e592;
+$removed-color: #e59494;
+$equal-color: white;
+
 .equal {
-  background: white;
+  background: $equal-color;
 }
 
 .removed {
-  background: #e59494;
-
-  fa-icon {
-    color: dimgray;
-    transition: color 250ms ease-out;
-    &:hover {
-      color: white;
-    }
-  }
+  background: $removed-color;
 }
 
 .inserted {
-  background: #92e592;
+  background: $inserted-color;
 }
 
-.actions-container{
-  background: gainsboro;
+.actions-container {
+  cursor: pointer;
+
+  .add-back-action, .keep-removed-action {
+    background: #e5e5e5;
+    border: none;
+    color: dimgray;
+    transition: color 250ms ease-out;
+
+    &:hover:not(:disabled) {
+      color: white;
+    }
+
+    &:disabled {
+      background: darken(#e5e5e5, 10%);
+      cursor: not-allowed;
+    }
+  }
+
+  .add-back-action {
+    color: $inserted-color;
+  }
+
+  .keep-removed-action {
+    color: $removed-color;
+  }
 }
 
-.line-number {
-  color: #646464;
+.object-fit-cover {
+  object-fit: cover;
 }

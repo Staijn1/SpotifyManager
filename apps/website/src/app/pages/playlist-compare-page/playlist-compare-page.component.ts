@@ -3,11 +3,18 @@ import {Navigation, Router} from '@angular/router';
 import {CustomError} from '../../types/CustomError';
 import {ApiService} from '../../services/api/api.service';
 import {Diff} from '@spotify/data';
-import {createMockOriginalDiff, createMockRemixDiff} from '../../mocks';
-import {faChevronLeft, faChevronRight, faTimes, IconDefinition} from '@fortawesome/free-solid-svg-icons';
+import {
+  faChevronLeft,
+  faChevronRight,
+  faSpinner,
+  faThumbTack,
+  faTimes,
+  IconDefinition
+} from '@fortawesome/free-solid-svg-icons';
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
-import ArtistObjectFull = SpotifyApi.ArtistObjectFull;
 import {NgbNav} from '@ng-bootstrap/ng-bootstrap';
+import {AudioService} from "../../services/audioService/audio.service";
+import ArtistObjectFull = SpotifyApi.ArtistObjectFull;
 
 @Component({
   selector: 'app-playlist-compare-page',
@@ -19,20 +26,25 @@ export class PlaylistComparePageComponent {
   error: CustomError | undefined;
 
   private remixedPlaylistBasic: SpotifyApi.PlaylistObjectSimplified | undefined;
-  private originalPlaylistId: string | undefined;
-  private versionTimestamp: number | undefined;
+  private readonly originalPlaylistId: string | undefined;
+  private readonly versionTimestamp: number | undefined;
+  readonly loadingIcon = faSpinner;
+  readonly pinnedIcon = faThumbTack;
+  readonly keepRemovedIcon = faTimes;
   changesInRemix: Diff[] = [];
   changesInOriginal: Diff[] = [];
   mergedChanges: Diff[] = [];
-  keepRemovedIcon = faTimes;
   activeTab = 1;
+  isLoading = false;
+  isSyncing = false;
 
   /**
    * Inject dependencies and start the compare process
    * @param router
    * @param {ApiService} apiService
+   * @param audioService
    */
-  constructor(private readonly router: Router, private apiService: ApiService) {
+  constructor(private readonly router: Router, private apiService: ApiService, private readonly audioService: AudioService) {
     const nav: Navigation | null = this.router.getCurrentNavigation();
 
     // This page cannot be viewed without a redirect from another page, supplying the right parameters
@@ -77,14 +89,21 @@ export class PlaylistComparePageComponent {
    * @private
    */
   private compareRemixToOriginal(): void {
-    this.apiService.comparePlaylists(this.remixedPlaylistBasic?.id as string, this.originalPlaylistId as string, this.versionTimestamp).then(changesRemix => {
-      this.changesInRemix = changesRemix;
-      return this.apiService.comparePlaylists(this.originalPlaylistId as string, this.originalPlaylistId as string, this.versionTimestamp)
-    }).then(changesOriginal => {
-      this.changesInOriginal = changesOriginal;
-      this.mergeChanges(this.changesInOriginal, this.changesInRemix);
-    })
-    this.mergeChanges(this.changesInOriginal, this.changesInRemix);
+    this.isLoading = true;
+
+    const promises = [
+      this.apiService.comparePlaylists(this.remixedPlaylistBasic?.id as string, this.originalPlaylistId as string, this.versionTimestamp),
+      this.apiService.comparePlaylists(this.originalPlaylistId as string, this.originalPlaylistId as string, this.versionTimestamp)
+    ];
+
+    Promise.all(promises)
+      .then(changes => {
+        this.changesInRemix = changes[0];
+        this.changesInOriginal = changes[1];
+        this.mergeChanges(this.changesInOriginal, this.changesInRemix);
+      })
+      .catch(e => this.error = e)
+      .finally(() => this.isLoading = false);
   }
 
   /**
@@ -129,6 +148,7 @@ export class PlaylistComparePageComponent {
    * @param {number} index
    */
   onAddBackAction(diff: Diff, index: number): void {
+    this.audioService.stopCurrentAudio();
     // Create a copy of the diff, so we can change it's state to 1 'inserted'
     const copy = Object.assign({}, diff);
     copy[0] = 1;
@@ -149,23 +169,32 @@ export class PlaylistComparePageComponent {
    * @param {Diff} diff
    */
   onKeepRemoved(diff: Diff) {
+    this.audioService.stopCurrentAudio();
     diff[0] = 0;
   }
 
   /**
    * Change the tab. Parameter -1 means previous tab, 1 means next tab
+   * If the new tab index is out of bounds, roll-over to the other side
    * @param {-1 | 1} nextOrPrevious
    */
   changeTab(nextOrPrevious: -1 | 1): void {
-    this.nav.select(this.activeTab + nextOrPrevious);
+    let newTab = this.activeTab + nextOrPrevious;
+    if (newTab < 1) newTab = this.nav.items.length;
+    if (newTab > this.nav.items.length) newTab = 1;
+    this.nav.select(newTab);
   }
 
   /**
    * When user is done merging, this function is called
    */
   syncPlaylist(): void {
+    this.isSyncing = true;
     const mergedTracks = this.mergedChanges.map(d => d[1].track);
-    this.apiService.syncPlaylist(this.remixedPlaylistBasic?.id as string, mergedTracks).then().catch(e => this.error = e);
+    this.apiService.syncPlaylist(this.originalPlaylistId as string,this.remixedPlaylistBasic?.id as string, mergedTracks)
+      .then()
+      .catch(e => this.error = e)
+      .finally(() => this.isSyncing = false);
   }
 
   /**
@@ -177,5 +206,12 @@ export class PlaylistComparePageComponent {
     //todo do this
     console.warn('Using any type, but types are conflicting. Please fix asap.')
     return playlistTrack.track.album.artists.map((artist: ArtistObjectFull) => `${artist.name}`).join(', ')
+  }
+
+  /**
+   * Returns true when the original playlist has been changed after it has been remixed
+   */
+  get originalPlaylistHasChanged(): boolean {
+    return this.changesInOriginal.filter(diff => diff[0] !== 0).length !== 0
   }
 }

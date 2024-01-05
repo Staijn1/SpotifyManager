@@ -56,6 +56,7 @@ export class RemixSyncComponent implements OnInit {
     this.originalPlaylistId = fullOrignalId[0].replace('{', '').replace('}', '');
     this.apiService.getRemixedPlaylistInformation(this.originalPlaylistId).then(data => {
       this.versions = data;
+      this.versions.sort((a, b) => b.createdOn - a.createdOn);
       if (data.length > 1) {
         this.openPopup();
       } else {

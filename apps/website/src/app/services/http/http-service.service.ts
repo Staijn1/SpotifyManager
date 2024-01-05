@@ -40,10 +40,19 @@ export class HTTPService {
    */
   protected async request(input: string, init: RequestInit): Promise<any> {
     const response = await fetch(input, init);
-    const body = await response.json();
+
     if (!response.ok) {
+      const body = await response.json();
       throw this.handleError(body);
     }
-    return body;
+
+    const body = await response.text();
+    // If the body is valid JSON, parse it and return it.
+    try {
+      return JSON.parse(body);
+    } catch (e) {
+      // If the body is not valid JSON, return the body as is.
+      return body;
+    }
   }
 }
