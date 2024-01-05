@@ -1,4 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {AudioService} from "../../services/audioService/audio.service";
 
 @Component({
   selector: 'app-audio',
@@ -8,4 +9,11 @@ import {Component, Input, OnInit} from '@angular/core';
 export class AudioComponent {
   @Input() src: string | undefined;
   @Input() type = 'audio/mpeg';
+
+  constructor(private audioService: AudioService) {}
+
+  handlePlay(event: Event) {
+    const audioElement = event.target as HTMLAudioElement;
+    this.audioService.play(audioElement).then();
+  }
 }
