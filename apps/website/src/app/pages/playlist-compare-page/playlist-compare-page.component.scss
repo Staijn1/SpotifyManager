@@ -1,13 +1,18 @@
+$inserted-color: #92e592;
+$removed-color: #e59494;
+$equal-color: white;
+
 .equal {
-  background: white;
+  background: $equal-color;
 }
 
 .removed {
-  background: #e59494;
+  background: $removed-color;
 
   fa-icon {
     color: dimgray;
     transition: color 250ms ease-out;
+
     &:hover {
       color: white;
     }
@@ -15,11 +20,20 @@
 }
 
 .inserted {
-  background: #92e592;
+  background: $inserted-color;
 }
 
-.actions-container{
-  background: gainsboro;
+.actions-container {
+  background: #e5e5e5;
+  cursor: pointer;
+
+  .add-back-action {
+    color: $inserted-color;
+  }
+
+  .keep-removed-action {
+    color: $removed-color;
+  }
 }
 
 .line-number {
