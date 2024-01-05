@@ -41,8 +41,7 @@ export class PlaylistService {
    */
   public async remixPlaylist(playlistid: string): Promise<SpotifyApi.CreatePlaylistResponse> {
     const me = await this.spotifyService.getMe();
-    const originalPlaylist = await this.spotifyService.getPlaylistInformation(playlistid);
-    originalPlaylist.tracks.items = []
+    const originalPlaylist = await this.getPlaylistWithAllTracks(playlistid);
 
     const newPlaylistName = `Remix - ${originalPlaylist.name}`;
     // Somehow the spotify API does not always add the description properly. So we keep track of the expected description.
@@ -70,22 +69,22 @@ export class PlaylistService {
     Logger.log(`Created new remix playlist with id ${newPlaylist.id} for original playlist ${playlistid}`);
     Logger.log(`Creating took ${retries} retries.`);
 
-    // The spotify api returns the tracks in the originalPlaylist but it limits the number of tracks to 100.
-    // So we need to get the tracks in chunks of 100.
-    const amountOfChunks = Math.ceil(originalPlaylist.tracks.total / 100);
-
-    for (let i = 0; i < amountOfChunks; i++) {
-      const options = {
-        offset: i * 100,
-      };
-      const tracks = await this.spotifyService.getTracksInPlaylist(playlistid, options);
-      originalPlaylist.tracks.items = originalPlaylist.tracks.items.concat(tracks.items)
-      await this.spotifyService.addTracksToPlaylist(newPlaylist.id, tracks.items.map(track => track.track.uri));
-    }
-
-    this.fileService.writePlaylist(originalPlaylist, me.id)
+    // Add all the tracks of the original playlist to the new playlist.
+    await this.spotifyService.addTracksToPlaylist(newPlaylist.id, originalPlaylist.tracks.items.map(track => track.track.uri));
     // We need to save the state of the original playlist
+    this.fileService.writePlaylist(originalPlaylist, me.id)
     return newPlaylist
+  }
+
+  /**
+   * Get the playlist with all the tracks in it.
+   * @param playlistid
+   * @private
+   */
+  private async getPlaylistWithAllTracks(playlistid: string) {
+    const originalPlaylist = await this.spotifyService.getPlaylistInformation(playlistid);
+    originalPlaylist.tracks.items = (await this.getAllSongsInPlaylist(playlistid)).items;
+    return originalPlaylist;
   }
 
   /**
@@ -184,15 +183,20 @@ export class PlaylistService {
 
   /**
    * Remove all the songs in the given playlist and put the given tracks in the playlist.
-   * @param {string} playlistId
+   * @param originalPlaylistId
+   * @param {string} remixedPlaylistId
    * @param {(SpotifyApi.TrackObjectFull | SpotifyApi.EpisodeObjectFull)[]} tracks
    */
-  async syncPlaylist(playlistId: string, tracks: (SpotifyApi.TrackObjectFull | SpotifyApi.EpisodeObjectFull)[]) {
+  async syncPlaylist(originalPlaylistId: string, remixedPlaylistId: string, tracks: (SpotifyApi.TrackObjectFull | SpotifyApi.EpisodeObjectFull)[]) {
     // Get all tracks in the playlist.
-    const tracksInPlaylist = await this.getAllSongsInPlaylist(playlistId);
+    const tracksInPlaylist = await this.getAllSongsInPlaylist(remixedPlaylistId);
 
     // Remove all the tracks in the playlist.
-    await this.spotifyService.removeTracksFromPlaylist(playlistId, tracksInPlaylist.items.map(track => track.track));
-    await this.spotifyService.addTracksToPlaylist(playlistId, tracks.map(track => track.uri));
+    await this.spotifyService.removeTracksFromPlaylist(remixedPlaylistId, tracksInPlaylist.items.map(track => track.track));
+    await this.spotifyService.addTracksToPlaylist(remixedPlaylistId, tracks.map(track => track.uri));
+
+    // Get the original playlist and save its state to a json file again
+    const currentOriginalPlaylist = await this.getPlaylistWithAllTracks(originalPlaylistId);
+    this.fileService.writePlaylist(currentOriginalPlaylist, (await this.spotifyService.getMe()).id)
   }
 }
