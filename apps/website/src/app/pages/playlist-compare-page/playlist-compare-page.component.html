@@ -54,7 +54,7 @@
           <img [src]="diff[1].track.album.images[2].url" class="h-100 img-fluid rounded-start"
                alt="Album cover not found">
         </div>
-        <div class="col-md-9" [ngClass]="determineCSSClass(diff)">
+        <div class="col-md-8" [ngClass]="determineCSSClass(diff)">
           <div class="card-body">
             <h6 class="card-title text-truncate">{{diff[1].track.name}}</h6>
             <p class="card-text">
@@ -64,10 +64,10 @@
           </div>
         </div>
         <div *ngIf="direction && diff[0] !== 0"
-             class="col-md-1 d-flex flex-column justify-content-between align-items-center py-1"
-             [ngClass]="determineCSSClass(diff)">
-          <fa-icon [icon]="determineAddBackIcon(direction)" (click)="onAddBackAction(diff, i)"></fa-icon>
-          <fa-icon *ngIf="diff[0] === -1" [icon]="keepRemovedIcon" (click)="onKeepRemoved(diff)"></fa-icon>
+             [ngClass]="determineCSSClass(diff)"
+             class="border-start col-md-2 d-flex flex-column justify-content-between align-items-center py-1">
+          <fa-icon class="w-100 h-50 d-flex justify-content-center align-items-center" size="2x" [icon]="determineAddBackIcon(direction)" (click)="onAddBackAction(diff, i)"></fa-icon>
+          <fa-icon class="border-top w-100 h-50 d-flex justify-content-center align-items-center" size="2x" *ngIf="diff[0] === -1" [icon]="keepRemovedIcon" (click)="onKeepRemoved(diff)"></fa-icon>
         </div>
       </div>
     </div>
