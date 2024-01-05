@@ -30,7 +30,7 @@
     <div class="list-group" *ngIf="versions">
       <button *ngFor="let version of versions" type="button" class="list-group-item list-group-item-action"
               (click)="startComparingPlaylist(version.createdOn)">
-        {{version.createdOn * 1000 | date :'dd-MM-yyyy HH:mm:ss'}}
+        {{version.createdOn * 1000 | date :'d MMM yyyy HH:mm:ss'}}
       </button>
     </div>
   </div>
