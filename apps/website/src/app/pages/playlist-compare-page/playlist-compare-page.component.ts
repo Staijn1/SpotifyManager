@@ -3,11 +3,18 @@ import {Navigation, Router} from '@angular/router';
 import {CustomError} from '../../types/CustomError';
 import {ApiService} from '../../services/api/api.service';
 import {Diff} from '@spotify/data';
-import {faChevronLeft, faChevronRight, faThumbTack, faTimes, IconDefinition} from '@fortawesome/free-solid-svg-icons';
+import {
+  faChevronLeft,
+  faChevronRight,
+  faSpinner,
+  faThumbTack,
+  faTimes,
+  IconDefinition
+} from '@fortawesome/free-solid-svg-icons';
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
 import {NgbNav} from '@ng-bootstrap/ng-bootstrap';
-import ArtistObjectFull = SpotifyApi.ArtistObjectFull;
 import {AudioService} from "../../services/audioService/audio.service";
+import ArtistObjectFull = SpotifyApi.ArtistObjectFull;
 
 @Component({
   selector: 'app-playlist-compare-page',
@@ -27,6 +34,9 @@ export class PlaylistComparePageComponent {
   keepRemovedIcon = faTimes;
   activeTab = 1;
   pinnedIcon = faThumbTack;
+  isLoading = false;
+  isSyncing = false;
+  loadingIcon = faSpinner;
 
   /**
    * Inject dependencies and start the compare process
@@ -79,13 +89,21 @@ export class PlaylistComparePageComponent {
    * @private
    */
   private compareRemixToOriginal(): void {
-    this.apiService.comparePlaylists(this.remixedPlaylistBasic?.id as string, this.originalPlaylistId as string, this.versionTimestamp).then(changesRemix => {
-      this.changesInRemix = changesRemix;
-      return this.apiService.comparePlaylists(this.originalPlaylistId as string, this.originalPlaylistId as string, this.versionTimestamp)
-    }).then(changesOriginal => {
-      this.changesInOriginal = changesOriginal;
-      this.mergeChanges(this.changesInOriginal, this.changesInRemix);
-    })
+    this.isLoading = true;
+
+    const promises = [
+      this.apiService.comparePlaylists(this.remixedPlaylistBasic?.id as string, this.originalPlaylistId as string, this.versionTimestamp),
+      this.apiService.comparePlaylists(this.originalPlaylistId as string, this.originalPlaylistId as string, this.versionTimestamp)
+    ];
+
+    Promise.all(promises)
+      .then(changes => {
+        this.changesInRemix = changes[0];
+        this.changesInOriginal = changes[1];
+        this.mergeChanges(this.changesInOriginal, this.changesInRemix);
+      })
+      .catch(e => this.error = e)
+      .finally(() => this.isLoading = false);
   }
 
   /**
@@ -167,8 +185,12 @@ export class PlaylistComparePageComponent {
    * When user is done merging, this function is called
    */
   syncPlaylist(): void {
+    this.isSyncing = true;
     const mergedTracks = this.mergedChanges.map(d => d[1].track);
-    this.apiService.syncPlaylist(this.remixedPlaylistBasic?.id as string, mergedTracks).then().catch(e => this.error = e);
+    this.apiService.syncPlaylist(this.remixedPlaylistBasic?.id as string, mergedTracks)
+      .then()
+      .catch(e => this.error = e)
+      .finally(() => this.isSyncing = false);
   }
 
   /**

@@ -4,8 +4,12 @@
     <app-button [classes]="['btn-secondary']" (click)="changeTab(-1)" icon="fas ArrowLeft">Previous</app-button>
     <app-button class="me-5" [classes]="['btn-secondary']" (click)="changeTab(1)" icon="fas ArrowRight">Next
     </app-button>
-    <button class="btn btn-primary" (click)="syncPlaylist()">Sync!</button>
+    <button class="btn btn-primary" (click)="syncPlaylist()">
+      <fa-icon *ngIf="isSyncing" [icon]="loadingIcon" [spin]="true"></fa-icon>
+      Sync!
+    </button>
   </div>
+
   <div class="row row-cols-2">
     <div class="col">
       <h3>Merged result
@@ -38,6 +42,10 @@
       </ul>
       <div [ngbNavOutlet]="nav"></div>
     </div>
+  </div>
+
+  <div *ngIf="isLoading" class="d-flex justify-content-center">
+    <fa-icon [icon]="loadingIcon" [spin]="true"></fa-icon>
   </div>
 </section>
 
