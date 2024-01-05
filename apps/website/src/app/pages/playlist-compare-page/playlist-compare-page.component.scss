@@ -8,15 +8,6 @@ $equal-color: white;
 
 .removed {
   background: $removed-color;
-
-  fa-icon {
-    color: dimgray;
-    transition: color 250ms ease-out;
-
-    &:hover {
-      color: white;
-    }
-  }
 }
 
 .inserted {
@@ -24,8 +15,23 @@ $equal-color: white;
 }
 
 .actions-container {
-  background: #e5e5e5;
   cursor: pointer;
+
+  .add-back-action, .keep-removed-action {
+    background: #e5e5e5;
+    border: none;
+    color: dimgray;
+    transition: color 250ms ease-out;
+
+    &:hover:not(:disabled) {
+      color: white;
+    }
+
+    &:disabled {
+      background: darken(#e5e5e5, 10%);
+      cursor: not-allowed;
+    }
+  }
 
   .add-back-action {
     color: $inserted-color;
