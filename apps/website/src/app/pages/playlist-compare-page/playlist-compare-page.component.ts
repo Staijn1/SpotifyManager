@@ -28,15 +28,15 @@ export class PlaylistComparePageComponent {
   private remixedPlaylistBasic: SpotifyApi.PlaylistObjectSimplified | undefined;
   private readonly originalPlaylistId: string | undefined;
   private readonly versionTimestamp: number | undefined;
+  readonly loadingIcon = faSpinner;
+  readonly pinnedIcon = faThumbTack;
+  readonly keepRemovedIcon = faTimes;
   changesInRemix: Diff[] = [];
   changesInOriginal: Diff[] = [];
   mergedChanges: Diff[] = [];
-  keepRemovedIcon = faTimes;
   activeTab = 1;
-  pinnedIcon = faThumbTack;
   isLoading = false;
   isSyncing = false;
-  loadingIcon = faSpinner;
 
   /**
    * Inject dependencies and start the compare process
