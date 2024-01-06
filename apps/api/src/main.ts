@@ -3,13 +3,14 @@
  * This is only a minimal backend to get started.
  */
 
-import {Logger} from '@nestjs/common';
-import {NestFactory} from '@nestjs/core';
+import { Logger } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
 
-import {AppModule} from './app/app.module';
-import {DocumentBuilder, SwaggerModule} from '@nestjs/swagger';
+import { AppModule } from './app/app.module';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-import {json, urlencoded} from 'express'
+import { json, urlencoded } from 'express';
+import { AllExceptionsFilter } from './app/filters/all-exceptions-filter/all-exceptions-filter.filter';
 
 /**
  * Bootstraps the application.
@@ -17,6 +18,7 @@ import {json, urlencoded} from 'express'
  */
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.useGlobalFilters(new AllExceptionsFilter());
   app.setGlobalPrefix('api');
   app.enableCors()
 
