@@ -15,7 +15,6 @@ export class AudioService {
     if (nextAudio === this.currentAudio) {
       return;
     }
-
     this.stopCurrentAudio();
     this.currentAudio = nextAudio;
     await this.currentAudio.play();
@@ -29,5 +28,15 @@ export class AudioService {
       this.currentAudio.pause();
       this.currentAudio.currentTime = 0;
     }
+  }
+
+  /**
+   * Check if the given url is the current audio element.
+   * @param url
+   */
+  isUrlCurrentlyPlaying(url: string): boolean {
+    if (!this.currentAudio) return false;
+
+    return this.currentAudio.src === url;
   }
 }

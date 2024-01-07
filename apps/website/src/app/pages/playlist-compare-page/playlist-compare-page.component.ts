@@ -1,8 +1,8 @@
-import {Component, ViewChild} from '@angular/core';
-import {Navigation, Router} from '@angular/router';
-import {CustomError} from '../../types/CustomError';
-import {ApiService} from '../../services/api/api.service';
-import {Diff} from '@spotify/data';
+import { Component, ViewChild } from '@angular/core';
+import { Navigation, Router } from '@angular/router';
+import { CustomError } from '../../types/CustomError';
+import { ApiService } from '../../services/api/api.service';
+import { Diff } from '@spotify/data';
 import {
   faChevronLeft,
   faChevronRight,
@@ -11,15 +11,16 @@ import {
   faTimes,
   IconDefinition
 } from '@fortawesome/free-solid-svg-icons';
-import {IconProp} from '@fortawesome/fontawesome-svg-core';
-import {NgbNav} from '@ng-bootstrap/ng-bootstrap';
-import {AudioService} from "../../services/audioService/audio.service";
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { NgbNav } from '@ng-bootstrap/ng-bootstrap';
+import { AudioService } from '../../services/audioService/audio.service';
 import ArtistObjectFull = SpotifyApi.ArtistObjectFull;
+import TrackObjectFull = SpotifyApi.TrackObjectFull;
 
 @Component({
   selector: 'app-playlist-compare-page',
   templateUrl: './playlist-compare-page.component.html',
-  styleUrls: ['./playlist-compare-page.component.scss'],
+  styleUrls: ['./playlist-compare-page.component.scss']
 })
 export class PlaylistComparePageComponent {
   @ViewChild(NgbNav) nav!: NgbNav;
@@ -127,15 +128,15 @@ export class PlaylistComparePageComponent {
 
   /**
    * Determine the direction of the icon, pointing left or right?
-   * @param {"left" | "right" | undefined} direction
+   * @param {'left' | 'right' | undefined} direction
    * @returns {IconDefinition}
    */
   determineAddBackIcon(direction: 'left' | 'right'): IconProp {
     switch (direction) {
       case 'left':
-        return faChevronLeft
+        return faChevronLeft;
       case 'right':
-        return faChevronRight
+        return faChevronRight;
       default:
         throw Error(`Invalid direction: ${direction}`);
     }
@@ -148,7 +149,9 @@ export class PlaylistComparePageComponent {
    * @param {number} index
    */
   onAddBackAction(diff: Diff, index: number): void {
-    this.audioService.stopCurrentAudio();
+    if (this.audioService.isUrlCurrentlyPlaying((diff[1].track as TrackObjectFull).preview_url as string)) {
+      this.audioService.stopCurrentAudio();
+    }
     // Create a copy of the diff, so we can change it's state to 1 'inserted'
     const copy = Object.assign({}, diff);
     copy[0] = 1;
@@ -169,7 +172,9 @@ export class PlaylistComparePageComponent {
    * @param {Diff} diff
    */
   onKeepRemoved(diff: Diff) {
-    this.audioService.stopCurrentAudio();
+    if (this.audioService.isUrlCurrentlyPlaying((diff[1].track as TrackObjectFull).preview_url as string)) {
+      this.audioService.stopCurrentAudio();
+    }
     diff[0] = 0;
   }
 
@@ -191,7 +196,7 @@ export class PlaylistComparePageComponent {
   syncPlaylist(): void {
     this.isSyncing = true;
     const mergedTracks = this.mergedChanges.map(d => d[1].track);
-    this.apiService.syncPlaylist(this.originalPlaylistId as string,this.remixedPlaylistBasic?.id as string, mergedTracks)
+    this.apiService.syncPlaylist(this.originalPlaylistId as string, this.remixedPlaylistBasic?.id as string, mergedTracks)
       .then()
       .catch(e => this.error = e)
       .finally(() => this.isSyncing = false);
@@ -204,14 +209,14 @@ export class PlaylistComparePageComponent {
    */
   generateArtistList(playlistTrack: any) {
     //todo do this
-    console.warn('Using any type, but types are conflicting. Please fix asap.')
-    return playlistTrack.track.album.artists.map((artist: ArtistObjectFull) => `${artist.name}`).join(', ')
+    console.warn('Using any type, but types are conflicting. Please fix asap.');
+    return playlistTrack.track.album.artists.map((artist: ArtistObjectFull) => `${artist.name}`).join(', ');
   }
 
   /**
    * Returns true when the original playlist has been changed after it has been remixed
    */
   get originalPlaylistHasChanged(): boolean {
-    return this.changesInOriginal.filter(diff => diff[0] !== 0).length !== 0
+    return this.changesInOriginal.filter(diff => diff[0] !== 0).length !== 0;
   }
 }
