@@ -174,4 +174,12 @@ export class SpotifyService {
     const newPlaylist = await this._spotifyApi.changePlaylistDetails(id, options)
     return newPlaylist.body;
   }
+
+  /**
+   * Remove the playlist with the given id (unfollow)
+   * @param id
+   */
+  async removePlaylist(id: string) {
+    await this._spotifyApi.unfollowPlaylist(id);
+  }
 }
