@@ -20,12 +20,12 @@ jobs:
       - run: git branch --track main origin/main
         name: Track main branch
 
-      - run: npx nx affected:lint --all --parallel=3
+      - run: npx nx affected:lint --parallel=3
         name: Lint All Affected Projects
 
-      - run: npx nx affected:test --all --parallel=3 --codeCoverage
+      - run: npx nx affected:test --parallel=3 --codeCoverage
         name: Test All Affected Projects
 
-      - run: npx nx affected:build --all --parallel=3
+      - run: npx nx affected:build --parallel=3
         name: Build All Affected Projects
 #      - run: npx nx format:check
