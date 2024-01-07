@@ -1,11 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {faSpotify} from '@fortawesome/free-brands-svg-icons';
 import { SpotifyAuthenticationService } from '../../../services/spotify-authentication/spotify-authentication.service';
+import { TabsComponent } from '../../../components/tab-component/tabs.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   templateUrl: './get-started.component.html',
+  imports: [
+    TabsComponent
+  ],
   styleUrls: ['./get-started.component.scss']
 })
 export class GetStartedComponent implements OnInit {
