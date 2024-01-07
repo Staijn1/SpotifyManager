@@ -1,4 +1,4 @@
 export type RemixedPlaylistInformation = {
-  createdOn: number,
-  id: string,
+  createdOn: number;
+  id: string;
 };

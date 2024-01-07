@@ -741,8 +741,7 @@ declare namespace SpotifyApi {
    * GET /v1/me/shows
    * https://developer.spotify.com/documentation/web-api/reference/library/get-users-saved-shows/
    */
-  interface ListOfUsersShowsResponse
-    extends PagingObject<SavedShowObject> {}
+  interface ListOfUsersShowsResponse extends PagingObject<SavedShowObject> {}
 
   /**
    * Save shows for user

@@ -1,8 +1,8 @@
-import {Injectable} from '@nestjs/common';
-import {FileService} from '../../../util/services/file/file.service';
+import { Injectable } from '@nestjs/common';
+import { FileService } from '../../../util/services/file/file.service';
 import path from 'path';
 import * as fs from 'fs';
-import {RemixedPlaylistInformation} from '@spotify/data';
+import { RemixedPlaylistInformation } from 'core';
 
 @Injectable()
 export class PlaylistFileService extends FileService {
@@ -12,11 +12,17 @@ export class PlaylistFileService extends FileService {
    * @param {string} userId
    * @returns {string}
    */
-  writePlaylist(playlist: SpotifyApi.PlaylistObjectFull, userId: string): string {
+  writePlaylist(
+    playlist: SpotifyApi.PlaylistObjectFull,
+    userId: string
+  ): string {
     // Get unix timestamp and add it to the filename.
     const timestamp = Math.floor(Date.now() / 1000);
     const filename = `${timestamp}-${playlist.id}.json`;
-    return this.writeFile(filename, JSON.stringify(playlist), ['remixes', userId]);
+    return this.writeFile(filename, JSON.stringify(playlist), [
+      'remixes',
+      userId,
+    ]);
   }
 
   /**
@@ -27,23 +33,36 @@ export class PlaylistFileService extends FileService {
    * @param {string} userId
    * @returns {OriginalPlaylistInformation[]}
    */
-  async getOriginalVersionsForPlaylist(playlistId: string, userId: string): Promise<RemixedPlaylistInformation[]> {
+  async getOriginalVersionsForPlaylist(
+    playlistId: string,
+    userId: string
+  ): Promise<RemixedPlaylistInformation[]> {
     const pathToPlaylist = path.join(this.rootPath, 'remixes', userId);
     const files = await fs.promises.readdir(pathToPlaylist);
-    return files.map(file => {
-      const [timestamp, id] = file.split('-');
-      return {
-        createdOn: parseInt(timestamp, 10),
-        id: id.replace('.json', ''),
-      };
-    }).filter(file => file.id === playlistId);
+    return files
+      .map((file) => {
+        const [timestamp, id] = file.split('-');
+        return {
+          createdOn: parseInt(timestamp, 10),
+          id: id.replace('.json', ''),
+        };
+      })
+      .filter((file) => file.id === playlistId);
   }
 
   /**
    * Read a playlist from a JSON file.
    */
-  readPlaylist(playlistId: string, userId: string): SpotifyApi.PlaylistObjectFull {
-    const pathToPlaylist = path.join(this.rootPath, 'remixes', userId, `${playlistId}.json`);
+  readPlaylist(
+    playlistId: string,
+    userId: string
+  ): SpotifyApi.PlaylistObjectFull {
+    const pathToPlaylist = path.join(
+      this.rootPath,
+      'remixes',
+      userId,
+      `${playlistId}.json`
+    );
     return JSON.parse(this.readFile(pathToPlaylist));
   }
 }

@@ -15,9 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": "..",
     "paths": {
-      "@spotify/data": ["libs/data/src/index.ts"]
+      "core": ["libs/core/src/index.ts"]
     }
   },
-  "exclude": [
-    "../node_modules", "tmp"]
+  "exclude": ["../node_modules", "tmp"]
 }

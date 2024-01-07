@@ -1,7 +1,12 @@
-import {Body, Controller, Get, Param, Post} from '@nestjs/common';
-import {PlaylistService} from '../../services/playlist/playlist.service';
-import {ApiBearerAuth, ApiParam} from '@nestjs/swagger';
-import {Diff, RemixedPlaylistInformation, PlaylistCompareRequest, PlaylistSyncRequest} from '@spotify/data';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { PlaylistService } from '../../services/playlist/playlist.service';
+import { ApiBearerAuth, ApiParam } from '@nestjs/swagger';
+import {
+  Diff,
+  RemixedPlaylistInformation,
+  PlaylistCompareRequest,
+  PlaylistSyncRequest,
+} from 'core';
 
 @ApiBearerAuth()
 @Controller('playlists')
@@ -10,9 +15,7 @@ export class PlaylistController {
    * Inject dependencies
    * @param {PlaylistService} playlistService
    */
-  constructor(private readonly playlistService: PlaylistService) {
-  }
-
+  constructor(private readonly playlistService: PlaylistService) {}
 
   /**
    * Copy a playlist to a new playlist.
@@ -22,9 +25,11 @@ export class PlaylistController {
     name: 'playlistid',
     required: true,
     description: 'The ID of the playlist to remix',
-    schema: {oneOf: [{type: 'string'}], example: '6vDGVr652ztNWKZuHvsFvx'}
+    schema: { oneOf: [{ type: 'string' }], example: '6vDGVr652ztNWKZuHvsFvx' },
   })
-  public async remixPlaylist(@Param() params): Promise<SpotifyApi.CreatePlaylistResponse> {
+  public async remixPlaylist(
+    @Param() params
+  ): Promise<SpotifyApi.CreatePlaylistResponse> {
     return this.playlistService.remixPlaylist(params.playlistid);
   }
 
@@ -36,9 +41,11 @@ export class PlaylistController {
     name: 'playlistid',
     required: true,
     description: 'The ID of the playlist to get all the songs for',
-    schema: {oneOf: [{type: 'string'}], example: '6vDGVr652ztNWKZuHvsFvx'}
+    schema: { oneOf: [{ type: 'string' }], example: '6vDGVr652ztNWKZuHvsFvx' },
   })
-  public async getAllSongsInPlaylist(@Param() params): Promise<SpotifyApi.PlaylistTrackResponse> {
+  public async getAllSongsInPlaylist(
+    @Param() params
+  ): Promise<SpotifyApi.PlaylistTrackResponse> {
     return this.playlistService.getAllSongsInPlaylist(params.playlistid);
   }
 
@@ -61,12 +68,13 @@ export class PlaylistController {
     name: 'playlistid',
     required: true,
     description: 'The ID of the playlist to get all the songs for',
-    schema: {oneOf: [{type: 'string'}], example: '6vDGVr652ztNWKZuHvsFvx'}
+    schema: { oneOf: [{ type: 'string' }], example: '6vDGVr652ztNWKZuHvsFvx' },
   })
-  public async getPlaylist(@Param() params): Promise<SpotifyApi.SinglePlaylistResponse> {
+  public async getPlaylist(
+    @Param() params
+  ): Promise<SpotifyApi.SinglePlaylistResponse> {
     return this.playlistService.getPlaylist(params.playlistid);
   }
-
 
   /**
    * Get the different versions available for the original playlist. These versions are created when the original playlists gets copied more than once
@@ -79,10 +87,14 @@ export class PlaylistController {
     name: 'playlistid',
     required: true,
     description: 'The ID of the original playlist',
-    schema: {oneOf: [{type: 'string'}], example: '6vDGVr652ztNWKZuHvsFvx'}
+    schema: { oneOf: [{ type: 'string' }], example: '6vDGVr652ztNWKZuHvsFvx' },
   })
-  public async getVersionsOfOriginalPlaylist(@Param() params): Promise<RemixedPlaylistInformation[]> {
-    return this.playlistService.getVersionsOfOriginalPlaylist(params.playlistid)
+  public async getVersionsOfOriginalPlaylist(
+    @Param() params
+  ): Promise<RemixedPlaylistInformation[]> {
+    return this.playlistService.getVersionsOfOriginalPlaylist(
+      params.playlistid
+    );
   }
 
   /**
@@ -92,7 +104,11 @@ export class PlaylistController {
    */
   @Post('compare')
   public async compare(@Body() body: PlaylistCompareRequest): Promise<Diff[]> {
-    return this.playlistService.comparePlaylist(body.leftPlaylistId, body.rightPlaylistId, body.versionTimestamp)
+    return this.playlistService.comparePlaylist(
+      body.leftPlaylistId,
+      body.rightPlaylistId,
+      body.versionTimestamp
+    );
   }
 
   /**
@@ -100,7 +116,13 @@ export class PlaylistController {
    * @param {PlaylistSyncRequest} body
    */
   @Post('sync')
-  public async syncRemixWithOriginal(@Body() body: PlaylistSyncRequest): Promise<void> {
-    return this.playlistService.syncPlaylist(body.originalPlaylistId, body.remixedPlaylistId, body.tracks)
+  public async syncRemixWithOriginal(
+    @Body() body: PlaylistSyncRequest
+  ): Promise<void> {
+    return this.playlistService.syncPlaylist(
+      body.originalPlaylistId,
+      body.remixedPlaylistId,
+      body.tracks
+    );
   }
 }

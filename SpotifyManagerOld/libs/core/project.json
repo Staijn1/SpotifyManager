@@ -1,21 +1,21 @@
 {
-  "name": "data",
+  "name": "core",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/data/src",
+  "sourceRoot": "libs/core/src",
   "projectType": "library",
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/data/**/*.ts"]
+        "lintFilePatterns": ["libs/core/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/libs/data"],
+      "outputs": ["{workspaceRoot}/coverage/libs/core"],
       "options": {
-        "jestConfig": "libs/data/jest.config.ts",
+        "jestConfig": "libs/core/jest.config.ts",
         "passWithNoTests": true
       }
     }

@@ -1,20 +1,19 @@
-import {ApiProperty} from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class PlaylistCompareRequest {
   @ApiProperty({
     type: 'string',
-    required: true
+    required: true,
   })
   leftPlaylistId: string | undefined;
   @ApiProperty({
-      type: 'string',
-      required: true,
-    }
-  )
+    type: 'string',
+    required: true,
+  })
   rightPlaylistId?: string;
   @ApiProperty({
     type: 'number',
-    required: false
+    required: false,
   })
   versionTimestamp?: number;
 }
@@ -22,19 +21,19 @@ export class PlaylistCompareRequest {
 export class PlaylistSyncRequest {
   @ApiProperty({
     type: 'string',
-    required: true
+    required: true,
   })
   originalPlaylistId!: string;
 
   @ApiProperty({
     type: 'string',
-    required: true
+    required: true,
   })
   remixedPlaylistId!: string;
 
   @ApiProperty({
     type: 'string',
-    required: true
+    required: true,
   })
   tracks: (SpotifyApi.TrackObjectFull | SpotifyApi.EpisodeObjectFull)[] = [];
 }

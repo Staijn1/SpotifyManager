@@ -1,0 +1,1332 @@
+[NX Daemon Server] - 2024-01-07T18:05:34.874Z - Started listening on: /tmp/c06426c96fae07854d05/d.sock
+[NX Daemon Server] - 2024-01-07T18:05:34.879Z - [WATCHER]: Subscribed to changes within: /home/stein/Documents/Projects/SpotifyManager/SpotifyManagerOld (native)
+[NX Daemon Server] - 2024-01-07T18:05:34.881Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2024-01-07T18:05:34.882Z - Established a connection. Number of open connections: 2
+[NX Daemon Server] - 2024-01-07T18:05:34.884Z - Closed a connection. Number of open connections: 1
+[NX Daemon Server] - 2024-01-07T18:05:34.886Z - [REQUEST]: Client Request for Project Graph Received
+[NX Daemon Server] - 2024-01-07T18:05:34.919Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:34.920Z - [REQUEST]: 
+[NX Daemon Server] - 2024-01-07T18:05:34.921Z - [REQUEST]: 
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:35.248Z - [REQUEST]: Responding to the client. project-graph
+[NX Daemon Server] - 2024-01-07T18:05:35.249Z - Time taken for 'total for creating and serializing project graph' 362.579977ms
+[NX Daemon Server] - 2024-01-07T18:05:35.259Z - [WATCHER]: 1 file(s) created or restored, 1 file(s) modified, 0 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:35.260Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:35.260Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 0 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:35.261Z - Done responding to the client project-graph
+[NX Daemon Server] - 2024-01-07T18:05:35.261Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 363. Response time: 13.
+[NX Daemon Server] - 2024-01-07T18:05:35.296Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:35.348Z - [WATCHER]: 0 file(s) created or restored, 2 file(s) modified, 0 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:35.361Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:35.361Z - [REQUEST]: .nx/cache/nx_files.nxt,.nx/cache/d/daemon.log,.nx/cache/parsed-lock-file.json,.nx/cache/lockfile.hash,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:35.361Z - [REQUEST]: .nx/cache/project-graph.json~155fd8ef,.nx/cache/file-map.json~155fd8ef
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:35.395Z - Time taken for 'hash changed files from watcher' 0.690168999999969ms
+[NX Daemon Server] - 2024-01-07T18:05:35.399Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:35.452Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:35.504Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:35.505Z - [REQUEST]: .nx/cache/project-graph.json,.nx/cache/file-map.json,.nx/cache/d/daemon.log
+[NX Daemon Server] - 2024-01-07T18:05:35.505Z - [REQUEST]: .nx/cache/project-graph.json~a3386894,.nx/cache/file-map.json~a3386894
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:35.574Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:35.574Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:35.574Z - Time taken for 'hash changed files from watcher' 3.517025999999987ms
+[NX Daemon Server] - 2024-01-07T18:05:35.622Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:35.675Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:35.729Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:35.777Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:35.778Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:35.778Z - [REQUEST]: .nx/cache/file-map.json~44aaabe5,.nx/cache/project-graph.json~44aaabe5
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:35.838Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:35.839Z - Time taken for 'hash changed files from watcher' 2.608502000000044ms
+[NX Daemon Server] - 2024-01-07T18:05:35.866Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:35.920Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:35.974Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:36.028Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:36.044Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:36.044Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/file-map.json,.nx/cache/project-graph.json
+[NX Daemon Server] - 2024-01-07T18:05:36.044Z - [REQUEST]: .nx/cache/project-graph.json~23ee0788,.nx/cache/file-map.json~23ee0788
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:36.111Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:36.112Z - Time taken for 'hash changed files from watcher' 3.7852629999999863ms
+[NX Daemon Server] - 2024-01-07T18:05:36.134Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:36.186Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:36.240Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:36.295Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:36.315Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:36.315Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:36.316Z - [REQUEST]: .nx/cache/project-graph.json~d4ba9967,.nx/cache/file-map.json~d4ba9967
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:36.373Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:36.373Z - Time taken for 'hash changed files from watcher' 2.994854000000032ms
+[NX Daemon Server] - 2024-01-07T18:05:36.402Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:36.454Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:36.509Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:36.563Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:36.577Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:36.577Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:36.577Z - [REQUEST]: .nx/cache/project-graph.json~12821bcb,.nx/cache/file-map.json~12821bcb
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:36.640Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:36.641Z - Time taken for 'hash changed files from watcher' 3.720397999999932ms
+[NX Daemon Server] - 2024-01-07T18:05:36.688Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:36.741Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:36.795Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:36.843Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:36.844Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/file-map.json,.nx/cache/project-graph.json
+[NX Daemon Server] - 2024-01-07T18:05:36.844Z - [REQUEST]: .nx/cache/project-graph.json~3d18f7f6,.nx/cache/file-map.json~3d18f7f6
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:36.909Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:36.909Z - Time taken for 'hash changed files from watcher' 2.5911329999998998ms
+[NX Daemon Server] - 2024-01-07T18:05:36.934Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:36.985Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:37.039Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:37.093Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:37.111Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:37.111Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:37.111Z - [REQUEST]: .nx/cache/project-graph.json~294d320d,.nx/cache/file-map.json~294d320d
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:37.166Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:37.166Z - Time taken for 'hash changed files from watcher' 1.4407790000000205ms
+[NX Daemon Server] - 2024-01-07T18:05:37.208Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:37.263Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:37.317Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:37.368Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:37.368Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/file-map.json,.nx/cache/project-graph.json
+[NX Daemon Server] - 2024-01-07T18:05:37.369Z - [REQUEST]: .nx/cache/project-graph.json~6a1d40fc,.nx/cache/file-map.json~6a1d40fc
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:37.415Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:37.416Z - Time taken for 'hash changed files from watcher' 1.7422160000000986ms
+[NX Daemon Server] - 2024-01-07T18:05:37.423Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:37.477Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:37.532Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:37.587Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:37.619Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:37.619Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/file-map.json,.nx/cache/project-graph.json
+[NX Daemon Server] - 2024-01-07T18:05:37.620Z - [REQUEST]: .nx/cache/project-graph.json~f5872d6d,.nx/cache/file-map.json~f5872d6d
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:37.690Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:37.690Z - Time taken for 'hash changed files from watcher' 2.967351000000235ms
+[NX Daemon Server] - 2024-01-07T18:05:37.710Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:37.761Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:37.815Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:37.869Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:37.893Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:37.893Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:37.893Z - [REQUEST]: .nx/cache/file-map.json~d4fe2e96,.nx/cache/project-graph.json~d4fe2e96
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:37.942Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:37.943Z - Time taken for 'hash changed files from watcher' 2.5196940000000723ms
+[NX Daemon Server] - 2024-01-07T18:05:37.982Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:38.035Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:38.089Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:38.142Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:38.144Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:38.144Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:38.144Z - [REQUEST]: .nx/cache/file-map.json~47bbf8cd,.nx/cache/project-graph.json~47bbf8cd
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:38.206Z - [WATCHER]: 1 file(s) created or restored, 1 file(s) modified, 0 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:38.206Z - Time taken for 'hash changed files from watcher' 1.2285389999997278ms
+[NX Daemon Server] - 2024-01-07T18:05:38.246Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:38.300Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:38.354Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:38.408Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:38.411Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:38.411Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/file-map.json,.nx/cache/project-graph.json
+[NX Daemon Server] - 2024-01-07T18:05:38.411Z - [REQUEST]: .nx/cache/project-graph.json~425a3da2,.nx/cache/file-map.json~425a3da2
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:38.500Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:38.500Z - Time taken for 'hash changed files from watcher' 2.453338000000258ms
+[NX Daemon Server] - 2024-01-07T18:05:38.533Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:38.587Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:38.641Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:38.696Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:38.703Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:38.703Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:38.704Z - [REQUEST]: .nx/cache/file-map.json~1b5dea3d,.nx/cache/project-graph.json~1b5dea3d
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:38.770Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:38.770Z - Time taken for 'hash changed files from watcher' 2.557612000000063ms
+[NX Daemon Server] - 2024-01-07T18:05:38.809Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:38.863Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:38.917Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:38.971Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:38.975Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:38.975Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/file-map.json,.nx/cache/project-graph.json
+[NX Daemon Server] - 2024-01-07T18:05:38.975Z - [REQUEST]: .nx/cache/file-map.json~c6298f3e,.nx/cache/project-graph.json~c6298f3e
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:39.037Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:39.037Z - Time taken for 'hash changed files from watcher' 2.8795000000000073ms
+[NX Daemon Server] - 2024-01-07T18:05:39.077Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:39.131Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:39.185Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:39.238Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:39.241Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:39.241Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:39.242Z - [REQUEST]: .nx/cache/project-graph.json~34e581d3,.nx/cache/file-map.json~34e581d3
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:39.309Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:39.309Z - Time taken for 'hash changed files from watcher' 2.6578870000003008ms
+[NX Daemon Server] - 2024-01-07T18:05:39.349Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:39.401Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:39.455Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:39.509Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:39.513Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:39.513Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/file-map.json,.nx/cache/project-graph.json
+[NX Daemon Server] - 2024-01-07T18:05:39.513Z - [REQUEST]: .nx/cache/project-graph.json~dcb7985c,.nx/cache/file-map.json~dcb7985c
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:39.587Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:39.587Z - Time taken for 'hash changed files from watcher' 2.6735639999997147ms
+[NX Daemon Server] - 2024-01-07T18:05:39.627Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:39.680Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:39.734Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:39.788Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:39.792Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:39.792Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:39.792Z - [REQUEST]: .nx/cache/project-graph.json~5c071f68,.nx/cache/file-map.json~5c071f68
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:39.867Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:39.868Z - Time taken for 'hash changed files from watcher' 2.5380850000001374ms
+[NX Daemon Server] - 2024-01-07T18:05:39.901Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:39.955Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:40.008Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:40.061Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:40.068Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:40.068Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:40.068Z - [REQUEST]: .nx/cache/file-map.json~3dba277a,.nx/cache/project-graph.json~3dba277a
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:40.100Z - Time taken for 'hash changed files from watcher' 0.8134479999998803ms
+[NX Daemon Server] - 2024-01-07T18:05:40.113Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:40.165Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:40.214Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:40.214Z - [REQUEST]: .nx/cache/project-graph.json,.nx/cache/file-map.json,.nx/cache/d/daemon.log
+[NX Daemon Server] - 2024-01-07T18:05:40.214Z - [REQUEST]: .nx/cache/project-graph.json~6128ee01,.nx/cache/file-map.json~6128ee01
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:40.254Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:40.254Z - Time taken for 'hash changed files from watcher' 0.6459549999999581ms
+[NX Daemon Server] - 2024-01-07T18:05:40.278Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:40.331Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:40.383Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:40.411Z - [REQUEST]: Client Request for Project Graph Received
+[NX Daemon Server] - 2024-01-07T18:05:40.412Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:40.412Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:40.413Z - [REQUEST]: .nx/cache/project-graph.json~08ddb6a8,.nx/cache/file-map.json~08ddb6a8
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:40.441Z - [REQUEST]: Responding to the client. project-graph
+[NX Daemon Server] - 2024-01-07T18:05:40.441Z - Time taken for 'total for creating and serializing project graph' 29.330863999999565ms
+[NX Daemon Server] - 2024-01-07T18:05:40.442Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:40.442Z - Done responding to the client project-graph
+[NX Daemon Server] - 2024-01-07T18:05:40.442Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 30. Response time: 1.
+[NX Daemon Server] - 2024-01-07T18:05:40.488Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:40.540Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:40.543Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:40.543Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/file-map.json,.nx/cache/project-graph.json
+[NX Daemon Server] - 2024-01-07T18:05:40.543Z - [REQUEST]: .nx/cache/file-map.json~ad107989,.nx/cache/project-graph.json~ad107989
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:40.582Z - Time taken for 'hash changed files from watcher' 0.7240029999993567ms
+[NX Daemon Server] - 2024-01-07T18:05:40.592Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:40.645Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:40.693Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:40.693Z - [REQUEST]: .nx/cache/file-map.json,.nx/cache/project-graph.json,.nx/cache/d/daemon.log
+[NX Daemon Server] - 2024-01-07T18:05:40.693Z - [REQUEST]: .nx/cache/project-graph.json~7dc1adb0,.nx/cache/file-map.json~7dc1adb0
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:40.730Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:40.730Z - Time taken for 'hash changed files from watcher' 0.7300519999998869ms
+[NX Daemon Server] - 2024-01-07T18:05:40.757Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:40.808Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:40.860Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:40.912Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:40.931Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:40.932Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:40.932Z - [REQUEST]: .nx/cache/file-map.json~2172ffe3,.nx/cache/project-graph.json~2172ffe3
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:40.958Z - Time taken for 'hash changed files from watcher' 0.7481239999997342ms
+[NX Daemon Server] - 2024-01-07T18:05:40.964Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:41.017Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:41.066Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:41.066Z - [REQUEST]: .nx/cache/file-map.json,.nx/cache/project-graph.json,.nx/cache/d/daemon.log
+[NX Daemon Server] - 2024-01-07T18:05:41.067Z - [REQUEST]: .nx/cache/project-graph.json~0cac50a0,.nx/cache/file-map.json~0cac50a0
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:41.117Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:41.118Z - Time taken for 'hash changed files from watcher' 1.0232520000008662ms
+[NX Daemon Server] - 2024-01-07T18:05:41.137Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:41.189Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:41.241Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:41.282Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2024-01-07T18:05:41.293Z - [WATCHER]: 12 file(s) created or restored, 8 file(s) modified, 13 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:41.294Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2024-01-07T18:05:41.320Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:41.320Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json,libs/core/.eslintrc.json,libs/core/tsconfig.lib.json,libs/core/tsconfig.json,libs/core/src/index.ts,libs/core/README.md,libs/core/tsconfig.spec.json,libs/core/.babelrc,libs/core/src/lib/RemixedPlaylistInformation.ts,libs/core/jest.config.ts,libs/core/src/lib/SpotifyAPI.ts,libs/core/project.json,libs/core/src/lib/RequestObjects.ts,apps/api/src/app/modules/playlist/controllers/playlist-controller/playlist.controller.ts,apps/api/src/app/modules/playlist/services/playlist/playlist.service.ts,apps/website/src/app/pages/remix-sync/remix-sync.component.ts,tsconfig.base.json,apps/website/src/app/pages/playlist-compare-page/playlist-compare-page.component.ts,apps/website/src/app/services/api/api.service.ts,apps/api/src/app/modules/playlist/services/playlist-file-service/playlist-file.service.ts
+[NX Daemon Server] - 2024-01-07T18:05:41.320Z - [REQUEST]: .nx/cache/project-graph.json~96653777,.nx/cache/file-map.json~96653777,libs/data/README.md,libs/data/.eslintrc.json,libs/data/src/index.ts,libs/data/src/lib/RemixedPlaylistInformation.ts,libs/data/project.json,libs/data/.babelrc,libs/data/tsconfig.json,libs/data/tsconfig.lib.json,libs/data/src/lib/Diff.ts,libs/data/jest.config.ts,libs/data/src/lib/SpotifyAPI.ts,libs/data/src/lib/RequestObjects.ts,libs/data/tsconfig.spec.json
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:41.373Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:41.373Z - Time taken for 'hash changed files from watcher' 0.9840570000005755ms
+[NX Daemon Server] - 2024-01-07T18:05:41.419Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:41.471Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:41.524Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:41.576Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:41.576Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:41.576Z - [REQUEST]: .nx/cache/file-map.json~53498b93,.nx/cache/project-graph.json~53498b93
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:41.643Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:41.643Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:41.644Z - Time taken for 'hash changed files from watcher' 2.623970000000554ms
+[NX Daemon Server] - 2024-01-07T18:05:41.682Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:41.734Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:41.786Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:41.838Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:41.844Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:41.844Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:41.844Z - [REQUEST]: .nx/cache/file-map.json~7886997b,.nx/cache/project-graph.json~7886997b
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:41.881Z - Time taken for 'hash changed files from watcher' 0.7127009999994698ms
+[NX Daemon Server] - 2024-01-07T18:05:41.890Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:41.942Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:41.992Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:41.992Z - [REQUEST]: .nx/cache/project-graph.json,.nx/cache/file-map.json,.nx/cache/d/daemon.log
+[NX Daemon Server] - 2024-01-07T18:05:41.992Z - [REQUEST]: .nx/cache/project-graph.json~0610365b,.nx/cache/file-map.json~0610365b
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:42.020Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:42.020Z - Time taken for 'hash changed files from watcher' 0.5585900000005495ms
+[NX Daemon Server] - 2024-01-07T18:05:42.057Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:42.110Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:42.162Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:42.214Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:42.221Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:42.222Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/file-map.json,.nx/cache/project-graph.json
+[NX Daemon Server] - 2024-01-07T18:05:42.222Z - [REQUEST]: .nx/cache/file-map.json~410fba7f,.nx/cache/project-graph.json~410fba7f
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:42.273Z - [WATCHER]: 1 file(s) created or restored, 1 file(s) modified, 0 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:42.274Z - Time taken for 'hash changed files from watcher' 0.9520179999999527ms
+[NX Daemon Server] - 2024-01-07T18:05:42.319Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:42.371Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:42.424Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:42.475Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:42.475Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:42.475Z - [REQUEST]: .nx/cache/project-graph.json~f1cead6d,.nx/cache/file-map.json~f1cead6d
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:42.544Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:42.546Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:42.546Z - Time taken for 'hash changed files from watcher' 0.978903000000173ms
+[NX Daemon Server] - 2024-01-07T18:05:42.587Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:42.638Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:42.690Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:42.742Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:42.746Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:42.746Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:42.746Z - [REQUEST]: .nx/cache/project-graph.json~6865a1b1,.nx/cache/file-map.json~6865a1b1
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:42.798Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:42.798Z - Time taken for 'hash changed files from watcher' 0.8807819999992716ms
+[NX Daemon Server] - 2024-01-07T18:05:42.851Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:42.899Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:42.899Z - [REQUEST]: .nx/cache/project-graph.json,.nx/cache/file-map.json,.nx/cache/d/daemon.log
+[NX Daemon Server] - 2024-01-07T18:05:42.899Z - [REQUEST]: .nx/cache/project-graph.json~f59a5cd8,.nx/cache/file-map.json~f59a5cd8
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:42.938Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:42.938Z - Time taken for 'hash changed files from watcher' 0.8540619999994306ms
+[NX Daemon Server] - 2024-01-07T18:05:42.966Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:43.019Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:43.070Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:43.122Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:43.139Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:43.140Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:43.140Z - [REQUEST]: .nx/cache/project-graph.json~ed39a0e1,.nx/cache/file-map.json~ed39a0e1
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:43.184Z - [WATCHER]: 1 file(s) created or restored, 1 file(s) modified, 0 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:43.184Z - Time taken for 'hash changed files from watcher' 1.1574579999996786ms
+[NX Daemon Server] - 2024-01-07T18:05:43.230Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:43.283Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:43.337Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:43.385Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:43.385Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:43.385Z - [REQUEST]: .nx/cache/project-graph.json~9488df18,.nx/cache/file-map.json~9488df18
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:43.426Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:43.426Z - Time taken for 'hash changed files from watcher' 1.0200630000017554ms
+[NX Daemon Server] - 2024-01-07T18:05:43.456Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:43.508Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:43.560Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:43.611Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:43.627Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:43.627Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/file-map.json,.nx/cache/project-graph.json
+[NX Daemon Server] - 2024-01-07T18:05:43.627Z - [REQUEST]: .nx/cache/project-graph.json~81aa25f0,.nx/cache/file-map.json~81aa25f0
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:43.667Z - [WATCHER]: 1 file(s) created or restored, 1 file(s) modified, 0 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:43.667Z - Time taken for 'hash changed files from watcher' 0.7304650000005495ms
+[NX Daemon Server] - 2024-01-07T18:05:43.716Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:43.768Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:43.820Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:43.870Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:43.870Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/file-map.json,.nx/cache/project-graph.json
+[NX Daemon Server] - 2024-01-07T18:05:43.870Z - [REQUEST]: .nx/cache/project-graph.json~976eeb04,.nx/cache/file-map.json~976eeb04
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:43.935Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:43.935Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:43.935Z - Time taken for 'hash changed files from watcher' 2.265494999999646ms
+[NX Daemon Server] - 2024-01-07T18:05:43.983Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:44.037Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:44.090Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:44.136Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:44.136Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:44.136Z - [REQUEST]: .nx/cache/file-map.json~c93709bf,.nx/cache/project-graph.json~c93709bf
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:44.199Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:44.199Z - Time taken for 'hash changed files from watcher' 1.059215999999651ms
+[NX Daemon Server] - 2024-01-07T18:05:44.206Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:44.260Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:44.313Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:44.366Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:44.401Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:44.402Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:44.402Z - [REQUEST]: .nx/cache/project-graph.json~055712b6,.nx/cache/file-map.json~055712b6
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:44.469Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:44.470Z - Time taken for 'hash changed files from watcher' 2.2570209999994404ms
+[NX Daemon Server] - 2024-01-07T18:05:44.490Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:44.543Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:44.597Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:44.650Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:44.671Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:44.672Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/file-map.json,.nx/cache/project-graph.json
+[NX Daemon Server] - 2024-01-07T18:05:44.672Z - [REQUEST]: .nx/cache/project-graph.json~e6fa4255,.nx/cache/file-map.json~e6fa4255
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:44.731Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:44.731Z - Time taken for 'hash changed files from watcher' 2.5218170000007376ms
+[NX Daemon Server] - 2024-01-07T18:05:44.760Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:44.814Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:44.868Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:44.922Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:44.934Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:44.934Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/file-map.json,.nx/cache/project-graph.json
+[NX Daemon Server] - 2024-01-07T18:05:44.934Z - [REQUEST]: .nx/cache/project-graph.json~ff314a39,.nx/cache/file-map.json~ff314a39
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:45.003Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:45.004Z - Time taken for 'hash changed files from watcher' 2.3800260000007256ms
+[NX Daemon Server] - 2024-01-07T18:05:45.046Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:45.099Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:45.151Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:45.204Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:45.204Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:45.205Z - [REQUEST]: .nx/cache/project-graph.json~0560d439,.nx/cache/file-map.json~0560d439
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:45.249Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:45.250Z - Time taken for 'hash changed files from watcher' 1.3910049999994953ms
+[NX Daemon Server] - 2024-01-07T18:05:45.256Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:45.308Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:45.362Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:45.416Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:45.451Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:45.452Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:45.452Z - [REQUEST]: .nx/cache/file-map.json~c8e80865,.nx/cache/project-graph.json~c8e80865
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:45.517Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:45.517Z - Time taken for 'hash changed files from watcher' 2.2108060000009573ms
+[NX Daemon Server] - 2024-01-07T18:05:45.540Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:45.593Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:45.647Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:45.701Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:45.720Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:45.720Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:45.720Z - [REQUEST]: .nx/cache/project-graph.json~b74a2af5,.nx/cache/file-map.json~b74a2af5
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:45.788Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:45.789Z - Time taken for 'hash changed files from watcher' 2.3268820000012056ms
+[NX Daemon Server] - 2024-01-07T18:05:45.804Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:45.857Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:45.911Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:45.965Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:45.991Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:45.991Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:45.991Z - [REQUEST]: .nx/cache/file-map.json~6a0ff82b,.nx/cache/project-graph.json~6a0ff82b
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:46.060Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:46.060Z - Time taken for 'hash changed files from watcher' 2.3817440000002534ms
+[NX Daemon Server] - 2024-01-07T18:05:46.082Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:46.135Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:46.189Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:46.243Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:46.264Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:46.264Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/file-map.json,.nx/cache/project-graph.json
+[NX Daemon Server] - 2024-01-07T18:05:46.264Z - [REQUEST]: .nx/cache/file-map.json~308eefdb,.nx/cache/project-graph.json~308eefdb
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:46.335Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:46.335Z - Time taken for 'hash changed files from watcher' 3.141272000000754ms
+[NX Daemon Server] - 2024-01-07T18:05:46.354Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:46.408Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:46.462Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:46.516Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:46.538Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:46.538Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:46.539Z - [REQUEST]: .nx/cache/project-graph.json~0a42fea1,.nx/cache/file-map.json~0a42fea1
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:46.610Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:46.611Z - Time taken for 'hash changed files from watcher' 2.5304940000005445ms
+[NX Daemon Server] - 2024-01-07T18:05:46.633Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:46.685Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:46.739Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:46.793Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:46.814Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:46.814Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:46.814Z - [REQUEST]: .nx/cache/project-graph.json~df1483cb,.nx/cache/file-map.json~df1483cb
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:46.878Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:46.878Z - Time taken for 'hash changed files from watcher' 2.40646199999901ms
+[NX Daemon Server] - 2024-01-07T18:05:46.901Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:46.955Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:47.009Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:47.063Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:47.082Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:47.082Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:47.082Z - [REQUEST]: .nx/cache/project-graph.json~29f9f1f9,.nx/cache/file-map.json~29f9f1f9
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:47.136Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:47.137Z - Time taken for 'hash changed files from watcher' 2.849836999999752ms
+[NX Daemon Server] - 2024-01-07T18:05:47.177Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:47.229Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:47.281Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:47.333Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:47.337Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:47.337Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:47.337Z - [REQUEST]: .nx/cache/project-graph.json~61bb4d2e,.nx/cache/file-map.json~61bb4d2e
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:47.372Z - Time taken for 'hash changed files from watcher' 0.7685889999993378ms
+[NX Daemon Server] - 2024-01-07T18:05:47.386Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:47.438Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:47.487Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:47.487Z - [REQUEST]: .nx/cache/project-graph.json,.nx/cache/file-map.json,.nx/cache/d/daemon.log
+[NX Daemon Server] - 2024-01-07T18:05:47.487Z - [REQUEST]: .nx/cache/file-map.json~00732890,.nx/cache/project-graph.json~00732890
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:47.522Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:47.522Z - Time taken for 'hash changed files from watcher' 0.6801539999996749ms
+[NX Daemon Server] - 2024-01-07T18:05:47.549Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:47.601Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:47.653Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:47.706Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:47.723Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:47.723Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:47.723Z - [REQUEST]: .nx/cache/project-graph.json~158652e8,.nx/cache/file-map.json~158652e8
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:47.759Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:47.759Z - Time taken for 'hash changed files from watcher' 0.6950830000005226ms
+[NX Daemon Server] - 2024-01-07T18:05:47.811Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:47.862Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:47.863Z - [REQUEST]: .nx/cache/project-graph.json,.nx/cache/file-map.json,.nx/cache/d/daemon.log
+[NX Daemon Server] - 2024-01-07T18:05:47.863Z - [REQUEST]: .nx/cache/project-graph.json~7a536cdf,.nx/cache/file-map.json~7a536cdf
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:47.932Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:47.932Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:47.933Z - Time taken for 'hash changed files from watcher' 2.7091980000004696ms
+[NX Daemon Server] - 2024-01-07T18:05:47.972Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:48.025Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:48.079Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:48.132Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:48.134Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:48.134Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/file-map.json,.nx/cache/project-graph.json
+[NX Daemon Server] - 2024-01-07T18:05:48.134Z - [REQUEST]: .nx/cache/file-map.json~cec7cf42,.nx/cache/project-graph.json~cec7cf42
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:48.182Z - Time taken for 'hash changed files from watcher' 1.0386899999994057ms
+[NX Daemon Server] - 2024-01-07T18:05:48.187Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:48.241Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:48.291Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:48.291Z - [REQUEST]: .nx/cache/project-graph.json,.nx/cache/file-map.json,.nx/cache/d/daemon.log
+[NX Daemon Server] - 2024-01-07T18:05:48.291Z - [REQUEST]: .nx/cache/file-map.json~4ab5e3fc,.nx/cache/project-graph.json~4ab5e3fc
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:48.365Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:48.365Z - Time taken for 'hash changed files from watcher' 2.3593419999997423ms
+[NX Daemon Server] - 2024-01-07T18:05:48.388Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:48.441Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:48.493Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:48.545Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:48.566Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:48.566Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/file-map.json,.nx/cache/project-graph.json
+[NX Daemon Server] - 2024-01-07T18:05:48.566Z - [REQUEST]: .nx/cache/file-map.json~02786b0c,.nx/cache/project-graph.json~02786b0c
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:48.599Z - [WATCHER]: 0 file(s) created or restored, 1 file(s) modified, 1 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:48.600Z - Time taken for 'hash changed files from watcher' 0.7508270000016637ms
+[NX Daemon Server] - 2024-01-07T18:05:48.648Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:48.699Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:48.753Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:48.803Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:48.803Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:48.803Z - [REQUEST]: .nx/cache/project-graph.json~b0499bf1,.nx/cache/file-map.json~b0499bf1
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:48.880Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:48.881Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:48.881Z - Time taken for 'hash changed files from watcher' 3.0656749999998283ms
+[NX Daemon Server] - 2024-01-07T18:05:48.919Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:48.973Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:49.027Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:49.081Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:49.085Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:49.085Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/file-map.json,.nx/cache/project-graph.json
+[NX Daemon Server] - 2024-01-07T18:05:49.085Z - [REQUEST]: .nx/cache/file-map.json~adef5a3f,.nx/cache/project-graph.json~adef5a3f
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:49.143Z - [WATCHER]: 1 file(s) created or restored, 1 file(s) modified, 0 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:49.143Z - Time taken for 'hash changed files from watcher' 2.9822109999986424ms
+[NX Daemon Server] - 2024-01-07T18:05:49.193Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:49.247Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:49.300Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:49.345Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:49.345Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/file-map.json,.nx/cache/project-graph.json
+[NX Daemon Server] - 2024-01-07T18:05:49.345Z - [REQUEST]: .nx/cache/file-map.json~b889ed4a,.nx/cache/project-graph.json~b889ed4a
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:49.395Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:49.395Z - Time taken for 'hash changed files from watcher' 1.3627190000006522ms
+[NX Daemon Server] - 2024-01-07T18:05:49.415Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:49.467Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:49.521Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:49.575Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:49.598Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:49.598Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/file-map.json,.nx/cache/project-graph.json
+[NX Daemon Server] - 2024-01-07T18:05:49.598Z - [REQUEST]: .nx/cache/file-map.json~b5b290b4,.nx/cache/project-graph.json~b5b290b4
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:49.664Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:49.665Z - Time taken for 'hash changed files from watcher' 2.641736999999921ms
+[NX Daemon Server] - 2024-01-07T18:05:49.684Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:49.737Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:49.789Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:49.843Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:49.868Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:49.868Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:49.868Z - [REQUEST]: .nx/cache/project-graph.json~67536746,.nx/cache/file-map.json~67536746
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:49.946Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:49.947Z - Time taken for 'hash changed files from watcher' 2.4836400000003778ms
+[NX Daemon Server] - 2024-01-07T18:05:49.965Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:50.017Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:50.069Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:50.121Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:50.148Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:50.148Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/file-map.json,.nx/cache/project-graph.json
+[NX Daemon Server] - 2024-01-07T18:05:50.148Z - [REQUEST]: .nx/cache/file-map.json~b1c24ec6,.nx/cache/project-graph.json~b1c24ec6
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:50.181Z - [WATCHER]: 1 file(s) created or restored, 1 file(s) modified, 0 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:50.181Z - Time taken for 'hash changed files from watcher' 0.8192129999988538ms
+[NX Daemon Server] - 2024-01-07T18:05:50.229Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:50.282Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:50.336Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:50.384Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:50.385Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/file-map.json,.nx/cache/project-graph.json
+[NX Daemon Server] - 2024-01-07T18:05:50.385Z - [REQUEST]: .nx/cache/project-graph.json~60326f6d,.nx/cache/file-map.json~60326f6d
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:50.448Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:50.449Z - Time taken for 'hash changed files from watcher' 2.6967320000003383ms
+[NX Daemon Server] - 2024-01-07T18:05:50.479Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:50.534Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:50.588Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:50.642Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:50.652Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:50.653Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:50.653Z - [REQUEST]: .nx/cache/project-graph.json~0dacebb8,.nx/cache/file-map.json~0dacebb8
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:50.716Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:50.716Z - Time taken for 'hash changed files from watcher' 2.6431119999997463ms
+[NX Daemon Server] - 2024-01-07T18:05:50.757Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:50.811Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:50.865Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:50.919Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:50.920Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/file-map.json,.nx/cache/project-graph.json
+[NX Daemon Server] - 2024-01-07T18:05:50.920Z - [REQUEST]: .nx/cache/file-map.json~5e6fe667,.nx/cache/project-graph.json~5e6fe667
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:50.971Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:50.972Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:50.972Z - Time taken for 'hash changed files from watcher' 2.856106000001091ms
+[NX Daemon Server] - 2024-01-07T18:05:51.025Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:51.079Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:51.132Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:51.174Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:51.174Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:51.174Z - [REQUEST]: .nx/cache/project-graph.json~4d8ba43c,.nx/cache/file-map.json~4d8ba43c
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:51.248Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:51.249Z - Time taken for 'hash changed files from watcher' 2.5736569999971834ms
+[NX Daemon Server] - 2024-01-07T18:05:51.265Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:51.318Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:51.370Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:51.422Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:51.449Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:51.449Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/file-map.json,.nx/cache/project-graph.json
+[NX Daemon Server] - 2024-01-07T18:05:51.449Z - [REQUEST]: .nx/cache/project-graph.json~fe52c5db,.nx/cache/file-map.json~fe52c5db
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:51.494Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:51.494Z - Time taken for 'hash changed files from watcher' 0.8987769999985176ms
+[NX Daemon Server] - 2024-01-07T18:05:51.533Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:51.585Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:51.637Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:51.689Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:51.695Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:51.695Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:51.696Z - [REQUEST]: .nx/cache/file-map.json~50ce23c6,.nx/cache/project-graph.json~50ce23c6
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:51.726Z - Time taken for 'hash changed files from watcher' 1.3114580000001297ms
+[NX Daemon Server] - 2024-01-07T18:05:51.743Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:51.796Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:51.843Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:51.844Z - [REQUEST]: .nx/cache/project-graph.json,.nx/cache/file-map.json,.nx/cache/d/daemon.log
+[NX Daemon Server] - 2024-01-07T18:05:51.844Z - [REQUEST]: .nx/cache/project-graph.json~1dabf166,.nx/cache/file-map.json~1dabf166
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:51.875Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:51.876Z - Time taken for 'hash changed files from watcher' 0.6926759999987553ms
+[NX Daemon Server] - 2024-01-07T18:05:51.909Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:51.962Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:52.014Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:52.068Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:52.079Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:52.079Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:52.079Z - [REQUEST]: .nx/cache/file-map.json~022d149e,.nx/cache/project-graph.json~022d149e
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:52.140Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:52.140Z - Time taken for 'hash changed files from watcher' 2.7359550000001036ms
+[NX Daemon Server] - 2024-01-07T18:05:52.179Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:52.233Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:52.286Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:52.338Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:52.341Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:52.341Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:52.341Z - [REQUEST]: .nx/cache/project-graph.json~7ecfe6c2,.nx/cache/file-map.json~7ecfe6c2
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:52.407Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:52.407Z - Time taken for 'hash changed files from watcher' 1.2827160000015283ms
+[NX Daemon Server] - 2024-01-07T18:05:52.450Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:52.504Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:52.560Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:52.611Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:52.611Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/file-map.json,.nx/cache/project-graph.json
+[NX Daemon Server] - 2024-01-07T18:05:52.611Z - [REQUEST]: .nx/cache/project-graph.json~6a0e902d,.nx/cache/file-map.json~6a0e902d
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:52.671Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:52.672Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:52.672Z - Time taken for 'hash changed files from watcher' 2.7972140000019863ms
+[NX Daemon Server] - 2024-01-07T18:05:52.718Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:52.769Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:52.823Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:52.874Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:52.875Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:52.875Z - [REQUEST]: .nx/cache/project-graph.json~81005b2b,.nx/cache/file-map.json~81005b2b
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:52.947Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:52.948Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:52.948Z - Time taken for 'hash changed files from watcher' 2.3710700000010547ms
+[NX Daemon Server] - 2024-01-07T18:05:52.986Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:53.040Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:53.093Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:53.145Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:53.148Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:53.148Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:53.148Z - [REQUEST]: .nx/cache/project-graph.json~f15fa634,.nx/cache/file-map.json~f15fa634
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:53.173Z - Time taken for 'hash changed files from watcher' 0.5638159999980417ms
+[NX Daemon Server] - 2024-01-07T18:05:53.197Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:53.252Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:53.298Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:53.298Z - [REQUEST]: .nx/cache/project-graph.json,.nx/cache/file-map.json,.nx/cache/d/daemon.log
+[NX Daemon Server] - 2024-01-07T18:05:53.298Z - [REQUEST]: .nx/cache/file-map.json~92740dc4,.nx/cache/project-graph.json~92740dc4
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:53.337Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:53.337Z - Time taken for 'hash changed files from watcher' 0.7598580000012589ms
+[NX Daemon Server] - 2024-01-07T18:05:53.363Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:53.416Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:53.470Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:53.525Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:53.540Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:53.541Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/file-map.json,.nx/cache/project-graph.json
+[NX Daemon Server] - 2024-01-07T18:05:53.541Z - [REQUEST]: .nx/cache/file-map.json~859edbcd,.nx/cache/project-graph.json~859edbcd
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:53.609Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:53.610Z - Time taken for 'hash changed files from watcher' 3.3493150000031164ms
+[NX Daemon Server] - 2024-01-07T18:05:53.650Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:53.703Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:53.757Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:53.811Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:53.815Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:53.815Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/file-map.json,.nx/cache/project-graph.json
+[NX Daemon Server] - 2024-01-07T18:05:53.816Z - [REQUEST]: .nx/cache/project-graph.json~4129f8ad,.nx/cache/file-map.json~4129f8ad
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:53.895Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:53.896Z - Time taken for 'hash changed files from watcher' 2.9900269999998272ms
+[NX Daemon Server] - 2024-01-07T18:05:53.927Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:53.981Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:54.036Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:54.090Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:54.098Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:54.098Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:54.098Z - [REQUEST]: .nx/cache/project-graph.json~c516d003,.nx/cache/file-map.json~c516d003
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:54.147Z - [WATCHER]: 1 file(s) created or restored, 1 file(s) modified, 0 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:54.147Z - Time taken for 'hash changed files from watcher' 1.882077999998728ms
+[NX Daemon Server] - 2024-01-07T18:05:54.196Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:54.250Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:54.304Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:54.350Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:54.351Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/file-map.json,.nx/cache/project-graph.json
+[NX Daemon Server] - 2024-01-07T18:05:54.351Z - [REQUEST]: .nx/cache/project-graph.json~eed9a4d5,.nx/cache/file-map.json~eed9a4d5
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:54.405Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:54.406Z - Time taken for 'hash changed files from watcher' 2.686634999998205ms
+[NX Daemon Server] - 2024-01-07T18:05:54.436Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:54.489Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:54.543Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:54.598Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:54.608Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:54.609Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:54.609Z - [REQUEST]: .nx/cache/project-graph.json~0c03484f,.nx/cache/file-map.json~0c03484f
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:54.673Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:54.673Z - Time taken for 'hash changed files from watcher' 2.631636999998591ms
+[NX Daemon Server] - 2024-01-07T18:05:54.712Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:54.766Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:54.820Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:54.874Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:54.877Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:54.877Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:54.878Z - [REQUEST]: .nx/cache/project-graph.json~97262eeb,.nx/cache/file-map.json~97262eeb
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:54.943Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:54.943Z - Time taken for 'hash changed files from watcher' 2.509098999998969ms
+[NX Daemon Server] - 2024-01-07T18:05:54.990Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:55.044Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:55.099Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:55.145Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:55.145Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:55.145Z - [REQUEST]: .nx/cache/project-graph.json~b6dbb05b,.nx/cache/file-map.json~b6dbb05b
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:55.189Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:55.189Z - Time taken for 'hash changed files from watcher' 1.1885220000003756ms
+[NX Daemon Server] - 2024-01-07T18:05:55.214Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:55.265Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:55.319Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:55.373Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:55.392Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:55.392Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:55.392Z - [REQUEST]: .nx/cache/project-graph.json~50d848e2,.nx/cache/file-map.json~50d848e2
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:55.469Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:55.469Z - Time taken for 'hash changed files from watcher' 2.741609000000608ms
+[NX Daemon Server] - 2024-01-07T18:05:55.485Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:55.538Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:55.592Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:55.646Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:55.672Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:55.673Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:55.673Z - [REQUEST]: .nx/cache/file-map.json~d2557468,.nx/cache/project-graph.json~d2557468
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:55.729Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:55.729Z - Time taken for 'hash changed files from watcher' 2.588357000000542ms
+[NX Daemon Server] - 2024-01-07T18:05:55.760Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:55.814Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:55.868Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:55.922Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:55.932Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:55.932Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/file-map.json,.nx/cache/project-graph.json
+[NX Daemon Server] - 2024-01-07T18:05:55.932Z - [REQUEST]: .nx/cache/file-map.json~83305403,.nx/cache/project-graph.json~83305403
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:56.014Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:56.015Z - Time taken for 'hash changed files from watcher' 2.586475000000064ms
+[NX Daemon Server] - 2024-01-07T18:05:56.027Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:56.081Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:56.134Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:56.188Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:56.218Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:56.218Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/file-map.json,.nx/cache/project-graph.json
+[NX Daemon Server] - 2024-01-07T18:05:56.219Z - [REQUEST]: .nx/cache/file-map.json~41ca6a21,.nx/cache/project-graph.json~41ca6a21
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:56.274Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:56.274Z - Time taken for 'hash changed files from watcher' 3.36457800000062ms
+[NX Daemon Server] - 2024-01-07T18:05:56.304Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:56.358Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:56.412Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:56.466Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:56.476Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:56.477Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:56.477Z - [REQUEST]: .nx/cache/file-map.json~b9dd4af6,.nx/cache/project-graph.json~b9dd4af6
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:56.538Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:56.539Z - Time taken for 'hash changed files from watcher' 2.416092999999819ms
+[NX Daemon Server] - 2024-01-07T18:05:56.586Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:56.640Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:56.694Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:56.741Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:56.741Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/file-map.json,.nx/cache/project-graph.json
+[NX Daemon Server] - 2024-01-07T18:05:56.742Z - [REQUEST]: .nx/cache/project-graph.json~c7d4be7f,.nx/cache/file-map.json~c7d4be7f
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:56.814Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:56.814Z - Time taken for 'hash changed files from watcher' 3.0857130000003963ms
+[NX Daemon Server] - 2024-01-07T18:05:56.836Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:56.890Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:56.944Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:56.998Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:57.017Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:57.018Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/project-graph.json,.nx/cache/file-map.json
+[NX Daemon Server] - 2024-01-07T18:05:57.018Z - [REQUEST]: .nx/cache/file-map.json~46820471,.nx/cache/project-graph.json~46820471
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:57.075Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:57.075Z - Time taken for 'hash changed files from watcher' 2.9964970000000903ms
+[NX Daemon Server] - 2024-01-07T18:05:57.105Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:57.158Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:57.212Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:57.266Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:57.278Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2024-01-07T18:05:57.279Z - [REQUEST]: .nx/cache/d/daemon.log,.nx/cache/file-map.json,.nx/cache/project-graph.json
+[NX Daemon Server] - 2024-01-07T18:05:57.279Z - [REQUEST]: .nx/cache/file-map.json~b5913a69,.nx/cache/project-graph.json~b5913a69
+
+ >  NX   Using `implicitDependencies` for global implicit dependencies configuration is no longer supported.
+
+   Use "namedInputs" instead. You can run "nx repair" to automatically migrate your configuration.
+   For more information about the usage of "namedInputs" see https://nx.dev/deprecated/global-implicit-dependencies#global-implicit-dependencies
+
+[NX Daemon Server] - 2024-01-07T18:05:57.338Z - [WATCHER]: .nx/cache/d/daemon.log was modified
+[NX Daemon Server] - 2024-01-07T18:05:57.338Z - Time taken for 'hash changed files from watcher' 2.700494999997318ms
+[NX Daemon Server] - 2024-01-07T18:05:57.384Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
+[NX Daemon Server] - 2024-01-07T18:05:57.436Z - [WATCHER]: .nx/cache/d/daemon.log was modified
