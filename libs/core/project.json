@@ -1,7 +1,7 @@
 {
   "name": "core",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "core/src",
+  "sourceRoot": "libs/core/src",
   "projectType": "library",
   "targets": {
     "build": {
@@ -9,9 +9,9 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/core",
-        "main": "core/src/index.ts",
-        "tsConfig": "core/tsconfig.lib.json",
-        "assets": ["core/*.md"],
+        "main": "libs/core/src/index.ts",
+        "tsConfig": "libs/core/tsconfig.lib.json",
+        "assets": ["libs/core/*.md"],
         "generatePackageJson": true,
         "format": ["cjs"]
       }
@@ -24,7 +24,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "core/jest.config.ts"
+        "jestConfig": "libs/core/jest.config.ts"
       }
     }
   },
