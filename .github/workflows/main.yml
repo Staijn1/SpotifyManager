@@ -14,7 +14,18 @@ jobs:
           fetch-depth: 0
       - uses: nrwl/nx-set-shas@v2
       - run: npm ci
+        name: Install Dependencies
+
       # This line is needed for nx affected to work when CI is running on a PR
       - run: git branch --track main origin/main
+        name: Track main branch
+
+      - run: npx nx affected:lint --all --parallel=3
+        name: Lint All Affected Projects
+
+      - run: npx nx affected:test --all --parallel=3 --codeCoverage
+        name: Test All Affected Projects
+
+      - run: npx nx affected:build --all --parallel=3
+        name: Build All Affected Projects
 #      - run: npx nx format:check
-      - run: npx nx affected -t test,lint,build --parallel=3 --codeCoverage
