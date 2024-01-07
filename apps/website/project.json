@@ -2,9 +2,8 @@
   "name": "website",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "spotify-manager",
   "sourceRoot": "apps/website/src",
-  "tags": [],
+  "prefix": "spotify-manager",
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
@@ -46,25 +45,29 @@
     },
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
+      "defaultConfiguration": "development",
       "configurations": {
         "production": {
+          "browserTarget": "website:build:production",
           "buildTarget": "website:build:production"
         },
         "development": {
+          "browserTarget": "website:build:development",
           "buildTarget": "website:build:development"
         }
-      },
-      "defaultConfiguration": "development"
+      }
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
+        "browserTarget": "website:build",
         "buildTarget": "website:build"
       }
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
+      "outputs": ["{options.outputFile}"],
+      "options": {}
     },
     "test": {
       "executor": "@nx/jest:jest",
@@ -73,5 +76,6 @@
         "jestConfig": "apps/website/jest.config.ts"
       }
     }
-  }
+  },
+  "tags": []
 }

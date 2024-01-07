@@ -48,5 +48,6 @@
       }
     }
   },
-  "tags": []
+  "tags": [],
+  "name": "spotifymanagerold-apps-api"
 }
