@@ -19,7 +19,7 @@ export class SpotifyAuthenticationService extends HTTPService {
   /**
    * The redirect URI is the URL where the user will be redirected after the authentication process.
    * It must be registered in the Spotify developer portal.
-   * The redirect URI is the current URL, with the last part replaced by 'spotify-callback'.
+   * The redirect URI is the current URL, with the last part replaced by 'callback'.
    * Example, current URL = 'https://some-subdomain.domain.nl/some-path/home' will become 'https://some-subdomain.domain.nl/some-path/callback'
    */
   private readonly REDIRECT_URI = window.location.href.replace(/\/[^/]*$/, '/callback');
