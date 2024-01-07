@@ -1,7 +1,7 @@
-import { HttpException, Injectable, Logger } from '@nestjs/common';
-import { SpotifyService } from '../../../../spotify/spotify.service';
-import { PlaylistFileService } from '../playlist-file-service/playlist-file.service';
-import { Diff, RemixedPlaylistInformation } from '@spotify/data';
+import {HttpException, Injectable, Logger} from '@nestjs/common';
+import {SpotifyService} from '../../../../spotify/spotify.service';
+import {PlaylistFileService} from '../playlist-file-service/playlist-file.service';
+import {Diff, RemixedPlaylistInformation} from '@spotify/data';
 
 @Injectable()
 export class PlaylistService {
@@ -53,7 +53,7 @@ export class PlaylistService {
     const expectedDescription = `This playlist has been remixed using SpotifyManager. Please do not remove the original playlist id from the description. Original playlist: {${originalPlaylist.id}}`;
     const newPlaylist = await this.spotifyService.createPlaylist(newPlaylistName,
       {
-        description: `This playlist has been remixed using SpotifyManager. Please do not remove the original playlist id from the description. Original playlist: {${originalPlaylist.id}}`
+        description: expectedDescription,
       });
     let actualDescription = newPlaylist.description;
     let retries = 0;
@@ -66,7 +66,10 @@ export class PlaylistService {
       retries++;
 
       if (retries > 20) {
+        // Try to remove the empty remixed playlist we can't set the description for
+        await this.spotifyService.removePlaylist(newPlaylist.id);
         throw new HttpException(`Could not set description for playlist. Please retry`, 500);
+
       }
     }
 
