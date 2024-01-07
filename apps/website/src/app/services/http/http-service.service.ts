@@ -40,7 +40,7 @@ export class HTTPService {
    * @param input - URL to fetch from
    * @param init - options with request
    */
-  protected async request(input: string, init: RequestInit): Promise<any> {
+  protected async request<T>(input: string, init: RequestInit): Promise<T> {
     const response = await fetch(input, init);
 
     if (!response.ok) {
@@ -53,8 +53,8 @@ export class HTTPService {
     try {
       return JSON.parse(body);
     } catch (e) {
-      // If the body is not valid JSON, return the body as is.
-      return body;
+      console.error('Failed to parse response body of a failed request to JSON', e)
+      return null as T;
     }
   }
 }

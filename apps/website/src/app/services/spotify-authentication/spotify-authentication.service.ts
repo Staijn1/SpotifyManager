@@ -114,7 +114,7 @@ export class SpotifyAuthenticationService extends HTTPService {
    */
   async createAccessToken(params: Record<string, string>): Promise<string> {
     try {
-      const response = await this.request('https://accounts.spotify.com/api/token', {
+      const response = await this.request<{access_token: string}>('https://accounts.spotify.com/api/token', {
         method: 'POST',
         body: new URLSearchParams({
           client_id: this.CLIENT_ID,
