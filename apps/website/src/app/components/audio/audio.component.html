@@ -1,3 +1,6 @@
-<audio #audioElement controls *ngIf="src && type" (play)="handlePlay($event)">
+<audio #audioElement
+       controls *ngIf="src && type"
+       [src]="src"
+       (play)="handlePlay($event)">
   <source [src]="src" [type]="type">
 </audio>
