@@ -1,6 +1,6 @@
-import {EventEmitter, Injectable, Output} from '@angular/core';
-import {HTTPService} from '../http/http-service.service';
-import { CustomError } from '../../types/CustomError';
+import { EventEmitter, Injectable, Output } from '@angular/core';
+import { HTTPService } from '../http/http-service.service';
+import { Message } from '../../types/Message';
 
 
 /**
@@ -22,9 +22,9 @@ export class SpotifyAuthenticationService extends HTTPService {
    * The redirect URI is the current URL, with the last part replaced by 'spotify-callback'.
    * Example, current URL = 'https://some-subdomain.domain.nl/some-path/home' will become 'https://some-subdomain.domain.nl/some-path/callback'
    */
-  private readonly REDIRECT_URI = window.location.href.replace(/\/[^/]*$/, "/callback");
+  private readonly REDIRECT_URI = window.location.href.replace(/\/[^/]*$/, '/callback');
 
-  @Output() errorEvent = new EventEmitter<CustomError>();
+  @Output() errorEvent = new EventEmitter<Message>();
 
   /**
    * Returns the URL to start the authentication process.
@@ -104,7 +104,7 @@ export class SpotifyAuthenticationService extends HTTPService {
       grant_type: 'authorization_code',
       code: params.get('code') as string,
       redirect_uri: this.REDIRECT_URI,
-      code_verifier: codeVerifier,
+      code_verifier: codeVerifier
     });
   }
 
@@ -113,27 +113,19 @@ export class SpotifyAuthenticationService extends HTTPService {
    * @returns - Promise with access token as string
    */
   async createAccessToken(params: Record<string, string>): Promise<string> {
-    try {
-      const response = await this.request<{access_token: string}>('https://accounts.spotify.com/api/token', {
-        method: 'POST',
-        body: new URLSearchParams({
-          client_id: this.CLIENT_ID,
-          ...params,
-        }),
-      });
+    const response = await this.request<{ access_token: string }>('https://accounts.spotify.com/api/token', {
+      method: 'POST',
+      body: new URLSearchParams({
+        client_id: this.CLIENT_ID,
+        ...params
+      })
+    });
 
-      const accessToken = response.access_token;
+    const accessToken = response.access_token;
 
-      sessionStorage.setItem('tokenSet', JSON.stringify(response));
-      console.log(response)
+    sessionStorage.setItem('tokenSet', JSON.stringify(response));
 
-      this.errorEvent.emit(undefined);
-      return accessToken;
-    } catch (e) {
-      console.log('caught:', e);
-      this.errorEvent.emit(e as CustomError);
-      return '';
-    }
+    return accessToken;
   }
 
 
@@ -150,7 +142,7 @@ export class SpotifyAuthenticationService extends HTTPService {
     if (tokenSet.expires_at < Date.now()) {
       tokenSet = await this.createAccessToken({
         grant_type: 'refresh_token',
-        refresh_token: tokenSet.refresh_token,
+        refresh_token: tokenSet.refresh_token
       });
     }
 

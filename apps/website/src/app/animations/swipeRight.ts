@@ -1,0 +1,16 @@
+import { animate, style, transition, trigger } from '@angular/animations';
+
+/**
+ * An animation that makes an element slide in from the right, while increasing its opacity.
+ * When the element is removed, it slides out to the right and decreases its opacity.
+ */
+export const swipeRight = trigger('swipeRight', [
+  transition(':enter', [
+    style({transform: 'translateX(100%)', opacity: 0}),
+    animate('300ms ease-out', style({transform: 'translateX(0)', opacity: 1}))
+  ]),
+  transition(':leave', [
+    style({transform: 'translateX(0)', opacity: 1}),
+    animate('300ms ease-out', style({transform: 'translateX(100%)', opacity: 0}))
+  ])
+]);
