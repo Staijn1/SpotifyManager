@@ -1,7 +1,7 @@
 import { HttpException, Injectable, Logger } from '@nestjs/common';
 import { SpotifyService } from '../../../../spotify/spotify.service';
 import { PlaylistFileService } from '../playlist-file-service/playlist-file.service';
-import { Diff, RemixedPlaylistInformation } from 'core';
+import { Diff, RemixedPlaylistInformation } from 'core-old';
 
 @Injectable()
 export class PlaylistService {

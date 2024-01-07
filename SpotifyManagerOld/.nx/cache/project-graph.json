@@ -1,5 +1,43 @@
 {
   "nodes": {
+    "core-old": {
+      "name": "core-old",
+      "type": "lib",
+      "data": {
+        "root": "libs/core-old",
+        "name": "core-old",
+        "$schema": "../../node_modules/nx/schemas/project-schema.json",
+        "sourceRoot": "libs/core-old/src",
+        "projectType": "library",
+        "targets": {
+          "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "outputs": [
+              "{options.outputFile}"
+            ],
+            "options": {
+              "lintFilePatterns": [
+                "libs/core-old/**/*.ts"
+              ]
+            },
+            "configurations": {}
+          },
+          "test": {
+            "executor": "@nrwl/jest:jest",
+            "outputs": [
+              "{workspaceRoot}/coverage/libs/core-old"
+            ],
+            "options": {
+              "jestConfig": "libs/core-old/jest.config.ts",
+              "passWithNoTests": true
+            },
+            "configurations": {}
+          }
+        },
+        "tags": [],
+        "implicitDependencies": []
+      }
+    },
     "spotifymanagerold-apps-website": {
       "name": "spotifymanagerold-apps-website",
       "type": "app",
@@ -101,44 +139,6 @@
             ],
             "options": {
               "jestConfig": "apps/website/jest.config.ts",
-              "passWithNoTests": true
-            },
-            "configurations": {}
-          }
-        },
-        "tags": [],
-        "implicitDependencies": []
-      }
-    },
-    "core": {
-      "name": "core",
-      "type": "lib",
-      "data": {
-        "root": "libs/core",
-        "name": "core",
-        "$schema": "../../node_modules/nx/schemas/project-schema.json",
-        "sourceRoot": "libs/core/src",
-        "projectType": "library",
-        "targets": {
-          "lint": {
-            "executor": "@nrwl/linter:eslint",
-            "outputs": [
-              "{options.outputFile}"
-            ],
-            "options": {
-              "lintFilePatterns": [
-                "libs/core/**/*.ts"
-              ]
-            },
-            "configurations": {}
-          },
-          "test": {
-            "executor": "@nrwl/jest:jest",
-            "outputs": [
-              "{workspaceRoot}/coverage/libs/core"
-            ],
-            "options": {
-              "jestConfig": "libs/core/jest.config.ts",
               "passWithNoTests": true
             },
             "configurations": {}
@@ -13831,6 +13831,13 @@
     }
   },
   "dependencies": {
+    "core-old": [
+      {
+        "source": "core-old",
+        "target": "npm:@nestjs/swagger",
+        "type": "static"
+      }
+    ],
     "spotifymanagerold-apps-website": [
       {
         "source": "spotifymanagerold-apps-website",
@@ -13889,7 +13896,7 @@
       },
       {
         "source": "spotifymanagerold-apps-website",
-        "target": "core",
+        "target": "core-old",
         "type": "static"
       },
       {
@@ -13915,13 +13922,6 @@
       {
         "source": "spotifymanagerold-apps-website",
         "target": "npm:jest-preset-angular",
-        "type": "static"
-      }
-    ],
-    "core": [
-      {
-        "source": "core",
-        "target": "npm:@nestjs/swagger",
         "type": "static"
       }
     ],
@@ -13953,7 +13953,7 @@
       },
       {
         "source": "spotifymanagerold-apps-api",
-        "target": "core",
+        "target": "core-old",
         "type": "static"
       },
       {

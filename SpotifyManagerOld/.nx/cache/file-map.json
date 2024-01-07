@@ -76,28 +76,24 @@
     "typescript": "~4.6.2"
   },
   "pathMappings": {
-    "core": [
-      "libs/core/src/index.ts"
+    "core-old": [
+      "libs/core-old/src/index.ts"
     ]
   },
   "nxJsonPlugins": [],
   "fileMap": {
     "nonProjectFiles": [
       {
-        "file": ".nx/cache/parsed-lock-file.json",
-        "hash": "11811509219790769102"
+        "file": ".editorconfig",
+        "hash": "5443105041930014821"
       },
       {
         "file": ".nx/cache/file-map.json",
-        "hash": "17726517817627249102"
+        "hash": "11377912490926050392"
       },
       {
-        "file": "README.md",
-        "hash": "7136813676411635041"
-      },
-      {
-        "file": ".nx/cache/d/daemon.log",
-        "hash": "8649937529069425876"
+        "file": ".nx/cache/project-graph.json",
+        "hash": "5457158766537328847"
       },
       {
         "file": "workspace.json",
@@ -108,141 +104,149 @@
         "hash": "7127901709444109104"
       },
       {
-        "file": ".nx/cache/project-graph.json",
-        "hash": "1764560493542052298"
-      },
-      {
-        "file": "tsconfig.base.json",
-        "hash": "11032838778450410401"
+        "file": "package-lock.json",
+        "hash": "14655723110703650384"
       },
       {
         "file": "tools/base.bat",
         "hash": "11085493994130493879"
       },
       {
-        "file": "package-lock.json",
-        "hash": "14655723110703650384"
-      },
-      {
-        "file": ".editorconfig",
-        "hash": "5443105041930014821"
-      },
-      {
-        "file": ".prettierignore",
-        "hash": "17733650430415207254"
-      },
-      {
-        "file": "jest.preset.js",
-        "hash": "2772139696069860212"
-      },
-      {
-        "file": "tools/generators/.gitkeep",
-        "hash": "3244421341483603138"
-      },
-      {
-        "file": "nx.json",
-        "hash": "15078034069961914289"
-      },
-      {
-        "file": "tools/tsconfig.tools.json",
-        "hash": "16088922570277978783"
-      },
-      {
-        "file": "Dockerfile",
-        "hash": "2253268454422624979"
-      },
-      {
         "file": ".nx/cache/lockfile.hash",
         "hash": "4740859390238281467"
-      },
-      {
-        "file": "jest.config.js",
-        "hash": "8280827210074712746"
-      },
-      {
-        "file": "jest.preset.ts",
-        "hash": "5137147997102054031"
       },
       {
         "file": ".prettierrc",
         "hash": "16267754514737964994"
       },
       {
+        "file": "README.md",
+        "hash": "7136813676411635041"
+      },
+      {
+        "file": "jest.config.js",
+        "hash": "8280827210074712746"
+      },
+      {
+        "file": ".prettierignore",
+        "hash": "17733650430415207254"
+      },
+      {
+        "file": ".nx/cache/nx_files.nxt",
+        "hash": "3437395193794870332"
+      },
+      {
         "file": ".eslintrc.json",
         "hash": "4648071628473584027"
       },
       {
-        "file": "package.json",
-        "hash": "17315841385156120552"
+        "file": "nx.json",
+        "hash": "15078034069961914289"
       },
       {
-        "file": ".dockerignore",
-        "hash": "18306900695355553735"
+        "file": "jest.preset.js",
+        "hash": "2772139696069860212"
       },
       {
-        "file": ".nx/cache/nx_files.nxt",
-        "hash": "15566042163421058830"
+        "file": "tools/tsconfig.tools.json",
+        "hash": "16088922570277978783"
       },
       {
         "file": "tools/publish.bat",
         "hash": "10079928366957408885"
       },
       {
+        "file": "jest.preset.ts",
+        "hash": "5137147997102054031"
+      },
+      {
+        "file": "package.json",
+        "hash": "17315841385156120552"
+      },
+      {
+        "file": "tools/generators/.gitkeep",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "tsconfig.base.json",
+        "hash": "15853890241159475349"
+      },
+      {
+        "file": ".dockerignore",
+        "hash": "18306900695355553735"
+      },
+      {
+        "file": "Dockerfile",
+        "hash": "2253268454422624979"
+      },
+      {
         "file": "docker-compose.yml",
         "hash": "5855587236589061406"
+      },
+      {
+        "file": ".nx/cache/parsed-lock-file.json",
+        "hash": "11811509219790769102"
+      },
+      {
+        "file": ".nx/cache/d/daemon.log",
+        "hash": "17466056457165351050"
       }
     ],
     "projectFileMap": {
-      "core": [
+      "core-old": [
         {
-          "file": "libs/core/.babelrc",
+          "file": "libs/core-old/.babelrc",
           "hash": "2685020516260856122"
         },
         {
-          "file": "libs/core/.eslintrc.json",
+          "file": "libs/core-old/.eslintrc.json",
           "hash": "13800677001662881425"
         },
         {
-          "file": "libs/core/README.md",
+          "file": "libs/core-old/README.md",
           "hash": "3464354245041172729"
         },
         {
-          "file": "libs/core/jest.config.ts",
-          "hash": "8050169522081206053"
+          "file": "libs/core-old/jest.config.ts",
+          "hash": "2231415816094028219"
         },
         {
-          "file": "libs/core/project.json",
-          "hash": "1151416033409757001"
+          "file": "libs/core-old/project.json",
+          "hash": "15623601885424549060"
         },
         {
-          "file": "libs/core/src/index.ts",
+          "file": "libs/core-old/src/index.ts",
           "hash": "4348731358900182459"
         },
         {
-          "file": "libs/core/src/lib/RemixedPlaylistInformation.ts",
+          "file": "libs/core-old/src/lib/Diff.ts",
+          "hash": "4573835433579725925"
+        },
+        {
+          "file": "libs/core-old/src/lib/RemixedPlaylistInformation.ts",
           "hash": "3436029218975900195"
         },
         {
-          "file": "libs/core/src/lib/RequestObjects.ts",
+          "file": "libs/core-old/src/lib/RequestObjects.ts",
           "hash": "12517982802981795217",
           "deps": [
             "npm:@nestjs/swagger"
           ]
         },
         {
-          "file": "libs/core/src/lib/SpotifyAPI.ts",
+          "file": "libs/core-old/src/lib/SpotifyAPI.ts",
           "hash": "9884820656164671216"
         },
         {
-          "file": "libs/core/tsconfig.json",
+          "file": "libs/core-old/tsconfig.json",
           "hash": "17393938987446028618"
         },
         {
-          "file": "libs/core/tsconfig.lib.json",
+          "file": "libs/core-old/tsconfig.lib.json",
           "hash": "13034901906147047048"
         },
         {
-          "file": "libs/core/tsconfig.spec.json",
+          "file": "libs/core-old/tsconfig.spec.json",
           "hash": "2406015174838385060"
         }
       ],
@@ -319,11 +323,11 @@
         },
         {
           "file": "apps/api/src/app/modules/playlist/controllers/playlist-controller/playlist.controller.ts",
-          "hash": "18023912286575058774",
+          "hash": "16514308439223012925",
           "deps": [
             "npm:@nestjs/common",
             "npm:@nestjs/swagger",
-            "core"
+            "core-old"
           ]
         },
         {
@@ -342,12 +346,12 @@
         },
         {
           "file": "apps/api/src/app/modules/playlist/services/playlist-file-service/playlist-file.service.ts",
-          "hash": "16214096953251877714",
+          "hash": "5135735425617234946",
           "deps": [
             "npm:@nestjs/common",
             "npm:path",
             "npm:fs",
-            "core"
+            "core-old"
           ]
         },
         {
@@ -359,10 +363,10 @@
         },
         {
           "file": "apps/api/src/app/modules/playlist/services/playlist/playlist.service.ts",
-          "hash": "15563337498042596921",
+          "hash": "12283444590647706085",
           "deps": [
             "npm:@nestjs/common",
-            "core"
+            "core-old"
           ]
         },
         {
@@ -762,11 +766,11 @@
         },
         {
           "file": "apps/website/src/app/pages/playlist-compare-page/playlist-compare-page.component.ts",
-          "hash": "12076893315599967730",
+          "hash": "9372737216018182022",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/router",
-            "core",
+            "core-old",
             "npm:@fortawesome/free-solid-svg-icons",
             "npm:@fortawesome/fontawesome-svg-core",
             "npm:@ng-bootstrap/ng-bootstrap",
@@ -783,12 +787,12 @@
         },
         {
           "file": "apps/website/src/app/pages/remix-sync/remix-sync.component.ts",
-          "hash": "18010059705389001816",
+          "hash": "7803556745825812633",
           "deps": [
             "npm:@angular/core",
             "npm:@fortawesome/free-solid-svg-icons",
             "npm:@angular/router",
-            "core"
+            "core-old"
           ]
         },
         {
@@ -810,10 +814,10 @@
         },
         {
           "file": "apps/website/src/app/services/api/api.service.ts",
-          "hash": "12087520427855060137",
+          "hash": "16227300641305311590",
           "deps": [
             "npm:@angular/core",
-            "core"
+            "core-old"
           ]
         },
         {
@@ -883,43 +887,43 @@
         },
         {
           "file": "apps/website/src/assets/fonts/Open_Sans/OpenSans-Bold.ttf",
-          "hash": "14250447486380849328"
+          "hash": "14571705329167160158"
         },
         {
           "file": "apps/website/src/assets/fonts/Open_Sans/OpenSans-BoldItalic.ttf",
-          "hash": "16048261020249725924"
+          "hash": "6448943189741863392"
         },
         {
           "file": "apps/website/src/assets/fonts/Open_Sans/OpenSans-ExtraBold.ttf",
-          "hash": "17598418256825984369"
+          "hash": "7489087339075988699"
         },
         {
           "file": "apps/website/src/assets/fonts/Open_Sans/OpenSans-ExtraBoldItalic.ttf",
-          "hash": "12543340945797264825"
+          "hash": "14215597632691954358"
         },
         {
           "file": "apps/website/src/assets/fonts/Open_Sans/OpenSans-Italic.ttf",
-          "hash": "10712221610925960482"
+          "hash": "2643272836605287324"
         },
         {
           "file": "apps/website/src/assets/fonts/Open_Sans/OpenSans-Light.ttf",
-          "hash": "18354929217434684397"
+          "hash": "12921945308435141681"
         },
         {
           "file": "apps/website/src/assets/fonts/Open_Sans/OpenSans-LightItalic.ttf",
-          "hash": "3028229307082088706"
+          "hash": "11475092547272801453"
         },
         {
           "file": "apps/website/src/assets/fonts/Open_Sans/OpenSans-Regular.ttf",
-          "hash": "12330825088904327609"
+          "hash": "7887517854655707577"
         },
         {
           "file": "apps/website/src/assets/fonts/Open_Sans/OpenSans-SemiBold.ttf",
-          "hash": "14975131811797780442"
+          "hash": "17668274089824313033"
         },
         {
           "file": "apps/website/src/assets/fonts/Open_Sans/OpenSans-SemiBoldItalic.ttf",
-          "hash": "6133793410317360071"
+          "hash": "3650648261703612958"
         },
         {
           "file": "apps/website/src/assets/fonts/Poppins/OFL.txt",

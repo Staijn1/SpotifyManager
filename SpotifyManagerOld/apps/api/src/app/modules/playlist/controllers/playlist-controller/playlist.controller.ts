@@ -6,7 +6,7 @@ import {
   RemixedPlaylistInformation,
   PlaylistCompareRequest,
   PlaylistSyncRequest,
-} from 'core';
+} from 'core-old';
 
 @ApiBearerAuth()
 @Controller('playlists')

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { FileService } from '../../../util/services/file/file.service';
 import path from 'path';
 import * as fs from 'fs';
-import { RemixedPlaylistInformation } from 'core';
+import { RemixedPlaylistInformation } from 'core-old';
 
 @Injectable()
 export class PlaylistFileService extends FileService {
