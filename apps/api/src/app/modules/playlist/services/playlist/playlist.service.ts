@@ -43,6 +43,7 @@ export class PlaylistService {
    * @returns {string}
    */
   public async remixPlaylist(playlistid: string): Promise<SpotifyApi.CreatePlaylistResponse> {
+    Logger.log(`Creating new remix playlist for playlist ${playlistid}`);
     const me = await this.spotifyService.getMe();
     const originalPlaylist = await this.getPlaylistWithAllTracks(playlistid);
 
@@ -57,7 +58,7 @@ export class PlaylistService {
     let actualDescription = newPlaylist.description;
     let retries = 0;
     while (actualDescription != expectedDescription) {
-      Logger.log(`Description was not set properly for playlist ${newPlaylist.id}. Retrying...`);
+      Logger.warn(`Description was not set properly for playlist ${newPlaylist.id}. Retrying...`);
       // Sadly the spotify API does not return the updated playlist object.. so we need to fetch it again.
       await this.spotifyService.changePlaylistDetails(newPlaylist.id, { description: expectedDescription });
       const changedPlaylist = await this.spotifyService.getPlaylistInformation(newPlaylist.id);
