@@ -1,7 +1,7 @@
-import {HttpException, Injectable, Logger} from '@nestjs/common';
-import {SpotifyService} from '../../../../spotify/spotify.service';
-import {PlaylistFileService} from '../playlist-file-service/playlist-file.service';
-import {Diff, RemixedPlaylistInformation} from '@spotify/data';
+import { HttpException, Injectable, Logger } from '@nestjs/common';
+import { SpotifyService } from '../../../../spotify/spotify.service';
+import { PlaylistFileService } from '../playlist-file-service/playlist-file.service';
+import { Diff, RemixedPlaylistInformation } from '@spotify/data';
 
 @Injectable()
 export class PlaylistService {
@@ -20,17 +20,20 @@ export class PlaylistService {
    * @returns {Promise<SpotifyApi.PlaylistTrackResponse>}
    */
   public async getAllSongsInPlaylist(playlistid: string): Promise<SpotifyApi.PlaylistTrackResponse> {
+    Logger.log(`Getting all songs in playlist ${playlistid}`);
     const response = await this.spotifyService.getTracksInPlaylist(playlistid);
     const amountOfChunks = Math.ceil(response.total / 100);
-
+    Logger.log(`Playlist ${playlistid} has ${response.total} tracks total. (${amountOfChunks} chunks of 100 songs.)`)
     for (let i = 1; i < amountOfChunks; i++) {
+      Logger.log(`Loading chunk ${i}/${amountOfChunks} for playlist ${playlistid}`)
       const options = {
-        offset: i * 100,
+        offset: i * 100
       };
       const tracks = await this.spotifyService.getTracksInPlaylist(playlistid, options);
       response.items = response.items.concat(tracks.items);
     }
-    return response
+    Logger.log(`Finished loading all songs in playlist ${playlistid}`)
+    return response;
   }
 
   /**
@@ -54,15 +57,15 @@ export class PlaylistService {
     let actualDescription = newPlaylist.description;
     let retries = 0;
     while (actualDescription != expectedDescription) {
-      Logger.log(`Description was not set properly for playlist ${newPlaylist.id}. Retrying...`)
+      Logger.log(`Description was not set properly for playlist ${newPlaylist.id}. Retrying...`);
       // Sadly the spotify API does not return the updated playlist object.. so we need to fetch it again.
-      await this.spotifyService.changePlaylistDetails(newPlaylist.id, {description: expectedDescription});
+      await this.spotifyService.changePlaylistDetails(newPlaylist.id, { description: expectedDescription });
       const changedPlaylist = await this.spotifyService.getPlaylistInformation(newPlaylist.id);
       actualDescription = changedPlaylist.description;
       retries++;
 
       if (retries > 20) {
-        throw new HttpException(`Could not set description for playlist. Please retry`, 500)
+        throw new HttpException(`Could not set description for playlist. Please retry`, 500);
       }
     }
 
@@ -72,8 +75,8 @@ export class PlaylistService {
     // Add all the tracks of the original playlist to the new playlist.
     await this.spotifyService.addTracksToPlaylist(newPlaylist.id, originalPlaylist.tracks.items.map(track => track.track.uri));
     // We need to save the state of the original playlist
-    this.fileService.writePlaylist(originalPlaylist, me.id)
-    return newPlaylist
+    this.fileService.writePlaylist(originalPlaylist, me.id);
+    return newPlaylist;
   }
 
   /**
@@ -96,11 +99,11 @@ export class PlaylistService {
 
     while (playlists.next != null) {
       const morePlaylists = await this.spotifyService.getGeneric(playlists.next) as SpotifyApi.ListOfUsersPlaylistsResponse;
-      playlists.next = morePlaylists.next
-      playlists.items = playlists.items.concat(morePlaylists.items)
+      playlists.next = morePlaylists.next;
+      playlists.items = playlists.items.concat(morePlaylists.items);
     }
 
-    return playlists
+    return playlists;
   }
 
   /**
@@ -109,7 +112,7 @@ export class PlaylistService {
    * @returns {Promise<SpotifyApi.SinglePlaylistResponse>}
    */
   async getPlaylist(playlistid: string): Promise<SpotifyApi.SinglePlaylistResponse> {
-    return this.spotifyService.getPlaylistInformation(playlistid)
+    return this.spotifyService.getPlaylistInformation(playlistid);
   }
 
   /**
@@ -119,7 +122,7 @@ export class PlaylistService {
    */
   async getVersionsOfOriginalPlaylist(playlistid: string): Promise<RemixedPlaylistInformation[]> {
     const me = await this.spotifyService.getMe();
-    return this.fileService.getOriginalVersionsForPlaylist(playlistid, me.id)
+    return this.fileService.getOriginalVersionsForPlaylist(playlistid, me.id);
   }
 
   /**
@@ -130,22 +133,22 @@ export class PlaylistService {
    * @returns {Promise<Diff[]>}
    */
   async comparePlaylist(playlistid: string, originalPlaylistid: string, versionTimestamp?: number): Promise<Diff[]> {
-    const me = await this.spotifyService.getMe()
+    const me = await this.spotifyService.getMe();
     const versionInformation = await this.fileService.getOriginalVersionsForPlaylist(originalPlaylistid, me.id);
 
     if (versionInformation.length == 0) {
-      throw new HttpException('Currently comparing playlists to other playlists, which have not been remixed, is not supported.', 501)
+      throw new HttpException('Currently comparing playlists to other playlists, which have not been remixed, is not supported.', 501);
     }
 
     if (versionInformation.length > 1 && !versionTimestamp) {
-      throw new HttpException('Please specify a version of the original playlist to compare to. This should be the timestamp of which this version was created', 400)
+      throw new HttpException('Please specify a version of the original playlist to compare to. This should be the timestamp of which this version was created', 400);
     }
 
-    const fileOfOriginalPlaylist = versionInformation.length == 1 ? `${versionInformation[0].createdOn}-${versionInformation[0].id}` : `${versionTimestamp}-${originalPlaylistid}`
-    const originalPlaylist = this.fileService.readPlaylist(fileOfOriginalPlaylist, me.id)
+    const fileOfOriginalPlaylist = versionInformation.length == 1 ? `${versionInformation[0].createdOn}-${versionInformation[0].id}` : `${versionTimestamp}-${originalPlaylistid}`;
+    const originalPlaylist = this.fileService.readPlaylist(fileOfOriginalPlaylist, me.id);
 
     const fullPlaylist = await this.getAllSongsInPlaylist(playlistid);
-    return this.calculateChanges(originalPlaylist.tracks.items, fullPlaylist.items)
+    return this.calculateChanges(originalPlaylist.tracks.items, fullPlaylist.items);
   }
 
   /**
@@ -197,6 +200,6 @@ export class PlaylistService {
 
     // Get the original playlist and save its state to a json file again
     const currentOriginalPlaylist = await this.getPlaylistWithAllTracks(originalPlaylistId);
-    this.fileService.writePlaylist(currentOriginalPlaylist, (await this.spotifyService.getMe()).id)
+    this.fileService.writePlaylist(currentOriginalPlaylist, (await this.spotifyService.getMe()).id);
   }
 }
