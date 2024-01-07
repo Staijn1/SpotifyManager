@@ -41,7 +41,9 @@
       "!{projectRoot}/.eslintrc.json",
       "!{projectRoot}/eslint.config.js"
     ],
-    "sharedGlobals": []
+    "sharedGlobals": [
+      "{workspaceRoot}/.github/workflows/main.yml"
+    ]
   },
   "nxCloudAccessToken": "OTdhNzVkYTEtYTZmZC00MGZjLThmY2MtOTM2NjczMWY2MmQ4fHJlYWQtd3JpdGU=",
   "generators": {
