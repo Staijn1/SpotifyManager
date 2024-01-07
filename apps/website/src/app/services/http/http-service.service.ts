@@ -41,7 +41,16 @@ export class HTTPService {
    * @param init - options with request
    */
   protected async request<T>(input: string, init: RequestInit): Promise<T> {
-    const response = await fetch(input, init);
+    let response: Response;
+
+    try {
+      response = await fetch(input, init);
+    } catch (e) {
+      console.error('Failed to fetch', e)
+      throw new Error('Failed to fetch due to a network error.');
+    }
+
+    response = await fetch(input, init);
 
     if (!response.ok) {
       const body = await response.json();
