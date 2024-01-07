@@ -13,10 +13,11 @@
     "lib": ["es2017", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "baseUrl": ".",
+    "baseUrl": "..",
     "paths": {
       "@spotify/data": ["libs/data/src/index.ts"]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "../node_modules", "tmp"]
 }
