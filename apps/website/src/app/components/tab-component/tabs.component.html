@@ -1,18 +1,37 @@
-<div role="tablist" class="tabs tabs-lifted">
-  @for (label of labels; track label; let index = $index) {
-    <input
-      type="radio"
-      name="tabs"
-      role="tab"
-      class="tab"
-      [attr.aria-label]="label"
-      [checked]="index === selectedTab"
-    />
-    <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
-      <ng-container *ngTemplateOutlet="templates[index]"></ng-container>
-    </div>
-  }
-</div>
+@if (!vertical) {
+  <div role="tablist" class="tabs tabs-lifted">
+    @for (label of labels; track label; let index = $index) {
+      <input
+        type="radio"
+        name="tabs"
+        role="tab"
+        class="tab"
+        [attr.aria-label]="label"
+        [checked]="index === selectedTab"
+      />
+      <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+        <ng-container *ngTemplateOutlet="templates[index]"></ng-container>
+      </div>
+    }
+  </div>
+} @else {
+  <div class="flex bg-base-200 rounded-box mx-5">
+    <ul class="menu">
+      @for (label of labels; track label; let index = $index) {
+        <li>
+          <a (click)="selectTab(index)" [class.active]="index === selectedTab">{{ label }}</a>
+        </li>
+      }
+    </ul>
 
+    <div class="divider divider-horizontal mx-0"></div>
 
-<button (click)="selectTab(1)">Next</button>
+    @for (label of labels; track label; let index = $index) {
+      @if (index === selectedTab) {
+        <div class="flex-1 tab-vertical-content border-base-300 p-6">
+          <ng-container *ngTemplateOutlet="templates[index]"></ng-container>
+        </div>
+      }
+    }
+  </div>
+}

@@ -1,13 +1,10 @@
 <section class="container mx-auto px-4">
-  <div class="flex flex-wrap">
-    <div class="w-full md:w-1/4">
-      <h3 class="text-xl font-bold mb-4">Guide</h3>
-      <ul class="list-none pl-0">
-        <li class="mb-2">Connect</li>
-        <li class="mb-2">Remixing a playlist TODO</li>
-      </ul>
-    </div>
-    <div class="w-full md:w-3/4">
+  <app-tabs
+    [labels]="['Connect', 'Remixing a playlist TODO']"
+    [templates]="[connect, remixing]"
+    [vertical]="true"
+  >
+    <ng-template #connect>
       <h1 class="text-xl font-bold mb-4">Connecting your account</h1>
       <p class="mb-4">
         To get started we need to connect your Spotify account. <br>
@@ -17,32 +14,13 @@
       <p class="flex justify-end mt-3" data-aos="fade">
         <button class="btn btn-primary" (click)="login()">Authenticate</button>
       </p>
-    </div>
-  </div>
+    </ng-template>
+    <ng-template #remixing>
+      <h1 class="text-xl font-bold mb-4">Remixing a playlist</h1>
+      <p class="mb-4">
+<!--        todo-->
+        To do: build this text
+      </p>
+    </ng-template>
+  </app-tabs>
 </section>
-
-
-<!--<div role="tablist" class="tabs tabs-bordered">-->
-<!--  <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Tab 1" />-->
-<!--  <div role="tabpanel" class="tab-content p-10">Tab content 1</div>-->
-
-<!--  <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Tab 2" checked />-->
-<!--  <div role="tabpanel" class="tab-content p-10">Tab content 2</div>-->
-
-<!--  <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Tab 3" />-->
-<!--  <div role="tabpanel" class="tab-content p-10">Tab content 3</div>-->
-<!--</div>-->
-
-<app-tabs
-  [labels]="['Tab 1', 'Tab 2', 'Tab 3']"
-  [templates]="[template1, template2, template3]">
-  <ng-template #template1>
-    <h1>Test</h1>
-  </ng-template>
-  <ng-template #template2>
-    <p>Test 2</p>
-  </ng-template>
-  <ng-template #template3>
-    <button>Button</button>
-  </ng-template>
-</app-tabs>

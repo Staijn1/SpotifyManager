@@ -31,6 +31,7 @@ export class TabsComponent {
   @Input() labels: string[] = [];
   @Input() templates: TemplateRef<HTMLElement>[] = [];
   @Input() selectedTab = 0;
+  @Input() vertical = false;
 
   selectTab(index: number) {
     this.selectedTab = index;
