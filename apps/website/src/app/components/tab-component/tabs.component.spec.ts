@@ -1,27 +1,71 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TabsComponent } from './tabs.component';
-import { NxWelcomeComponent } from './nx-welcome.component';
-import { RouterTestingModule } from '@angular/router/testing';
 
-describe('AppComponent', () => {
+describe('TabsComponent', () => {
+  let component: TabsComponent;
+  let fixture: ComponentFixture<TabsComponent>;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TabsComponent, NxWelcomeComponent, RouterTestingModule],
-    }).compileComponents();
+      imports: [ TabsComponent ]
+    })
+      .compileComponents();
   });
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(TabsComponent);
+  beforeEach(() => {
+    fixture = TestBed.createComponent(TabsComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain(
-      'Welcome website'
-    );
   });
 
-  it(`should have as title 'website'`, () => {
-    const fixture = TestBed.createComponent(TabsComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('website');
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should select tab correctly', () => {
+    component.selectTab(1);
+    expect(component.selectedTab).toEqual(1);
+  });
+
+  it('should go to next tab correctly', () => {
+    component.labels = ['Tab 1', 'Tab 2', 'Tab 3'];
+    component.selectTab(0);
+    component.nextTab();
+    expect(component.selectedTab).toEqual(1);
+  });
+
+  it('should not go to next tab when on last tab', () => {
+    component.labels = ['Tab 1', 'Tab 2', 'Tab 3'];
+    component.selectTab(2);
+    component.nextTab();
+    expect(component.selectedTab).toEqual(2);
+  });
+
+  it('should go to previous tab correctly', () => {
+    component.labels = ['Tab 1', 'Tab 2', 'Tab 3'];
+    component.selectTab(2);
+    component.previousTab();
+    expect(component.selectedTab).toEqual(1);
+  });
+
+  it('should not go to previous tab when on first tab', () => {
+    component.labels = ['Tab 1', 'Tab 2', 'Tab 3'];
+    component.selectTab(0);
+    component.previousTab();
+    expect(component.selectedTab).toEqual(0);
+  });
+
+  it('should go to first tab when on last tab and rollover is true', () => {
+    component.labels = ['Tab 1', 'Tab 2', 'Tab 3'];
+    component.selectTab(2);
+    component.nextTab(true);
+    expect(component.selectedTab).toEqual(0);
+  });
+
+  it('should go to last tab when on first tab and rollover is true', () => {
+    component.labels = ['Tab 1', 'Tab 2', 'Tab 3'];
+    component.selectTab(0);
+    component.previousTab(true);
+    expect(component.selectedTab).toEqual(2);
   });
 });
