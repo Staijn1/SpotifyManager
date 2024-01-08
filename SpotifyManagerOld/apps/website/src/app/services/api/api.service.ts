@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HTTPService } from '../http/http-service.service';
 import { environment } from '../../../environments/environment';
 import { SpotifyAuthenticationService } from '../spotifyAuthentication/spotify-authentication.service';
-import { Diff, RemixedPlaylistInformation } from 'core-old';
+import { Diff, RemixedPlaylistInformation } from 'SpotifyManagerOld/libs/core-old/src';
 
 @Injectable({
   providedIn: 'root',

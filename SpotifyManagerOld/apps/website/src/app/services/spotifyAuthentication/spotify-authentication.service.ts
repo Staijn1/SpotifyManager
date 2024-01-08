@@ -100,7 +100,7 @@ export class SpotifyAuthenticationService extends HTTPService {
     const codeVerifier = sessionStorage.getItem('codeVerifier') as string;
 
     const params = new URLSearchParams(location.search);
-
+debugger;
     await this.createAccessToken({
       grant_type: 'authorization_code',
       code: params.get('code') as string,

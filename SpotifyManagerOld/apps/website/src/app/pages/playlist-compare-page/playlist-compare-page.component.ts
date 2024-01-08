@@ -2,7 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import { Navigation, Router } from '@angular/router';
 import { CustomError } from '../../types/CustomError';
 import { ApiService } from '../../services/api/api.service';
-import { Diff } from 'core-old';
 import {
   faChevronLeft,
   faChevronRight,
@@ -16,6 +15,7 @@ import { NgbNav } from '@ng-bootstrap/ng-bootstrap';
 import { AudioService } from '../../services/audioService/audio.service';
 import ArtistObjectFull = SpotifyApi.ArtistObjectFull;
 import TrackObjectFull = SpotifyApi.TrackObjectFull;
+import { Diff } from '../../../../../../libs/core-old/src';
 
 @Component({
   selector: 'app-playlist-compare-page',

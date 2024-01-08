@@ -4,8 +4,8 @@ import { SpotifyAPIService } from '../../services/spotifyAPI/spotify-api.service
 import { CustomError } from '../../types/CustomError';
 import { ApiService } from '../../services/api/api.service';
 import { Router } from '@angular/router';
-import { RemixedPlaylistInformation } from 'core-old';
 import { ModalComponent } from '../../components/modal/modal.component';
+import { RemixedPlaylistInformation } from '../../../../../../libs/core-old/src';
 
 @Component({
   selector: 'app-remix-sync',
