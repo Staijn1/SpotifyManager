@@ -46,6 +46,10 @@ export class SpotifyAuthenticationService extends HTTPService {
       state: generatedState,
       scope: this.SCOPES
     });
+    console.log('codeVerifier: ', codeVerifier);
+    console.log('code_challenge: ', params.get('code_challenge'));
+    console.log('state: ', params.get('state'));
+    console.log('redirect_uri: ', params.get('redirect_uri'));
 
     sessionStorage.setItem('codeVerifier', codeVerifier);
     sessionStorage.setItem('state', generatedState);
@@ -97,9 +101,9 @@ export class SpotifyAuthenticationService extends HTTPService {
    */
   async completeLogin(): Promise<void> {
     const codeVerifier = sessionStorage.getItem('codeVerifier') as string;
-
     const params = new URLSearchParams(location.search);
-
+console.log('codeVerifier: ', codeVerifier);
+console.log('code: ', params.get('code'));
     await this.createAccessToken({
       grant_type: 'authorization_code',
       code: params.get('code') as string,
