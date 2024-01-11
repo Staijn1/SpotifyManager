@@ -1,7 +1,7 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { HTTPService } from '../http/http-service.service';
 import { Message } from '../../types/Message';
-
+import { AuthConfig, OAuthService } from 'angular-oauth2-oidc';
 
 /**
  * Handles the authentication process with Spotify, using the Spotify Web API.
@@ -24,67 +24,26 @@ export class SpotifyAuthenticationService extends HTTPService {
    */
   private readonly REDIRECT_URI = window.location.href.replace(/\/[^/]*$/, '/callback');
 
+  authCodeFlowConfig: AuthConfig = {
+    loginUrl: 'https://accounts.spotify.com/authorize',
+    tokenEndpoint: 'https://accounts.spotify.com/api/token',
+    redirectUri: this.REDIRECT_URI,
+    clientId: this.CLIENT_ID,
+    responseType: 'code',
+    scope: this.SCOPES,
+    showDebugInformation: true,
+    oidc: false
+  };
+
   @Output() errorEvent = new EventEmitter<Message>();
 
-  /**
-   * Returns the URL to start the authentication process.
-   * The user will be redirected to this URL, where he will have to authorize with Spotify.
-   * He will be redirected to the redirect_uri specified.
-   * @returns {string}
-   */
-  async generateAuthorizeURL(): Promise<string> {
-    // https://tools.ietf.org/html/rfc7636#section-4.1
-    const codeVerifier = this.base64urlEncode(this.randomBytes(96));
-    const generatedState = this.base64urlEncode(this.randomBytes(96));
-
-    const params = new URLSearchParams({
-      client_id: this.CLIENT_ID,
-      response_type: 'code',
-      redirect_uri: this.REDIRECT_URI,
-      code_challenge_method: 'S256',
-      code_challenge: await this.generateCodeChallenge(codeVerifier),
-      state: generatedState,
-      scope: this.SCOPES
-    });
-    console.log('codeVerifier: ', codeVerifier);
-    console.log('code_challenge: ', params.get('code_challenge'));
-    console.log('state: ', params.get('state'));
-    console.log('redirect_uri: ', params.get('redirect_uri'));
-
-    sessionStorage.setItem('codeVerifier', codeVerifier);
-    sessionStorage.setItem('state', generatedState);
-
-    return `https://accounts.spotify.com/authorize?${params}`;
+  constructor(private readonly oauthService: OAuthService) {
+    super();
+    this.oauthService.configure(this.authCodeFlowConfig);
   }
 
-  /**
-   * Helper function to generate the code_challenge for the authorization code flow.
-   * https://tools.ietf.org/html/rfc7636#section-4.2
-   * @param codeVerifier - Code verifier to use further with authentication
-   */
-  async generateCodeChallenge(codeVerifier: string): Promise<string> {
-    const codeVerifierBytes = new TextEncoder().encode(codeVerifier);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', codeVerifierBytes);
-    return this.base64urlEncode(new Uint8Array(hashBuffer));
-  }
-
-  /**
-   * Helper function to generate a random byte array which is used as a code verifier and state.
-   * @param size - Size of array to generate
-   */
-  randomBytes(size: number): Uint8Array {
-    return crypto.getRandomValues(new Uint8Array(size));
-  }
-
-  /**
-   * Helper function to encode a byte array to a base64 string.
-   * @param bytes - Bytes to encode
-   */
-  base64urlEncode(bytes: Uint8Array): string {
-    return btoa(String.fromCharCode(...bytes))
-      .replace(/=/g, '')
-      .replace(/\+/g, '-')
-      .replace(/\//g, '_');
+  public initializeAuthorizitionFlow(): void {
+    this.oauthService.initCodeFlow();
   }
 
   /**
@@ -92,71 +51,25 @@ export class SpotifyAuthenticationService extends HTTPService {
    * @returns {boolean}
    */
   isLoggedIn(): boolean {
-    return (!!sessionStorage.getItem('tokenSet'));
+    return this.oauthService.hasValidAccessToken();
   }
 
   /**
    * Last step of the authentication process., by requesting an access token.
    * @returns {Promise<void>}
    */
-  async completeLogin(): Promise<void> {
-    const codeVerifier = sessionStorage.getItem('codeVerifier') as string;
-    const params = new URLSearchParams(location.search);
-console.log('codeVerifier: ', codeVerifier);
-console.log('code: ', params.get('code'));
-    await this.createAccessToken({
-      grant_type: 'authorization_code',
-      code: params.get('code') as string,
-      redirect_uri: this.REDIRECT_URI,
-      code_verifier: codeVerifier
-    });
-  }
-
-  /**
-   * @param params - Params to send with request
-   * @returns - Promise with access token as string
-   */
-  async createAccessToken(params: Record<string, string>): Promise<string> {
-    const response = await this.request<{ access_token: string }>('https://accounts.spotify.com/api/token', {
-      method: 'POST',
-      body: new URLSearchParams({
-        client_id: this.CLIENT_ID,
-        ...params
-      })
-    });
-
-    const accessToken = response.access_token;
-
-    sessionStorage.setItem('tokenSet', JSON.stringify(response));
-
-    return accessToken;
-  }
-
-
-  /**
-   * @returns Promise<string> - Contains the current tokenset if still valid
-   */
-  async refreshAccessToken(): Promise<string | null> {
-    let tokenSet = JSON.parse(sessionStorage.getItem('tokenSet') as string);
-
-    if (!tokenSet) {
-      return null;
-    }
-
-    if (tokenSet.expires_at < Date.now()) {
-      tokenSet = await this.createAccessToken({
-        grant_type: 'refresh_token',
-        refresh_token: tokenSet.refresh_token
-      });
-    }
-
-    return tokenSet.access_token;
+  async completeLogin(): Promise<boolean> {
+    return this.oauthService.tryLogin();
   }
 
   /**
    * Log out by clearing the session storage
    */
   logOut(): void {
-    sessionStorage.clear();
+    this.oauthService.logOut();
+  }
+
+  refreshAccessToken() {
+    return this.oauthService.refreshToken();
   }
 }

@@ -29,7 +29,16 @@ export class AuthorizeComponent implements OnInit {
    */
   ngOnInit(): void {
     this.spotifyAuth.completeLogin()
-      .then(() => this.router.navigate(['account']))
-      .catch((err) => this.error = err);
+      .then((result) => {
+        if (result) {
+          this.router.navigate(['account']);
+        } else {
+          throw new Message("error", "Something went wrong while logging in");
+        }
+      })
+      .catch((err) => {
+        this.error = err;
+        console.error(err);
+      });
   }
 }

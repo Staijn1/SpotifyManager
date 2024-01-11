@@ -29,20 +29,22 @@ export class GetStartedComponent implements OnInit {
    */
   ngOnInit(): void {
     this.isLoading = true;
-    this.spotifyAuth.generateAuthorizeURL().then(url => {
-        this.isLoading = false;
-        this.authUrl = url;
-      }
-    );
+
+    // this.spotifyAuth.generateAuthorizeURL().then(url => {
+    //     this.isLoading = false;
+    //     this.authUrl = url;
+    //   }
+    // );
   }
 
   /**
    * Redirect to the login page of Spotify, to the URL created during initialization
    */
   login(): void {
-    if (this.authUrl === undefined) {
-      return;
-    }
-    location.href = this.authUrl;
+    this.spotifyAuth.initializeAuthorizitionFlow();
+    // if (this.authUrl === undefined) {
+    //   return;
+    // }
+    // location.href = this.authUrl;
   }
 }

@@ -1,7 +1,6 @@
-import {EventEmitter, Injectable, Output} from '@angular/core';
-import {environment} from '../../../environments/environment';
-import {CustomError} from '../../types/CustomError';
-import {HTTPService} from '../http/http-service.service';
+import { EventEmitter, Injectable, Output } from '@angular/core';
+import { CustomError } from '../../types/CustomError';
+import { HTTPService } from '../http/http-service.service';
 
 
 /**
@@ -23,7 +22,7 @@ export class SpotifyAuthenticationService extends HTTPService {
    * The redirect URI is the current URL, with the last part replaced by 'spotify-callback'.
    * Example, current URL = 'https://some-subdomain.domain.nl/some-path/home' will become 'https://some-subdomain.domain.nl/some-path/callback'
    */
-  private readonly REDIRECT_URI = window.location.href.replace(/\/[^/]*$/, "/callback");
+  private readonly REDIRECT_URI = window.location.href.replace(/\/[^/]*$/, '/callback');
 
   @Output() errorEvent = new EventEmitter<CustomError>();
 
@@ -37,13 +36,17 @@ export class SpotifyAuthenticationService extends HTTPService {
     // https://tools.ietf.org/html/rfc7636#section-4.1
     const codeVerifier = this.base64urlEncode(this.randomBytes(96));
     const generatedState = this.base64urlEncode(this.randomBytes(96));
+    const codeChallenge = await this.generateCodeChallenge(codeVerifier);
 
+    console.log('CodeVerifier: ', codeVerifier);
+    console.log('CodeChallenge: ', codeChallenge);
+    console.log('State: ', generatedState);
     const params = new URLSearchParams({
       client_id: this.CLIENT_ID,
       response_type: 'code',
       redirect_uri: this.REDIRECT_URI,
       code_challenge_method: 'S256',
-      code_challenge: await this.generateCodeChallenge(codeVerifier),
+      code_challenge: codeChallenge,
       state: generatedState,
       scope: this.SCOPES
     });
@@ -100,12 +103,12 @@ export class SpotifyAuthenticationService extends HTTPService {
     const codeVerifier = sessionStorage.getItem('codeVerifier') as string;
 
     const params = new URLSearchParams(location.search);
-debugger;
+
     await this.createAccessToken({
       grant_type: 'authorization_code',
       code: params.get('code') as string,
       redirect_uri: this.REDIRECT_URI,
-      code_verifier: codeVerifier,
+      code_verifier: codeVerifier
     });
   }
 
@@ -119,14 +122,14 @@ debugger;
         method: 'POST',
         body: new URLSearchParams({
           client_id: this.CLIENT_ID,
-          ...params,
-        }),
+          ...params
+        })
       });
 
       const accessToken = response.access_token;
 
       sessionStorage.setItem('tokenSet', JSON.stringify(response));
-      console.log(response)
+      console.log(response);
 
       this.errorEvent.emit(undefined);
       return accessToken;
@@ -151,7 +154,7 @@ debugger;
     if (tokenSet.expires_at < Date.now()) {
       tokenSet = await this.createAccessToken({
         grant_type: 'refresh_token',
-        refresh_token: tokenSet.refresh_token,
+        refresh_token: tokenSet.refresh_token
       });
     }
 
