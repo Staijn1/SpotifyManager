@@ -125,7 +125,7 @@ export interface DeviceSpecificParameterObject {
   context_uri?: string;
   position_ms?: number;
   uris?: string[];
-  offset?: Object;
+  offset?: unknown;
 }
 
 export interface PlayParameterObject {
@@ -294,8 +294,7 @@ export interface MultipleEpisodesResponse {
  * At the time of typing, the Audio Analysis Object is absent from the Object Model, so it is typed as any.
  * Object Model: https://developer.spotify.com/web-api/object-model/
  */
-export interface AudioAnalysisResponse extends Object {
-}
+export type AudioAnalysisResponse = unknown;
 
 /**
  * Get audio features for a track
