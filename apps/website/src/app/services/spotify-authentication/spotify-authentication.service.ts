@@ -2,6 +2,7 @@ import { EventEmitter, Injectable, Output } from '@angular/core';
 import { HTTPService } from '../http/http-service.service';
 import { Message } from '../../types/Message';
 import { AuthConfig, OAuthService } from 'angular-oauth2-oidc';
+import { environment } from '../../../environments/environment';
 
 /**
  * Handles the authentication process with Spotify, using the Spotify Web API.
@@ -31,8 +32,8 @@ export class SpotifyAuthenticationService extends HTTPService {
     clientId: this.CLIENT_ID,
     responseType: 'code',
     scope: this.SCOPES,
-    showDebugInformation: true,
-    oidc: false
+    oidc: false,
+    showDebugInformation: !environment.production,
   };
 
   @Output() errorEvent = new EventEmitter<Message>();
