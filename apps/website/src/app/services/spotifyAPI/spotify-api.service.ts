@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import SpotifyWebApi from 'spotify-web-api-js';
 import { SpotifyAuthenticationService } from '../spotify-authentication/spotify-authentication.service';
 
@@ -21,8 +21,8 @@ export class SpotifyAPIService {
    * todo: move to own api
    * @returns {Promise<SpotifyApi.CurrentUsersProfileResponse>}
    */
-  getCurrentAccount(): Promise<SpotifyApi.CurrentUsersProfileResponse> {
-    this.refreshAccessToken();
+  async getCurrentAccount(): Promise<SpotifyApi.CurrentUsersProfileResponse> {
+    await this.refreshAccessToken();
     return this._spotifyApi.getMe();
   }
 
@@ -32,17 +32,9 @@ export class SpotifyAPIService {
    * @param {{limit: number}} param
    * @returns {Promise<SpotifyApi.ListOfUsersPlaylistsResponse>}
    */
-  getUserPlaylist(param?: { limit: number }): Promise<SpotifyApi.ListOfUsersPlaylistsResponse> {
-    this.refreshAccessToken();
+  async getUserPlaylist(param?: { limit: number }): Promise<SpotifyApi.ListOfUsersPlaylistsResponse> {
+    await this.refreshAccessToken();
     return this._spotifyApi.getUserPlaylists(undefined, param);
-  }
-
-  /**
-   * Refresh the access token with the spotify API
-   * @private
-   */
-  private refreshAccessToken(): void {
-    this.spotifyAuth.refreshAccessToken().then(data => this._spotifyApi.setAccessToken(data.access_token));
   }
 
   /**
@@ -50,8 +42,8 @@ export class SpotifyAPIService {
    * @param {string} url
    * @returns {Promise<object>}
    */
-  getGeneric(url: string): Promise<object> {
-    this.refreshAccessToken();
+  async getGeneric(url: string): Promise<object> {
+    await this.refreshAccessToken();
     return this._spotifyApi.getGeneric(url);
   }
 
@@ -59,8 +51,8 @@ export class SpotifyAPIService {
    * Get the tp artists for this user
    * @returns {Promise<SpotifyApi.UsersTopArtistsResponse>}
    */
-  getTopArtists(): Promise<SpotifyApi.UsersTopArtistsResponse> {
-    this.refreshAccessToken();
+  async getTopArtists(): Promise<SpotifyApi.UsersTopArtistsResponse> {
+    await this.refreshAccessToken();
     return this._spotifyApi.getMyTopArtists();
   }
 
@@ -68,8 +60,17 @@ export class SpotifyAPIService {
    * Get the most played tracks for this user
    * @returns {Promise<SpotifyApi.UsersTopTracksResponse>}
    */
-  getTopTracks(): Promise<SpotifyApi.UsersTopTracksResponse> {
-    this.refreshAccessToken();
+  async getTopTracks(): Promise<SpotifyApi.UsersTopTracksResponse> {
+    await this.refreshAccessToken();
     return this._spotifyApi.getMyTopTracks();
+  }
+
+  /**
+   * Refresh the access token with the spotify API
+   * @private
+   */
+  private async refreshAccessToken(): Promise<void> {
+    const data = await this.spotifyAuth.refreshAccessToken();
+    this._spotifyApi.setAccessToken(data.access_token);
   }
 }

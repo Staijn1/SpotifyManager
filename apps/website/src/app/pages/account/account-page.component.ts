@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {faSpotify} from '@fortawesome/free-brands-svg-icons';
-import {faSpinner, faUserCircle} from '@fortawesome/free-solid-svg-icons';
-import {SpotifyAPIService} from '../../services/spotifyAPI/spotify-api.service';
-import {Message} from '../../types/Message';
+import { Component, OnInit } from '@angular/core';
+import { faSpotify } from '@fortawesome/free-brands-svg-icons';
+import { faSpinner, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { SpotifyAPIService } from '../../services/spotifyAPI/spotify-api.service';
+import { Message } from '../../types/Message';
 import { CurrentUsersProfileResponse, UsersTopArtistsResponse, UsersTopTracksResponse } from '@spotify-manager/core';
 import { NgIf } from '@angular/common';
+import { SpotifyUserComponent } from '../../components/spotify-user/spotify-user.component';
 
 
 @Component({
@@ -12,7 +13,8 @@ import { NgIf } from '@angular/common';
   templateUrl: './account-page.component.html',
   standalone: true,
   imports: [
-    NgIf
+    NgIf,
+    SpotifyUserComponent
   ],
   styleUrls: ['./account-page.component.scss']
 })
@@ -48,20 +50,24 @@ export class AccountPageComponent implements OnInit {
    */
   private getInformation(): void {
     this.isLoading = true;
-    this.spotifyAPI.getCurrentAccount().then(data => {
-      this.accountInformation = data;
-      sessionStorage.setItem('userId', data.id);
-      return this.spotifyAPI.getTopArtists();
-    }).then(topArtists => {
-      this.topArtists = topArtists;
-      return this.spotifyAPI.getTopTracks();
-    }).then(topTracks => {
-      this.topTracks = topTracks;
-      this.isLoading = false;
-    }).catch(err => {
-      this.isLoading = false;
-      this.error = JSON.parse(err.response).error as Message;
-    });
+    this.spotifyAPI.getCurrentAccount()
+      .then(data => {
+        this.accountInformation = data;
+        sessionStorage.setItem('userId', data.id);
+        return this.spotifyAPI.getTopArtists();
+      })
+      .then(topArtists => {
+        this.topArtists = topArtists;
+        return this.spotifyAPI.getTopTracks();
+      })
+      .then(topTracks => {
+        this.topTracks = topTracks;
+        this.isLoading = false;
+      })
+      .catch(err => {
+        this.isLoading = false;
+        this.error = JSON.parse(err.response).error as Message;
+      });
   }
 
 
