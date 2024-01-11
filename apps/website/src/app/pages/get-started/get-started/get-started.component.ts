@@ -29,12 +29,6 @@ export class GetStartedComponent implements OnInit {
    */
   ngOnInit(): void {
     this.isLoading = true;
-
-    // this.spotifyAuth.generateAuthorizeURL().then(url => {
-    //     this.isLoading = false;
-    //     this.authUrl = url;
-    //   }
-    // );
   }
 
   /**
@@ -42,9 +36,5 @@ export class GetStartedComponent implements OnInit {
    */
   login(): void {
     this.spotifyAuth.initializeAuthorizitionFlow();
-    // if (this.authUrl === undefined) {
-    //   return;
-    // }
-    // location.href = this.authUrl;
   }
 }
