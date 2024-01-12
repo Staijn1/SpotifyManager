@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { ArtistObjectFull, ImageObject } from '@spotify-manager/core';
 
 @Component({
   selector: 'app-spotify-artist',
@@ -9,7 +10,7 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
   styleUrl: './spotify-artist.component.scss'
 })
 export class SpotifyArtistComponent {
-  @Input() artist: SpotifyApi.ArtistObjectFull | undefined;
+  @Input() artist: ArtistObjectFull | undefined;
   @Input() ranking: number | undefined;
 
   get displayName(): string {
@@ -30,7 +31,7 @@ export class SpotifyArtistComponent {
     return this.artist?.popularity ?? 0;
   }
 
-  get image(): SpotifyApi.ImageObject | undefined {
+  get image(): ImageObject | undefined {
     return this.artist?.images[1];
   }
 }

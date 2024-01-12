@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { UserObjectPublic } from '@spotify-manager/core';
 
 @Component({
   selector: 'app-spotify-user',
@@ -9,5 +10,5 @@ import { CommonModule } from '@angular/common';
   styleUrl: './spotify-user.component.scss'
 })
 export class SpotifyUserComponent {
-  @Input() user: SpotifyApi.UserObjectPublic | undefined;
+  @Input() user: UserObjectPublic | undefined;
 }

@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { ArtistObjectSimplified, TrackObjectFull } from '@spotify-manager/core';
 
 @Component({
   selector: 'app-spotify-track',
@@ -8,10 +9,10 @@ import { Component, Input } from '@angular/core';
   styleUrl: './spotify-track.component.scss'
 })
 export class SpotifyTrackComponent {
-  @Input() track: SpotifyApi.TrackObjectFull | undefined;
+  @Input() track: TrackObjectFull | undefined;
   @Input() ranking: number | undefined;
 
   get artists(): string {
-     return this.track?.artists.map((artist: SpotifyApi.ArtistObjectSimplified) => artist.name).join(', ') ?? '';
+     return this.track?.artists.map((artist: ArtistObjectSimplified) => artist.name).join(', ') ?? '';
   };
 }
