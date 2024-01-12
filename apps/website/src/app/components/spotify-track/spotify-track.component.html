@@ -1,1 +1,12 @@
-<p>spotify-track works!</p>
+@if (track) {
+  <div class="bg-base-300 rounded-lg overflow-hidden">
+    <div class="rounded-t-lg">
+     <a [href]="track.external_urls.spotify" target="_blank"><img class="w-full" [src]="track.album.images[1].url" /></a>
+    </div>
+
+    <div class="track-information">
+      <h3>{{ track.name }}</h3>
+      <p>{{ artists }}</p>
+    </div>
+  </div>
+}

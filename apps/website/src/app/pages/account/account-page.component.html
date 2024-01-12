@@ -10,7 +10,7 @@
       <app-spotify-user [user]="accountInformation"></app-spotify-user>
 
       <h3 class="mt-4 mb-3">Your Top Tracks</h3>
-      <div class="grid grid-cols-2 gap-4">
+      <div class="grid grid-cols-2 gap-3">
         @for (track of topTracksList; track track.id) {
           <app-spotify-track [track]="track"></app-spotify-track>
         }
