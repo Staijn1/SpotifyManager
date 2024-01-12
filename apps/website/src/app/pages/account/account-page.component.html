@@ -19,9 +19,9 @@
     <div class="p-3">
       <div>
         <h3 class="mb-3">Your Top Artists</h3>
-        @for (artist of topArtistsList; track artist.id) {
+        @for (artist of topArtistsList; track artist.id; let index = $index) {
           <div class="mb-2">
-            <app-spotify-artist class="my-2" [artist]="artist"></app-spotify-artist>
+            <app-spotify-artist class="my-2" [artist]="artist" [ranking]="index + 1"></app-spotify-artist>
           </div>
         }
       </div>

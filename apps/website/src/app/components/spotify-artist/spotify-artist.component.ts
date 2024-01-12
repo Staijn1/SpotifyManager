@@ -10,4 +10,5 @@ import { CommonModule } from '@angular/common';
 })
 export class SpotifyArtistComponent {
   @Input() artist: SpotifyApi.ArtistObjectFull | undefined;
+  @Input() ranking: number | undefined;
 }
