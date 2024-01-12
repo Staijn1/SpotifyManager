@@ -3,12 +3,16 @@ import { faCompactDisc } from '@fortawesome/free-solid-svg-icons';
 import { SpotifyAPIService } from '../../services/spotifyAPI/spotify-api.service';
 import ListOfUsersPlaylistsResponse = SpotifyApi.ListOfUsersPlaylistsResponse;
 import { ApiService } from '../../services/api/api.service';
+import { LoadingComponent } from '../../components/loading/loading.component';
 
 @Component({
   selector: 'app-remix',
   standalone: true,
   templateUrl: './remix-page.component.html',
   styleUrls: ['./remix-page.component.scss'],
+  imports: [
+    LoadingComponent
+  ]
 })
 export class RemixPageComponent implements OnInit {
   playlists!: SpotifyApi.ListOfUsersPlaylistsResponse;
