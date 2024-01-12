@@ -4,14 +4,21 @@
       <div class="avatar">
         <div class="w-40 rounded-xl">
           <a [href]="artist.external_urls.spotify" target="_blank">
-            <img [src]="artist.images[1].url" alt="Profile Picture" />
+            <img
+              [ngSrc]="image?.url ?? ''"
+              [width]="image?.width ?? 0"
+              [height]="image?.height ?? 0"
+              alt="Profile Picture" />
           </a>
         </div>
       </div>
       <div class="p-4">
-        <h4> {{ ranking ? ranking + '. ' : '' }}{{ artist.name }}</h4>
+        <h4> {{ displayName }}</h4>
+        <p>
+          Genres: {{ genres }}<br>
+          Popularity: {{ popularity }}<br>
+        </p>
       </div>
     </div>
   </div>
 }
-
