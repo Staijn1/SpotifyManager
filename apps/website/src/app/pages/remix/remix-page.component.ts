@@ -6,6 +6,7 @@ import { LoadingComponent } from '../../components/loading/loading.component';
 import { SpotifyPlaylistComponent } from '../../components/spotify-playlist/spotify-playlist.component';
 import { PlaylistObjectSimplified } from '@spotify-manager/core';
 import ListOfUsersPlaylistsResponse = SpotifyApi.ListOfUsersPlaylistsResponse;
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-remix',
@@ -14,7 +15,8 @@ import ListOfUsersPlaylistsResponse = SpotifyApi.ListOfUsersPlaylistsResponse;
   styleUrls: ['./remix-page.component.scss'],
   imports: [
     LoadingComponent,
-    SpotifyPlaylistComponent
+    SpotifyPlaylistComponent,
+    FontAwesomeModule
   ]
 })
 export class RemixPageComponent implements OnInit {
@@ -65,7 +67,7 @@ export class RemixPageComponent implements OnInit {
    * Create a copy of the playlist
    * @param playlist
    */
-  remixPlaylist(playlist: SpotifyApi.PlaylistObjectSimplified) {
+  remixPlaylist(playlist: PlaylistObjectSimplified) {
     this.isLoading = true;
     this.api.remixPlaylist(playlist.id).finally(() => this.isLoading = false);
   }

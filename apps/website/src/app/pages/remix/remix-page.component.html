@@ -9,20 +9,15 @@
     the new songs in the original playlist!
   </p>
 
-  <div class="grid grid-cols-3 gap-4 mt-10">
+  <div class="grid grid-cols-3 gap-10 mt-10">
     @for (playlist of playlistsNotOwnedByUser; track playlist) {
-      <app-spotify-playlist data-aos="fade" [playlist]="playlist"></app-spotify-playlist>
+      <app-spotify-playlist data-aos="fade" [playlist]="playlist">
+        <div class="flex justify-center my-5">
+          <button class="btn btn-primary" type="button" (click)="remixPlaylist(playlist)"><fa-icon [icon]="remixIcon"></fa-icon> Remix!</button>
+        </div>
+      </app-spotify-playlist>
     }
   </div>
-
-  <!--  <app-playlist-overview [playlists]="playlists" (requestMore)="getMorePlaylists()"-->
-  <!--                         (actionClick)="remixPlaylist($event)">-->
-  <!--    <ng-template #action>-->
-  <!--      <button class="btn btn-primary" type="button">-->
-  <!--        <fa-icon [icon]="remixIcon"></fa-icon>-->
-  <!--      </button>-->
-  <!--    </ng-template>-->
-  <!--  </app-playlist-overview>-->
 
   @if (isLoading) {
     <div class="flex justify-center my-20">
@@ -32,7 +27,7 @@
 
   @if (playlistResponse.next) {
     <div class="flex justify-center">
-      <button class="btn btn-primary" (click)="getMorePlaylists()">Load More</button>
+      <button class="btn btn-primary" (click)="getMorePlaylists()">Load More!</button>
     </div>
   }
 </section>
