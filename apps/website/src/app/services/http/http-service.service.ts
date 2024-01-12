@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Message } from '../../types/Message';
 import { SpotifyError } from '../../types/SpotifyError';
+import { MessageService } from '../message/message.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,8 @@ export class HTTPService {
     ['invalid_request', new Message('error', 'The request made is not valid.')]
   ]);
 
+  constructor(protected readonly messageService: MessageService) {
+  }
 
   /**
    * Handle the error from spotify and map it to an error we can show
@@ -22,9 +25,14 @@ export class HTTPService {
   private handleError(err: SpotifyError): Message {
     const userfriendlyAuthenticationError = this.authenticationErrorsMap.get(err.error);
 
-    if (userfriendlyAuthenticationError) return userfriendlyAuthenticationError;
+    if (userfriendlyAuthenticationError) {
+      this.messageService.setMessage(userfriendlyAuthenticationError);
+      return userfriendlyAuthenticationError;
+    }
 
-    return new Message('error', err.error_description ?? (err as unknown as Error).message);
+    const message = new Message('error', err.error_description);
+    this.messageService.setMessage(message);
+    return message;
   }
 
   /**

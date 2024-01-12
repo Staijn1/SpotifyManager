@@ -3,6 +3,7 @@ import { HTTPService } from '../http/http-service.service';
 import { Message } from '../../types/Message';
 import { AuthConfig, OAuthService } from 'angular-oauth2-oidc';
 import { environment } from '../../../environments/environment';
+import { MessageService } from '../message/message.service';
 
 /**
  * Handles the authentication process with Spotify, using the Spotify Web API.
@@ -38,8 +39,8 @@ export class SpotifyAuthenticationService extends HTTPService {
 
   @Output() errorEvent = new EventEmitter<Message>();
 
-  constructor(private readonly oauthService: OAuthService) {
-    super();
+  constructor(private readonly oauthService: OAuthService, protected override readonly messageService: MessageService) {
+    super(messageService);
     this.oauthService.configure(this.authCodeFlowConfig);
   }
 
