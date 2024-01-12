@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { faCompactDisc } from '@fortawesome/free-solid-svg-icons';
 import { SpotifyAPIService } from '../../services/spotifyAPI/spotify-api.service';
-import ListOfUsersPlaylistsResponse = SpotifyApi.ListOfUsersPlaylistsResponse;
 import { ApiService } from '../../services/api/api.service';
 import { LoadingComponent } from '../../components/loading/loading.component';
+import { SpotifyPlaylistComponent } from '../../components/spotify-playlist/spotify-playlist.component';
+import { PlaylistObjectSimplified } from '@spotify-manager/core';
+import ListOfUsersPlaylistsResponse = SpotifyApi.ListOfUsersPlaylistsResponse;
 
 @Component({
   selector: 'app-remix',
@@ -11,11 +13,12 @@ import { LoadingComponent } from '../../components/loading/loading.component';
   templateUrl: './remix-page.component.html',
   styleUrls: ['./remix-page.component.scss'],
   imports: [
-    LoadingComponent
+    LoadingComponent,
+    SpotifyPlaylistComponent
   ]
 })
 export class RemixPageComponent implements OnInit {
-  playlists!: SpotifyApi.ListOfUsersPlaylistsResponse;
+  playlistResponse!: SpotifyApi.ListOfUsersPlaylistsResponse;
   isLoading = false;
 
   remixIcon = faCompactDisc;
@@ -40,13 +43,9 @@ export class RemixPageComponent implements OnInit {
    */
   getPlaylists(): void {
     this.isLoading = true;
-    this.spotifyAPI.getUserPlaylist({limit: 50}).then(data => {
-      this.playlists = this.filterPlaylists(data as ListOfUsersPlaylistsResponse);
-      this.isLoading = false;
-    }).catch(err => {
-      this.isLoading = false;
-      console.error(err);
-    });
+    this.spotifyAPI.getUserPlaylist()
+      .then(data => this.playlistResponse = data as ListOfUsersPlaylistsResponse)
+      .finally(() => this.isLoading = false);
   }
 
   /**
@@ -54,29 +53,24 @@ export class RemixPageComponent implements OnInit {
    */
   getMorePlaylists(): void {
     this.isLoading = true;
-    this.spotifyAPI.getGeneric(this.playlists.next).then(
-      data => {
-        const currentPlaylists = this.playlists.items;
-        this.playlists = this.filterPlaylists(data as SpotifyApi.ListOfUsersPlaylistsResponse);
-        this.playlists.items = currentPlaylists.concat(this.playlists.items);
+    this.spotifyAPI.getGeneric(this.playlistResponse.next).then(data => {
+        const playlistsFromPreviousPage = this.playlistResponse.items;
+        this.playlistResponse = data as ListOfUsersPlaylistsResponse;
+        this.playlistResponse.items = playlistsFromPreviousPage.concat(this.playlistResponse.items);
       }
     ).finally(() => this.isLoading = false);
   }
 
   /**
-   * Filter out playlists that are owned by the current user.
-   */
-  filterPlaylists(playlists: ListOfUsersPlaylistsResponse): SpotifyApi.ListOfUsersPlaylistsResponse {
-    playlists.items = playlists.items.filter(playlist => playlist.owner.id !== sessionStorage.getItem('userId'))
-    return playlists;
-  }
-
-  /**
    * Create a copy of the playlist
-   * @param id
+   * @param playlist
    */
   remixPlaylist(playlist: SpotifyApi.PlaylistObjectSimplified) {
     this.isLoading = true;
-    this.api.remixPlaylist(playlist.id).then().finally(() => this.isLoading = false);
+    this.api.remixPlaylist(playlist.id).finally(() => this.isLoading = false);
+  }
+
+  get playlistsNotOwnedByUser(): PlaylistObjectSimplified[] {
+    return this.playlistResponse?.items.filter(playlist => playlist.owner.id !== sessionStorage.getItem('userId')) ?? [];
   }
 }
