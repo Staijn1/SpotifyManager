@@ -22,6 +22,7 @@
     "@nx/angular": "^17.2.8",
     "angular-oauth2-oidc": "^17.0.1",
     "axios": "^1.0.0",
+    "mermaid": "^10.6.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
     "spotify-web-api-js": "^1.5.2",
