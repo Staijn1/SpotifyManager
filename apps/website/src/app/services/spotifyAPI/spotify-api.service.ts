@@ -61,7 +61,7 @@ export class SpotifyAPIService {
    */
   async getTopTracks(): Promise<SpotifyApi.UsersTopTracksResponse> {
     await this.refreshAccessToken();
-    return this._spotifyApi.getMyTopTracks();
+    return this._spotifyApi.getMyTopTracks({limit: 10});
   }
 
   /**
