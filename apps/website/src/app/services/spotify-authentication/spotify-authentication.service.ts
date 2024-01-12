@@ -4,6 +4,7 @@ import { Message } from '../../types/Message';
 import { AuthConfig, OAuthService } from 'angular-oauth2-oidc';
 import { environment } from '../../../environments/environment';
 import { MessageService } from '../message/message.service';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 /**
  * Handles the authentication process with Spotify, using the Spotify Web API.
@@ -73,5 +74,9 @@ export class SpotifyAuthenticationService extends HTTPService {
 
   refreshAccessToken() {
     return this.oauthService.refreshToken();
+  }
+
+  canActivate() {
+    return this.isLoggedIn();
   }
 }
