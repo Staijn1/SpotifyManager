@@ -9,6 +9,7 @@ import { Component, Input } from '@angular/core';
 })
 export class SpotifyTrackComponent {
   @Input() track: SpotifyApi.TrackObjectFull | undefined;
+  @Input() ranking: number | undefined;
 
   get artists(): string {
      return this.track?.artists.map(artist => artist.name).join(', ') ?? '';

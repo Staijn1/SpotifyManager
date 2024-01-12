@@ -5,7 +5,9 @@
     </div>
 
     <div class="track-information">
-      <h3>{{ track.name }}</h3>
+      <h3>
+        {{ ranking ? ranking + '. ' : '' }}{{ track.name }}
+      </h3>
       <p>{{ artists }}</p>
     </div>
   </div>
