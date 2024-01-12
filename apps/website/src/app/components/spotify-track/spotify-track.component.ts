@@ -12,6 +12,6 @@ export class SpotifyTrackComponent {
   @Input() ranking: number | undefined;
 
   get artists(): string {
-     return this.track?.artists.map(artist => artist.name).join(', ') ?? '';
+     return this.track?.artists.map((artist: SpotifyApi.ArtistObjectSimplified) => artist.name).join(', ') ?? '';
   };
 }
