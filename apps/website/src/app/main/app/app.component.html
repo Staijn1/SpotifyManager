@@ -1,2 +1,7 @@
+<div class="toast-container toast toast-top toast-end">
+  @for (message of this.messageService.getMessages(); track message) {
+    <app-toast [message]="message"></app-toast>
+  }
+</div>
 <app-navigation-bar></app-navigation-bar>
 <router-outlet></router-outlet>

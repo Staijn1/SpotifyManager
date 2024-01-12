@@ -1,12 +1,10 @@
 @if (message) {
-  <div class="toast toast-top toast-end">
-    <div (click)="onAlertClick(message)" @swipeRight
-         [class.alert-error]="message.severity === 'error'"
-         [class.alert-info]="message.severity === 'info'"
-         [class.alert-success]="message.severity === 'success'"
-         [class.alert-warning]="message.severity === 'warning'"
-         class="alert">
-      <span>{{ message.message }}</span>
-    </div>
+  <div (click)="onAlertClick(message)" @swipeRight
+       [class.alert-error]="message.severity === 'error'"
+       [class.alert-info]="message.severity === 'info'"
+       [class.alert-success]="message.severity === 'success'"
+       [class.alert-warning]="message.severity === 'warning'"
+       class="alert">
+    <span>{{ message.message }}</span>
   </div>
 }
