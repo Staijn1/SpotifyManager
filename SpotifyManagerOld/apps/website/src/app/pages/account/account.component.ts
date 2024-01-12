@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { faSpotify } from '@fortawesome/free-brands-svg-icons';
-import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
-import { SpotifyAPIService } from '../../services/spotifyAPI/spotify-api.service';
+import {Component, OnInit} from '@angular/core';
+import {faSpotify} from '@fortawesome/free-brands-svg-icons';
+import {faSpinner, faUserCircle} from '@fortawesome/free-solid-svg-icons';
+import {SpotifyAPIService} from '../../services/spotifyAPI/spotify-api.service';
+import {CustomError} from '../../types/CustomError';
 
 
 @Component({
@@ -12,6 +13,8 @@ import { SpotifyAPIService } from '../../services/spotifyAPI/spotify-api.service
 export class AccountComponent implements OnInit {
   username = faUserCircle;
   spotify = faSpotify;
+  loading = faSpinner;
+  error: CustomError | undefined;
   isLoading = false;
   accountInformation!: SpotifyApi.CurrentUsersProfileResponse;
 
@@ -48,7 +51,11 @@ export class AccountComponent implements OnInit {
       return this.spotifyAPI.getTopTracks();
     }).then(topTracks => {
       this.topTracks = topTracks;
-    }).finally(() => this.isLoading = false);
+      this.isLoading = false;
+    }).catch(err => {
+      this.isLoading = false;
+      this.error = JSON.parse(err.response).error as CustomError;
+    });
   }
 
 
