@@ -10,5 +10,5 @@ import { UserObjectPublic } from '@spotify-manager/core';
   styleUrl: './spotify-user.component.scss',
 })
 export class SpotifyUserComponent {
-  @Input() user!: UserObjectPublic;
+  @Input() user: UserObjectPublic | undefined;
 }
