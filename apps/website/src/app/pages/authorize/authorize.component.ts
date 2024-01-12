@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Message } from '../../types/Message';
 import { SpotifyAuthenticationService } from '../../services/spotify-authentication/spotify-authentication.service';
 import { ToastComponent } from '../../components/toast/toast.component';
+import { MessageService } from '../../services/message/message.service';
 
 @Component({
   selector: 'app-authorize',
@@ -14,14 +15,14 @@ import { ToastComponent } from '../../components/toast/toast.component';
   styleUrls: ['./authorize.component.scss']
 })
 export class AuthorizeComponent implements OnInit {
-  error!: Message;
 
   /**
    * Inject dependencies and subscribe to any errors that occur
    * @param spotifyAuth
    * @param router
+   * @param messageService
    */
-  constructor(private spotifyAuth: SpotifyAuthenticationService, private readonly router: Router) {
+  constructor(private spotifyAuth: SpotifyAuthenticationService, private readonly router: Router, private readonly messageService: MessageService) {
   }
 
   /**
@@ -33,12 +34,8 @@ export class AuthorizeComponent implements OnInit {
         if (result) {
           this.router.navigate(['account']);
         } else {
-          throw new Message("error", "Something went wrong while logging in");
+          this.messageService.setMessage(new Message('error', 'Something went wrong while logging in'));
         }
-      })
-      .catch((err) => {
-        this.error = err;
-        console.error(err);
       });
   }
 }
