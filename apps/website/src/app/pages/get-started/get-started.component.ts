@@ -37,11 +37,11 @@ gitGraph
     commit id: "Song C Added"
 
     checkout "Remixed Playlist"
-    commit id: "Remove song A from Original playlist"
+    commit id: "Remove song A from Original playlist" type: HIGHLIGHT
 
 
     checkout "Original Playlist"
-    commit id: "Song D Added"
+    commit id: "Song D Added" type: HIGHLIGHT
 
     checkout "Remixed Playlist"
     merge "Original Playlist" tag:"Sync Result"
