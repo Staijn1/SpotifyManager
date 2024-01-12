@@ -6,16 +6,24 @@
   </div>
   <div class="grid grid-cols-2 mt-5">
     <div class="p-3">
-      @if (accountInformation) {
-        <app-spotify-user [user]="accountInformation"></app-spotify-user>
-      }
+      <h3 class="mb-3">Your Account</h3>
+      <app-spotify-user [user]="accountInformation"></app-spotify-user>
+
+      <h3 class="mt-4 mb-3">Your Top Tracks</h3>
+      <div class="grid grid-cols-2 gap-4">
+        @for (track of topTracksList; track track.id) {
+          <app-spotify-track [track]="track"></app-spotify-track>
+        }
+      </div>
     </div>
     <div class="p-3">
       <div>
-        Top Artists
-      </div>
-      <div>
-        Top Tracks
+        <h3 class="mb-3">Your Top Artists</h3>
+        @for (artist of topArtistsList; track artist.id) {
+          <div class="mb-2">
+            <app-spotify-artist class="my-2" [artist]="artist"></app-spotify-artist>
+          </div>
+        }
       </div>
     </div>
   </div>

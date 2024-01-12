@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { faSpotify } from '@fortawesome/free-brands-svg-icons';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { SpotifyAPIService } from '../../services/spotifyAPI/spotify-api.service';
-import { UsersTopArtistsResponse, UsersTopTracksResponse } from '@spotify-manager/core';
-import { NgIf } from '@angular/common';
+import { JsonPipe, NgIf } from '@angular/common';
 import { SpotifyUserComponent } from '../../components/spotify-user/spotify-user.component';
 import { LoadingComponent } from '../../components/loading/loading.component';
+import { SpotifyArtistComponent } from '../../components/spotify-artist/spotify-artist.component';
+import { SpotifyTrackComponent } from '../../components/spotify-track/spotify-track.component';
 
 
 @Component({
@@ -15,7 +16,10 @@ import { LoadingComponent } from '../../components/loading/loading.component';
   imports: [
     NgIf,
     SpotifyUserComponent,
-    LoadingComponent
+    LoadingComponent,
+    JsonPipe,
+    SpotifyArtistComponent,
+    SpotifyTrackComponent
   ],
   styleUrls: ['./account-page.component.scss']
 })
@@ -26,14 +30,22 @@ export class AccountPageComponent implements OnInit {
   accountInformation!: SpotifyApi.CurrentUsersProfileResponse;
 
 
-  topTracks!: UsersTopTracksResponse;
-  topArtists!: UsersTopArtistsResponse;
+  topTracks: SpotifyApi.UsersTopTracksResponse | undefined;
+  topArtists: SpotifyApi.UsersTopArtistsResponse | undefined;
 
   /**
    * Inject dependencies
    * @param spotifyAPI
    */
   constructor(private readonly spotifyAPI: SpotifyAPIService) {
+  }
+
+  get topArtistsList(): SpotifyApi.ArtistObjectFull[] {
+    return this.topArtists?.items ?? [];
+  }
+
+  get topTracksList(): SpotifyApi.TrackObjectFull[] {
+    return this.topTracks?.items ?? [];
   }
 
   /**
@@ -61,7 +73,7 @@ export class AccountPageComponent implements OnInit {
       })
       .then(topTracks => {
         this.topTracks = topTracks;
-      }).finally(() => this.isLoading = false)
+      }).finally(() => this.isLoading = false);
   }
 
 
