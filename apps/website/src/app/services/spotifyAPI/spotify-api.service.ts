@@ -19,7 +19,6 @@ export class SpotifyAPIService {
   /**
    * Get the account information of the current user.
    * todo: move to own api
-   * @returns {Promise<SpotifyApi.CurrentUsersProfileResponse>}
    */
   async getCurrentAccount(): Promise<SpotifyApi.CurrentUsersProfileResponse> {
     await this.refreshAccessToken();

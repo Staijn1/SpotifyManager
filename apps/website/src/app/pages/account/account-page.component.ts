@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { faSpotify } from '@fortawesome/free-brands-svg-icons';
-import { faSpinner, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { SpotifyAPIService } from '../../services/spotifyAPI/spotify-api.service';
-import { Message } from '../../types/Message';
-import { CurrentUsersProfileResponse, UsersTopArtistsResponse, UsersTopTracksResponse } from '@spotify-manager/core';
+import { UsersTopArtistsResponse, UsersTopTracksResponse } from '@spotify-manager/core';
 import { NgIf } from '@angular/common';
 import { SpotifyUserComponent } from '../../components/spotify-user/spotify-user.component';
+import { LoadingComponent } from '../../components/loading/loading.component';
 
 
 @Component({
@@ -14,17 +14,16 @@ import { SpotifyUserComponent } from '../../components/spotify-user/spotify-user
   standalone: true,
   imports: [
     NgIf,
-    SpotifyUserComponent
+    SpotifyUserComponent,
+    LoadingComponent
   ],
   styleUrls: ['./account-page.component.scss']
 })
 export class AccountPageComponent implements OnInit {
   username = faUserCircle;
   spotify = faSpotify;
-  loading = faSpinner;
-  error: Message | undefined;
   isLoading = false;
-  accountInformation!: CurrentUsersProfileResponse;
+  accountInformation!: SpotifyApi.CurrentUsersProfileResponse;
 
 
   topTracks!: UsersTopTracksResponse;
@@ -32,7 +31,7 @@ export class AccountPageComponent implements OnInit {
 
   /**
    * Inject dependencies
-   * @param {SpotifyAPIService} spotifyAPI
+   * @param spotifyAPI
    */
   constructor(private readonly spotifyAPI: SpotifyAPIService) {
   }
@@ -62,20 +61,14 @@ export class AccountPageComponent implements OnInit {
       })
       .then(topTracks => {
         this.topTracks = topTracks;
-        this.isLoading = false;
-      })
-      .catch(err => {
-        this.isLoading = false;
-        this.error = JSON.parse(err.response).error as Message;
-      });
+      }).finally(() => this.isLoading = false)
   }
 
 
   /**
    * Genres received from the spotify API need to be formatted
    * Returns a string like | Edm | Gauze pop |
-   * @param {string[]} genresArray
-   * @returns {string}
+   * @param genresArray
    */
   formatGenres(genresArray: string[]): string {
     let genres = '| ';
@@ -100,8 +93,7 @@ export class AccountPageComponent implements OnInit {
 
   /**
    * Capitalizes the first letter of a string
-   * @param {string} input
-   * @returns {string}
+   * @param input
    * @private
    */
   private capitalizeFirstLetter(input: string): string {
