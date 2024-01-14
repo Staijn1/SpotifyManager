@@ -1,11 +1,23 @@
-import { Module } from '@nestjs/common';
-
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { SpotifyAuthenticationMiddleware } from './middleware/authentication/spotify-authentication.middleware';
+import { PlaylistController } from './modules/playlist/controllers/playlist-controller/playlist.controller';
+import { LoggingMiddleware } from './middleware/logging/logging.middleware';
+import { PlaylistModule } from './modules/playlist/playlist.module';
+import { SpotifyModule } from './modules/spotify/spotify.module';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [SpotifyModule, PlaylistModule],
+  providers: [SpotifyAuthenticationMiddleware],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  /**
+   * Configure middlewares
+   * @param consumer
+   */
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(SpotifyAuthenticationMiddleware)
+      .forRoutes(PlaylistController);
+    consumer.apply(LoggingMiddleware).forRoutes('*');
+  }
+}

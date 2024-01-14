@@ -14,7 +14,6 @@ import { AllExceptionsFilter } from './app/filters/all-exceptions-filter/all-exc
 
 /**
  * Bootstraps the application.
- * @returns {Promise<void>}
  */
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
