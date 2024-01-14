@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { SpotifyAuthenticationService } from '../../services/spotify-authentication/spotify-authentication.service';
 
 @Component({
   standalone: true,
   imports: [
-    RouterLink
+    RouterLink,
+    RouterLinkActive
   ],
   selector: 'app-navigation-bar',
   templateUrl: './navigation-bar.component.html',
