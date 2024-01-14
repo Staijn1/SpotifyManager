@@ -1,5 +1,5 @@
 import { AllExceptionsFilter } from './all-exceptions-filter.filter';
-import { HttpAdapterHost, AbstractHttpAdapter } from '@nestjs/core';
+import { HttpAdapterHost } from '@nestjs/core';
 import { Test } from '@nestjs/testing';
 
 describe('AllExceptionsFilterFilter', () => {
