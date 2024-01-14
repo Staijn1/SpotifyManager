@@ -2,12 +2,17 @@ import {SpotifyAuthenticationMiddleware} from './spotify-authentication.middlewa
 import {SpotifyService} from '../../modules/spotify/spotify.service';
 
 describe('SpotifyAuthenticationMiddleware', () => {
-  const spotifyService = new SpotifyService()
-  let sut;
+  let sut: SpotifyAuthenticationMiddleware;
+  let spotifyService: SpotifyService;
 
   beforeEach(() => {
-    sut = new SpotifyAuthenticationMiddleware(spotifyService)
-  })
+    spotifyService = {
+      setAccessToken: jest.fn(),
+    } as any;
+
+    sut = new SpotifyAuthenticationMiddleware(spotifyService);
+  });
+
   it('should be defined', () => {
     expect(sut).toBeDefined();
   });
