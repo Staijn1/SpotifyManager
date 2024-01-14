@@ -2,17 +2,24 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Navigation, Router } from '@angular/router';
 import { ApiService } from '../../services/api/api.service';
+import { Diff } from '@spotify-manager/core';
+import { LoadingComponent } from '../../components/loading/loading.component';
+import { SpotifyTrackComponent } from '../../components/spotify-track/spotify-track.component';
 
 @Component({
   selector: 'app-sync-remixed-playlist-page',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, LoadingComponent, SpotifyTrackComponent],
   templateUrl: './sync-remixed-playlist-page.component.html',
   styleUrl: './sync-remixed-playlist-page.component.scss'
 })
 export class SyncRemixedPlaylistPageComponent {
   private leftPlaylistId !: string;
   private rightPlaylistId!: string;
+
+  changes: Diff[] = [];
+  syncedResult: Diff[] = [];
+  isLoading = false;
 
   constructor(
     private readonly router: Router,
@@ -33,9 +40,17 @@ export class SyncRemixedPlaylistPageComponent {
   }
 
   private compareLeftPlaylistToRightPlaylist() {
+    this.isLoading = true;
     this.apiService.comparePlaylists(this.leftPlaylistId, this.rightPlaylistId)
       .then(changes => {
-        console.log(changes);
-      });
+        this.changes = changes;
+        this.putUnchangedTracksInSyncedResult();
+      })
+      .finally(() => this.isLoading = false);
+  }
+
+  private putUnchangedTracksInSyncedResult() {
+    this.syncedResult = this.changes.filter(change => change[0] === 0);
+    console.log(this.syncedResult[0][1])
   }
 }

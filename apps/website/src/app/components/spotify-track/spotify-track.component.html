@@ -1,10 +1,10 @@
 @if (track) {
   <div class="bg-base-300 rounded-lg overflow-hidden">
     <div class="rounded-t-lg">
-     <a [href]="track.external_urls.spotify" target="_blank"><img class="w-full" [src]="track.album.images[1].url" /></a>
+     <a [href]="track.external_urls.spotify" target="_blank"><img class="w-full" [src]="coverImage" /></a>
     </div>
 
-    <div class="track-information">
+    <div class="p-3">
       <h3>
         {{ ranking ? ranking + '. ' : '' }}{{ track.name }}
       </h3>

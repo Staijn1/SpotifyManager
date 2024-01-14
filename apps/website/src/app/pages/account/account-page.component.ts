@@ -7,6 +7,12 @@ import { SpotifyUserComponent } from '../../components/spotify-user/spotify-user
 import { LoadingComponent } from '../../components/loading/loading.component';
 import { SpotifyArtistComponent } from '../../components/spotify-artist/spotify-artist.component';
 import { SpotifyTrackComponent } from '../../components/spotify-track/spotify-track.component';
+import {
+  ArtistObjectFull,
+  CurrentUsersProfileResponse,
+  TrackObjectFull,
+  UsersTopArtistsResponse, UsersTopTracksResponse
+} from '@spotify-manager/core';
 
 
 @Component({
@@ -27,11 +33,11 @@ export class AccountPageComponent implements OnInit {
   username = faUserCircle;
   spotify = faSpotify;
   isLoading = false;
-  accountInformation!: SpotifyApi.CurrentUsersProfileResponse;
+  accountInformation!: CurrentUsersProfileResponse;
 
 
-  topTracks: SpotifyApi.UsersTopTracksResponse | undefined;
-  topArtists: SpotifyApi.UsersTopArtistsResponse | undefined;
+  topTracks: UsersTopTracksResponse | undefined;
+  topArtists: UsersTopArtistsResponse | undefined;
 
   /**
    * Inject dependencies
@@ -40,11 +46,11 @@ export class AccountPageComponent implements OnInit {
   constructor(private readonly spotifyAPI: SpotifyAPIService) {
   }
 
-  get topArtistsList(): SpotifyApi.ArtistObjectFull[] {
+  get topArtistsList(): ArtistObjectFull[] {
     return this.topArtists?.items ?? [];
   }
 
-  get topTracksList(): SpotifyApi.TrackObjectFull[] {
+  get topTracksList(): TrackObjectFull[] {
     return this.topTracks?.items ?? [];
   }
 

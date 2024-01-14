@@ -233,7 +233,9 @@ export class PlaylistService {
     tracks: (TrackObjectFull | EpisodeObjectFull)[]
   ) {
     // Get all tracks in the playlist.
-    const tracksInPlaylist = await this.getAllSongsInPlaylist(remixedPlaylistId);
+    const tracksInPlaylist = await this.getAllSongsInPlaylist(
+      remixedPlaylistId
+    );
 
     // Remove all the tracks in the playlist.
     await this.spotifyService.removeTracksFromPlaylist(
