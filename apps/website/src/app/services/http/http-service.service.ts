@@ -18,11 +18,16 @@ export class HTTPService {
 
   /**
    * Handle the error from spotify and map it to an error we can show
-   * @param {SpotifyError} err
-   * @returns {Message}
+   * @param err
    * @private
    */
-  private handleError(err: SpotifyError): Message {
+  private handleError(err: SpotifyError | Error): Message {
+    if (!('error_description' in err)) {
+      const message = new Message('error', err.message);
+      this.messageService.setMessage(message);
+      return message;
+    }
+
     const userfriendlyAuthenticationError = this.authenticationErrorsMap.get(err.error);
 
     if (userfriendlyAuthenticationError) {
