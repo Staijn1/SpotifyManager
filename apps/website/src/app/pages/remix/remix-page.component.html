@@ -13,7 +13,14 @@
     @for (playlist of playlistsNotOwnedByUser; track playlist) {
       <app-spotify-playlist data-aos="fade" [playlist]="playlist">
         <div class="flex justify-center my-5">
-          <button class="btn btn-primary" type="button" (click)="remixPlaylist(playlist)"><fa-icon [icon]="remixIcon"></fa-icon> Remix!</button>
+          <button class="btn btn-primary" type="button" (click)="remixPlaylist(playlist)">
+            @if (loadingPlaylists[playlist.id]) {
+              <app-loading [isLoading]="true"></app-loading>
+            } @else {
+              <fa-icon [icon]="remixIcon"></fa-icon>
+            }
+            Remix!
+          </button>
         </div>
       </app-spotify-playlist>
     }

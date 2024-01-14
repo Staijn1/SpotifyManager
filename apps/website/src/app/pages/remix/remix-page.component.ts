@@ -22,6 +22,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 export class RemixPageComponent implements OnInit {
   playlistResponse!: SpotifyApi.ListOfUsersPlaylistsResponse;
   isLoading = false;
+  loadingPlaylists: { [id: string]: boolean } = {};
 
   remixIcon = faCompactDisc;
 
@@ -72,12 +73,12 @@ export class RemixPageComponent implements OnInit {
   }
 
   /**
-   * Create a copy of the playlist
+   * Create a remix of the playlist, which is initially a copy of the playlist
    * @param playlist
    */
   remixPlaylist(playlist: PlaylistObjectSimplified) {
-    this.isLoading = true;
-    this.api.remixPlaylist(playlist.id).finally(() => this.isLoading = false);
+    this.loadingPlaylists[playlist.id] = true;
+    this.api.remixPlaylist(playlist.id).finally(() =>  this.loadingPlaylists[playlist.id] = false);
   }
 
   get playlistsNotOwnedByUser(): PlaylistObjectSimplified[] {
