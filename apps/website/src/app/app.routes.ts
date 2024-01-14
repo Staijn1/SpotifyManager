@@ -5,6 +5,7 @@ import { AccountPageComponent } from './pages/account/account-page.component';
 import { inject } from '@angular/core';
 import { SpotifyAuthenticationService } from './services/spotify-authentication/spotify-authentication.service';
 import { RemixPageComponent } from './pages/remix/remix-page.component';
+import { HomePageComponent } from './pages/home/home-page.component';
 
 
 const AuthGuard: CanActivateFn = (): boolean => {
@@ -13,6 +14,7 @@ const AuthGuard: CanActivateFn = (): boolean => {
 
 
 export const appRoutes: Route[] = [
+  { path: '', component: HomePageComponent },
   { path: 'get-started', component: GetStartedComponent },
   { path: 'callback', component: AuthorizeComponent },
   {
