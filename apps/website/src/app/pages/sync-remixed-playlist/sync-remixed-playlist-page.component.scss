@@ -1,0 +1,15 @@
+$inserted-color: #92e592;
+$removed-color: #e59494;
+$no-change-color: white;
+
+.no-change {
+  background: $no-change-color;
+}
+
+.removed {
+  background: $removed-color;
+}
+
+.inserted {
+  background: $inserted-color;
+}

@@ -7,6 +7,7 @@ import { SpotifyPlaylistComponent } from '../../components/spotify-playlist/spot
 import { PlaylistObjectSimplified } from '@spotify-manager/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import ListOfUsersPlaylistsResponse = SpotifyApi.ListOfUsersPlaylistsResponse;
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-remix',
@@ -30,10 +31,12 @@ export class RemixOverviewPageComponent implements OnInit {
    * Inject the right dependencies
    * @param spotifyAPI
    * @param api
+   * @param router
    */
   constructor(
     private readonly spotifyAPI: SpotifyAPIService,
-    private readonly api: ApiService
+    private readonly api: ApiService,
+    private readonly router: Router
   ) {
   }
 
@@ -77,5 +80,22 @@ export class RemixOverviewPageComponent implements OnInit {
 
   get remixedPlaylists(): PlaylistObjectSimplified[] {
     return this.playlistResponse?.items.filter(playlist => playlist.description?.match(this.originalIdRegex)) ?? [];
+  }
+
+  /**
+   * Redirect to the synchronizing page with the right parameters
+   * @param playlist
+   */
+  startComparingPlaylist(playlist:PlaylistObjectSimplified){
+    const leftPlaylistId = playlist.id;
+    // The left playlist is the remixed playlist, containing the original playlist ID in the description in the form of {playlistId}
+    const rightPlaylistId = playlist.description?.match(this.originalIdRegex)![0].replace('{', '').replace('}', '');
+
+    this.router.navigate(['sync-remixed-playlist'], {
+        state: {
+          leftPlaylistId: leftPlaylistId,
+          rightPlaylistId: rightPlaylistId,
+        },
+      })
   }
 }
