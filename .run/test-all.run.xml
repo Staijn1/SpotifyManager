@@ -4,7 +4,7 @@
     <option name="nx-targets" value="test" />
     <option name="nx-target-configuration" value="" />
     <envs />
-    <option name="arguments" value="--codeCoverage" />
+    <option name="arguments" value="" />
     <method v="2" />
   </configuration>
 </component>
