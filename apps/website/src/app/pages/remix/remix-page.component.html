@@ -24,10 +24,4 @@
       <app-loading [isLoading]="true"></app-loading>
     </div>
   }
-
-  @if (playlistResponse.next) {
-    <div class="flex justify-center">
-      <button class="btn btn-primary" (click)="getMorePlaylists()">Load More!</button>
-    </div>
-  }
 </section>

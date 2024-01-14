@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { faCompactDisc } from '@fortawesome/free-solid-svg-icons';
 import { SpotifyAPIService } from '../../services/spotifyAPI/spotify-api.service';
 import { ApiService } from '../../services/api/api.service';
@@ -40,6 +40,13 @@ export class RemixPageComponent implements OnInit {
     this.getPlaylists();
   }
 
+  @HostListener('window:scroll', ['$event'])
+  onScroll(): void {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+      this.getMorePlaylists();
+    }
+  }
+
   /**
    * Get the playlists for this user
    */
@@ -54,6 +61,7 @@ export class RemixPageComponent implements OnInit {
    * Get more playlists to show. The spotify API uses paging for playlists. This method gets the next page
    */
   getMorePlaylists(): void {
+    if (!this.playlistResponse.next) return;
     this.isLoading = true;
     this.spotifyAPI.getGeneric(this.playlistResponse.next).then(data => {
         const playlistsFromPreviousPage = this.playlistResponse.items;
