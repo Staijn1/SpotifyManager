@@ -169,50 +169,19 @@ export class PlaylistService {
   }
 
   /**
-   * Compare a playlist to a version of the original playlist (remixes)
-   * @param playlistid
-   * @param originalPlaylistid
-   * @param versionTimestamp
+   * Compare a playlist to another one and return the diff.
+   * @param leftPlaylistId
+   * @param rightPlaylistId
    */
   async comparePlaylist(
-    playlistid: string,
-    originalPlaylistid: string,
-    versionTimestamp?: number
+    leftPlaylistId: string,
+    rightPlaylistId: string,
   ): Promise<Diff[]> {
-    const me = await this.spotifyService.getMe();
-    const versionInformation =
-      await this.fileService.getOriginalVersionsForPlaylist(
-        originalPlaylistid,
-        me.id
-      );
-
-    if (versionInformation.length == 0) {
-      throw new HttpException(
-        'Currently comparing playlists to other playlists, which have not been remixed, is not supported.',
-        501
-      );
-    }
-
-    if (versionInformation.length > 1 && !versionTimestamp) {
-      throw new HttpException(
-        'Please specify a version of the original playlist to compare to. This should be the timestamp of which this version was created',
-        400
-      );
-    }
-
-    const fileOfOriginalPlaylist =
-      versionInformation.length == 1
-        ? `${versionInformation[0].createdOn}-${versionInformation[0].id}`
-        : `${versionTimestamp}-${originalPlaylistid}`;
-    const originalPlaylist = this.fileService.readPlaylist(
-      fileOfOriginalPlaylist,
-      me.id
-    );
-
-    const fullPlaylist = await this.getAllSongsInPlaylist(playlistid);
+    const leftPlaylist = await this.getAllSongsInPlaylist(leftPlaylistId);
+    const rightPlaylist = await this.getAllSongsInPlaylist(rightPlaylistId);
     return this.calculateChanges(
-      originalPlaylist.tracks.items,
-      fullPlaylist.items
+      leftPlaylist.items,
+      rightPlaylist.items
     );
   }
 
@@ -264,9 +233,7 @@ export class PlaylistService {
     tracks: (TrackObjectFull | EpisodeObjectFull)[]
   ) {
     // Get all tracks in the playlist.
-    const tracksInPlaylist = await this.getAllSongsInPlaylist(
-      remixedPlaylistId
-    );
+    const tracksInPlaylist = await this.getAllSongsInPlaylist(remixedPlaylistId);
 
     // Remove all the tracks in the playlist.
     await this.spotifyService.removeTracksFromPlaylist(
@@ -276,15 +243,6 @@ export class PlaylistService {
     await this.spotifyService.addTracksToPlaylist(
       remixedPlaylistId,
       tracks.map((track) => track.uri)
-    );
-
-    // Get the original playlist and save its state to a json file again
-    const currentOriginalPlaylist = await this.getPlaylistWithAllTracks(
-      originalPlaylistId
-    );
-    this.fileService.writePlaylist(
-      currentOriginalPlaylist,
-      (await this.spotifyService.getMe()).id
     );
   }
 }

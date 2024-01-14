@@ -107,7 +107,6 @@ export class PlaylistController {
     return this.playlistService.comparePlaylist(
       body.leftPlaylistId,
       body.rightPlaylistId,
-      body.versionTimestamp
     );
   }
 

@@ -12,11 +12,6 @@ export class PlaylistCompareRequest {
     required: true,
   })
   rightPlaylistId?: string;
-  @ApiProperty({
-    type: 'number',
-    required: false,
-  })
-  versionTimestamp?: number;
 }
 
 export class PlaylistSyncRequest {
