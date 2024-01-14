@@ -1,10 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { ArtistObjectSimplified, EpisodeObjectFull, PlaylistTrackObject, TrackObjectFull } from '@spotify-manager/core';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-spotify-track',
   standalone: true,
-  imports: [],
+  imports: [
+    NgClass
+  ],
   templateUrl: './spotify-track.component.html',
   styleUrl: './spotify-track.component.scss'
 })
@@ -13,14 +16,15 @@ export class SpotifyTrackComponent {
     transform: (value: PlaylistTrackObject | TrackObjectFull) => {
       // False positive
       //eslint-disable-next-line
-      if ("track" in value) {
+      if ('track' in value) {
         return value.track;
       }
       return value;
     }
   }) track: TrackObjectFull | EpisodeObjectFull | undefined;
-
+  @Input() isHorizontalLayout: boolean = false;
   @Input() ranking: number | undefined;
+  @Input() imageClasses = 'w-full';
 
   get coverImage(): string {
     if (this.track?.type == 'track') {
@@ -32,7 +36,7 @@ export class SpotifyTrackComponent {
 
   get artists(): string {
     if (this.track?.type == 'track') {
-      return this.track?.artists.map((artist: ArtistObjectSimplified) => artist.name).join(', ') ?? '';
+      return this.track?.artists.map((artist: ArtistObjectSimplified) => artist.name).join(' | ') ?? '';
     }
 
     return 'Episodes not supported yet';
