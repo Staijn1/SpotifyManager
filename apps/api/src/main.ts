@@ -4,7 +4,7 @@
  */
 
 import { INestApplication, Logger } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 
 import { AppModule } from './app/app.module';
 import { json, urlencoded } from 'express';
@@ -27,10 +27,10 @@ async function bootstrap() {
   const globalPrefix = 'api';
   const port = process.env.PORT || 3000;
   const app = await NestFactory.create(AppModule);
-
+  const adapterHost = app.get(HttpAdapterHost);
   setupSwagger(app, globalPrefix);
 
-  app.useGlobalFilters(new AllExceptionsFilter());
+  app.useGlobalFilters(new AllExceptionsFilter(adapterHost));
   app.setGlobalPrefix(globalPrefix);
   app.enableCors();
 
