@@ -23,7 +23,7 @@ export class ApiService extends HTTPService {
    * @param playlistId
    */
   async remixPlaylist(playlistId: string): Promise<void> {
-    const token = await this.spotifyAuth.refreshAccessToken();
+    const token = await this.spotifyAuth.refreshAndGetAccessToken();
     await this.request(
       `${environment.apiURL}/playlists/remix/${playlistId}/?accessToken=${token}`,
       { method: 'GET' }
@@ -35,7 +35,7 @@ export class ApiService extends HTTPService {
    * @returns {Promise<SpotifyApi.ListOfUsersPlaylistsResponse>}
    */
   async getAllUserPlaylists(): Promise<SpotifyApi.ListOfUsersPlaylistsResponse> {
-    const token = await this.spotifyAuth.refreshAccessToken();
+    const token = await this.spotifyAuth.refreshAndGetAccessToken();
     return await this.request(
       `${environment.apiURL}/playlists/?accessToken=${token}`,
       { method: 'GET' }
@@ -50,7 +50,7 @@ export class ApiService extends HTTPService {
   async getAllTracksInPlaylist(
     playlistId: string
   ): Promise<SpotifyApi.PlaylistTrackResponse> {
-    const token = await this.spotifyAuth.refreshAccessToken();
+    const token = await this.spotifyAuth.refreshAndGetAccessToken();
     return this.request(
       `${environment.apiURL}/playlists/${playlistId}/songs/?accessToken=${token}`,
       { method: 'GET' }
@@ -65,7 +65,7 @@ export class ApiService extends HTTPService {
   async getPlaylist(
     playlistid: string
   ): Promise<SpotifyApi.SinglePlaylistResponse> {
-    const token = await this.spotifyAuth.refreshAccessToken();
+    const token = await this.spotifyAuth.refreshAndGetAccessToken();
     return this.request(
       `${environment.apiURL}/playlists/${playlistid}?accessToken=${token}`,
       { method: 'GET' }
@@ -80,7 +80,7 @@ export class ApiService extends HTTPService {
   async getRemixedPlaylistInformation(
     playlistid: string
   ): Promise<RemixedPlaylistInformation[]> {
-    const token = await this.spotifyAuth.refreshAccessToken();
+    const token = await this.spotifyAuth.refreshAndGetAccessToken();
     return this.request(
       `${environment.apiURL}/playlists/remixes/${playlistid}/versions/?accessToken=${token}`,
       { method: 'GET' }
@@ -98,7 +98,7 @@ export class ApiService extends HTTPService {
     rightPlaylistId: string,
     versionTimestamp?: number
   ): Promise<Diff[]> {
-    const token = await this.spotifyAuth.refreshAccessToken();
+    const token = await this.spotifyAuth.refreshAndGetAccessToken();
     return this.request(
       `${environment.apiURL}/playlists/compare?accessToken=${token}`,
       {
@@ -124,7 +124,7 @@ export class ApiService extends HTTPService {
     remixedPlaylistId: string,
     mergedTracks: (SpotifyApi.TrackObjectFull | SpotifyApi.EpisodeObjectFull)[]
   ): Promise<void> {
-    const token = await this.spotifyAuth.refreshAccessToken();
+    const token = await this.spotifyAuth.refreshAndGetAccessToken();
     return this.request(
       `${environment.apiURL}/playlists/sync?accessToken=${token}`,
       {

@@ -69,7 +69,7 @@ export class SpotifyAPIService {
    * @private
    */
   private async refreshAccessToken(): Promise<void> {
-    const data = await this.spotifyAuth.refreshAccessToken();
-    this._spotifyApi.setAccessToken(data.access_token);
+    const data = await this.spotifyAuth.refreshAndGetAccessToken();
+    this._spotifyApi.setAccessToken(data);
   }
 }

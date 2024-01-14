@@ -34,7 +34,7 @@ export class SpotifyAuthenticationService extends HTTPService {
     responseType: 'code',
     scope: this.SCOPES,
     oidc: false,
-    showDebugInformation: !environment.production,
+    showDebugInformation: !environment.production
   };
 
   @Output() errorEvent = new EventEmitter<Message>();
@@ -71,8 +71,9 @@ export class SpotifyAuthenticationService extends HTTPService {
     this.oauthService.logOut();
   }
 
-  refreshAccessToken() {
-    return this.oauthService.refreshToken();
+  async refreshAndGetAccessToken() {
+    const tokens = await this.oauthService.refreshToken();
+    return tokens.access_token;
   }
 
   canActivate() {
