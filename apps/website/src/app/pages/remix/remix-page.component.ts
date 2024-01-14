@@ -7,6 +7,8 @@ import { SpotifyPlaylistComponent } from '../../components/spotify-playlist/spot
 import { PlaylistObjectSimplified } from '@spotify-manager/core';
 import ListOfUsersPlaylistsResponse = SpotifyApi.ListOfUsersPlaylistsResponse;
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { MessageService } from '../../services/message/message.service';
+import { Message } from '../../types/Message';
 
 @Component({
   selector: 'app-remix',
@@ -30,8 +32,12 @@ export class RemixPageComponent implements OnInit {
    * Inject the right dependencies
    * @param spotifyAPI
    * @param api
+   * @param messageService
    */
-  constructor(private readonly spotifyAPI: SpotifyAPIService, private readonly api: ApiService) {
+  constructor(
+    private readonly spotifyAPI: SpotifyAPIService,
+    private readonly api: ApiService,
+    private readonly messageService: MessageService){
   }
 
   /**
@@ -78,7 +84,9 @@ export class RemixPageComponent implements OnInit {
    */
   remixPlaylist(playlist: PlaylistObjectSimplified) {
     this.loadingPlaylists[playlist.id] = true;
-    this.api.remixPlaylist(playlist.id).finally(() =>  this.loadingPlaylists[playlist.id] = false);
+    this.api.remixPlaylist(playlist.id)
+      .then(() => this.messageService.setMessage(new Message('success', `Successfully remixed "${playlist.name}"`)))
+      .finally(() =>  this.loadingPlaylists[playlist.id] = false);
   }
 
   get playlistsNotOwnedByUser(): PlaylistObjectSimplified[] {
