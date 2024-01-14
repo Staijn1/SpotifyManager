@@ -6,6 +6,7 @@ import { inject } from '@angular/core';
 import { SpotifyAuthenticationService } from './services/spotify-authentication/spotify-authentication.service';
 import { RemixPageComponent } from './pages/remix/remix-page.component';
 import { HomePageComponent } from './pages/home/home-page.component';
+import { RemixOverviewPageComponent } from './pages/remix-overview/remix-overview-page.component';
 
 
 const AuthGuard: CanActivateFn = (): boolean => {
@@ -25,6 +26,11 @@ export const appRoutes: Route[] = [
   {
     path: 'remix',
     component: RemixPageComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'remix-overview',
+    component: RemixOverviewPageComponent,
     canActivate: [AuthGuard]
   }
 ];
