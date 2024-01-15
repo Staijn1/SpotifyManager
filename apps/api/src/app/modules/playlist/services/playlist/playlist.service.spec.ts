@@ -2,12 +2,10 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { PlaylistService } from './playlist.service';
 import { SpotifyService } from '../../../spotify/spotify.service';
 import { PlaylistFileService } from '../playlist-file-service/playlist-file.service';
-import { PlaylistTrackResponse } from '@spotify-manager/core';
 import { buildMockPlaylistTrackResponse } from '../../../../utilities/testing-utils';
 
 describe('PlaylistService', () => {
   let service: PlaylistService;
-  let spotifyService: SpotifyService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -27,7 +25,6 @@ describe('PlaylistService', () => {
     }).compile();
 
     service = module.get<PlaylistService>(PlaylistService);
-    spotifyService = module.get<SpotifyService>(SpotifyService);
   });
 
   it('should be defined', () => {
