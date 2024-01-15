@@ -15,7 +15,7 @@ export class SpotifyTrackComponent {
   @Input({
     transform: (value: PlaylistTrackObject | TrackObjectFull) => {
       // False positive
-      //eslint-disable-next-line
+      // eslint-disable-next-line
       if ('track' in value) {
         return value.track;
       }
