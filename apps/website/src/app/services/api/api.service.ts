@@ -93,14 +93,14 @@ export class ApiService extends HTTPService {
   }
 
   /**
-   * Compare a remix to its original playlist. The versiontimestamp is optional, when a playlist is only remixed once this is not needed.
-   * When a playlist is remixed multiple times, this timestamp equals the timestamp of a specific remix date. This version will be used to compare
-   * @param leftPlaylistId
-   * @param rightPlaylistId
+   * Compare a playlist to another.
+   * One playlist is set as the base playlist, of which the other playlist will be compared against.
+   * @param basePlaylistId
+   * @param otherPlaylistId
    */
   async comparePlaylists(
-    leftPlaylistId: string,
-    rightPlaylistId: string,
+    basePlaylistId: string,
+    otherPlaylistId: string,
   ): Promise<Diff[]> {
     const token = await this.spotifyAuth.refreshAndGetAccessToken();
     return this.request(
@@ -108,8 +108,8 @@ export class ApiService extends HTTPService {
       {
         method: 'POST',
         body: JSON.stringify({
-          leftPlaylistId: leftPlaylistId,
-          rightPlaylistId: rightPlaylistId,
+          basePlaylistId: basePlaylistId,
+          otherPlaylistId: otherPlaylistId,
         }),
         headers: { 'Content-Type': 'application/json' },
       }
