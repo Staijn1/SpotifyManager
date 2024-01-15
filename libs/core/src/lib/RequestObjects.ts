@@ -6,12 +6,12 @@ export class PlaylistCompareRequest {
     type: 'string',
     required: true,
   })
-  leftPlaylistId: string | undefined;
+  basePlaylistId!: string;
   @ApiProperty({
     type: 'string',
     required: true,
   })
-  rightPlaylistId?: string;
+  otherPlaylistId!: string;
 }
 
 export class PlaylistSyncRequest {

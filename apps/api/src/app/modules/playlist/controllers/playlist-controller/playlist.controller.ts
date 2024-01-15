@@ -104,10 +104,7 @@ export class PlaylistController {
    */
   @Post('compare')
   public async compare(@Body() body: PlaylistCompareRequest): Promise<Diff[]> {
-    return this.playlistService.comparePlaylist(
-      body.leftPlaylistId,
-      body.rightPlaylistId,
-    );
+    return this.playlistService.comparePlaylist(body.basePlaylistId, body.otherPlaylistId,);
   }
 
   /**
