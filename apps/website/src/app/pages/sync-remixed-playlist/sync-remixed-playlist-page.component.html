@@ -10,7 +10,17 @@
       <h2>Current Original Playlist</h2>
     </div>
     <div class="grid grid-cols-3 gap-4">
-      <p>Placeholder 1</p>
+      <div>
+        @for (track of tracksInLeftPlaylist; track track) {
+          <div class="my-2">
+            <app-spotify-track
+              imageClasses="w-20"
+              [isHorizontalLayout]="true"
+              [track]="track"></app-spotify-track>
+          </div>
+        }
+      </div>
+
       <div>
         @for (result of syncedResult; track result) {
           <div class="my-2">
@@ -21,7 +31,17 @@
           </div>
         }
       </div>
-      <p>Placeholder 3</p>
+
+      <div>
+        @for (track of tracksInRightPlaylist; track track) {
+          <div class="my-2">
+            <app-spotify-track
+              imageClasses="w-20"
+              [isHorizontalLayout]="true"
+              [track]="track"></app-spotify-track>
+          </div>
+        }
+      </div>
     </div>
   </div>
 }
