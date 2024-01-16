@@ -5,12 +5,12 @@
 } @else {
   <div class="container mx-auto my-3">
     <div class="grid grid-cols-2 gap-4">
-      <h2>Changes in Playlists</h2>
+      <h2>Missing tracks in Original Playlist</h2>
       <h2>Draft Synced Playlist</h2>
     </div>
     <div class="grid grid-cols-2 gap-4">
       <div>
-        @for (diff of this.changes; track diff) {
+        @for (diff of this.missingSongsInOriginal; track diff) {
           <div class="my-2">
             <app-spotify-track
               imageClasses="w-20"
@@ -22,7 +22,7 @@
       </div>
 
       <div>
-        @for (track of syncedResult; track track) {
+        @for (track of draftSyncedPlaylist; track track) {
           <div class="my-2">
             <app-spotify-track
               imageClasses="w-20"
