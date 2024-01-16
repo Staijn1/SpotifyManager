@@ -1,8 +1,7 @@
-import { Component, ElementRef, Input, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { ArtistObjectSimplified, EpisodeObjectFull, PlaylistTrackObject, TrackObjectFull } from '@spotify-manager/core';
 import { NgClass } from '@angular/common';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import { SpotifyPreviewComponent } from '../spotify-preview/spotify-preview.component';
 
 @Component({
