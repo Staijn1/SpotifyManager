@@ -5,11 +5,13 @@ import { ApiService } from '../../services/api/api.service';
 import { Diff } from '@spotify-manager/core';
 import { LoadingComponent } from '../../components/loading/loading.component';
 import { SpotifyTrackComponent } from '../../components/spotify-track/spotify-track.component';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-sync-remixed-playlist-page',
   standalone: true,
-  imports: [CommonModule, LoadingComponent, SpotifyTrackComponent],
+  imports: [CommonModule, LoadingComponent, SpotifyTrackComponent, FaIconComponent],
   templateUrl: './sync-remixed-playlist-page.component.html',
   styleUrl: './sync-remixed-playlist-page.component.scss'
 })
@@ -20,6 +22,8 @@ export class SyncRemixedPlaylistPageComponent {
   missingSongsInOriginal: Diff[] = [];
   draftSyncedPlaylist: Diff[] = [];
   isLoading = false;
+  arrowRightIcon = faArrowRight;
+  arrowLeftIcon = faArrowLeft;
 
   constructor(
     private readonly router: Router,

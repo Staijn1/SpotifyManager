@@ -24,7 +24,9 @@
               [ngClass]="{'added': diff[0] === 1, 'deleted': diff[0] === -1, 'unchanged': diff[0] === 0}"
               [isHorizontalLayout]="true"
               [track]="diff[1]">
-              <button class="btn btn-neutral" (click)="addTrackToPreviewSyncedPlaylist(diff)">Add to Preview</button>
+              <button class="btn btn-neutral" (click)="addTrackToPreviewSyncedPlaylist(diff)">
+                Add to Preview <fa-icon [icon]="arrowRightIcon"></fa-icon>
+              </button>
             </app-spotify-track>
           </div>
         }
@@ -37,10 +39,11 @@
               imageClasses="w-32"
               [ngClass]="{'added': track[0] === 1, 'deleted': track[0] === -1, 'unchanged': track[0] === 0}"
               [isHorizontalLayout]="true"
+              [reverse]="true"
               [track]="track[1]">
               @if (track[0] !== 0) {
-                <button class="btn btn-neutral" (click)="removeTrackFromPreviewSyncedPlaylist(track)">Remove from
-                  Preview
+                <button class="btn btn-neutral" (click)="removeTrackFromPreviewSyncedPlaylist(track)">
+                  Remove from Preview <fa-icon [icon]="arrowLeftIcon"></fa-icon>
                 </button>
               }
             </app-spotify-track>

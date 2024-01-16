@@ -28,6 +28,7 @@ export class SpotifyTrackComponent {
   @Input() isHorizontalLayout: boolean = false;
   @Input() ranking: number | undefined;
   @Input() imageClasses = 'w-full';
+  @Input() reverse = false;
 
   get coverImage(): string {
     if (this.track?.type == 'track') {

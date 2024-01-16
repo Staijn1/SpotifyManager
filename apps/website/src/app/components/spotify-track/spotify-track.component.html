@@ -1,17 +1,22 @@
 @if (track) {
-  <div class="spotify-track-container bg-base-300 rounded-lg overflow-hidden" [ngClass]="{'flex flex-row': isHorizontalLayout}">
-    <div class="rounded-t-lg">
+  <div
+    class="spotify-track-container bg-base-300 rounded-lg overflow-hidden flex"
+    [ngClass]="{'flex-row': isHorizontalLayout, 'flex-col': !isHorizontalLayout, 'flex-row-reverse': reverse}">
+    <div>
       <a [href]="track.external_urls.spotify" target="_blank">
-        <img [className]="imageClasses" [src]="coverImage" alt="Track cover image"/>
+        <img [className]="imageClasses" [src]="coverImage" alt="Track cover image" />
       </a>
     </div>
 
-    <div class="p-3 flex-1 flex justify-between items-center">
+    <div
+      class="p-3 flex-1 flex justify-between items-center"
+      [class.flex-row-reverse]="reverse"
+    >
       <div>
-        <h3>
+        <h3 [class.text-right]="reverse">
           {{ ranking ? ranking + '. ' : '' }}{{ track.name }}
         </h3>
-        <p>{{ artists }}</p>
+        <p [class.text-right]="reverse">{{ artists }}</p>
       </div>
       <ng-content></ng-content>
     </div>
