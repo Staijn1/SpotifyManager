@@ -49,7 +49,7 @@ describe('PlaylistService', () => {
 
     expect(result.filter(v => v[0] == 0).length).toBe(3);
     expect(result.filter(v => v[0] == 1).length).toBe(0);
-    expect(result.filter(v => v[0] == -1, ).length).toBe(1);
+    expect(result.filter(v => v[0] == -1).length).toBe(1);
   });
 
   it('should detect an added song in base playlist', async () => {
