@@ -2,14 +2,16 @@ import { Component, ElementRef, Input, ViewChild, ViewEncapsulation } from '@ang
 import { ArtistObjectSimplified, EpisodeObjectFull, PlaylistTrackObject, TrackObjectFull } from '@spotify-manager/core';
 import { NgClass } from '@angular/common';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { faPause, faPlay } from '@fortawesome/free-solid-svg-icons';
+import { faPlay } from '@fortawesome/free-solid-svg-icons';
+import { SpotifyPreviewComponent } from '../spotify-preview/spotify-preview.component';
 
 @Component({
   selector: 'app-spotify-track',
   standalone: true,
   imports: [
     NgClass,
-    FaIconComponent
+    FaIconComponent,
+    SpotifyPreviewComponent
   ],
   templateUrl: './spotify-track.component.html',
   styleUrl: './spotify-track.component.scss',
@@ -33,10 +35,6 @@ export class SpotifyTrackComponent {
   @Input() imageClasses = 'w-full';
   @Input() reverse = false;
   @Input() showPreview = false;
-  @ViewChild('audioElement') audioElement!: ElementRef;
-  @ViewChild('progressBar') progressBar!: ElementRef;
-  previewPlayIcon = faPlay;
-
   get previewUrl(): string | undefined {
     if (this.track?.type == 'track') {
       return this.track.preview_url;
@@ -60,30 +58,4 @@ export class SpotifyTrackComponent {
 
     return 'Episodes not supported yet';
   };
-
-
-  updatePreviewProgressBar() {
-    const audio = this.audioElement.nativeElement;
-    const progress = this.progressBar.nativeElement;
-    progress.value = (audio.currentTime / audio.duration) * 100;
-  }
-
-  togglePreview() {
-    const audio = this.audioElement.nativeElement;
-    if (audio.paused) {
-      audio.play();
-      this.previewPlayIcon = faPause;
-    } else {
-      audio.pause();
-      this.previewPlayIcon = faPlay;
-    }
-  }
-
-  skipPreview(event: MouseEvent) {
-    const progressBar = this.progressBar.nativeElement;
-    const audio = this.audioElement.nativeElement;
-    const clickPositionInPixels = event.pageX - progressBar.getBoundingClientRect().left;
-    const clickPositionInPercentage = (clickPositionInPixels / progressBar.offsetWidth) * 100;
-    audio.currentTime = (clickPositionInPercentage / 100) * audio.duration;
-  }
 }
