@@ -19,11 +19,11 @@
         @for (diff of this.missingSongsInOriginal; track diff) {
           <div class="my-2">
             <app-spotify-track
-              imageClasses="w-20"
+              imageClasses="w-32"
               [ngClass]="{'added': diff[0] === 1, 'deleted': diff[0] === -1, 'unchanged': diff[0] === 0}"
               [isHorizontalLayout]="true"
               [track]="diff[1]">
-              <button (click)="addTrackToPreviewSyncedPlaylist(diff)">Add to Preview</button>
+              <button class="btn btn-neutral" (click)="addTrackToPreviewSyncedPlaylist(diff)">Add to Preview</button>
             </app-spotify-track>
           </div>
         }
@@ -33,10 +33,14 @@
         @for (track of draftSyncedPlaylist; track track) {
           <div class="my-2">
             <app-spotify-track
-              imageClasses="w-20"
+              imageClasses="w-32"
               [ngClass]="{'added': track[0] === 1, 'deleted': track[0] === -1, 'unchanged': track[0] === 0}"
               [isHorizontalLayout]="true"
-              [track]="track[1]"></app-spotify-track>
+              [track]="track[1]">
+              @if (track[0] !== 0) {
+                <button class="btn btn-neutral" (click)="removeTrackFromPreviewSyncedPlaylist(track)">Remove from Preview</button>
+              }
+            </app-spotify-track>
           </div>
         }
       </div>

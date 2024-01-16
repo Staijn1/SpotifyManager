@@ -54,7 +54,9 @@ export class SyncRemixedPlaylistPageComponent {
    * @param diff
    */
   addTrackToPreviewSyncedPlaylist(diff: Diff) {
-    this.draftSyncedPlaylist.push(diff);
+    diff[0] = 1;
+    // Add the diff to the synced playlist draft at the top
+    this.draftSyncedPlaylist.unshift(diff);
     this.draftSyncedPlaylist = this.sortDiffs(this.draftSyncedPlaylist);
     this.missingSongsInOriginal = this.missingSongsInOriginal.filter(missingSong => missingSong[1].track.id !== diff[1].track.id);
 
@@ -65,8 +67,10 @@ export class SyncRemixedPlaylistPageComponent {
    * @param diff
    */
   removeTrackFromPreviewSyncedPlaylist(diff: Diff) {
-    this.missingSongsInOriginal.push(diff);
-    this.missingSongsInOriginal = this.sortDiffs(this.draftSyncedPlaylist);
+    diff[0] = -1;
+    // Add the diff to the missing songs in the original playlist at the top
+    this.missingSongsInOriginal.unshift(diff);
+    this.missingSongsInOriginal = this.sortDiffs(this.missingSongsInOriginal);
     this.draftSyncedPlaylist = this.draftSyncedPlaylist.filter(missingSong => missingSong[1].track.id !== diff[1].track.id);
   }
 
