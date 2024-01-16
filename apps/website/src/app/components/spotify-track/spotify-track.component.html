@@ -23,7 +23,12 @@
             <button class="btn btn-accent btn-sm glass" (click)="togglePreview()">
               <fa-icon [icon]="previewPlayIcon"></fa-icon>
             </button>
-            <progress class="ml-2 progress progress-accent" #progressBar value="0" max="100"></progress>
+            <progress
+              #progressBar
+              class="ml-2 progress progress-accent"
+              value="0"
+              max="100"
+              (click)="skipPreview($event)"></progress>
           </div>
           <audio #audioElement (timeupdate)="updatePreviewProgressBar()" [src]="previewUrl"></audio>
         }

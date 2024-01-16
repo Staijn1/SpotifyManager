@@ -78,4 +78,12 @@ export class SpotifyTrackComponent {
       this.previewPlayIcon = faPlay;
     }
   }
+
+  skipPreview(event: MouseEvent) {
+    const progressBar = this.progressBar.nativeElement;
+    const audio = this.audioElement.nativeElement;
+    const clickPositionInPixels = event.pageX - progressBar.getBoundingClientRect().left;
+    const clickPositionInPercentage = (clickPositionInPixels / progressBar.offsetWidth) * 100;
+    audio.currentTime = (clickPositionInPercentage / 100) * audio.duration;
+  }
 }
