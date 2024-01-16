@@ -6,11 +6,13 @@
       </a>
     </div>
 
-    <div class="p-3 flex-1">
-      <h3>
-        {{ ranking ? ranking + '. ' : '' }}{{ track.name }}
-      </h3>
-      <p>{{ artists }}</p>
+    <div class="p-3 flex-1 flex justify-between items-center">
+      <div>
+        <h3>
+          {{ ranking ? ranking + '. ' : '' }}{{ track.name }}
+        </h3>
+        <p>{{ artists }}</p>
+      </div>
       <ng-content></ng-content>
     </div>
   </div>
