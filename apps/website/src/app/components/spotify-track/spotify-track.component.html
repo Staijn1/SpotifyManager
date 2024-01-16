@@ -2,7 +2,7 @@
   <div class="spotify-track-container bg-base-300 rounded-lg overflow-hidden" [ngClass]="{'flex flex-row': isHorizontalLayout}">
     <div class="rounded-t-lg">
       <a [href]="track.external_urls.spotify" target="_blank">
-        <img [className]="imageClasses" [src]="coverImage" />
+        <img [className]="imageClasses" [src]="coverImage" alt="Track cover image"/>
       </a>
     </div>
 
@@ -11,6 +11,7 @@
         {{ ranking ? ranking + '. ' : '' }}{{ track.name }}
       </h3>
       <p>{{ artists }}</p>
+      <ng-content></ng-content>
     </div>
   </div>
 }

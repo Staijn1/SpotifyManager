@@ -10,7 +10,7 @@
         <p>These are the tracks that are not in the remixed playlist, but are in the original.</p>
       </div>
       <div>
-        <h2>Draft Synced Playlist</h2>
+        <h2>Preview Synced Playlist</h2>
         <p>A preview of what the playlist will look like after syncing.</p>
       </div>
     </div>
@@ -22,7 +22,9 @@
               imageClasses="w-20"
               [ngClass]="{'added': diff[0] === 1, 'deleted': diff[0] === -1, 'unchanged': diff[0] === 0}"
               [isHorizontalLayout]="true"
-              [track]="diff[1]"></app-spotify-track>
+              [track]="diff[1]">
+              <button (click)="addTrackToPreviewSyncedPlaylist(diff)">Add to Preview</button>
+            </app-spotify-track>
           </div>
         }
       </div>
