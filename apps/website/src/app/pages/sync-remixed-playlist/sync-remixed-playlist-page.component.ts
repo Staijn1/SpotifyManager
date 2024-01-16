@@ -20,8 +20,6 @@ export class SyncRemixedPlaylistPageComponent {
   changes: Diff[] = [];
   syncedResult: Diff[] = [];
   isLoading = false;
-  tracksInLeftPlaylist: PlaylistTrackObject[] = [];
-  tracksInRightPlaylist: PlaylistTrackObject[] = [];
 
   constructor(
     private readonly router: Router,
@@ -44,16 +42,19 @@ export class SyncRemixedPlaylistPageComponent {
   private load() {
     this.isLoading = true;
 
-    this.apiService.getAllTracksInPlaylist(this.leftPlaylistId).then(tracks => {
-      this.tracksInLeftPlaylist = this.sortTracks(tracks.items);
-      return this.apiService.getAllTracksInPlaylist(this.rightPlaylistId);
-    }).then(tracks => {
-      this.tracksInRightPlaylist = this.sortTracks(tracks.items);
-      return this.apiService.comparePlaylists(this.leftPlaylistId, this.rightPlaylistId);
-    }).then(changes => {
-      this.changes = changes;
-      this.putUnchangedTracksInSyncedResult(changes);
-    }).finally(() => this.isLoading = false);
+
+    this.apiService.comparePlaylists(this.leftPlaylistId, this.rightPlaylistId)
+      .then(changes => {
+        // Sort all changes so added tracks are at the top, then deleted and unchanged tracks
+        changes.sort((a, b) => {
+          if (a[0] === b[0]) return 0; // If both have the same status, no need to change order
+          if (a[0] !== 0) return -1; // Changed tracks go to the top
+          if (b[0] != 0) return 1; // Changed tracks go to the top
+          return 0; // Unchanged tracks go to the bottom
+        });
+        this.changes = changes.filter(change => change[0] !== 0);
+        this.putUnchangedTracksInSyncedResult(changes);
+      }).finally(() => this.isLoading = false);
   }
 
   /**
@@ -62,28 +63,6 @@ export class SyncRemixedPlaylistPageComponent {
    * @private
    */
   private putUnchangedTracksInSyncedResult(changes: Diff[]) {
-    const unchangedSongs = changes.filter(change => change[0] === 0);
-    this.syncedResult = this.sortDiffsByTrackName(unchangedSongs);
-  }
-
-  private sortTracks(tracks: PlaylistTrackObject[]): PlaylistTrackObject[] {
-    const copy = [...tracks];
-
-    return copy.sort((a, b) => {
-      return a.track.name.localeCompare(b.track.name);
-    });
-  }
-
-  private sortDiffsByTrackName(diffs: Diff[]): Diff[] {
-    // Extract PlaylistTrackObject from Diff
-    const tracks = diffs.map(diff => diff[1]);
-
-    // Sort tracks
-    const sortedTracks = this.sortTracks(tracks);
-
-    // Reassemble back into Diff
-    const sortedDiffs = sortedTracks.map(track => [0, track] as Diff);
-
-    return sortedDiffs;
+    this.syncedResult = changes.filter(change => change[0] === 0);
   }
 }

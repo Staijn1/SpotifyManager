@@ -1,5 +1,5 @@
 @if (track) {
-  <div class="bg-base-300 rounded-lg overflow-hidden" [ngClass]="{'flex flex-row': isHorizontalLayout}">
+  <div class="spotify-track-container bg-base-300 rounded-lg overflow-hidden" [ngClass]="{'flex flex-row': isHorizontalLayout}">
     <div class="rounded-t-lg">
       <a [href]="track.external_urls.spotify" target="_blank">
         <img [className]="imageClasses" [src]="coverImage" />

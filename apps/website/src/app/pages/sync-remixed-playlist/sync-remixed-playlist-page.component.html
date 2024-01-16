@@ -4,41 +4,31 @@
   </div>
 } @else {
   <div class="container mx-auto my-3">
-    <div class="grid grid-cols-3 gap-4">
-      <h2>Current Remixed Playlist</h2>
-      <h2>Synced Result</h2>
-      <h2>Current Original Playlist</h2>
+    <div class="grid grid-cols-2 gap-4">
+      <h2>Changes in Playlists</h2>
+      <h2>Draft Synced Playlist</h2>
     </div>
-    <div class="grid grid-cols-3 gap-4">
+    <div class="grid grid-cols-2 gap-4">
       <div>
-        @for (track of tracksInLeftPlaylist; track track) {
+        @for (diff of this.changes; track diff) {
           <div class="my-2">
             <app-spotify-track
               imageClasses="w-20"
+              [ngClass]="{'added': diff[0] === 1, 'deleted': diff[0] === -1, 'unchanged': diff[0] === 0}"
               [isHorizontalLayout]="true"
-              [track]="track"></app-spotify-track>
+              [track]="diff[1]"></app-spotify-track>
           </div>
         }
       </div>
 
       <div>
-        @for (result of syncedResult; track result) {
+        @for (track of syncedResult; track track) {
           <div class="my-2">
             <app-spotify-track
               imageClasses="w-20"
+              [ngClass]="{'added': track[0] === 1, 'deleted': track[0] === -1, 'unchanged': track[0] === 0}"
               [isHorizontalLayout]="true"
-              [track]="result[1]"></app-spotify-track>
-          </div>
-        }
-      </div>
-
-      <div>
-        @for (track of tracksInRightPlaylist; track track) {
-          <div class="my-2">
-            <app-spotify-track
-              imageClasses="w-20"
-              [isHorizontalLayout]="true"
-              [track]="track"></app-spotify-track>
+              [track]="track[1]"></app-spotify-track>
           </div>
         }
       </div>

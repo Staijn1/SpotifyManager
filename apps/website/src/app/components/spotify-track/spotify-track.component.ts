@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { ArtistObjectSimplified, EpisodeObjectFull, PlaylistTrackObject, TrackObjectFull } from '@spotify-manager/core';
 import { NgClass } from '@angular/common';
 
@@ -9,11 +9,14 @@ import { NgClass } from '@angular/common';
     NgClass
   ],
   templateUrl: './spotify-track.component.html',
-  styleUrl: './spotify-track.component.scss'
+  styleUrl: './spotify-track.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class SpotifyTrackComponent {
   @Input({
-    transform: (value: PlaylistTrackObject | TrackObjectFull) => {
+    transform: (value: PlaylistTrackObject | TrackObjectFull | undefined) => {
+      if (!value) return value;
+
       // False positive
       // eslint-disable-next-line
       if ('track' in value) {
