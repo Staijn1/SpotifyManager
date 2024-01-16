@@ -17,6 +17,17 @@
           {{ ranking ? ranking + '. ' : '' }}{{ track.name }}
         </h3>
         <p [class.text-right]="reverse">{{ artists }}</p>
+
+        @if (showPreview && previewUrl) {
+          <div class="flex items-center mt-3">
+            <button class="btn btn-accent btn-sm glass" (click)="togglePreview()">
+              <fa-icon [icon]="previewPlayIcon"></fa-icon>
+            </button>
+            <progress class="ml-2 progress progress-accent" #progressBar value="0" max="100"></progress>
+          </div>
+          <audio #audioElement (timeupdate)="updatePreviewProgressBar()" [src]="previewUrl"></audio>
+        }
+
       </div>
       <ng-content></ng-content>
     </div>
