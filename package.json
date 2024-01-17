@@ -22,6 +22,7 @@
     "@nestjs/core": "^10.0.2",
     "@nestjs/platform-express": "^10.0.2",
     "@nestjs/swagger": "^7.1.17",
+    "@ngrx/store": "^17.1.0",
     "@nx/angular": "^17.2.8",
     "angular-oauth2-oidc": "^17.0.1",
     "aos": "^2.3.4",

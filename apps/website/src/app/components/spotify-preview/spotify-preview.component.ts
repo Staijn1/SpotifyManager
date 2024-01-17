@@ -2,7 +2,10 @@ import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { faPause, faPlay } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { AudioService } from '../../services/audio/audio.service';
+import { selectIsPlaying } from '../../redux/audio/audio.selectors';
+import { Store } from '@ngrx/store';
+import { take } from 'rxjs';
+import { pauseAudio, playAudio } from '../../redux/audio/audio.actions';
 
 @Component({
   selector: 'app-spotify-preview',
@@ -16,20 +19,22 @@ export class SpotifyPreviewComponent {
   @ViewChild('audioElement') audioElement!: ElementRef;
   @ViewChild('progressBar') progressBar!: ElementRef;
   protected previewPlayIcon = faPlay;
-
-  constructor(private readonly audioService: AudioService) {
+  isPlaying$ = this.store.select(selectIsPlaying);
+  constructor(private store: Store) {
+    this.isPlaying$.subscribe((isPlaying: any) => {
+      this.previewPlayIcon = isPlaying ? faPause : faPlay;
+    });
   }
 
   togglePreview() {
     const audio = this.audioElement.nativeElement;
-
-    if (this.audioService.isPlaying) {
-      this.audioService.pauseAudio();
-      this.previewPlayIcon = faPlay;
-    } else {
-      this.audioService.playAudio(audio);
-      this.previewPlayIcon = faPause;
-    }
+    this.isPlaying$.pipe(take(1)).subscribe(isPlaying => {
+      if (isPlaying) {
+        this.store.dispatch(pauseAudio());
+      } else {
+        this.store.dispatch(playAudio({ audio }));
+      }
+    });
   }
 
   /**
