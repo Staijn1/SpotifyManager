@@ -2,21 +2,27 @@
   <div class="navbar-start">
     <a class="btn btn-ghost text-xl" routerLink="/">Spotify Manager</a>
   </div>
-  <div class="navbar-center hidden lg:flex">
-  </div>
   <div class="navbar-end">
-    <div class="dropdown dropdown-end md:hidden">
-      <div tabindex="0" role="button" class="btn btn-ghost">
-        <fa-icon class="h-5 w-5" [icon]="hamburgerMenuIcon"></fa-icon>
+    <div class="drawer drawer-end md:hidden">
+      <!--This input toggles the drawer on/off-->
+      <input id="my-drawer" type="checkbox" class="drawer-toggle" />
+      <!--Clicking on this label will toggle the checkbox, only displayed on small screens-->
+      <div class="drawer-content flex justify-end">
+        <label for="my-drawer" class="btn btn-ghost drawer-button text-xl">
+          <fa-icon [icon]="hamburgerMenuIcon"></fa-icon>
+        </label>
       </div>
-      <ul tabindex="0" class="mobile-menu menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded w-52">
-        <li><a routerLink="/get-started" routerLinkActive="active-link">Get Started</a></li>
-        @if (spotifyAuthService.isLoggedIn()) {
-          <li><a routerLink="/account" routerLinkActive="active-link">Account</a></li>
-          <li><a routerLink="/remix" routerLinkActive="active-link">Remix Playlist</a></li>
-          <li><a routerLink="/remix-overview" routerLinkActive="active-link">Remix Overview</a></li>
-        }
-      </ul>
+      <div class="drawer-side z-50">
+        <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+        <ul class="mobile-menu menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+          <li><a routerLinkActive="active-link" routerLink="/get-started">Get Started</a></li>
+          @if (spotifyAuthService.isLoggedIn()) {
+            <li><a routerLinkActive="active-link" routerLink="/account">Account</a></li>
+            <li><a routerLinkActive="active-link" routerLink="/remix">Remix Playlist</a></li>
+            <li><a routerLinkActive="active-link" routerLink="/remix-overview">Remix Overview</a></li>
+          }
+        </ul>
+      </div>
     </div>
     <ul class="menu menu-horizontal px-1 hidden md:flex">
       <li><a routerLink="/get-started" routerLinkActive="active-link">Get Started</a></li>
