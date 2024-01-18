@@ -29,7 +29,6 @@ jobs:
 
       - run: npx nx affected:build --parallel=3
         name: Build All Affected Projects
-  #      - run: npx nx format:check
 
   deploy:
     runs-on: ubuntu-latest
