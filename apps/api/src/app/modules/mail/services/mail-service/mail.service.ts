@@ -4,7 +4,6 @@ import { UserPreferencesService } from '../../../user-preferences/services/user-
 import { EmailType } from '../../../../types/EmailType';
 import { EmailNotificationFrequency } from '@spotify-manager/core';
 import { ISendMailOptions, MailerService } from '@nestjs-modules/mailer';
-import * as path from 'node:path';
 
 
 @Injectable()
@@ -55,7 +54,8 @@ export class MailService {
    * @param frequency
    */
   async sendOriginalPlaylistUpdatedEmails(frequency: EmailNotificationFrequency) {
-    const users = await this.userPreferenceService.getUnnotifiedEmailAddresses(frequency, EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION);
+    this.logger.warn('sendOriginalPlaylistUpdatedEmails is not implemented, frequency: ' + frequency);
+    /*const users = await this.userPreferenceService.getUnnotifiedEmailAddresses(frequency, EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION);
     for (const user of users) {
       // todo get remixed playlists for this user
       // todo compare remixed playlist with original playlist
@@ -74,6 +74,6 @@ export class MailService {
         text: 'One of your original playlist has been updated'
       });
       await this.userPreferenceService.recordEmailSent(user, EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION);
-    }
+    }*/
   }
 }
