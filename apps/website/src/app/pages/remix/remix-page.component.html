@@ -1,4 +1,4 @@
-<section class="container mx-auto mb-10 mt-3">
+<section class="container mx-auto mb-10 mt-3 p-5">
   <h1>It's time to change it up!</h1>
   <p class="mb-3">Remix a playlist</p>
   <p>
@@ -9,9 +9,9 @@
     the new songs in the original playlist!
   </p>
 
-  <div class="grid grid-cols-3 gap-10 mt-10">
+  <div class="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-10 mt-10">
     @for (playlist of playlistsNotOwnedByUser; track playlist) {
-      <app-spotify-playlist data-aos="fade" [playlist]="playlist">
+      <app-spotify-playlist data-aos="fade" data-aos-delay="100" [playlist]="playlist">
         <div class="flex justify-center my-5">
           <button class="btn btn-primary" type="button" (click)="remixPlaylist(playlist)">
             @if (loadingPlaylists[playlist.id]) {
