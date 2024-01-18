@@ -116,7 +116,6 @@ export class PlaylistController {
     @Body() body: PlaylistSyncRequest
   ): Promise<void> {
     return this.playlistService.syncPlaylist(
-      body.originalPlaylistId,
       body.remixedPlaylistId,
       body.tracks
     );

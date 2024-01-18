@@ -118,12 +118,10 @@ export class ApiService extends HTTPService {
 
   /**
    * Make a request to the API to sync the playlist
-   * @param originalPlaylistId
    * @param remixedPlaylistId
    * @param mergedTracks
    */
   async syncPlaylist(
-    originalPlaylistId: string,
     remixedPlaylistId: string,
     mergedTracks: (TrackObjectFull | EpisodeObjectFull)[]
   ): Promise<void> {
@@ -133,7 +131,6 @@ export class ApiService extends HTTPService {
       {
         method: 'POST',
         body: JSON.stringify({
-          originalPlaylistId: originalPlaylistId,
           remixedPlaylistId: remixedPlaylistId,
           tracks: mergedTracks,
         }),

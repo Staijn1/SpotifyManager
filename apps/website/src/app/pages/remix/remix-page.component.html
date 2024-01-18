@@ -15,7 +15,7 @@
         <div class="flex justify-center my-5">
           <button class="btn btn-primary" type="button" (click)="remixPlaylist(playlist)">
             @if (loadingPlaylists[playlist.id]) {
-              <app-loading [isLoading]="true"></app-loading>
+              <app-loading></app-loading>
             } @else {
               <fa-icon [icon]="remixIcon"></fa-icon>
             }
@@ -28,7 +28,7 @@
 
   @if (isLoading) {
     <div class="flex justify-center my-20">
-      <app-loading [isLoading]="true"></app-loading>
+      <app-loading></app-loading>
     </div>
   }
 </section>

@@ -7,6 +7,8 @@ import { LoadingComponent } from '../../components/loading/loading.component';
 import { SpotifyTrackComponent } from '../../components/spotify-track/spotify-track.component';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { MessageService } from '../../services/message/message.service';
+import { Message } from '../../types/Message';
 
 @Component({
   selector: 'app-sync-remixed-playlist-page',
@@ -21,13 +23,15 @@ export class SyncRemixedPlaylistPageComponent {
 
   missingSongsInOriginal: Diff[] = [];
   draftSyncedPlaylist: Diff[] = [];
-  isLoading = false;
+  isComparisonLoading = false;
   arrowRightIcon = faArrowRight;
   arrowLeftIcon = faArrowLeft;
+  isSyncing = false;
 
   constructor(
     private readonly router: Router,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private readonly messageService: MessageService
   ) {
     const nav: Navigation | null = this.router.getCurrentNavigation();
 
@@ -44,13 +48,13 @@ export class SyncRemixedPlaylistPageComponent {
   }
 
   private load() {
-    this.isLoading = true;
+    this.isComparisonLoading = true;
     this.apiService.comparePlaylists(this.leftPlaylistId, this.rightPlaylistId)
       .then(changes => {
         const sortedChanges = this.sortDiffs(changes);
         this.missingSongsInOriginal = sortedChanges.filter(change => change[0] === -1);
         this.draftSyncedPlaylist = sortedChanges.filter(change => change[0] !== -1);
-      }).finally(() => this.isLoading = false);
+      }).finally(() => this.isComparisonLoading = false);
   }
 
   /**
@@ -92,5 +96,17 @@ export class SyncRemixedPlaylistPageComponent {
       return 0; // Unchanged tracks go to the bottom
     });
     return copy;
+  }
+
+  /**
+   * Turns the draft synced playlist into the real remixed playlist.
+   * After this is done, the remixed playlist is synced to the original playlist.
+   */
+  syncPlaylist() {
+    this.isSyncing = true;
+    this.apiService.syncPlaylist(this.leftPlaylistId, this.draftSyncedPlaylist.map(diff => diff[1].track)).then(() => {
+      this.router.navigate(['/remix-overview']);
+      this.messageService.setMessage(new Message('success', 'The playlist has been synced!'))
+    }).finally(() => this.isSyncing = false);
   }
 }

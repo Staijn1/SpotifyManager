@@ -19,12 +19,6 @@ export class PlaylistSyncRequest {
     type: 'string',
     required: true,
   })
-  originalPlaylistId!: string;
-
-  @ApiProperty({
-    type: 'string',
-    required: true,
-  })
   remixedPlaylistId!: string;
 
   @ApiProperty({

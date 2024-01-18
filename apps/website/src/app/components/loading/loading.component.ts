@@ -11,7 +11,6 @@ import { NgClass } from '@angular/common';
   styleUrl: './loading.component.css'
 })
 export class LoadingComponent {
-  @Input() isLoading = false;
   @Input() size: "xs" | "sm" |"md" | "lg"  = 'md';
   @Input() additionalClasses: string[] = [];
 
