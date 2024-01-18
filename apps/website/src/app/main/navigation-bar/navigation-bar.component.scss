@@ -9,3 +9,11 @@
     left: 15%;
   }
 }
+
+
+.mobile-menu li {
+  @apply border-b border-base-300;
+  a {
+    @apply p-2;
+  }
+}
