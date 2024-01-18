@@ -19,7 +19,9 @@
         <p [class.text-right]="reverse">{{ artists }}</p>
 
         @if (showPreview && previewUrl) {
-          <app-spotify-preview [previewUrl]="previewUrl"></app-spotify-preview>
+          <div class="mt-3">
+            <app-spotify-preview [previewUrl]="previewUrl"></app-spotify-preview>
+          </div>
         }
 
       </div>

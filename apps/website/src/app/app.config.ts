@@ -5,7 +5,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideOAuthClient } from 'angular-oauth2-oidc';
 import { provideHttpClient } from '@angular/common/http';
 import { provideStore } from '@ngrx/store';
-import { audioReducer } from './redux/audio/audio.reducer';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,6 +13,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideAnimations(),
     provideOAuthClient(),
-    provideStore({audio: audioReducer}),
+    provideStore(),
+    provideStoreDevtools(),
   ],
 };
