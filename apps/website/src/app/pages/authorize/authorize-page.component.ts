@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Message } from '../../types/Message';
 import { SpotifyAuthenticationService } from '../../services/spotify-authentication/spotify-authentication.service';
 import { ToastComponent } from '../../components/toast/toast.component';
@@ -9,12 +9,12 @@ import { ToastComponent } from '../../components/toast/toast.component';
   standalone: true,
   templateUrl: './authorize-page.component.html',
   imports: [
-    ToastComponent
+    ToastComponent,
+    RouterLink
   ],
   styleUrls: ['./authorize-page.component.scss']
 })
 export class AuthorizePageComponent implements OnInit {
-  error!: Message;
 
   /**
    * Inject dependencies and subscribe to any errors that occur
@@ -29,16 +29,12 @@ export class AuthorizePageComponent implements OnInit {
    */
   ngOnInit(): void {
     this.spotifyAuth.completeLogin()
-      .then((result) => {
-        if (result) {
+      .then((isSuccessful) => {
+        if (isSuccessful) {
           this.router.navigate(['account']);
         } else {
           throw new Message("error", "Something went wrong while logging in");
         }
-      })
-      .catch((err) => {
-        this.error = err;
-        console.error(err);
       });
   }
 }
