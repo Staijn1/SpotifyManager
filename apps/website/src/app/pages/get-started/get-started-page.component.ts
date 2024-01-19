@@ -7,14 +7,14 @@ import { MermaidComponent } from '../../components/mermaid-diagram/mermaid.compo
 @Component({
   selector: 'app-login',
   standalone: true,
-  templateUrl: './get-started.component.html',
+  templateUrl: './get-started-page.component.html',
   imports: [
     TabsComponent,
     MermaidComponent
   ],
-  styleUrls: ['./get-started.component.scss']
+  styleUrls: ['./get-started-page.component.scss']
 })
-export class GetStartedComponent implements OnInit {
+export class GetStartedPageComponent implements OnInit {
   readonly playlistEvolutionGraph = `
   %%{
     init: {

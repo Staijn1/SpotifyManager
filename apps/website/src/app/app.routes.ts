@@ -1,5 +1,5 @@
 import { CanActivateFn, Route } from '@angular/router';
-import { GetStartedComponent } from './pages/get-started/get-started.component';
+import { GetStartedPageComponent } from './pages/get-started/get-started-page.component';
 import { AuthorizePageComponent } from './pages/authorize/authorize-page.component';
 import { AccountPageComponent } from './pages/account/account-page.component';
 import { inject } from '@angular/core';
@@ -17,7 +17,7 @@ const AuthGuard: CanActivateFn = (): boolean => {
 
 export const appRoutes: Route[] = [
   { path: '', component: HomePageComponent },
-  { path: 'get-started', component: GetStartedComponent },
+  { path: 'get-started', component: GetStartedPageComponent },
   { path: 'callback', component: AuthorizePageComponent },
   {
     path: 'account',
