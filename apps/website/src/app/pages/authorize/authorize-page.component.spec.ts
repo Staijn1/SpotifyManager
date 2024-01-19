@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AuthorizePageComponent } from './authorize-page.component';
 import { SpotifyAuthenticationService } from '../../services/spotify-authentication/spotify-authentication.service';
-import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('AuthorizePageComponent', () => {
