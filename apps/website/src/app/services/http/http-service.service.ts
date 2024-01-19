@@ -52,7 +52,8 @@ export class HTTPService {
       response = await fetch(input, init);
     } catch (e) {
       console.error('Failed to fetch', e);
-      throw new Error('Failed to fetch due to a network error.');
+      this.handleError(e as Error);
+      throw e;
     }
 
     response = await fetch(input, init);
@@ -68,7 +69,8 @@ export class HTTPService {
       return JSON.parse(body);
     } catch (e) {
       console.error('Failed to parse response body of a failed request to JSON', e);
-      return null as T;
+      this.handleError(e as Error);
+      throw e;
     }
   }
 }
