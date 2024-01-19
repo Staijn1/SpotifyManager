@@ -1,6 +1,6 @@
 import { CanActivateFn, Route } from '@angular/router';
 import { GetStartedComponent } from './pages/get-started/get-started.component';
-import { AuthorizeComponent } from './pages/authorize/authorize.component';
+import { AuthorizePageComponent } from './pages/authorize/authorize-page.component';
 import { AccountPageComponent } from './pages/account/account-page.component';
 import { inject } from '@angular/core';
 import { SpotifyAuthenticationService } from './services/spotify-authentication/spotify-authentication.service';
@@ -18,7 +18,7 @@ const AuthGuard: CanActivateFn = (): boolean => {
 export const appRoutes: Route[] = [
   { path: '', component: HomePageComponent },
   { path: 'get-started', component: GetStartedComponent },
-  { path: 'callback', component: AuthorizeComponent },
+  { path: 'callback', component: AuthorizePageComponent },
   {
     path: 'account',
     component: AccountPageComponent,

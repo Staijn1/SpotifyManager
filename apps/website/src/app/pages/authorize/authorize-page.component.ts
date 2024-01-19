@@ -7,13 +7,13 @@ import { ToastComponent } from '../../components/toast/toast.component';
 @Component({
   selector: 'app-authorize',
   standalone: true,
-  templateUrl: './authorize.component.html',
+  templateUrl: './authorize-page.component.html',
   imports: [
     ToastComponent
   ],
-  styleUrls: ['./authorize.component.scss']
+  styleUrls: ['./authorize-page.component.scss']
 })
-export class AuthorizeComponent implements OnInit {
+export class AuthorizePageComponent implements OnInit {
   error!: Message;
 
   /**
