@@ -1,9 +1,9 @@
-import {MiddlewareConsumer, Module, NestModule} from '@nestjs/common';
-import {PlaylistController} from './modules/playlist/controllers/playlist-controller/playlist.controller';
-import {SpotifyAuthenticationMiddleware} from './middleware/authentication/spotify-authentication.middleware';
-import {SpotifyModule} from './spotify/spotify.module';
-import {PlaylistModule} from './modules/playlist/playlist.module';
-import {LoggingMiddleware} from './middleware/logging/logging.middleware';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { SpotifyAuthenticationMiddleware } from './middleware/authentication/spotify-authentication.middleware';
+import { PlaylistController } from './modules/playlist/controllers/playlist-controller/playlist.controller';
+import { LoggingMiddleware } from './middleware/logging/logging.middleware';
+import { PlaylistModule } from './modules/playlist/playlist.module';
+import { SpotifyModule } from './modules/spotify/spotify.module';
 
 @Module({
   imports: [SpotifyModule, PlaylistModule],
@@ -12,7 +12,7 @@ import {LoggingMiddleware} from './middleware/logging/logging.middleware';
 export class AppModule implements NestModule {
   /**
    * Configure middlewares
-   * @param {MiddlewareConsumer} consumer
+   * @param consumer
    */
   configure(consumer: MiddlewareConsumer) {
     consumer

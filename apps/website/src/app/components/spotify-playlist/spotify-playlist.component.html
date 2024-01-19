@@ -1,0 +1,18 @@
+@if (playlist) {
+  <div class="bg-base-300 rounded-lg overflow-hidden h-full flex flex-col justify-between">
+    <div class="rounded-t-lg">
+      <a [href]="playlist.external_urls.spotify" target="_blank">
+        <img class="w-full" [src]="playlist.images[0].url" />
+      </a>
+    </div>
+
+    <div class="p-3">
+      <h3>
+        {{ playlist.name }}
+      </h3>
+      <p [innerHTML]="playlist.description"></p>
+    </div>
+
+    <ng-content></ng-content>
+  </div>
+}

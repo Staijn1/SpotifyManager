@@ -15,7 +15,7 @@ export class FileService {
 
   /**
    * Create a new directory if it doesn't exist already
-   * @param {string} directory
+   * @param  directory
    */
   createDirectoryIfNotExists(directory: string): void {
     if (!fs.existsSync(directory)) {
@@ -25,9 +25,9 @@ export class FileService {
 
   /**
    * Write a file to the root path, or to a subdirectory of this root path if provided
-   * @param {string} fileName
-   * @param {string} data
-   * @param {string[]} subdirectory
+   * @param fileName
+   * @param data
+   * @param subdirectory
    */
   writeFile(fileName: string, data: string, subdirectory: string[] = []): string {
     const dirPath = path.join(this.rootPath, ...subdirectory);
@@ -39,8 +39,7 @@ export class FileService {
 
   /**
    * Read file with absolute path
-   * @param {string} directory
-   * @returns {string}
+   * @param  directory
    */
   readFile(directory: string): string {
     return fs.readFileSync(directory, 'utf8');

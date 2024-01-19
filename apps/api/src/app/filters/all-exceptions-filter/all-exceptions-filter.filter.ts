@@ -1,8 +1,12 @@
-import { ArgumentsHost, Catch, HttpException, Logger } from '@nestjs/common';
-import { BaseExceptionFilter } from '@nestjs/core';
+import { ArgumentsHost, Catch, HttpException, Inject, Logger } from '@nestjs/common';
+import { BaseExceptionFilter, HttpAdapterHost } from '@nestjs/core';
 
 @Catch()
 export class AllExceptionsFilter extends BaseExceptionFilter {
+  constructor(@Inject(HttpAdapterHost) adapterHost: HttpAdapterHost) {
+    super(adapterHost.httpAdapter);
+  }
+
   /**
    * Catch all HTTP exceptions and log them, before passing them to the super class.
    * @param exception

@@ -1,10 +1,31 @@
-@import "assets/css/animate.css/animate.min.css";
-@import "~aos/dist/aos.css";
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700&amp;display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-//Import bootstrap
-@import "scss/theme";
+@import "aos/dist/aos.css";
+@import "@fortawesome/fontawesome-free/css/all.css";
 
-.modal {
-  z-index: 9999;
+h1 {
+  @apply text-4xl font-bold;
+}
+
+h2 {
+  @apply text-2xl font-bold;
+}
+
+h3 {
+  @apply text-xl font-bold;
+}
+
+h4 {
+  @apply text-lg font-bold;
+}
+
+h5 {
+  @apply font-bold;
+}
+
+
+app-remix a {
+  @apply text-accent;
 }

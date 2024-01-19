@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="test-all:coverage" type="NxRunConfigurationType">
+    <option name="nx-projects" value="api,website" />
+    <option name="nx-targets" value="test" />
+    <option name="nx-target-configuration" value="" />
+    <envs />
+    <option name="arguments" value="--codeCoverage" />
+    <method v="2" />
+  </configuration>
+</component>

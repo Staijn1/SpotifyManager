@@ -1,0 +1,8 @@
+@if (previewUrl) {
+  <audio
+    controls
+    [src]="previewUrl"
+    (play)="handlePlay($event)">
+    <source [src]="previewUrl" [type]="type">
+  </audio>
+}

@@ -23,7 +23,7 @@ services:
     restart: on-failure
     volumes:
       - /data/spotifymanager:/app/dist/apps/api/assets
-  
+
   spotify_website:
     container_name: spotify_website
     build:

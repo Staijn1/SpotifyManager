@@ -1,21 +1,21 @@
 import {HttpException, HttpStatus, Injectable, NestMiddleware} from '@nestjs/common';
 import {NextFunction, Request, Response} from 'express';
-import {SpotifyService} from '../../spotify/spotify.service';
+import { SpotifyService } from '../../modules/spotify/spotify.service';
 
 @Injectable()
 export class SpotifyAuthenticationMiddleware implements NestMiddleware {
   /**
    * Inject dependencies
-   * @param {SpotifyService} spotifyService
+   * @param spotifyService
    */
   constructor(private readonly spotifyService: SpotifyService) {
   }
 
   /**
    * Get the token from the request and set it to the spotify library
-   * @param {e.Request} req
-   * @param {e.Response} res
-   * @param {e.NextFunction} next
+   * @param req
+   * @param res
+   * @param next
    */
   use(req: Request, res: Response, next: NextFunction) {
     // The access token can be sent as a query parameter, in the body or as a Bearer token in the Authorization header.

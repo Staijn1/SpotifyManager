@@ -1,0 +1,9 @@
+{
+  "name": "@spotify-manager/core",
+  "version": "0.0.1",
+  "dependencies": {
+    "@nestjs/swagger": "^7.1.17"
+  },
+  "type": "commonjs",
+  "main": "./index.cjs"
+}

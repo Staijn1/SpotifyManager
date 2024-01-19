@@ -1,36 +1,43 @@
-import {Injectable} from '@angular/core';
-import {CustomError} from '../../types/CustomError';
-import {SpotifyError} from '../../types/SpotifyError';
+import { Injectable } from '@angular/core';
+import { Message } from '../../types/Message';
+import { SpotifyError } from '../../types/SpotifyError';
+import { MessageService } from '../message/message.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HTTPService {
-  private readonly authenticationErrors: { [key: string]: any } = {
-    invalid_grant: {message: 'The provided token or code is not valid or has expired. Please login again.'},
-    invalid_client: {message: 'Authentication failed, please login.'},
-    invalid_request: {message: 'The request made is not valid.'},
-  };
+  private readonly authenticationErrorsMap: Map<string, Message> = new Map([
+    ['invalid_grant', new Message('error', 'The provided token or code is not valid or has expired. Please login again.')],
+    ['invalid_client', new Message('error', 'Authentication failed, please login.')],
+    ['invalid_request', new Message('error', 'The request made is not valid.')]
+  ]);
+
+  constructor(protected readonly messageService: MessageService) {
+  }
 
   /**
    * Handle the error from spotify and map it to an error we can show
-   * @param {SpotifyError} err
-   * @returns {CustomError}
+   * @param err
    * @private
    */
-  private handleError(err: SpotifyError): CustomError {
-    const userFriendlyError: CustomError = {
-      code: undefined,
-      message: undefined,
-    };
-
-    try {
-      userFriendlyError.message = (this.authenticationErrors[err.error]).message;
-    } catch (e) {
-      userFriendlyError.message = 'Something went wrong. We\'re really sorry, please try again.';
+  private handleError(err: SpotifyError | Error): Message {
+    if (!('error_description' in err)) {
+      const message = new Message('error', err.message);
+      this.messageService.setMessage(message);
+      return message;
     }
 
-    return userFriendlyError;
+    const userfriendlyAuthenticationError = this.authenticationErrorsMap.get(err.error);
+
+    if (userfriendlyAuthenticationError) {
+      this.messageService.setMessage(userfriendlyAuthenticationError);
+      return userfriendlyAuthenticationError;
+    }
+
+    const message = new Message('error', err.error_description);
+    this.messageService.setMessage(message);
+    return message;
   }
 
   /**
@@ -38,8 +45,17 @@ export class HTTPService {
    * @param input - URL to fetch from
    * @param init - options with request
    */
-  protected async request(input: string, init: RequestInit): Promise<any> {
-    const response = await fetch(input, init);
+  protected async request<T>(input: string, init: RequestInit): Promise<T> {
+    let response: Response;
+
+    try {
+      response = await fetch(input, init);
+    } catch (e) {
+      console.error('Failed to fetch', e);
+      throw new Error('Failed to fetch due to a network error.');
+    }
+
+    response = await fetch(input, init);
 
     if (!response.ok) {
       const body = await response.json();
@@ -51,8 +67,8 @@ export class HTTPService {
     try {
       return JSON.parse(body);
     } catch (e) {
-      // If the body is not valid JSON, return the body as is.
-      return body;
+      console.error('Failed to parse response body of a failed request to JSON', e);
+      return null as T;
     }
   }
 }

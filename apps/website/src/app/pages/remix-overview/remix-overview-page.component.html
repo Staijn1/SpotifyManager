@@ -1,0 +1,27 @@
+<section class="container mx-auto mb-10 mt-3">
+  <h1>It's time to catch up!</h1>
+  <p class="mb-3">Sync remixed playlists</p>
+  <p>
+    On this page, you can select one of your remixed playlist, to then synchronize it with the original page.
+    For each song that has changed, you will be able to choose if you would like to adhere to that action or not.
+    E.g. for a song that has been removed in the original playlist, you can choose to remove it from your playlist as well, or to keep it.
+  </p>
+
+  <div class="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-10 mt-10">
+    @for (playlist of remixedPlaylists; track playlist) {
+      <app-spotify-playlist data-aos="fade" data-aos-delay="100" [playlist]="playlist">
+        <div class="flex justify-center my-5">
+          <button class="btn btn-primary" type="button" (click)="startComparingPlaylist(playlist)">
+            <fa-icon [icon]="syncIcon"></fa-icon> Synchronize!
+          </button>
+        </div>
+      </app-spotify-playlist>
+    }
+  </div>
+
+  @if (isLoading) {
+    <div class="flex justify-center my-20">
+      <app-loading></app-loading>
+    </div>
+  }
+</section>
