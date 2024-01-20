@@ -25,7 +25,7 @@ function setupSwagger(app: INestApplication, swaggerUrl: string) {
 
 async function bootstrap() {
   const globalPrefix = 'api';
-  const port = process.env.PORT || 3000;
+  const port = process.env.PORT || 3333;
   const app = await NestFactory.create(AppModule);
   const adapterHost = app.get(HttpAdapterHost);
   setupSwagger(app, globalPrefix);
