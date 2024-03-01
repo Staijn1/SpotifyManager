@@ -29,7 +29,7 @@ export class SpotifyTrackComponent {
       return value;
     }
   }) track: TrackObjectFull | EpisodeObjectFull | undefined;
-  @Input() isHorizontalLayout: boolean = false;
+  @Input() isHorizontalLayout = false;
   @Input() ranking: number | undefined;
   @Input() imageClasses = 'w-full';
   @Input() reverse = false;
@@ -40,7 +40,7 @@ export class SpotifyTrackComponent {
     }
 
     return undefined;
-  };
+  }
 
   get coverImage(): string {
     if (this.track?.type == 'track') {
@@ -48,7 +48,7 @@ export class SpotifyTrackComponent {
     }
 
     return this.track?.show.images[0].url ?? '';
-  };
+  }
 
   get artists(): string {
     if (this.track?.type == 'track') {
@@ -56,5 +56,5 @@ export class SpotifyTrackComponent {
     }
 
     return 'Episodes not supported yet';
-  };
+  }
 }

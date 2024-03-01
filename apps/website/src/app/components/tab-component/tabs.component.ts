@@ -41,7 +41,7 @@ export class TabsComponent {
    * Select the next tab
    * @param rollover If true, when the last tab is selected and then nextTab is called, the first tab will be selected.
    */
-  nextTab(rollover: boolean = false) {
+  nextTab(rollover = false) {
     if (this.selectedTab == this.labels.length - 1) {
       if (rollover) {
         this.selectedTab = 0;
@@ -55,7 +55,7 @@ export class TabsComponent {
    * Select the previous tab
    * @param rollover If true, when the first tab is selected and then previousTab is called, the last tab will be selected.
    */
-  previousTab(rollover: boolean = false) {
+  previousTab(rollover = false) {
     if (this.selectedTab == 0) {
       if (rollover) {
         this.selectedTab = this.labels.length - 1;

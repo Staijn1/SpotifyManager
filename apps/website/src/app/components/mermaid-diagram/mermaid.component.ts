@@ -9,7 +9,7 @@ import * as mermaid from 'mermaid';
 })
 export class MermaidComponent implements OnInit {
   @ViewChild('outputDiv') outputDiv!: ElementRef<HTMLDivElement>;
-  private _rawCode: string = '';
+  private _rawCode = '';
 
   @Input()
   set rawCode(value: string) {

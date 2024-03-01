@@ -17,7 +17,7 @@ export class SpotifyArtistComponent {
     const artistName = this.artist?.name ?? '';
     const prefix = this.ranking ? `${this.ranking}. ` : '';
     return `${prefix}${artistName}`;
-  };
+  }
 
   /**
    * Returns the genres of the artist, by capitalizing the first letter of each genre and joining them with a |

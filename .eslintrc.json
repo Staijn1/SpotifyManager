@@ -25,7 +25,8 @@
       "files": ["*.ts", "*.tsx"],
       "extends": ["plugin:@nx/typescript"],
       "rules": {
-        "@typescript-eslint/no-explicit-any": 1
+        "@typescript-eslint/no-explicit-any": 1,
+        "@typescript-eslint/no-empty-interface":  1
       }
     },
     {
