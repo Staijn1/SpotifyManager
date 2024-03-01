@@ -11,6 +11,7 @@ import {
   RemixedPlaylistInformation,
   SinglePlaylistResponse
 } from '@spotify-manager/core';
+import { SyncPlaylistResult } from '../../../../../../../../libs/core/src/lib/SyncPlaylistResult';
 
 @ApiBearerAuth()
 @Controller('playlists')
@@ -114,7 +115,7 @@ export class PlaylistController {
   @Post('sync')
   public async syncRemixWithOriginal(
     @Body() body: PlaylistSyncRequest
-  ): Promise<void> {
+  ): Promise<SyncPlaylistResult> {
     return this.playlistService.syncPlaylist(
       body.remixedPlaylistId,
       body.tracks

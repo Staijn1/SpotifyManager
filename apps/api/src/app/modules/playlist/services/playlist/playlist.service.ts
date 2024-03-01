@@ -12,6 +12,7 @@ import {
   SinglePlaylistResponse,
   TrackObjectFull
 } from '@spotify-manager/core';
+import { SyncPlaylistResult } from '../../../../../../../../libs/core/src/lib/SyncPlaylistResult';
 
 @Injectable()
 export class PlaylistService {
@@ -238,7 +239,7 @@ export class PlaylistService {
   async syncPlaylist(
     remixedPlaylistId: string,
     tracks: (TrackObjectFull | EpisodeObjectFull)[]
-  ) {
+  ): Promise<SyncPlaylistResult> {
     // Get all tracks in the playlist.
     const tracksInPlaylist = await this.getAllSongsInPlaylist(remixedPlaylistId);
 
@@ -251,5 +252,9 @@ export class PlaylistService {
       remixedPlaylistId,
       tracks.map((track) => track.uri)
     );
+
+    return {
+      amountOfSongsInSyncedPlaylist: tracks.length
+    };
   }
 }
