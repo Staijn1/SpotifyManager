@@ -9,9 +9,8 @@ import {
   PlaylistSyncRequest,
   PlaylistTrackResponse,
   RemixedPlaylistInformation,
-  SinglePlaylistResponse
+  SinglePlaylistResponse, SyncPlaylistResult
 } from '@spotify-manager/core';
-import { SyncPlaylistResult } from '../../../../../../../../libs/core/src/lib/SyncPlaylistResult';
 
 @ApiBearerAuth()
 @Controller('playlists')

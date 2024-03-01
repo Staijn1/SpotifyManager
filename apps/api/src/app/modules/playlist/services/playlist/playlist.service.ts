@@ -9,10 +9,9 @@ import {
   PlaylistTrackObject,
   PlaylistTrackResponse,
   RemixedPlaylistInformation,
-  SinglePlaylistResponse,
+  SinglePlaylistResponse, SyncPlaylistResult,
   TrackObjectFull
 } from '@spotify-manager/core';
-import { SyncPlaylistResult } from '../../../../../../../../libs/core/src/lib/SyncPlaylistResult';
 
 @Injectable()
 export class PlaylistService {
