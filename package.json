@@ -2,7 +2,6 @@
   "name": "@spotify-manager/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
   "private": true,
   "scripts": {
     "start:api": "npx nx run api:serve",
