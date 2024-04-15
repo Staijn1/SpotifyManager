@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PlaylistService } from './playlist.service';
 import { SpotifyService } from '../../../spotify/spotify.service';
-import { PlaylistFileService } from '../playlist-file-service/playlist-file.service';
 import { buildMockPlaylistTrackResponse } from '../../../../utilities/testing-utils';
 
 describe('PlaylistService', () => {
@@ -15,12 +14,6 @@ describe('PlaylistService', () => {
           provide: SpotifyService,
           useValue: {}
         },
-        {
-          provide: PlaylistFileService,
-          useValue: {
-            // mock methods here
-          }
-        }
       ]
     }).compile();
 

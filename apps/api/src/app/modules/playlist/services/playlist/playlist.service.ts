@@ -1,6 +1,5 @@
 import { HttpException, Injectable, Logger } from '@nestjs/common';
 import { SpotifyService } from '../../../spotify/spotify.service';
-import { PlaylistFileService } from '../playlist-file-service/playlist-file.service';
 import {
   CreatePlaylistResponse,
   Diff,
@@ -8,21 +7,20 @@ import {
   ListOfUsersPlaylistsResponse,
   PlaylistTrackObject,
   PlaylistTrackResponse,
-  RemixedPlaylistInformation,
-  SinglePlaylistResponse, SyncPlaylistResult,
+  SinglePlaylistResponse,
+  SyncPlaylistResult,
   TrackObjectFull
 } from '@spotify-manager/core';
+import _ from 'lodash';
 
 @Injectable()
 export class PlaylistService {
   /**
    * Inject dependencies
    * @param spotifyService
-   * @param fileService
    */
   constructor(
     private readonly spotifyService: SpotifyService,
-    private readonly fileService: PlaylistFileService
   ) {
   }
 
@@ -66,7 +64,6 @@ export class PlaylistService {
     playlistid: string
   ): Promise<CreatePlaylistResponse> {
     Logger.log(`Creating new remix playlist for playlist ${playlistid}`);
-    const me = await this.spotifyService.getMe();
     const originalPlaylist = await this.getPlaylistWithAllTracks(playlistid);
 
     const newPlaylistName = `Remix - ${originalPlaylist.name}`;
@@ -114,8 +111,6 @@ export class PlaylistService {
       newPlaylist.id,
       originalPlaylist.tracks.items.map((track) => track.track.uri)
     );
-    // We need to save the state of the original playlist
-    this.fileService.writePlaylist(originalPlaylist, me.id);
     return newPlaylist;
   }
 
@@ -162,17 +157,6 @@ export class PlaylistService {
   }
 
   /**
-   * A user can copy a playlist more than once. Get all the versions of the original playlist
-   * @param playlistid
-   */
-  async getVersionsOfOriginalPlaylist(
-    playlistid: string
-  ): Promise<RemixedPlaylistInformation[]> {
-    const me = await this.spotifyService.getMe();
-    return this.fileService.getOriginalVersionsForPlaylist(playlistid, me.id);
-  }
-
-  /**
    * Compare a playlist to another.
    * @param basePlaylistId
    * @param comparePlaylistId
@@ -204,30 +188,11 @@ export class PlaylistService {
     primary: PlaylistTrackObject[],
     secondary: PlaylistTrackObject[]
   ): Diff[] {
-    const changes: Diff[] = [];
-    // First, go through all the songs in the base playlist and check if they are in the other playlist.
-    for (const track of primary) {
-      const index = secondary.findIndex((t) => t.track.id == track.track.id);
-      if (index == -1) {
-        // If the song is not in the other playlist, it's a 1.
-        changes.push([1, track]);
-      } else {
-        // If the song is in the other playlist, it's a 0.
-        changes.push([0, track]);
-      }
-    }
+    const addedTracks = _.differenceWith(primary, secondary, _.isEqual).map(track => [1, track]);
+    const removedTracks = _.differenceWith(secondary, primary, _.isEqual).map(track => [-1, track]);
+    const unchangedTracks = _.intersectionWith(primary, secondary, _.isEqual).map(track => [0, track]);
 
-    // Then, go through all the songs in the other playlist and check if they are in the base playlist.
-    for (const track of secondary) {
-      const index = primary.findIndex((t) => t.track.id == track.track.id);
-      if (index == -1) {
-        // If the song is not in the base playlist, it's a -1.
-        changes.push([-1, track]);
-      }
-      // If the song is in the base playlist, it's already added to the changes array in the previous for-loop.
-    }
-
-    return changes;
+    return [...addedTracks, ...removedTracks, ...unchangedTracks];
   }
 
   /**

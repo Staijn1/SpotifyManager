@@ -78,21 +78,6 @@ export class ApiService extends HTTPService {
   }
 
   /**
-   * Get all remixes of a playlist because a user can remix a playlist more than once
-   * He will need to select which original version of the playlist he wants to compare it to.
-   * @deprecated
-   */
-  async getRemixedPlaylistInformation(
-    playlistid: string
-  ): Promise<RemixedPlaylistInformation[]> {
-    const token = await this.spotifyAuth.refreshAndGetAccessToken();
-    return this.request(
-      `${environment.apiURL}/playlists/remixes/${playlistid}/versions/?accessToken=${token}`,
-      { method: 'GET' }
-    );
-  }
-
-  /**
    * Compare a playlist to another.
    * One playlist is set as the base playlist, of which the other playlist will be compared against.
    * @param basePlaylistId
