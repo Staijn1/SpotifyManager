@@ -4,7 +4,7 @@ import {Request, Response} from 'express';
 @Injectable()
 export class LoggingMiddleware implements NestMiddleware {
   /**
-   * When a request comes in, log the endpoint which was called
+   * When a request comes in, log the endpoint which was called and method
    * @param req
    * @param res
    * @param next

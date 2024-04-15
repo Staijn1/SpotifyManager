@@ -1,11 +1,10 @@
 import {Module} from '@nestjs/common';
 import {SpotifyService} from './spotify.service';
-import {HttpModule} from '@nestjs/axios'
-import {UtilModule} from '../util/util.module';
+import {HttpModule} from '@nestjs/axios';
 
 @Module({
   providers: [SpotifyService],
-  imports: [HttpModule, UtilModule],
+  imports: [HttpModule],
   exports: [SpotifyService],
 })
 export class SpotifyModule {

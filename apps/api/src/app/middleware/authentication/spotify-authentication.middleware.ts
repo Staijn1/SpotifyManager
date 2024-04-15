@@ -23,7 +23,7 @@ export class SpotifyAuthenticationMiddleware implements NestMiddleware {
     if (!accessToken) throw new HttpException('Access token not provided', HttpStatus.UNAUTHORIZED);
 
     accessToken = accessToken.replace('Bearer ', '');
-    // todo error handling, invalid crashes the api... wtf?
+    // todo error handling, invalid token crashes the api... wtf?
     this.spotifyService.setAccessToken(accessToken)
 
     next();
