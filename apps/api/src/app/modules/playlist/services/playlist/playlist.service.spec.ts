@@ -1,7 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PlaylistService } from './playlist.service';
 import { SpotifyService } from '../../../spotify/spotify.service';
-import { buildMockPlaylistTrackResponse } from '../../../../utilities/testing-utils';
+import { buildMockPlaylistTrackResponse, mockSong } from '../../../../utilities/testing-utils';
+import { Diff, DiffIdentifier } from '@spotify-manager/core';
 
 describe('PlaylistService', () => {
   let service: PlaylistService;
@@ -13,7 +14,7 @@ describe('PlaylistService', () => {
         {
           provide: SpotifyService,
           useValue: {}
-        },
+        }
       ]
     }).compile();
 
@@ -23,6 +24,36 @@ describe('PlaylistService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
+
+
+  it('should properly compare a remixed playlist with its original', async () => {
+    const basePlaylistId = 'basePlaylistId';
+    const remixedPlaylistId = 'remixedPlaylistId';
+
+    const basePlaylistAtTimeOfRemix = buildMockPlaylistTrackResponse(['Song A', 'Song B', 'Song C', 'Song D', 'Song E']);
+    const basePlaylistNow = buildMockPlaylistTrackResponse(['Song B', 'Song C', 'Song F', 'Song D', 'Song E']);
+    const remixedPlaylistNow = buildMockPlaylistTrackResponse(['Song A', 'Song B', 'Song D', 'Song G', 'Song E']);
+
+    jest.spyOn(service, 'getAllSongsInPlaylist')
+      .mockResolvedValueOnce(basePlaylistAtTimeOfRemix)
+      .mockResolvedValueOnce(basePlaylistNow)
+      .mockResolvedValueOnce(remixedPlaylistNow);
+
+    const result = await service.compareRemixedPlaylistWithOriginal(basePlaylistId, remixedPlaylistId);
+    const expected: Diff[] = [
+      [DiffIdentifier.REMOVED_IN_ORIGINAL, mockSong('Song A')],
+      [DiffIdentifier.UNCHANGED, mockSong('Song B')],
+      [DiffIdentifier.REMOVED_IN_REMIX, mockSong('Song C')],
+      [DiffIdentifier.UNCHANGED, mockSong('Song D')],
+      [DiffIdentifier.UNCHANGED, mockSong('Song E')],
+      [DiffIdentifier.REMOVED_IN_ORIGINAL, mockSong('Song F')],
+      [DiffIdentifier.ADDED_IN_REMIX, mockSong('Song G')]
+    ];
+
+    expect(result.length).toBe(expected.length);
+    expect(result).toEqual(expected);
+  });
+
 
   it('should detect a missing song in base playlist', async () => {
     const basePlaylistId = 'basePlaylistId';
@@ -40,9 +71,9 @@ describe('PlaylistService', () => {
     expect(service.getAllSongsInPlaylist).toHaveBeenCalledWith(otherPlaylistId);
     expect(result).toBeTruthy();
 
-    expect(result.filter(v => v[0] == 0).length).toBe(3);
-    expect(result.filter(v => v[0] == 1).length).toBe(0);
-    expect(result.filter(v => v[0] == -1).length).toBe(1);
+    expect(result.filter(v => v[0] == DiffIdentifier.UNCHANGED).length).toBe(3);
+    expect(result.filter(v => v[0] == DiffIdentifier.ADDED_IN_REMIX).length).toBe(1);
+    expect(result.length).toBe(4);
   });
 
   it('should detect an added song in base playlist', async () => {
@@ -61,9 +92,9 @@ describe('PlaylistService', () => {
     expect(service.getAllSongsInPlaylist).toHaveBeenCalledWith(otherPlaylistId);
     expect(result).toBeTruthy();
 
-    expect(result.filter(v => v[0] == 0).length).toBe(3);
-    expect(result.filter(v => v[0] == 1).length).toBe(1);
-    expect(result.filter(v => v[0] == -1).length).toBe(0);
+    expect(result.filter(v => v[0] == DiffIdentifier.UNCHANGED).length).toBe(3);
+    expect(result.filter(v => v[0] == DiffIdentifier.ADDED_IN_ORIGINAL).length).toBe(1);
+    expect(result.length).toBe(4);
   });
 
   it('should not detect any changes for two identical playlists', async () => {
@@ -83,7 +114,8 @@ describe('PlaylistService', () => {
     expect(result).toBeTruthy();
 
 
-    expect(result.filter(v => v[0] == 0).length).toBe(3);
-    expect(result.filter(v => v[0] != 0).length).toBe(0);
+    expect(result.filter(v => v[0] == DiffIdentifier.UNCHANGED).length).toBe(3);
+    expect(result.filter(v => v[0] != DiffIdentifier.UNCHANGED).length).toBe(0);
+    expect(result.length).toBe(3);
   });
 });

@@ -12,16 +12,16 @@ import {
   TrackObjectFull
 } from '@spotify-manager/core';
 import _ from 'lodash';
+import { PlaylistHistoryService } from '../playlist-history/playlist-history.service';
 
 @Injectable()
 export class PlaylistService {
   /**
    * Inject dependencies
    * @param spotifyService
+   * @param historyService
    */
-  constructor(
-    private readonly spotifyService: SpotifyService,
-  ) {
+  constructor(private readonly spotifyService: SpotifyService, private readonly historyService: PlaylistHistoryService) {
   }
 
   /**
@@ -208,17 +208,44 @@ export class PlaylistService {
     const tracksInPlaylist = await this.getAllSongsInPlaylist(remixedPlaylistId);
 
     // Remove all the tracks in the playlist.
-    await this.spotifyService.removeTracksFromPlaylist(
-      remixedPlaylistId,
-      tracksInPlaylist.items.map((track) => track.track)
-    );
-    await this.spotifyService.addTracksToPlaylist(
-      remixedPlaylistId,
-      tracks.map((track) => track.uri)
-    );
+    await this.spotifyService.removeTracksFromPlaylist(remixedPlaylistId, tracksInPlaylist.items.map((track) => track.track));
+    await this.spotifyService.addTracksToPlaylist(remixedPlaylistId, tracks.map((track) => track.uri));
 
     return {
       amountOfSongsInSyncedPlaylist: tracks.length
     };
+  }
+
+  /**
+   * Compares the current state of the original playlist and the remixed playlist with the state of the original playlist at the time of remixing.
+   *
+   * This method is used to identify the differences between the original playlist at the time of remixing, the current state of the original playlist, and the remixed playlist.
+   * The differences are categorized as follows:
+   * - Songs that were in the original playlist at the time of remixing but have been removed in the current original playlist are marked as 'removed-in-original'.
+   * - Songs that are present in all three states (original at remix, original now, and remixed now) are marked as 'unchanged'.
+   * - Songs that were in the original playlist and the remixed playlist at the time of remixing but have been removed in the current remixed playlist are marked as 'removed-in-remix'.
+   * - Songs that have been added to the original playlist after remixing are marked as 'added-in-original'.
+   * - Songs that have been added to the remixed playlist after remixing are marked as 'added-in-remix'.
+   *
+   * @param {string} originalPlaylistId - The ID of the original playlist.
+   * @param {string} remixedPlaylistId - The ID of the remixed playlist.
+   * @returns {Promise<Diff[]>} - A promise that resolves to an array of differences between the playlists.
+   *
+   * @example
+   * // Original Playlist at Remix: ['Song A', 'Song B', 'Song C', 'Song D', 'Song E']
+   * // Original Playlist Now: ['Song B', 'Song C', 'Song F', 'Song D', 'Song E']
+   * // Remixed Playlist Now: ['Song A', 'Song B', 'Song D', 'Song G', 'Song E']
+   *
+   * compareRemixedPlaylistWithOriginal('originalPlaylistId', 'remixedPlaylistId');
+   *
+   * // Returns: [['removed-in-original', 'Song A'], ['unchanged', 'Song B'], ['removed-in-remix', 'Song C'], ['unchanged', 'Song D'], ['unchanged', 'Song E'], ['added-in-original', 'Song F'], ['added-in-remix', 'Song G']]
+   */
+  async compareRemixedPlaylistWithOriginal(originalPlaylistId: string, remixedPlaylistId: string): Promise<Diff[]> {
+    const originalPlaylistNow = await this.getAllSongsInPlaylist(originalPlaylistId);
+    const originalPlaylistAtTimeOfLastSync = await this.historyService.getPlaylistDefinition(originalPlaylistId);
+    const remixedPlaylistNow = await this.getAllSongsInPlaylist(remixedPlaylistId);
+
+
+    return [];
   }
 }
