@@ -4,6 +4,10 @@
   "license": "MIT",
   "scripts": {},
   "private": true,
+  "scripts": {
+    "start:api": "npx nx run api:serve",
+    "start:website": "npx nx run website:serve"
+  },
   "dependencies": {
     "@angular/animations": "17.1.3",
     "@angular/common": "17.1.3",
