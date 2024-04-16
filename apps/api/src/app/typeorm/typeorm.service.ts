@@ -51,15 +51,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
             logger: this.databaseLogger,
             logging: true,
             authSource: 'admin',
-            // Do NOT set to true in production mode, high chance of data loss
-            // It automatically syncs your database with the models in the source code without creating migrations
-            // Even for local development, it is recommended to create migrations and run them manually
-            // When your development work is done, and you have many migrations you want to merge into one bigger migration:
-            // 1. Check if other database already have these migrations applied. If so I would not recommend merging them.
-            // 2. If you are sure you want to merge migrations, delete the migration .ts files
-            // 3. Drop your database and run the migrations that are currently in GIT (you will have most up-to-date database)
-            // 4. Generate one big migration using TypeORM CLI
-            synchronize: false
+            synchronize: true
         }
     }
 }
