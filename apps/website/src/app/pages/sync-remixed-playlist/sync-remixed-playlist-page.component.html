@@ -21,7 +21,11 @@
           <div class="my-2">
             <app-spotify-track
               imageClasses="w-full md:w-32"
-              [ngClass]="{'added': diff[0] === 1, 'deleted': diff[0] === -1, 'unchanged': diff[0] === 0}"
+              [ngClass]="{
+                'added': diff[0] === DiffIdentifier.ADDED_IN_REMIX || DiffIdentifier.ADDED_IN_ORIGINAL,
+                'deleted': diff[0] === DiffIdentifier.REMOVED_IN_REMIX || DiffIdentifier.REMOVED_IN_ORIGINAL,
+                'unchanged': diff[0] === DiffIdentifier.UNCHANGED
+              }"
               [isHorizontalLayout]="true"
               [showPreview]="true"
               [track]="diff[1]">
@@ -39,12 +43,16 @@
           <div class="my-2">
             <app-spotify-track
               imageClasses="w-full md:w-32"
-              [ngClass]="{'added': track[0] === 1, 'deleted': track[0] === -1, 'unchanged': track[0] === 0}"
+              [ngClass]="{
+                'added': track[0] === DiffIdentifier.ADDED_IN_REMIX || DiffIdentifier.ADDED_IN_ORIGINAL,
+                'deleted': track[0] === DiffIdentifier.REMOVED_IN_REMIX || DiffIdentifier.REMOVED_IN_ORIGINAL,
+                'unchanged': track[0] === DiffIdentifier.UNCHANGED
+              }"
               [isHorizontalLayout]="true"
               [reverse]="true"
               [showPreview]="true"
               [track]="track[1]">
-              @if (track[0] !== 0) {
+              @if (track[0] !== DiffIdentifier.UNCHANGED) {
                 <button class="btn btn-error glass" (click)="removeTrackFromPreviewSyncedPlaylist(track)">
                   Remove from Preview
                   <fa-icon [icon]="arrowLeftIcon"></fa-icon>

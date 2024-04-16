@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Navigation, Router } from '@angular/router';
 import { ApiService } from '../../services/api/api.service';
-import { Diff } from '@spotify-manager/core';
+import { Diff, DiffIdentifier } from '@spotify-manager/core';
 import { LoadingComponent } from '../../components/loading/loading.component';
 import { SpotifyTrackComponent } from '../../components/spotify-track/spotify-track.component';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
@@ -52,8 +52,8 @@ export class SyncRemixedPlaylistPageComponent {
     this.apiService.comparePlaylists(this.leftPlaylistId, this.rightPlaylistId)
       .then(changes => {
         const sortedChanges = this.sortDiffs(changes);
-        this.missingSongsInOriginal = sortedChanges.filter(change => change[0] === -1);
-        this.draftSyncedPlaylist = sortedChanges.filter(change => change[0] !== -1);
+        this.missingSongsInOriginal = sortedChanges.filter(change => change[0] === DiffIdentifier.ADDED_IN_REMIX);
+        this.draftSyncedPlaylist = sortedChanges.filter(change => change[0] !== DiffIdentifier.ADDED_IN_REMIX);
       }).finally(() => this.isComparisonLoading = false);
   }
 
@@ -62,7 +62,7 @@ export class SyncRemixedPlaylistPageComponent {
    * @param diff
    */
   addTrackToPreviewSyncedPlaylist(diff: Diff) {
-    diff[0] = 1;
+    diff[0] = DiffIdentifier.ADDED_IN_REMIX; // todo confirm this is the correct identifier
     // Add the diff to the synced playlist draft at the top
     this.draftSyncedPlaylist.unshift(diff);
     this.draftSyncedPlaylist = this.sortDiffs(this.draftSyncedPlaylist);
@@ -75,7 +75,7 @@ export class SyncRemixedPlaylistPageComponent {
    * @param diff
    */
   removeTrackFromPreviewSyncedPlaylist(diff: Diff) {
-    diff[0] = -1;
+    diff[0] = DiffIdentifier.REMOVED_IN_REMIX; // todo confirm this is the correct identifier
     // Add the diff to the missing songs in the original playlist at the top
     this.missingSongsInOriginal.unshift(diff);
     this.missingSongsInOriginal = this.sortDiffs(this.missingSongsInOriginal);
@@ -84,6 +84,7 @@ export class SyncRemixedPlaylistPageComponent {
 
   /**
    * Sorts the diffs so added tracks are at the top, then deleted and then the remaining unchanged tracks
+   * todo fix with new identifiers
    * @param diffs
    * @private
    */
@@ -91,8 +92,7 @@ export class SyncRemixedPlaylistPageComponent {
     const copy = [...diffs];
     copy.sort((a, b) => {
       if (a[0] === b[0]) return 0; // If both have the same status, no need to change order
-      if (a[0] !== 0) return -1; // Changed tracks go to the top
-      if (b[0] != 0) return 1; // Changed tracks go to the top
+      if (a[0] !== DiffIdentifier.UNCHANGED) return -1; // Changed tracks go to the top
       return 0; // Unchanged tracks go to the bottom
     });
     return copy;
@@ -109,4 +109,6 @@ export class SyncRemixedPlaylistPageComponent {
       this.messageService.setMessage(new Message('success', 'The playlist has been synced!'))
     }).finally(() => this.isSyncing = false);
   }
+
+  protected readonly DiffIdentifier = DiffIdentifier;
 }

@@ -111,6 +111,8 @@ export class PlaylistService {
       newPlaylist.id,
       originalPlaylist.tracks.items.map((track) => track.track.uri)
     );
+
+    await this.historyService.recordPlaylistDefinition(originalPlaylist, newPlaylist.id);
     return newPlaylist;
   }
 
