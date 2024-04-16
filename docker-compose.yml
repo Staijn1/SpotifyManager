@@ -20,9 +20,6 @@ services:
       - 4901:3333
     networks:
       - corp
-    restart: on-failure
-    volumes:
-      - /data/spotifymanager:/app/dist/apps/api/assets
 
   spotify_website:
     container_name: spotify_website
@@ -36,4 +33,15 @@ services:
       - 4900:80
     networks:
       - corp
-    restart: on-failure
+  spotify_db:
+    container_name: spotify_db
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: spotifymanager
+      MONGO_INITDB_AUTH_DATABASE: admin
+    ports:
+      - "27017:27017"
+    networks:
+      - corp
