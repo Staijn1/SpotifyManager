@@ -2,17 +2,19 @@ import { HttpException, Injectable, Logger } from '@nestjs/common';
 import { SpotifyService } from '../../../spotify/spotify.service';
 import {
   CreatePlaylistResponse,
-  Diff, DiffIdentifier,
+  Diff,
+  DiffIdentifier,
   EpisodeObjectFull,
   ListOfUsersPlaylistsResponse,
   PlaylistTrackObject,
   PlaylistTrackResponse,
   SinglePlaylistResponse,
   SyncPlaylistResult,
-  TrackObjectFull
+  TrackObjectFull, Utils
 } from '@spotify-manager/core';
 import _ from 'lodash';
 import { PlaylistHistoryService } from '../playlist-history/playlist-history.service';
+import { PlaylistRemixEntity } from '../../entities/playlist-remix.entity';
 
 @Injectable()
 export class PlaylistService {
@@ -112,9 +114,10 @@ export class PlaylistService {
       originalPlaylist.tracks.items.map((track) => track.track.uri)
     );
 
-    Logger.log(`Added all tracks to the new playlist ${newPlaylist.id}`)
+    Logger.log(`Added all tracks to the new playlist ${newPlaylist.id}`);
 
-    await this.historyService.recordPlaylistDefinition(originalPlaylist, newPlaylist.id);
+    const playlistDefinition =new PlaylistRemixEntity(originalPlaylist.id, newPlaylist.id, newPlaylist.owner.id, new Date(), originalPlaylist.tracks.items.map(track => track.track.id))
+    await this.historyService.recordPlaylistDefinition(playlistDefinition);
     return newPlaylist;
   }
 
@@ -162,19 +165,19 @@ export class PlaylistService {
 
   /**
    * Remove all the songs in the given playlist and put the given tracks in the playlist.
-   * @param originalPlaylistId - The ID of the original playlist that was remixed
    * @param remixedPlaylistId - The ID of the remixed playlist
    * @param tracks - Tracks the remixed playlist should contain after syncing is complete
    */
   async syncPlaylist(
-    originalPlaylistId: string,
     remixedPlaylistId: string,
     tracks: (TrackObjectFull | EpisodeObjectFull)[]
   ): Promise<SyncPlaylistResult> {
     const tracksToDeleteFromRemix = await this.getAllSongsInPlaylist(remixedPlaylistId);
-
+    const originalPlaylistId = Utils.GetOriginalPlaylistIdFromDescription((await this.getPlaylist(remixedPlaylistId)).description);
+    const userId = (await this.spotifyService.getMe()).id;
+    const playlistDefinition = new PlaylistRemixEntity(originalPlaylistId, remixedPlaylistId, userId, undefined, tracks.map(track => track.id));
     // Update the original playlist definition in the database
-    this.historyService.recordPlaylistDefinition({})
+    await this.historyService.recordPlaylistDefinition(playlistDefinition);
 
     // Remove all the tracks in the playlist.
     await this.spotifyService.removeTracksFromPlaylist(remixedPlaylistId, tracksToDeleteFromRemix.items.map((track) => track.track));
@@ -218,7 +221,7 @@ export class PlaylistService {
     const remixedTrackIdsNow = remixedPlaylistNow.items.map(track => track.track.id);
 
     // Create a map of all tracks, so we can easily find the full track object by the track id, regardless of the source
-    const tracksHashmap = new Map<string,  PlaylistTrackObject>();
+    const tracksHashmap = new Map<string, PlaylistTrackObject>();
     originalPlaylistNow.items.forEach(track => tracksHashmap.set(track.track.id, track));
     originalPlaylistTrackIdsAtLastSync.forEach(trackId => tracksHashmap.set(trackId, tracksHashmap.get(trackId)));
     remixedPlaylistNow.items.forEach(track => tracksHashmap.set(track.track.id, track));

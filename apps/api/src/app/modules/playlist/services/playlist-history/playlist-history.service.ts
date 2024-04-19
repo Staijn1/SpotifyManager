@@ -12,6 +12,8 @@ export class PlaylistHistoryService {
   /**
    * Get a playlist with a given ID at a given timestamp. If no timestamp is given, the last recorded playlist definition of the playlist with given id is returned.
    * @param originalPlaylistId
+   * @param remixedPlaylistId
+   * @param userId
    * @param timestamp
    */
   async getPlaylistDefinition(originalPlaylistId: string, remixedPlaylistId: string, userId: string, timestamp?: Date) {
@@ -20,7 +22,7 @@ export class PlaylistHistoryService {
         originalPlaylistId: originalPlaylistId,
         remixPlaylistId: remixedPlaylistId,
         userId: userId,
-        timestamp: timestamp ? timestamp : undefined
+        timestamp: timestamp !== undefined ? timestamp : undefined
       },
       order: timestamp ? undefined : { timestamp: 'DESC' }
     };
@@ -30,20 +32,20 @@ export class PlaylistHistoryService {
 
   /**
    * Either adds a new playlist definition or updates an existing one.
-   * @param originalPlaylistDefinition
-   * @param remixPlaylistId
+   * @param remixEntity
    */
-  async recordPlaylistDefinition(originalPlaylistDefinition: SinglePlaylistResponse, remixPlaylistId: string) {
+  async recordPlaylistDefinition(remixEntity: PlaylistRemixEntity) {
     // Check if a playlist definition already exists for this playlist
-    const existingDefinition = await this.getPlaylistDefinition(originalPlaylistDefinition.id, remixPlaylistId);
+    const existingDefinition = await this.getPlaylistDefinition(remixEntity.originalPlaylistId, remixEntity.remixPlaylistId, remixEntity.userId, remixEntity.timestamp);
 
-
-    const playlistRemixEntity = new PlaylistRemixEntity();
-    playlistRemixEntity.originalPlaylistId = originalPlaylistDefinition.id;
-    playlistRemixEntity.remixPlaylistId = remixPlaylistId;
-    playlistRemixEntity.timestamp = new Date();
-    playlistRemixEntity.originalPlaylistTrackIds = originalPlaylistDefinition.tracks.items.map(track => track.track.id);
-
-    return await this.playlistRemixRepository.save(playlistRemixEntity);
+    if (existingDefinition) {
+      // Update the existing playlist definition
+      existingDefinition.timestamp = new Date();
+      existingDefinition.originalPlaylistTrackIds = remixEntity.originalPlaylistTrackIds;
+      return await this.playlistRemixRepository.save(existingDefinition);
+    } else {
+      // Create a new playlist definition
+      return await this.playlistRemixRepository.save(remixEntity);
+    }
   }
 }
