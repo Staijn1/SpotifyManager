@@ -56,8 +56,6 @@ export class HTTPService {
       throw e;
     }
 
-    response = await fetch(input, init);
-
     if (!response.ok) {
       const body = await response.json();
       throw this.handleError(body);
