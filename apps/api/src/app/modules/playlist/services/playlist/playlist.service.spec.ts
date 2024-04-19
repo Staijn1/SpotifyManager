@@ -3,9 +3,12 @@ import { PlaylistService } from './playlist.service';
 import { SpotifyService } from '../../../spotify/spotify.service';
 import { buildMockPlaylistTrackResponse, mockSong } from '../../../../utilities/testing-utils';
 import { Diff, DiffIdentifier } from '@spotify-manager/core';
+import { PlaylistHistoryService } from '../playlist-history/playlist-history.service';
+import { ObjectId } from 'mongodb';
 
 describe('PlaylistService', () => {
   let service: PlaylistService;
+  let historyService: PlaylistHistoryService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -14,11 +17,18 @@ describe('PlaylistService', () => {
         {
           provide: SpotifyService,
           useValue: {}
-        }
+        },
+        {
+          provide: PlaylistHistoryService,
+          useValue: {
+            getPlaylistDefinition: jest.fn()
+          }
+        },
       ]
     }).compile();
 
     service = module.get<PlaylistService>(PlaylistService);
+    historyService = module.get<PlaylistHistoryService>(PlaylistHistoryService);
   });
 
   it('should be defined', () => {
@@ -39,6 +49,14 @@ describe('PlaylistService', () => {
       .mockResolvedValueOnce(basePlaylistNow)
       .mockResolvedValueOnce(remixedPlaylistNow);
 
+    jest.spyOn(historyService, 'getPlaylistDefinition').mockResolvedValueOnce({
+      id: new ObjectId("someObjectId"),
+      originalPlaylistId: basePlaylistId,
+      remixPlaylistId: remixedPlaylistId,
+      timestamp: new Date(),
+      originalPlaylistTrackIds: basePlaylistAtTimeOfRemix.items.map(track => track.track.id)
+    });
+
     const result = await service.compareRemixedPlaylistWithOriginal(basePlaylistId, remixedPlaylistId);
     const expected: Diff[] = [
       [DiffIdentifier.REMOVED_IN_ORIGINAL, mockSong('Song A')],
@@ -50,7 +68,6 @@ describe('PlaylistService', () => {
       [DiffIdentifier.ADDED_IN_REMIX, mockSong('Song G')]
     ];
 
-    expect(result.length).toBe(expected.length);
     expect(result).toEqual(expected);
   });
 

@@ -2,7 +2,7 @@ import { HttpException, Injectable, Logger } from '@nestjs/common';
 import { SpotifyService } from '../../../spotify/spotify.service';
 import {
   CreatePlaylistResponse,
-  Diff,
+  Diff, DiffIdentifier,
   EpisodeObjectFull,
   ListOfUsersPlaylistsResponse,
   PlaylistTrackObject,
@@ -249,7 +249,29 @@ export class PlaylistService {
     const originalPlaylistAtTimeOfLastSync = await this.historyService.getPlaylistDefinition(originalPlaylistId);
     const remixedPlaylistNow = await this.getAllSongsInPlaylist(remixedPlaylistId);
 
+    const originalTrackIdsNow = originalPlaylistNow.items.map(track => track.track.id);
+    const originalTrackIdsAtLastSync = originalPlaylistAtTimeOfLastSync.originalPlaylistTrackIds;
+    const remixedTrackIdsNow = remixedPlaylistNow.items.map(track => track.track.id);
 
-    return [];
+    // Create a map of all tracks, so we can easily find the full track object by the track id, regardless of the source
+    const tracksHashmap = new Map<string,  PlaylistTrackObject>;
+    originalPlaylistNow.items.forEach(track => tracksHashmap.set(track.track.id, track));
+    originalPlaylistAtTimeOfLastSync.originalPlaylistTrackIds.forEach(trackId => tracksHashmap.set(trackId, tracksHashmap.get(trackId)));
+    remixedPlaylistNow.items.forEach(track => tracksHashmap.set(track.track.id, track));
+
+    const removedInOriginal = _.difference(originalTrackIdsAtLastSync, originalTrackIdsNow);
+    const addedInOriginal = _.difference(originalTrackIdsNow, originalTrackIdsAtLastSync);
+    const removedInRemix = _.difference(originalTrackIdsAtLastSync, remixedTrackIdsNow);
+    const addedInRemix = _.difference(remixedTrackIdsNow, originalTrackIdsAtLastSync);
+    const unchanged = _.intersection(originalTrackIdsAtLastSync, remixedTrackIdsNow, originalTrackIdsNow);
+
+    const diff = [];
+    removedInOriginal.forEach((trackId: string) => diff.push([DiffIdentifier.REMOVED_IN_ORIGINAL, tracksHashmap.get(trackId)]));
+    addedInOriginal.forEach((trackId: string) => diff.push([DiffIdentifier.ADDED_IN_ORIGINAL, tracksHashmap.get(trackId)]));
+    removedInRemix.forEach((trackId: string) => diff.push([DiffIdentifier.REMOVED_IN_REMIX, tracksHashmap.get(trackId)]));
+    addedInRemix.forEach((trackId: string) => diff.push([DiffIdentifier.ADDED_IN_REMIX, tracksHashmap.get(trackId)]));
+    unchanged.forEach((trackId: string) => diff.push([DiffIdentifier.UNCHANGED, tracksHashmap.get(trackId)]));
+
+    return diff;
   }
 }

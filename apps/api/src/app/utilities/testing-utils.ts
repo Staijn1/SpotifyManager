@@ -24,7 +24,7 @@ export const mockSong = (song: string): PlaylistTrackObject => ({
   },
   is_local: false,
   track: {
-    id: song,
+    id: song.replace(' ', '_'),
     uri: `spotify:track:${song}`,
     type: 'track',
     name: song,
