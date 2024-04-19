@@ -24,8 +24,6 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
 
         return {
             ...TypeOrmConfigService.GetBaseDatasourceOptions(dbConfig),
-            migrationsRun: false,
-            synchronize: false, // Please see comments in GetBaseDatasourceOptions method
             autoLoadEntities: true,
         };
     }

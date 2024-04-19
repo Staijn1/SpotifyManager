@@ -1,7 +1,10 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, ObjectId, ObjectIdColumn, PrimaryColumn } from 'typeorm';
 
-@Entity()
+@Entity('playlist_remix')
 export class PlaylistRemixEntity {
+  @ObjectIdColumn()
+  id: ObjectId;
+
   @PrimaryColumn()
   originalPlaylistId: string;
   @PrimaryColumn()
