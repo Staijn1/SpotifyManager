@@ -14,10 +14,12 @@ export class PlaylistHistoryService {
    * @param originalPlaylistId
    * @param timestamp
    */
-  async getPlaylistDefinition(originalPlaylistId: string, timestamp?: Date) {
+  async getPlaylistDefinition(originalPlaylistId: string, remixedPlaylistId: string, userId: string, timestamp?: Date) {
     const query: FindOneOptions<PlaylistRemixEntity> = {
       where: {
         originalPlaylistId: originalPlaylistId,
+        remixPlaylistId: remixedPlaylistId,
+        userId: userId,
         timestamp: timestamp ? timestamp : undefined
       },
       order: timestamp ? undefined : { timestamp: 'DESC' }
@@ -32,6 +34,10 @@ export class PlaylistHistoryService {
    * @param remixPlaylistId
    */
   async recordPlaylistDefinition(originalPlaylistDefinition: SinglePlaylistResponse, remixPlaylistId: string) {
+    // Check if a playlist definition already exists for this playlist
+    const existingDefinition = await this.getPlaylistDefinition(originalPlaylistDefinition.id, remixPlaylistId);
+
+
     const playlistRemixEntity = new PlaylistRemixEntity();
     playlistRemixEntity.originalPlaylistId = originalPlaylistDefinition.id;
     playlistRemixEntity.remixPlaylistId = remixPlaylistId;

@@ -161,58 +161,23 @@ export class PlaylistService {
   }
 
   /**
-   * Compare a playlist to another.
-   * @param basePlaylistId
-   * @param comparePlaylistId
-   */
-  async comparePlaylist(
-    basePlaylistId: string,
-    comparePlaylistId: string
-  ): Promise<Diff[]> {
-    const basePlaylistResponse = await this.getAllSongsInPlaylist(basePlaylistId);
-    const comparePlaylistResponse = await this.getAllSongsInPlaylist(comparePlaylistId);
-
-    return this.calculateChanges(basePlaylistResponse.items, comparePlaylistResponse.items);
-  }
-
-  /**
-   * Calculate the difference between two playlists.
-   * Returns a two-dimensional array containing each song decorated with a number.
-   * The number indicates if the song is added(1), removed(-1) or unchanged(0).
-   * Example: [[0, track], [-1, track], [1, track]]
-   *
-   * The changes are calculated like this:
-   * 1. Check if the song is in both playlists. If so, it's a 0.
-   * 2. If the song is only present in the base playlist, it's a 1.
-   * 3. If the song is only present in the other playlist, it's a -1.
-   * @param primary
-   * @param secondary
-   */
-  private calculateChanges(
-    primary: PlaylistTrackObject[],
-    secondary: PlaylistTrackObject[]
-  ): Diff[] {
-    const addedTracks = _.differenceWith(primary, secondary, _.isEqual).map(track => [1, track]);
-    const removedTracks = _.differenceWith(secondary, primary, _.isEqual).map(track => [-1, track]);
-    const unchangedTracks = _.intersectionWith(primary, secondary, _.isEqual).map(track => [0, track]);
-
-    return [...addedTracks, ...removedTracks, ...unchangedTracks];
-  }
-
-  /**
    * Remove all the songs in the given playlist and put the given tracks in the playlist.
-   * @param remixedPlaylistId
-   * @param tracks
+   * @param originalPlaylistId - The ID of the original playlist that was remixed
+   * @param remixedPlaylistId - The ID of the remixed playlist
+   * @param tracks - Tracks the remixed playlist should contain after syncing is complete
    */
   async syncPlaylist(
+    originalPlaylistId: string,
     remixedPlaylistId: string,
     tracks: (TrackObjectFull | EpisodeObjectFull)[]
   ): Promise<SyncPlaylistResult> {
-    // Get all tracks in the playlist.
-    const tracksInPlaylist = await this.getAllSongsInPlaylist(remixedPlaylistId);
+    const tracksToDeleteFromRemix = await this.getAllSongsInPlaylist(remixedPlaylistId);
+
+    // Update the original playlist definition in the database
+    this.historyService.recordPlaylistDefinition({})
 
     // Remove all the tracks in the playlist.
-    await this.spotifyService.removeTracksFromPlaylist(remixedPlaylistId, tracksInPlaylist.items.map((track) => track.track));
+    await this.spotifyService.removeTracksFromPlaylist(remixedPlaylistId, tracksToDeleteFromRemix.items.map((track) => track.track));
     await this.spotifyService.addTracksToPlaylist(remixedPlaylistId, tracks.map((track) => track.uri));
 
     return {
