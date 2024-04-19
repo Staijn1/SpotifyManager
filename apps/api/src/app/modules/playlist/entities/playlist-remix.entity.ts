@@ -9,6 +9,8 @@ export class PlaylistRemixEntity {
   originalPlaylistId: string;
   @PrimaryColumn()
   remixPlaylistId: string;
+  @PrimaryColumn()
+  userId: string;
 
   @Column()
   timestamp: Date;
