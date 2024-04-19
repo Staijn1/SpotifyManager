@@ -111,6 +111,8 @@ export class PlaylistService {
       newPlaylist.id,
       originalPlaylist.tracks.items.map((track) => track.track.uri)
     );
+
+    Logger.log(`Added all tracks to the new playlist ${newPlaylist.id}`)
     return newPlaylist;
   }
 
