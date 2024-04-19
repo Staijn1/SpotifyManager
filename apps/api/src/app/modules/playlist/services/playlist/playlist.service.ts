@@ -246,24 +246,23 @@ export class PlaylistService {
    */
   async compareRemixedPlaylistWithOriginal(originalPlaylistId: string, remixedPlaylistId: string): Promise<Diff[]> {
     const originalPlaylistNow = await this.getAllSongsInPlaylist(originalPlaylistId);
-    const originalPlaylistAtTimeOfLastSync = await this.historyService.getPlaylistDefinition(originalPlaylistId);
     const remixedPlaylistNow = await this.getAllSongsInPlaylist(remixedPlaylistId);
+    const originalPlaylistTrackIdsAtLastSync = (await this.historyService.getPlaylistDefinition(originalPlaylistId)).originalPlaylistTrackIds;
 
     const originalTrackIdsNow = originalPlaylistNow.items.map(track => track.track.id);
-    const originalTrackIdsAtLastSync = originalPlaylistAtTimeOfLastSync.originalPlaylistTrackIds;
     const remixedTrackIdsNow = remixedPlaylistNow.items.map(track => track.track.id);
 
     // Create a map of all tracks, so we can easily find the full track object by the track id, regardless of the source
-    const tracksHashmap = new Map<string,  PlaylistTrackObject>;
+    const tracksHashmap = new Map<string,  PlaylistTrackObject>();
     originalPlaylistNow.items.forEach(track => tracksHashmap.set(track.track.id, track));
-    originalPlaylistAtTimeOfLastSync.originalPlaylistTrackIds.forEach(trackId => tracksHashmap.set(trackId, tracksHashmap.get(trackId)));
+    originalPlaylistTrackIdsAtLastSync.forEach(trackId => tracksHashmap.set(trackId, tracksHashmap.get(trackId)));
     remixedPlaylistNow.items.forEach(track => tracksHashmap.set(track.track.id, track));
 
-    const removedInOriginal = _.difference(originalTrackIdsAtLastSync, originalTrackIdsNow);
-    const addedInOriginal = _.difference(originalTrackIdsNow, originalTrackIdsAtLastSync);
-    const removedInRemix = _.difference(originalTrackIdsAtLastSync, remixedTrackIdsNow);
-    const addedInRemix = _.difference(remixedTrackIdsNow, originalTrackIdsAtLastSync);
-    const unchanged = _.intersection(originalTrackIdsAtLastSync, remixedTrackIdsNow, originalTrackIdsNow);
+    const removedInOriginal = _.difference(originalPlaylistTrackIdsAtLastSync, originalTrackIdsNow);
+    const addedInOriginal = _.difference(originalTrackIdsNow, originalPlaylistTrackIdsAtLastSync);
+    const removedInRemix = _.difference(originalPlaylistTrackIdsAtLastSync, remixedTrackIdsNow);
+    const addedInRemix = _.difference(remixedTrackIdsNow, originalPlaylistTrackIdsAtLastSync);
+    const unchanged = _.intersection(originalPlaylistTrackIdsAtLastSync, remixedTrackIdsNow, originalTrackIdsNow);
 
     const diff = [];
     removedInOriginal.forEach((trackId: string) => diff.push([DiffIdentifier.REMOVED_IN_ORIGINAL, tracksHashmap.get(trackId)]));
