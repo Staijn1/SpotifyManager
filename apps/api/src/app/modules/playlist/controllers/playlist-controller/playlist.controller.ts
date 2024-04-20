@@ -5,12 +5,11 @@ import {
   CreatePlaylistResponse,
   Diff,
   ListOfUsersPlaylistsResponse,
-  CompareRemixedPlaylistRequest,
-  PlaylistSyncRequest,
   PlaylistTrackResponse,
   SinglePlaylistResponse,
   SyncPlaylistResult
 } from '@spotify-manager/core';
+import { CompareRemixedPlaylistRequest, PlaylistSyncRequest } from '../../../../RequestObjectsDecorated';
 
 @ApiBearerAuth()
 @Controller('playlists')

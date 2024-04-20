@@ -87,15 +87,15 @@ export class RemixOverviewPageComponent implements OnInit {
    * @param playlist
    */
   startComparingPlaylist(playlist:PlaylistObjectSimplified){
-    const leftPlaylistId = playlist.id;
+    const remixedPlaylistId = playlist.id;
     // The left playlist is the remixed playlist, containing the original playlist ID in the description in the form of {playlistId}
-    const rightPlaylistId = Utils.GetOriginalPlaylistIdFromDescription(playlist.description);
+    const originalPlaylistId = Utils.GetOriginalPlaylistIdFromDescription(playlist.description);
 
 
     this.router.navigate(['sync-remixed-playlist'], {
         state: {
-          leftPlaylistId: leftPlaylistId,
-          rightPlaylistId: rightPlaylistId,
+          remixedPlaylistId: remixedPlaylistId,
+          originalPlaylistId: originalPlaylistId,
         },
       })
   }

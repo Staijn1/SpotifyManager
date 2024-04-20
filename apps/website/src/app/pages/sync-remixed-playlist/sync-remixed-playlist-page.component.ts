@@ -3,8 +3,12 @@ import { CommonModule } from '@angular/common';
 import { LoadingComponent } from '../../components/loading/loading.component';
 import { SpotifyTrackComponent } from '../../components/spotify-track/spotify-track.component';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { Diff } from '@spotify-manager/core';
+import { Diff, DiffIdentifier } from '@spotify-manager/core';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { Navigation, Router } from '@angular/router';
+import { ApiService } from '../../services/api/api.service';
+import { MessageService } from '../../services/message/message.service';
+import { Message } from '../../types/Message';
 
 @Component({
   selector: 'app-sync-remixed-playlist-page',
@@ -14,8 +18,9 @@ import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
   styleUrl: './sync-remixed-playlist-page.component.scss'
 })
 export class SyncRemixedPlaylistPageComponent {
-  private leftPlaylistId !: string;
-  private rightPlaylistId!: string;
+  readonly DiffIdentifier = DiffIdentifier;
+  private remixedPlaylistId !: string;
+  private originalPlaylistId!: string;
 
   missingSongsInOriginal: Diff[] = [];
   draftSyncedPlaylist: Diff[] = [];
@@ -23,7 +28,6 @@ export class SyncRemixedPlaylistPageComponent {
   arrowRightIcon = faArrowRight;
   arrowLeftIcon = faArrowLeft;
   isSyncing = false;
-  /*
     constructor(
       private readonly router: Router,
       private apiService: ApiService,
@@ -32,8 +36,8 @@ export class SyncRemixedPlaylistPageComponent {
       const nav: Navigation | null = this.router.getCurrentNavigation();
 
       if (nav?.extras && nav.extras.state) {
-        this.leftPlaylistId = nav.extras.state['leftPlaylistId'];
-        this.rightPlaylistId = nav.extras.state['rightPlaylistId'];
+        this.remixedPlaylistId = nav.extras.state['remixedPlaylistId'];
+        this.originalPlaylistId = nav.extras.state['originalPlaylistId'];
 
         this.load();
       } else {
@@ -45,7 +49,7 @@ export class SyncRemixedPlaylistPageComponent {
 
     private load() {
       this.isComparisonLoading = true;
-      this.apiService.comparePlaylists(this.leftPlaylistId, this.rightPlaylistId)
+      this.apiService.comparePlaylists(this.remixedPlaylistId, this.originalPlaylistId)
         .then(changes => {
           const sortedChanges = this.sortDiffs(changes);
           this.missingSongsInOriginal = sortedChanges.filter(change => change[0] === DiffIdentifier.ADDED_IN_REMIX);
@@ -53,10 +57,10 @@ export class SyncRemixedPlaylistPageComponent {
         }).finally(() => this.isComparisonLoading = false);
     }
 
-    /!**
+    /**
      * Moves a missing song from the original playlist to the synced playlist draft
      * @param diff
-     *!/
+     */
     addTrackToPreviewSyncedPlaylist(diff: Diff) {
       diff[0] = DiffIdentifier.ADDED_IN_REMIX; // todo confirm this is the correct identifier
       // Add the diff to the synced playlist draft at the top
@@ -66,10 +70,10 @@ export class SyncRemixedPlaylistPageComponent {
 
     }
 
-    /!**
+    /**
      * Moves a song from the synced playlist draft to the missing songs in the original playlist
      * @param diff
-     *!/
+     */
     removeTrackFromPreviewSyncedPlaylist(diff: Diff) {
       diff[0] = DiffIdentifier.REMOVED_IN_REMIX; // todo confirm this is the correct identifier
       // Add the diff to the missing songs in the original playlist at the top
@@ -78,12 +82,12 @@ export class SyncRemixedPlaylistPageComponent {
       this.draftSyncedPlaylist = this.draftSyncedPlaylist.filter(missingSong => missingSong[1].track.id !== diff[1].track.id);
     }
 
-    /!**
+    /**
      * Sorts the diffs so added tracks are at the top, then deleted and then the remaining unchanged tracks
      * todo fix with new identifiers
      * @param diffs
      * @private
-     *!/
+     */
     private sortDiffs(diffs: Diff[]): Diff[] {
       const copy = [...diffs];
       copy.sort((a, b) => {
@@ -94,15 +98,15 @@ export class SyncRemixedPlaylistPageComponent {
       return copy;
     }
 
-    /!**
+    /**
      * Turns the draft synced playlist into the real remixed playlist.
      * After this is done, the remixed playlist is synced to the original playlist.
-     *!/
+     */
     syncPlaylist() {
       this.isSyncing = true;
-      this.apiService.syncPlaylist(this.leftPlaylistId, this.draftSyncedPlaylist.map(diff => diff[1].track)).then(() => {
+      this.apiService.syncPlaylist(this.originalPlaylistId, this.remixedPlaylistId, this.draftSyncedPlaylist.map(diff => diff[1].track)).then(() => {
         this.router.navigate(['/remix-overview']);
         this.messageService.setMessage(new Message('success', 'The playlist has been synced!'))
       }).finally(() => this.isSyncing = false);
-    }*/
+    }
 }
