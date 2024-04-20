@@ -89,7 +89,7 @@ export class ApiService extends HTTPService {
   ): Promise<Diff[]> {
     const token = await this.spotifyAuth.refreshAndGetAccessToken();
     return this.request(
-      `${environment.apiURL}/playlists/compare?accessToken=${token}`,
+      `${environment.apiURL}/playlists/remix/compare?accessToken=${token}`,
       {
         method: 'POST',
         body: JSON.stringify({
