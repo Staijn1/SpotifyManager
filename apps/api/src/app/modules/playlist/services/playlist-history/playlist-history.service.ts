@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { PlaylistRemixEntity } from '../../entities/playlist-remix.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOneOptions, Repository } from 'typeorm';
-import { SinglePlaylistResponse } from '@spotify-manager/core';
 
 @Injectable()
 export class PlaylistHistoryService {

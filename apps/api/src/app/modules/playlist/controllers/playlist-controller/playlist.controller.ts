@@ -5,7 +5,7 @@ import {
   CreatePlaylistResponse,
   Diff,
   ListOfUsersPlaylistsResponse,
-  PlaylistCompareRequest,
+  CompareRemixedPlaylistRequest,
   PlaylistSyncRequest,
   PlaylistTrackResponse,
   SinglePlaylistResponse,
@@ -73,26 +73,24 @@ export class PlaylistController {
     description: 'The ID of the playlist to get all the songs for',
     schema: { oneOf: [{ type: 'string' }], example: '6vDGVr652ztNWKZuHvsFvx' }
   })
-  public async getPlaylist(
-    @Param() params
-  ): Promise<SinglePlaylistResponse> {
+  public async getPlaylist(@Param() params: {playlistid: string}): Promise<SinglePlaylistResponse> {
     return this.playlistService.getPlaylist(params.playlistid);
   }
 
   /**
-   * Compare a playlist to another one and return the diff.
+   * Compare a remixed playlist to the original and return the diff.
    * @param body
    */
-  @Post('compare')
-  public async compare(@Body() body: PlaylistCompareRequest): Promise<Diff[]> {
-    return this.playlistService.comparePlaylist(body.basePlaylistId, body.otherPlaylistId);
+  @Post('remix/compare')
+  public async compare(@Body() body: CompareRemixedPlaylistRequest): Promise<Diff[]> {
+    return this.playlistService.compareRemixedPlaylistWithOriginal(body.originalPlaylistId, body.remixedPlaylistId);
   }
 
   /**
    * Clear entire playlist and put given songs in it
    * @param body
    */
-  @Post('sync')
+  @Post('remix/sync')
   public async syncRemixWithOriginal(
     @Body() body: PlaylistSyncRequest
   ): Promise<SyncPlaylistResult> {

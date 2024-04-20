@@ -213,9 +213,10 @@ export class PlaylistService {
    * // Returns: [['removed-in-original', 'Song A'], ['unchanged', 'Song B'], ['removed-in-remix', 'Song C'], ['unchanged', 'Song D'], ['unchanged', 'Song E'], ['added-in-original', 'Song F'], ['added-in-remix', 'Song G']]
    */
   async compareRemixedPlaylistWithOriginal(originalPlaylistId: string, remixedPlaylistId: string): Promise<Diff[]> {
+    const me = await this.spotifyService.getMe();
     const originalPlaylistNow = await this.getAllSongsInPlaylist(originalPlaylistId);
     const remixedPlaylistNow = await this.getAllSongsInPlaylist(remixedPlaylistId);
-    const originalPlaylistTrackIdsAtLastSync = (await this.historyService.getPlaylistDefinition(originalPlaylistId)).originalPlaylistTrackIds;
+    const originalPlaylistTrackIdsAtLastSync = (await this.historyService.getPlaylistDefinition(originalPlaylistId, remixedPlaylistId, me.id)).originalPlaylistTrackIds;
 
     const originalTrackIdsNow = originalPlaylistNow.items.map(track => track.track.id);
     const remixedTrackIdsNow = remixedPlaylistNow.items.map(track => track.track.id);
