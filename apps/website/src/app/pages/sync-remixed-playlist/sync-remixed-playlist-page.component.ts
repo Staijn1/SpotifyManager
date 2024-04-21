@@ -61,10 +61,9 @@ export class SyncRemixedPlaylistPageComponent {
      * @param diff
      */
     addTrackToPreviewSyncedPlaylist(diff: Diff) {
-      diff[0] = DiffIdentifier.ADDED_IN_REMIX; // todo confirm this is the correct identifier
+      diff[0] = DiffIdentifier.ADDED_IN_REMIX;
       // Add the diff to the synced playlist draft at the top
       this.draftSyncedPlaylist.unshift(diff);
-      this.draftSyncedPlaylist = this.sortDiffs(this.draftSyncedPlaylist);
       this.changedTracks = this.changedTracks.filter(missingSong => missingSong[1].track.id !== diff[1].track.id);
     }
 
@@ -73,10 +72,9 @@ export class SyncRemixedPlaylistPageComponent {
      * @param diff
      */
     removeTrackFromPreviewSyncedPlaylist(diff: Diff) {
-      diff[0] = DiffIdentifier.REMOVED_IN_REMIX; // todo confirm this is the correct identifier
+      diff[0] = DiffIdentifier.REMOVED_IN_REMIX;
       // Add the diff to the missing songs in the original playlist at the top
       this.changedTracks.unshift(diff);
-      this.changedTracks = this.sortDiffs(this.changedTracks);
       this.draftSyncedPlaylist = this.draftSyncedPlaylist.filter(missingSong => missingSong[1].track.id !== diff[1].track.id);
     }
 
