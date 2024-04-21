@@ -32,6 +32,11 @@ describe('PlaylistService', () => {
     service = module.get<PlaylistService>(PlaylistService);
     historyService = module.get<PlaylistHistoryService>(PlaylistHistoryService);
     spotifyService = module.get<SpotifyService>(SpotifyService);
+
+    // Mock new Date() to always return the same date
+    const mockDate = new Date('2021-01-01T00:00:00Z');
+    global.Date = jest.fn(() => mockDate) as any;
+    Date.now = jest.fn(() => mockDate.getTime());
   });
 
   it('should be defined', () => {
@@ -40,11 +45,6 @@ describe('PlaylistService', () => {
 
 
   it('should properly compare a remixed playlist with its original', async () => {
-    // Mock new Date() to always return the same date
-    const mockDate = new Date('2021-01-01T00:00:00Z');
-    global.Date = jest.fn(() => mockDate) as any;
-    Date.now = jest.fn(() => mockDate.getTime());
-
     const basePlaylistId = 'basePlaylistId';
     const remixedPlaylistId = 'remixedPlaylistId';
 
@@ -83,68 +83,40 @@ describe('PlaylistService', () => {
     expect(result).toEqual(expected);
   });
 
-
-  /*it('should detect a missing song in base playlist', async () => {
-    const basePlaylistId = 'basePlaylistId';
-    const otherPlaylistId = 'otherPlaylistId';
-    const basePlaylistResponse = buildMockPlaylistTrackResponse(['song1', 'song2', 'song3']);
-    const comparePlaylistResponse = buildMockPlaylistTrackResponse(['song1', 'song2', 'song3', 'song4']);
-
-    jest.spyOn(service, 'getAllSongsInPlaylist')
-      .mockResolvedValueOnce(basePlaylistResponse)
-      .mockResolvedValueOnce(comparePlaylistResponse);
-
-    const result = await service.comparePlaylist(basePlaylistId, otherPlaylistId);
-
-    expect(service.getAllSongsInPlaylist).toHaveBeenCalledWith(basePlaylistId);
-    expect(service.getAllSongsInPlaylist).toHaveBeenCalledWith(otherPlaylistId);
-    expect(result).toBeTruthy();
-
-    expect(result.filter(v => v[0] == DiffIdentifier.UNCHANGED).length).toBe(3);
-    expect(result.filter(v => v[0] == DiffIdentifier.ADDED_IN_REMIX).length).toBe(1);
-    expect(result.length).toBe(4);
-  });
-
-  it('should detect an added song in base playlist', async () => {
-    const basePlaylistId = 'basePlaylistId';
-    const otherPlaylistId = 'otherPlaylistId';
-    const basePlaylistResponse = buildMockPlaylistTrackResponse(['song1', 'song2', 'song3', 'song4']);
-    const comparePlaylistResponse = buildMockPlaylistTrackResponse(['song1', 'song2', 'song3']);
-
-    jest.spyOn(service, 'getAllSongsInPlaylist')
-      .mockResolvedValueOnce(basePlaylistResponse)
-      .mockResolvedValueOnce(comparePlaylistResponse);
-
-    const result = await service.comparePlaylist(basePlaylistId, otherPlaylistId);
-
-    expect(service.getAllSongsInPlaylist).toHaveBeenCalledWith(basePlaylistId);
-    expect(service.getAllSongsInPlaylist).toHaveBeenCalledWith(otherPlaylistId);
-    expect(result).toBeTruthy();
-
-    expect(result.filter(v => v[0] == DiffIdentifier.UNCHANGED).length).toBe(3);
-    expect(result.filter(v => v[0] == DiffIdentifier.ADDED_IN_ORIGINAL).length).toBe(1);
-    expect(result.length).toBe(4);
-  });
-
   it('should not detect any changes for two identical playlists', async () => {
     const basePlaylistId = 'basePlaylistId';
-    const otherPlaylistId = 'otherPlaylistId';
-    const basePlaylistResponse = buildMockPlaylistTrackResponse(['song1', 'song2', 'song3']);
-    const comparePlaylistResponse = buildMockPlaylistTrackResponse(['song1', 'song2', 'song3']);
+    const remixedPlaylistId = 'remixedPlaylistId';
+
+    const originalPlaylistNow = buildMockPlaylistTrackResponse(['Song B', 'Song C', 'Song F', 'Song D', 'Song E']);
+    const originalPlaylistAtTimeOfLastSync = buildMockPlaylistTrackResponse(['Song B', 'Song C', 'Song F', 'Song D', 'Song E']);
+    const remixedPlaylistNow = buildMockPlaylistTrackResponse(['Song B', 'Song C', 'Song F', 'Song D', 'Song E']);
 
     jest.spyOn(service, 'getAllSongsInPlaylist')
-      .mockResolvedValueOnce(basePlaylistResponse)
-      .mockResolvedValueOnce(comparePlaylistResponse);
+      .mockResolvedValueOnce(originalPlaylistNow)
+      .mockResolvedValueOnce(remixedPlaylistNow);
 
-    const result = await service.comparePlaylist(basePlaylistId, otherPlaylistId);
+    jest.spyOn(historyService, 'getPlaylistDefinition').mockResolvedValueOnce({
+      id: new ObjectId("someObjectId"),
+      originalPlaylistId: basePlaylistId,
+      remixPlaylistId: remixedPlaylistId,
+      timestamp: new Date(),
+      userId: 'someUserId',
+      originalPlaylistTrackIds: originalPlaylistAtTimeOfLastSync.items.map(track => track.track.id)
+    });
 
-    expect(service.getAllSongsInPlaylist).toHaveBeenCalledWith(basePlaylistId);
-    expect(service.getAllSongsInPlaylist).toHaveBeenCalledWith(otherPlaylistId);
-    expect(result).toBeTruthy();
+    jest.spyOn(spotifyService, 'getMe').mockResolvedValueOnce({ id: 'someUserId' } as CurrentUsersProfileResponse);
 
+    const result = await service.compareRemixedPlaylistWithOriginal(basePlaylistId, remixedPlaylistId);
+    const expected: Diff[] = [
+      [DiffIdentifier.UNCHANGED, mockSong('Song B')],
+      [DiffIdentifier.UNCHANGED, mockSong('Song C')],
+      [DiffIdentifier.UNCHANGED, mockSong('Song D')],
+      [DiffIdentifier.UNCHANGED, mockSong('Song E')],
+      [DiffIdentifier.UNCHANGED, mockSong('Song F')]
+    ];
 
-    expect(result.filter(v => v[0] == DiffIdentifier.UNCHANGED).length).toBe(3);
-    expect(result.filter(v => v[0] != DiffIdentifier.UNCHANGED).length).toBe(0);
-    expect(result.length).toBe(3);
-  });*/
+    // sort result by song name
+    result.sort((a, b) => a[1].track.name.localeCompare(b[1].track.name));
+    expect(result).toEqual(expected);
+  });
 });
