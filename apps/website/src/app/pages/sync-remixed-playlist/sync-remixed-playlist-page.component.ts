@@ -61,7 +61,6 @@ export class SyncRemixedPlaylistPageComponent {
      * @param diff
      */
     addTrackToPreviewSyncedPlaylist(diff: Diff) {
-      diff[0] = DiffIdentifier.ADDED_IN_REMIX;
       // Add the diff to the synced playlist draft at the top
       this.draftSyncedPlaylist.unshift(diff);
       this.changedTracks = this.changedTracks.filter(missingSong => missingSong[1].track.id !== diff[1].track.id);
@@ -72,7 +71,6 @@ export class SyncRemixedPlaylistPageComponent {
      * @param diff
      */
     removeTrackFromPreviewSyncedPlaylist(diff: Diff) {
-      diff[0] = DiffIdentifier.REMOVED_IN_REMIX;
       // Add the diff to the missing songs in the original playlist at the top
       this.changedTracks.unshift(diff);
       this.draftSyncedPlaylist = this.draftSyncedPlaylist.filter(missingSong => missingSong[1].track.id !== diff[1].track.id);
@@ -104,4 +102,21 @@ export class SyncRemixedPlaylistPageComponent {
         this.messageService.setMessage(new Message('success', 'The playlist has been synced!'))
       }).finally(() => this.isSyncing = false);
     }
+
+  getDiffIdentifierText(diffElement: DiffIdentifier): string {
+    switch (diffElement) {
+      case DiffIdentifier.ADDED_IN_REMIX:
+        return 'Added in remix';
+      case DiffIdentifier.REMOVED_IN_REMIX:
+        return 'Removed in remix';
+      case DiffIdentifier.UNCHANGED:
+        return 'Unchanged';
+      case DiffIdentifier.ADDED_IN_ORIGINAL:
+        return 'Added in original';
+      case DiffIdentifier.REMOVED_IN_ORIGINAL:
+        return 'Removed in original';
+      default:
+        return 'Unknown DiffIdentifier';
+    }
+  }
 }

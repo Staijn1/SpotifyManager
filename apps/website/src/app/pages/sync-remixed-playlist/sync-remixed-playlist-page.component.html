@@ -1,4 +1,3 @@
-
 @if (isComparisonLoading) {
   <div class="flex flex-col justify-center items-center h-screen">
     <app-loading></app-loading>
@@ -30,10 +29,13 @@
               [isHorizontalLayout]="true"
               [showPreview]="true"
               [track]="diff[1]">
-              <button class="btn btn-success glass" (click)="addTrackToPreviewSyncedPlaylist(diff)">
-                Add to Preview
-                <fa-icon [icon]="arrowRightIcon"></fa-icon>
-              </button>
+              <div class="flex flex-col">
+                <span class="mb-3 text-gray-900 text-center font-semibold text-sm">{{getDiffIdentifierText(diff[0])}}</span>
+                <button class="btn btn-success glass" (click)="addTrackToPreviewSyncedPlaylist(diff)">
+                  Add to Preview
+                  <fa-icon [icon]="arrowRightIcon"></fa-icon>
+                </button>
+              </div>
             </app-spotify-track>
           </div>
         }
@@ -45,8 +47,7 @@
             <app-spotify-track
               imageClasses="w-full md:w-32"
               [ngClass]="{
-                'added': track[0] === (DiffIdentifier.ADDED_IN_REMIX || DiffIdentifier.ADDED_IN_ORIGINAL),
-                'deleted': track[0] === (DiffIdentifier.REMOVED_IN_REMIX || DiffIdentifier.REMOVED_IN_ORIGINAL),
+                'added': track[0] !== (DiffIdentifier.UNCHANGED),
                 'unchanged': track[0] === (DiffIdentifier.UNCHANGED)
               }"
               [isHorizontalLayout]="true"
@@ -54,10 +55,13 @@
               [showPreview]="true"
               [track]="track[1]">
               @if (track[0] !== DiffIdentifier.UNCHANGED) {
-                <button class="btn btn-error glass" (click)="removeTrackFromPreviewSyncedPlaylist(track)">
-                  Remove from Preview
-                  <fa-icon [icon]="arrowLeftIcon"></fa-icon>
-                </button>
+                <div class="flex flex-col">
+                  <span class="mb-3 text-gray-900 text-center font-semibold text-sm">{{getDiffIdentifierText(track[0])}}</span>
+                  <button class="btn btn-error glass" (click)="removeTrackFromPreviewSyncedPlaylist(track)">
+                    Remove from Preview
+                    <fa-icon [icon]="arrowLeftIcon"></fa-icon>
+                  </button>
+                </div>
               }
             </app-spotify-track>
           </div>
