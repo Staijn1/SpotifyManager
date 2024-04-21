@@ -86,8 +86,10 @@ export class SpotifyService {
       this.currentRetryAttempt = 0;
       return response.body
     } catch (e) {
-      console.log(`Caught error for a batch, retrying... Retry attempt ${++this.currentRetryAttempt}`)
+      this.currentRetryAttempt++;
+      console.log(`Caught error for a batch, retrying... Retry attempt ${this.currentRetryAttempt}`)
       if (this.currentRetryAttempt < this.MAX_RETRIES)
+
         return this.addTracksToPlaylist(id, trackURIs, options);
       else {
         console.error(e)
