@@ -80,7 +80,6 @@ export class SyncRemixedPlaylistPageComponent {
 
     /**
      * Sorts the diffs so added tracks are at the top, then deleted and then the remaining unchanged tracks
-     * todo fix with new identifiers
      * @param diffs
      * @private
      */
