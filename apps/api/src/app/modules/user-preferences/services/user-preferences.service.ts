@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserPreferencesEntity } from '../entities/user-preferences.entity';
 import { Repository } from 'typeorm';
 import { SpotifyService } from '../../spotify/spotify.service';
-import { IUserPreferencesResponse } from '@spotify-manager/core';
+import { EmailNotificationFrequency, IUserPreferencesResponse } from '@spotify-manager/core';
 import { UserPreferencesRequest } from '../../../RequestObjectsDecorated';
 
 @Injectable()
@@ -31,5 +31,9 @@ export class UserPreferencesService {
     const me = await this.spotifyService.getMe();
 
     return await (this.userPreferencesRepository.findOne({ where: { userId: me.id } })) ?? null;
+  }
+
+  getEmailFrequencies() {
+    return Object.values(EmailNotificationFrequency);
   }
 }

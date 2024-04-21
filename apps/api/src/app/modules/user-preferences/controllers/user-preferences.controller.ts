@@ -19,4 +19,9 @@ export class UserPreferencesController {
   async createOrUpdateUserPreferences(@Body() updatedUserPreferences: UserPreferencesRequest) {
     return this.userPreferencesService.createOrUpdateUserPreferences(updatedUserPreferences);
   }
+
+  @Get('email-frequencies')
+  async getEmailFrequencies() {
+    return this.userPreferencesService.getEmailFrequencies();
+  }
 }
