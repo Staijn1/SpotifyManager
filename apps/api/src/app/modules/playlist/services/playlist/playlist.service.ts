@@ -10,7 +10,8 @@ import {
   PlaylistTrackResponse,
   SinglePlaylistResponse,
   SyncPlaylistResult,
-  TrackObjectFull, Utils
+  TrackObjectFull,
+  Utils
 } from '@spotify-manager/core';
 import _ from 'lodash';
 import { PlaylistHistoryService } from '../playlist-history/playlist-history.service';
@@ -62,21 +63,18 @@ export class PlaylistService {
    * The songs in the original playlist are saved in the database, so it can be used to sync the remixed playlist with the original one later.
    * @param  playlistid
    */
-  public async remixPlaylist(
-    playlistid: string
-  ): Promise<CreatePlaylistResponse> {
+  public async remixPlaylist(playlistid: string): Promise<CreatePlaylistResponse> {
     Logger.log(`Creating new remix playlist for playlist ${playlistid}`);
+    const me = await this.spotifyService.getMe();
     const originalPlaylist = await this.getPlaylistWithAllTracks(playlistid);
 
     const newPlaylistName = `Remix - ${originalPlaylist.name}`;
     // Somehow the spotify API does not always add the description properly. So we keep track of the expected description.
     // If the actual description does not match the expected description, we will update the playlist with the expected description.
     const expectedDescription = `This playlist has been remixed using SpotifyManager. Please do not remove the original playlist id from the description. Original playlist: {${originalPlaylist.id}}`;
-    const newPlaylist = await this.spotifyService.createPlaylist(
-      newPlaylistName,
-      {
-        description: expectedDescription
-      });
+    const newPlaylist = await this.spotifyService.createPlaylist(newPlaylistName, {
+      description: expectedDescription
+    });
     let actualDescription = newPlaylist.description;
     let retries = 0;
     while (actualDescription != expectedDescription) {
@@ -116,7 +114,7 @@ export class PlaylistService {
 
     Logger.log(`Added all tracks to the new playlist ${newPlaylist.id}`);
 
-    const playlistDefinition =new PlaylistRemixEntity(originalPlaylist.id, newPlaylist.id, newPlaylist.owner.id, new Date(), originalPlaylist.tracks.items.map(track => track.track.id))
+    const playlistDefinition = new PlaylistRemixEntity(originalPlaylist.id, newPlaylist.id, me.id, new Date(), originalPlaylist.tracks.items.map(track => track.track.id));
     await this.historyService.recordPlaylistDefinition(playlistDefinition);
     return newPlaylist;
   }
@@ -127,9 +125,7 @@ export class PlaylistService {
    * @private
    */
   private async getPlaylistWithAllTracks(playlistid: string) {
-    const originalPlaylist = await this.spotifyService.getPlaylistInformation(
-      playlistid
-    );
+    const originalPlaylist = await this.spotifyService.getPlaylistInformation(playlistid);
     originalPlaylist.tracks.items = (
       await this.getAllSongsInPlaylist(playlistid)
     ).items;
@@ -143,9 +139,7 @@ export class PlaylistService {
     const playlists = await this.spotifyService.getUserPlaylists();
 
     while (playlists.next != null) {
-      const morePlaylists = (await this.spotifyService.getGeneric(
-        playlists.next
-      )) as ListOfUsersPlaylistsResponse;
+      const morePlaylists = (await this.spotifyService.getGeneric(playlists.next)) as ListOfUsersPlaylistsResponse;
       playlists.next = morePlaylists.next;
       playlists.items = playlists.items.concat(morePlaylists.items);
     }
@@ -157,9 +151,7 @@ export class PlaylistService {
    * Get a single playlist by id.
    * @param  playlistid
    */
-  async getPlaylist(
-    playlistid: string
-  ): Promise<SinglePlaylistResponse> {
+  async getPlaylist(playlistid: string): Promise<SinglePlaylistResponse> {
     return this.spotifyService.getPlaylistInformation(playlistid);
   }
 
@@ -168,10 +160,7 @@ export class PlaylistService {
    * @param remixedPlaylistId - The ID of the remixed playlist
    * @param tracks - Tracks the remixed playlist should contain after syncing is complete
    */
-  async syncPlaylist(
-    remixedPlaylistId: string,
-    tracks: (TrackObjectFull | EpisodeObjectFull)[]
-  ): Promise<SyncPlaylistResult> {
+  async syncPlaylist(remixedPlaylistId: string, tracks: (TrackObjectFull | EpisodeObjectFull)[]): Promise<SyncPlaylistResult> {
     const tracksToDeleteFromRemix = await this.getAllSongsInPlaylist(remixedPlaylistId);
     const originalPlaylistId = Utils.GetOriginalPlaylistIdFromDescription((await this.getPlaylist(remixedPlaylistId)).description);
     const userId = (await this.spotifyService.getMe()).id;
@@ -214,9 +203,14 @@ export class PlaylistService {
    */
   async compareRemixedPlaylistWithOriginal(originalPlaylistId: string, remixedPlaylistId: string): Promise<Diff[]> {
     const me = await this.spotifyService.getMe();
+    const originalPlaylistTrackIdsAtLastSync = (await this.historyService.getPlaylistDefinition(originalPlaylistId, remixedPlaylistId, me.id))?.originalPlaylistTrackIds;
+
+    if (!originalPlaylistTrackIdsAtLastSync) {
+      throw new HttpException('No playlist definition found for the given playlists', 404);
+    }
+
     const originalPlaylistNow = await this.getAllSongsInPlaylist(originalPlaylistId);
     const remixedPlaylistNow = await this.getAllSongsInPlaylist(remixedPlaylistId);
-    const originalPlaylistTrackIdsAtLastSync = (await this.historyService.getPlaylistDefinition(originalPlaylistId, remixedPlaylistId, me.id)).originalPlaylistTrackIds;
 
     const originalTrackIdsNow = originalPlaylistNow.items.map(track => track.track.id);
     const remixedTrackIdsNow = remixedPlaylistNow.items.map(track => track.track.id);

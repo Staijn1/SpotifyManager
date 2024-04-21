@@ -15,16 +15,19 @@ export class PlaylistHistoryService {
    * @param userId
    * @param timestamp
    */
-  async getPlaylistDefinition(originalPlaylistId: string, remixedPlaylistId: string, userId: string, timestamp?: Date) {
+  async getPlaylistDefinition(originalPlaylistId: string, remixedPlaylistId: string, userId: string, timestamp?: Date): Promise<PlaylistRemixEntity | null> {
     const query: FindOneOptions<PlaylistRemixEntity> = {
       where: {
         originalPlaylistId: originalPlaylistId,
         remixPlaylistId: remixedPlaylistId,
         userId: userId,
-        timestamp: timestamp !== undefined ? timestamp : undefined
       },
       order: timestamp ? undefined : { timestamp: 'DESC' }
     };
+
+    if(timestamp) {
+      query.where['timestamp'] = timestamp;
+    }
 
     return await this.playlistRemixRepository.findOne(query);
   }
