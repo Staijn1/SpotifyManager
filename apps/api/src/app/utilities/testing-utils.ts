@@ -1,4 +1,6 @@
 import { AlbumObjectSimplified, PlaylistTrackObject, PlaylistTrackResponse } from '@spotify-manager/core';
+import { Repository } from 'typeorm';
+import {jest} from '@jest/globals';
 
 export const createEmptyMockAlbum = (): AlbumObjectSimplified => ({
   album_type: '',
@@ -44,6 +46,7 @@ export const mockSong = (song: string): PlaylistTrackObject => ({
   }
 });
 
+
 export const buildMockPlaylistTrackResponse = (songs: string[]): PlaylistTrackResponse => {
   const items: PlaylistTrackObject[] = songs.map(song => mockSong(song));
 
@@ -57,3 +60,10 @@ export const buildMockPlaylistTrackResponse = (songs: string[]): PlaylistTrackRe
     total: songs.length
   };
 };
+
+type MockType<T> = {
+  [P in keyof T]?: jest.Mock<any>;
+};
+export const repositoryMockFactory: () => MockType<Repository<any>> = jest.fn(() => ({
+  findOne: jest.fn(entity => entity),
+}));

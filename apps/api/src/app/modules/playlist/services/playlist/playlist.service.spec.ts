@@ -2,33 +2,41 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { PlaylistService } from './playlist.service';
 import { SpotifyService } from '../../../spotify/spotify.service';
 import { buildMockPlaylistTrackResponse, mockSong } from '../../../../utilities/testing-utils';
-import { Diff, DiffIdentifier } from '@spotify-manager/core';
+import { CurrentUsersProfileResponse, Diff, DiffIdentifier } from '@spotify-manager/core';
 import { PlaylistHistoryService } from '../playlist-history/playlist-history.service';
 import { ObjectId } from 'mongodb';
 
 describe('PlaylistService', () => {
   let service: PlaylistService;
   let historyService: PlaylistHistoryService;
-
+  let spotifyService: SpotifyService;const mockRepository = {
+    data: [
+      { id: 1, email: 'test1@email.com', password: '' },
+      { id: 2, email: 'valid@email.com', password: '' },
+    ],
+  };
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         PlaylistService,
         {
           provide: SpotifyService,
-          useValue: {}
+          useValue: {
+            getMe: jest.fn(),
+          }
         },
         {
           provide: PlaylistHistoryService,
           useValue: {
             getPlaylistDefinition: jest.fn()
           }
-        },
+        }
       ]
     }).compile();
 
     service = module.get<PlaylistService>(PlaylistService);
     historyService = module.get<PlaylistHistoryService>(PlaylistHistoryService);
+    spotifyService = module.get<SpotifyService>(SpotifyService);
   });
 
   it('should be defined', () => {
@@ -61,6 +69,8 @@ describe('PlaylistService', () => {
       userId: 'someUserId',
       originalPlaylistTrackIds: originalPlaylistAtTimeOfLastSync.items.map(track => track.track.id)
     });
+
+    jest.spyOn(spotifyService, 'getMe').mockResolvedValueOnce({ id: 'someUserId' } as CurrentUsersProfileResponse);
 
     const result = await service.compareRemixedPlaylistWithOriginal(basePlaylistId, remixedPlaylistId);
     const expected: Diff[] = [
