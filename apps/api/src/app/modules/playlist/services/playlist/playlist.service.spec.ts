@@ -9,12 +9,7 @@ import { ObjectId } from 'mongodb';
 describe('PlaylistService', () => {
   let service: PlaylistService;
   let historyService: PlaylistHistoryService;
-  let spotifyService: SpotifyService;const mockRepository = {
-    data: [
-      { id: 1, email: 'test1@email.com', password: '' },
-      { id: 2, email: 'valid@email.com', password: '' },
-    ],
-  };
+  let spotifyService: SpotifyService;
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
