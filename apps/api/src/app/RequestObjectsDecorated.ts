@@ -1,8 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
+  EmailNotificationFrequency,
   EpisodeObjectFull,
   ICompareRemixedPlaylistRequest,
-  IPlaylistSyncRequest,
+  IPlaylistSyncRequest, IUserPreferencesRequest,
   TrackObjectFull
 } from '@spotify-manager/core';
 
@@ -37,4 +38,13 @@ export class PlaylistSyncRequest implements IPlaylistSyncRequest {
     required: true,
   })
   tracks: (TrackObjectFull | EpisodeObjectFull)[] = [];
+}
+
+
+export class UserPreferencesRequest implements IUserPreferencesRequest {
+  @ApiProperty({
+    type: 'string',
+    required: true,
+  })
+  originalPlaylistChangeNotificationFrequency: EmailNotificationFrequency;
 }

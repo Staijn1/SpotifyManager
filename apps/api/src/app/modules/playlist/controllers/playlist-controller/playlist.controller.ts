@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { PlaylistService } from '../../services/playlist/playlist.service';
-import { ApiBearerAuth, ApiParam } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
 import {
   CreatePlaylistResponse,
   Diff,
@@ -12,6 +12,7 @@ import {
 import { CompareRemixedPlaylistRequest, PlaylistSyncRequest } from '../../../../RequestObjectsDecorated';
 
 @ApiBearerAuth()
+@ApiTags('playlists')
 @Controller('playlists')
 export class PlaylistController {
   /**

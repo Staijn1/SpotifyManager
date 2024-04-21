@@ -6,6 +6,7 @@
 
 
 import { EpisodeObjectFull, TrackObjectFull } from './SpotifyAPI';
+import { EmailNotificationFrequency } from './EmailNotificationFrequency';
 
 export interface ICompareRemixedPlaylistRequest {
   originalPlaylistId: string;
@@ -16,4 +17,8 @@ export interface IPlaylistSyncRequest {
   originalPlaylistId: string;
   remixedPlaylistId: string;
   tracks: (TrackObjectFull | EpisodeObjectFull)[];
+}
+
+export interface IUserPreferencesRequest {
+  originalPlaylistChangeNotificationFrequency: EmailNotificationFrequency;
 }

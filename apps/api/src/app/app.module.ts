@@ -8,6 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './typeorm/typeorm.service';
 import { ConfigurationUtils } from './configuration/ConfigurationUtils';
+import { UserPreferencesModule } from './modules/user-preferences/user-preferences.module';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { ConfigurationUtils } from './configuration/ConfigurationUtils';
       cache: true,
       validate: ConfigurationUtils.ValidateConfiguration,
     }),
-    TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),],
+    TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
+    UserPreferencesModule,],
   providers: [SpotifyAuthenticationMiddleware],
 })
 export class AppModule implements NestModule {
