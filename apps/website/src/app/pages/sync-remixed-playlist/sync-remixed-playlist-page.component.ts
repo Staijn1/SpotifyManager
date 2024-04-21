@@ -28,80 +28,92 @@ export class SyncRemixedPlaylistPageComponent {
   arrowRightIcon = faArrowRight;
   arrowLeftIcon = faArrowLeft;
   isSyncing = false;
-    constructor(
-      private readonly router: Router,
-      private apiService: ApiService,
-      private readonly messageService: MessageService
-    ) {
-      const nav: Navigation | null = this.router.getCurrentNavigation();
 
-      if (nav?.extras && nav.extras.state) {
-        this.remixedPlaylistId = nav.extras.state['remixedPlaylistId'];
-        this.originalPlaylistId = nav.extras.state['originalPlaylistId'];
+  constructor(
+    private readonly router: Router,
+    private apiService: ApiService,
+    private readonly messageService: MessageService
+  ) {
+    const nav: Navigation | null = this.router.getCurrentNavigation();
 
-        this.load();
-      } else {
-        // This page cannot be viewed without a redirect from another page, supplying the right parameters
-        this.router.navigate(['/account']);
-        return;
-      }
+    if (nav?.extras && nav.extras.state) {
+      this.remixedPlaylistId = nav.extras.state['remixedPlaylistId'];
+      this.originalPlaylistId = nav.extras.state['originalPlaylistId'];
+
+      this.load();
+    } else {
+      // This page cannot be viewed without a redirect from another page, supplying the right parameters
+      this.router.navigate(['/account']);
+      return;
     }
+  }
 
-    private load() {
-      this.isComparisonLoading = true;
-      this.apiService.comparePlaylists(this.originalPlaylistId, this.remixedPlaylistId)
-        .then(changes => {
-          this.changedTracks = changes.filter(change => change[0] !== DiffIdentifier.UNCHANGED);
-          this.draftSyncedPlaylist = changes.filter(change => change[0] === DiffIdentifier.UNCHANGED);
-        }).finally(() => this.isComparisonLoading = false);
-    }
+  private load() {
+    this.isComparisonLoading = true;
+    this.apiService.comparePlaylists(this.originalPlaylistId, this.remixedPlaylistId)
+      .then(changes => {
+        this.changedTracks = changes.filter(change => change[0] !== DiffIdentifier.UNCHANGED);
+        // Automatically build the draft synced playlist with tracks that are:
+        // - Added in the remix
+        // - Added in the original
+        // - Unchanged
+        const diffs = changes.filter(change => {
+          return change[0] === DiffIdentifier.ADDED_IN_REMIX || change[0] === DiffIdentifier.ADDED_IN_ORIGINAL || change[0] === DiffIdentifier.UNCHANGED;
+        });
+        this.draftSyncedPlaylist = this.sortDiffs(diffs, true);
 
-    /**
-     * Moves a missing song from the original playlist to the synced playlist draft
-     * @param diff
-     */
-    addTrackToPreviewSyncedPlaylist(diff: Diff) {
-      // Add the diff to the synced playlist draft at the top
-      this.draftSyncedPlaylist.unshift(diff);
-      this.changedTracks = this.changedTracks.filter(missingSong => missingSong[1].track.id !== diff[1].track.id);
-    }
+      }).finally(() => this.isComparisonLoading = false);
+  }
 
-    /**
-     * Moves a song from the synced playlist draft to the missing songs in the original playlist
-     * @param diff
-     */
-    removeTrackFromPreviewSyncedPlaylist(diff: Diff) {
-      // Add the diff to the missing songs in the original playlist at the top
-      this.changedTracks.unshift(diff);
-      this.draftSyncedPlaylist = this.draftSyncedPlaylist.filter(missingSong => missingSong[1].track.id !== diff[1].track.id);
-    }
+  /**
+   * Moves a missing song from the original playlist to the synced playlist draft
+   * @param diff
+   */
+  addTrackToPreviewSyncedPlaylist(diff: Diff) {
+    // Add the diff to the synced playlist draft at the top
+    this.draftSyncedPlaylist.unshift(diff);
+    this.changedTracks = this.changedTracks.filter(missingSong => missingSong[1].track.id !== diff[1].track.id);
+  }
 
-    /**
-     * Sorts the diffs so added tracks are at the top, then deleted and then the remaining unchanged tracks
-     * @param diffs
-     * @private
-     */
-    private sortDiffs(diffs: Diff[]): Diff[] {
-      const copy = [...diffs];
-      copy.sort((a, b) => {
-        if (a[0] === b[0]) return 0; // If both have the same status, no need to change order
-        if (a[0] !== DiffIdentifier.UNCHANGED) return -1; // Changed tracks go to the top
-        return 0; // Unchanged tracks go to the bottom
-      });
-      return copy;
-    }
+  /**
+   * Moves a song from the synced playlist draft to the missing songs in the original playlist
+   * @param diff
+   */
+  removeTrackFromPreviewSyncedPlaylist(diff: Diff) {
+    // Add the diff to the missing songs in the original playlist at the top
+    this.changedTracks.unshift(diff);
+    this.draftSyncedPlaylist = this.draftSyncedPlaylist.filter(missingSong => missingSong[1].track.id !== diff[1].track.id);
+  }
 
-    /**
-     * Turns the draft synced playlist into the real remixed playlist.
-     * After this is done, the remixed playlist is synced to the original playlist.
-     */
-    syncPlaylist() {
-      this.isSyncing = true;
-      this.apiService.syncPlaylist(this.originalPlaylistId, this.remixedPlaylistId, this.draftSyncedPlaylist.map(diff => diff[1].track)).then(() => {
-        this.router.navigate(['/remix-overview']);
-        this.messageService.setMessage(new Message('success', 'The playlist has been synced!'))
-      }).finally(() => this.isSyncing = false);
-    }
+  /**
+   * Sorts the diffs so added tracks are at the top, then deleted and then the remaining unchanged tracks
+   * @param diffs
+   * @param changedTracksOnTop Determines if a changed track should end up at the top or bottom of the list
+   * @private
+   */
+  private sortDiffs(diffs: Diff[], changedTracksOnTop: boolean): Diff[] {
+    const copy = [...diffs];
+    copy.sort((a, b) => {
+      if (a[0] === b[0]) return 0; // If both have the same status, no need to change order
+      if (a[0] !== DiffIdentifier.UNCHANGED) return changedTracksOnTop ? -1 : 1; // Changed tracks go to the top or bottom based on the flag
+      return changedTracksOnTop ? 1 : -1; // Unchanged tracks go to the bottom or top based on the flag
+    });
+    return copy;
+  }
+
+  /**
+   * Turns the draft synced playlist into the real remixed playlist.
+   * After this is done, the remixed playlist is synced to the original playlist.
+   */
+  syncPlaylist() {
+    this.isSyncing = true;
+    const sortedDraftSyncedPlaylist = this.sortDiffs(this.draftSyncedPlaylist, false);
+
+    this.apiService.syncPlaylist(this.originalPlaylistId, this.remixedPlaylistId, sortedDraftSyncedPlaylist.map(diff => diff[1].track)).then(() => {
+      this.router.navigate(['/remix-overview']);
+      this.messageService.setMessage(new Message('success', 'The playlist has been synced!'));
+    }).finally(() => this.isSyncing = false);
+  }
 
   getDiffIdentifierText(diffElement: DiffIdentifier): string {
     switch (diffElement) {
