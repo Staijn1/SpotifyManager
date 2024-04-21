@@ -22,7 +22,7 @@ export class SyncRemixedPlaylistPageComponent {
   private remixedPlaylistId !: string;
   private originalPlaylistId!: string;
 
-  missingSongsInOriginal: Diff[] = [];
+  changedTracks: Diff[] = [];
   draftSyncedPlaylist: Diff[] = [];
   isComparisonLoading = false;
   arrowRightIcon = faArrowRight;
@@ -51,9 +51,8 @@ export class SyncRemixedPlaylistPageComponent {
       this.isComparisonLoading = true;
       this.apiService.comparePlaylists(this.originalPlaylistId, this.remixedPlaylistId)
         .then(changes => {
-          const sortedChanges = this.sortDiffs(changes);
-          this.missingSongsInOriginal = sortedChanges.filter(change => change[0] === DiffIdentifier.ADDED_IN_REMIX);
-          this.draftSyncedPlaylist = sortedChanges.filter(change => change[0] !== DiffIdentifier.ADDED_IN_REMIX);
+          this.changedTracks = changes.filter(change => change[0] !== DiffIdentifier.UNCHANGED);
+          this.draftSyncedPlaylist = changes.filter(change => change[0] === DiffIdentifier.UNCHANGED);
         }).finally(() => this.isComparisonLoading = false);
     }
 
@@ -66,8 +65,7 @@ export class SyncRemixedPlaylistPageComponent {
       // Add the diff to the synced playlist draft at the top
       this.draftSyncedPlaylist.unshift(diff);
       this.draftSyncedPlaylist = this.sortDiffs(this.draftSyncedPlaylist);
-      this.missingSongsInOriginal = this.missingSongsInOriginal.filter(missingSong => missingSong[1].track.id !== diff[1].track.id);
-
+      this.changedTracks = this.changedTracks.filter(missingSong => missingSong[1].track.id !== diff[1].track.id);
     }
 
     /**
@@ -77,8 +75,8 @@ export class SyncRemixedPlaylistPageComponent {
     removeTrackFromPreviewSyncedPlaylist(diff: Diff) {
       diff[0] = DiffIdentifier.REMOVED_IN_REMIX; // todo confirm this is the correct identifier
       // Add the diff to the missing songs in the original playlist at the top
-      this.missingSongsInOriginal.unshift(diff);
-      this.missingSongsInOriginal = this.sortDiffs(this.missingSongsInOriginal);
+      this.changedTracks.unshift(diff);
+      this.changedTracks = this.sortDiffs(this.changedTracks);
       this.draftSyncedPlaylist = this.draftSyncedPlaylist.filter(missingSong => missingSong[1].track.id !== diff[1].track.id);
     }
 

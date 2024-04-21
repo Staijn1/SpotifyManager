@@ -8,8 +8,8 @@
   <div class="container mx-auto my-3 pb-16">
     <div class="grid md:grid-cols-2 gap-4">
       <div>
-        <h2>Missing tracks in Remixed Playlist</h2>
-        <p>These are the tracks that are not in the remixed playlist, but are in the original.</p>
+        <h2>Changed Tracks</h2>
+        <p>These are the tracks that have been changed, either in the original or in the remix.</p>
       </div>
       <div>
         <h2>Preview Synced Playlist</h2>
@@ -18,14 +18,14 @@
     </div>
     <div class="grid md:grid-cols-2 gap-4">
       <div>
-        @for (diff of this.missingSongsInOriginal; track diff) {
+        @for (diff of this.changedTracks; track diff) {
           <div class="my-2">
             <app-spotify-track
               imageClasses="w-full md:w-32"
               [ngClass]="{
-                'added': diff[0] === DiffIdentifier.ADDED_IN_REMIX || DiffIdentifier.ADDED_IN_ORIGINAL,
-                'deleted': diff[0] === DiffIdentifier.REMOVED_IN_REMIX || DiffIdentifier.REMOVED_IN_ORIGINAL,
-                'unchanged': diff[0] === DiffIdentifier.UNCHANGED
+                'added': diff[0] === (DiffIdentifier.ADDED_IN_REMIX || DiffIdentifier.ADDED_IN_ORIGINAL),
+                'deleted': diff[0] === (DiffIdentifier.REMOVED_IN_REMIX || DiffIdentifier.REMOVED_IN_ORIGINAL),
+                'unchanged': diff[0] === (DiffIdentifier.UNCHANGED)
               }"
               [isHorizontalLayout]="true"
               [showPreview]="true"
@@ -45,9 +45,9 @@
             <app-spotify-track
               imageClasses="w-full md:w-32"
               [ngClass]="{
-                'added': track[0] === DiffIdentifier.ADDED_IN_REMIX || DiffIdentifier.ADDED_IN_ORIGINAL,
-                'deleted': track[0] === DiffIdentifier.REMOVED_IN_REMIX || DiffIdentifier.REMOVED_IN_ORIGINAL,
-                'unchanged': track[0] === DiffIdentifier.UNCHANGED
+                'added': track[0] === (DiffIdentifier.ADDED_IN_REMIX || DiffIdentifier.ADDED_IN_ORIGINAL),
+                'deleted': track[0] === (DiffIdentifier.REMOVED_IN_REMIX || DiffIdentifier.REMOVED_IN_ORIGINAL),
+                'unchanged': track[0] === (DiffIdentifier.UNCHANGED)
               }"
               [isHorizontalLayout]="true"
               [reverse]="true"
