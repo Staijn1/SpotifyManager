@@ -44,7 +44,6 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
             database: dbConfig.database,
             username: dbConfig.username,
             password: dbConfig.password,
-            migrations: [join(__dirname, '../../../migrations/*.{ts,js}')],
             entities: [join(__dirname, '../../**/*.entity.{ts,js}')],
             logger: this.databaseLogger,
             logging: true,
