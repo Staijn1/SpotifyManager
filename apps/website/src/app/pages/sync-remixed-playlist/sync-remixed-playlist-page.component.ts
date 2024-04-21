@@ -49,7 +49,7 @@ export class SyncRemixedPlaylistPageComponent {
 
     private load() {
       this.isComparisonLoading = true;
-      this.apiService.comparePlaylists(this.remixedPlaylistId, this.originalPlaylistId)
+      this.apiService.comparePlaylists(this.originalPlaylistId, this.remixedPlaylistId)
         .then(changes => {
           const sortedChanges = this.sortDiffs(changes);
           this.missingSongsInOriginal = sortedChanges.filter(change => change[0] === DiffIdentifier.ADDED_IN_REMIX);
