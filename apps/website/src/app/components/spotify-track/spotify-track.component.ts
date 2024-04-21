@@ -1,11 +1,5 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
-import {
-  ArtistObjectSimplified,
-  EpisodeObjectFull,
-  EpisodeObjectSimplified,
-  PlaylistTrackObject,
-  TrackObjectFull, TrackObjectSimplified
-} from '@spotify-manager/core';
+import { ArtistObjectSimplified, EpisodeObjectFull, PlaylistTrackObject, TrackObjectFull } from '@spotify-manager/core';
 import { NgClass } from '@angular/common';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { SpotifyPreviewComponent } from '../spotify-preview/spotify-preview.component';
@@ -23,7 +17,20 @@ import { SpotifyPreviewComponent } from '../spotify-preview/spotify-preview.comp
   encapsulation: ViewEncapsulation.None
 })
 export class SpotifyTrackComponent {
-  @Input() track: TrackObjectFull | EpisodeObjectFull | undefined;
+  @Input({
+    // The playlist track object has a track property that is a TrackObjectFull
+    // So we transform the PlaylistTrackObject to a TrackObjectFull for better compatibility
+    transform: (value: PlaylistTrackObject | TrackObjectFull | undefined) => {
+      if (!value) return value;
+
+      // False positive
+      // eslint-disable-next-line
+      if ('track' in value) {
+        return value.track;
+      }
+      return value;
+    }
+  }) track: TrackObjectFull | EpisodeObjectFull | undefined;
   @Input() isHorizontalLayout = false;
   @Input() ranking: number | undefined;
   @Input() imageClasses = 'w-full';
