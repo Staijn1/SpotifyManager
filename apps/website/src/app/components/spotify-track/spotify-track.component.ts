@@ -49,7 +49,6 @@ export class SpotifyTrackComponent {
   }
 
   get coverImage(): string {
-    console.log(this.track);
     if (!this.track) return '';
     switch (this.track.type) {
       case 'track':
