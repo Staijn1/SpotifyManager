@@ -9,6 +9,7 @@ import { Navigation, Router } from '@angular/router';
 import { ApiService } from '../../services/api/api.service';
 import { MessageService } from '../../services/message/message.service';
 import { Message } from '../../types/Message';
+import _ from 'lodash';
 
 @Component({
   selector: 'app-sync-remixed-playlist-page',
@@ -52,7 +53,6 @@ export class SyncRemixedPlaylistPageComponent {
     this.isComparisonLoading = true;
     this.apiService.comparePlaylists(this.originalPlaylistId, this.remixedPlaylistId)
       .then(changes => {
-        this.changedTracks = changes.filter(change => change[0] !== DiffIdentifier.UNCHANGED);
         // Automatically build the draft synced playlist with tracks that are:
         // - Added in the remix
         // - Added in the original
@@ -61,7 +61,8 @@ export class SyncRemixedPlaylistPageComponent {
           return change[0] === DiffIdentifier.ADDED_IN_REMIX || change[0] === DiffIdentifier.ADDED_IN_ORIGINAL || change[0] === DiffIdentifier.UNCHANGED;
         });
         this.draftSyncedPlaylist = this.sortDiffs(diffs, true);
-
+        // The changed tracks are then the ones that are in the list of changes, but not in the draft synced playlist
+        this.changedTracks = _.differenceWith(changes, this.draftSyncedPlaylist, (a: Diff, b: Diff) => a[1].track.id === b[1].track.id);
       }).finally(() => this.isComparisonLoading = false);
   }
 
