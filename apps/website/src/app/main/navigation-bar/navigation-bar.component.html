@@ -27,9 +27,16 @@
     <ul class="menu menu-horizontal px-1 hidden md:flex">
       <li><a routerLink="/get-started" routerLinkActive="active-link">Get Started</a></li>
       @if (spotifyAuthService.isLoggedIn()) {
-        <li><a routerLink="/account" routerLinkActive="active-link">Account</a></li>
         <li><a routerLink="/remix" routerLinkActive="active-link">Remix Playlist</a></li>
         <li><a routerLink="/remix-overview" routerLinkActive="active-link">Remix Overview</a></li>
+<!--        <li><a routerLink="/account" routerLinkActive="active-link">Account</a></li>-->
+        <li class="dropdown dropdown-end">
+          <div tabindex="0" role="button">Account</div>
+          <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52" routerLinkActive="active-link">
+            <li><a routerLink="/account"><fa-icon [icon]="accountIcon"></fa-icon> Account</a></li>
+            <li><a routerLink="/account/settings"><fa-icon [icon]="settingsIcon"></fa-icon> Settings</a></li>
+          </ul>
+        </li>
       }
     </ul>
   </div>

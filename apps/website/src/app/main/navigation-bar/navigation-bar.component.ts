@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { SpotifyAuthenticationService } from '../../services/spotify-authentication/spotify-authentication.service';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faGears, faUser } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   standalone: true,
@@ -16,6 +16,9 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
   styleUrl: './navigation-bar.component.scss',
 })
 export class NavigationBarComponent {
-  hamburgerMenuIcon = faBars;
+  readonly hamburgerMenuIcon = faBars;
+  readonly accountIcon = faUser;
+  readonly settingsIcon = faGears;
+
   constructor(protected readonly spotifyAuthService: SpotifyAuthenticationService) {}
 }
