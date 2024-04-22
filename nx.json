@@ -36,7 +36,6 @@
     ],
     "sharedGlobals": ["{workspaceRoot}/.github/workflows/main.yml"]
   },
-  "nxCloudAccessToken": "YTYzOGQ3MTQtMGJmYS00N2YzLTg0MjQtNGY5NzU3MTNkMTUyfHJlYWQtd3JpdGU=",
   "generators": {
     "@nx/angular:application": {
       "style": "scss",
