@@ -8,7 +8,7 @@
   </div>
   <div class="grid grid-cols-2 mt-5">
     <div class="p-3">
-      <h3 class="mb-3">Your Account</h3>
+      <h3 class="mb-3">Your Account <a routerLink="/settings" class="text-gray-500 ms-4"><fa-icon [icon]="accountSettingsIcon"></fa-icon></a></h3>
       <app-spotify-user [user]="accountInformation"></app-spotify-user>
 
       <h3 class="mt-4 mb-3">Your Top Tracks</h3>

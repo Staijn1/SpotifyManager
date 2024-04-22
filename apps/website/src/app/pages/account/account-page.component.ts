@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faSpotify } from '@fortawesome/free-brands-svg-icons';
-import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faGears, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { SpotifyAPIService } from '../../services/spotifyAPI/spotify-api.service';
 import { JsonPipe, NgIf } from '@angular/common';
 import { SpotifyUserComponent } from '../../components/spotify-user/spotify-user.component';
@@ -13,6 +13,8 @@ import {
   TrackObjectFull,
   UsersTopArtistsResponse, UsersTopTracksResponse
 } from '@spotify-manager/core';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
@@ -25,12 +27,14 @@ import {
     LoadingComponent,
     JsonPipe,
     SpotifyArtistComponent,
-    SpotifyTrackComponent
+    SpotifyTrackComponent,
+    FaIconComponent,
+    RouterLink
   ],
   styleUrls: ['./account-page.component.scss']
 })
 export class AccountPageComponent implements OnInit {
-  username = faUserCircle;
+  readonly accountSettingsIcon = faGears;
   spotify = faSpotify;
   isLoading = false;
   accountInformation!: CurrentUsersProfileResponse;
