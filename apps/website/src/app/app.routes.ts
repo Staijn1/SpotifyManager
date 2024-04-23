@@ -21,7 +21,10 @@ export const appRoutes: Route[] = [
   { path: 'callback', component: AuthorizePageComponent },
   {
     path: 'account',
-    component: AccountPageComponent,
+    children: [
+      { path: '', component: AccountPageComponent },
+      { path: 'settings', component: AccountPageComponent } // todo replace
+    ],
     canActivate: [AuthGuard]
   },
   {
