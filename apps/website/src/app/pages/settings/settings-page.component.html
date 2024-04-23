@@ -1,1 +1,31 @@
-<p>settings-page works!</p>
+<div class="container mx-auto mt-3">
+  <h1>Settings Page</h1>
+  <p>Manage your user preferences here to tweak your experience to your liking!</p>
+
+  <div class="grid grid-cols-3 gap-4 mt-10">
+    <div class="col-span-2">
+      <div class="card bg-base-300 shadow-xl">
+        <div class="card-body">
+          <h2 class="card-title">Email Preferences</h2>
+          <p>Let us know how often you would like to receive email notifications.</p>
+
+
+          <form #emailPreferencesForm="ngForm">
+            <label class="form-control w-1/2">
+              <div class="label">
+                <span class="label-text">Original playlist updates</span>
+              </div>
+              <select class="select select-bordered">
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+                <option value="never">Never</option>
+              </select>
+            </label>
+
+            <button class="btn btn-primary w-32 mt-5" (click)="saveEmailPreferences()">Save</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
