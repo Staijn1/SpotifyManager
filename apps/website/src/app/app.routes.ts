@@ -8,6 +8,7 @@ import { RemixPageComponent } from './pages/remix/remix-page.component';
 import { HomePageComponent } from './pages/home/home-page.component';
 import { RemixOverviewPageComponent } from './pages/remix-overview/remix-overview-page.component';
 import { SyncRemixedPlaylistPageComponent } from './pages/sync-remixed-playlist/sync-remixed-playlist-page.component';
+import { SettingsPageComponent } from './pages/settings/settings-page.component';
 
 
 const AuthGuard: CanActivateFn = (): boolean => {
@@ -23,7 +24,7 @@ export const appRoutes: Route[] = [
     path: 'account',
     children: [
       { path: '', component: AccountPageComponent },
-      { path: 'settings', component: AccountPageComponent } // todo replace
+      { path: 'settings', component: SettingsPageComponent }
     ],
     canActivate: [AuthGuard]
   },
