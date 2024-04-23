@@ -162,9 +162,15 @@ export class PlaylistService {
    */
   async syncPlaylist(remixedPlaylistId: string, tracks: (TrackObjectFull | EpisodeObjectFull)[]): Promise<SyncPlaylistResult> {
     const tracksToDeleteFromRemix = await this.getAllSongsInPlaylist(remixedPlaylistId);
-    const originalPlaylistId = Utils.GetOriginalPlaylistIdFromDescription((await this.getPlaylist(remixedPlaylistId)).description);
+    const currentOriginalPlaylist = await this.getPlaylistWithAllTracks(remixedPlaylistId);
     const userId = (await this.spotifyService.getMe()).id;
-    const playlistDefinition = new PlaylistRemixEntity(originalPlaylistId, remixedPlaylistId, userId, undefined, tracks.map(track => track.id));
+    const playlistDefinition = new PlaylistRemixEntity(
+      currentOriginalPlaylist.id,
+      remixedPlaylistId,
+      userId,
+      new Date(),
+      currentOriginalPlaylist.tracks.items.map(track => track.track.id)
+    );
     // Update the original playlist definition in the database
     await this.historyService.recordPlaylistDefinition(playlistDefinition);
 
