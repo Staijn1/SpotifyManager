@@ -11,7 +11,6 @@ import {
   SinglePlaylistResponse,
   SyncPlaylistResult,
   TrackObjectFull,
-  Utils
 } from '@spotify-manager/core';
 import _ from 'lodash';
 import { PlaylistHistoryService } from '../playlist-history/playlist-history.service';
@@ -81,9 +80,7 @@ export class PlaylistService {
       await this.spotifyService.changePlaylistDetails(newPlaylist.id, {
         description: expectedDescription
       });
-      const changedPlaylist = await this.spotifyService.getPlaylistInformation(
-        newPlaylist.id
-      );
+      const changedPlaylist = await this.spotifyService.getPlaylistInformation(newPlaylist.id);
       actualDescription = changedPlaylist.description;
       retries++;
 
@@ -97,9 +94,7 @@ export class PlaylistService {
       }
     }
 
-    Logger.log(
-      `Created new remix playlist with id ${newPlaylist.id} for original playlist ${playlistid}`
-    );
+    Logger.log(`Created new remix playlist with id ${newPlaylist.id} for original playlist ${playlistid}`);
     Logger.log(`Creating took ${retries} retries.`);
 
     // Add all the tracks of the original playlist to the new playlist.
