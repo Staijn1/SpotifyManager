@@ -27,4 +27,8 @@ export class UserPreferenceService extends HTTPService {
   async getEmailFrequencyOptions(): Promise<EmailNotificationFrequency[]> {
     return this.request(`${environment.apiURL}/user-preferences/email-frequencies`, { method: 'GET' });
   }
+
+  async getUserPreferences(accessToken: string): Promise<IUserPreferencesResponse> {
+    return this.request(`${environment.apiURL}/user-preferences/?accessToken=${accessToken}`, { method: 'GET' });
+  }
 }

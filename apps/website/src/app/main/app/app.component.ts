@@ -8,7 +8,9 @@ import { Store } from '@ngrx/store';
 import { SpotifyManagerUserState } from '../../types/SpotifyManagerUserState';
 import { distinct, map } from 'rxjs';
 import { SpotifyAPIService } from '../../services/spotifyAPI/spotify-api.service';
-import { SetCurrentLoggedInUser } from '../../redux/user-state/user-state.action';
+import { ReceiveUserPreferences, SetCurrentLoggedInUser } from '../../redux/user-state/user-state.action';
+import { UserPreferenceService } from '../../services/user-preference/user-preference.service';
+import { SpotifyAuthenticationService } from '../../services/spotify-authentication/spotify-authentication.service';
 
 @Component({
   standalone: true,
@@ -21,7 +23,9 @@ export class AppComponent implements OnInit {
   constructor(
     protected readonly messageService: MessageService,
     private readonly store: Store<{ userState: SpotifyManagerUserState }>,
-    private readonly spotifyApi: SpotifyAPIService
+    private readonly spotifyAuthenticationService: SpotifyAuthenticationService,
+    private readonly spotifyApi: SpotifyAPIService,
+    private readonly userPreferencesService: UserPreferenceService
   ) {
   }
 
@@ -35,7 +39,6 @@ export class AppComponent implements OnInit {
       map(state => state.isLoggedIn),
       distinct()
     ).subscribe(isLoggedIn => {
-      console.log('IsLoggedIn', isLoggedIn);
       if (isLoggedIn) {
         this.loadGlobalUserData().then();
       }
@@ -43,9 +46,10 @@ export class AppComponent implements OnInit {
   }
 
   private async loadGlobalUserData() {
-    console.log('Loading global user data');
     const me = await this.spotifyApi.getCurrentAccount();
+    const userpreferences = await this.userPreferencesService.getUserPreferences(this.spotifyAuthenticationService.getAccessToken());
 
     this.store.dispatch(new SetCurrentLoggedInUser(me));
+    this.store.dispatch(new ReceiveUserPreferences(userpreferences));
   }
 }

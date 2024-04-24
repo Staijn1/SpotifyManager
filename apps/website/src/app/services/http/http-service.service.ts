@@ -62,6 +62,13 @@ export class HTTPService {
     }
 
     const body = await response.text();
+    // If body not null and not empty, parse it as JSON, otherwise return null.
+    if(!body || body === '') {
+      // Cast to any as strict type checking would otherwise not allow this.
+      // But T should already be defined as T | null if you know some endpoint can return null
+      return null as any;
+    }
+
     // If the body is valid JSON, parse it and return it.
     try {
       return JSON.parse(body);
