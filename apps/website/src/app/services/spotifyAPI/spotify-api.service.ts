@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import SpotifyWebApi from 'spotify-web-api-js';
 import { SpotifyAuthenticationService } from '../spotify-authentication/spotify-authentication.service';
+import { UpdateUserLoginStatus } from '../../redux/user-state/user-state.action';
+import { Store } from '@ngrx/store';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +23,7 @@ export class SpotifyAPIService {
    * todo: move to own api
    */
   async getCurrentAccount(): Promise<SpotifyApi.CurrentUsersProfileResponse> {
-    await this.refreshAccessToken();
+    this.updateAccessToken();
     return this._spotifyApi.getMe();
   }
 
@@ -32,7 +34,7 @@ export class SpotifyAPIService {
    * @returns {Promise<SpotifyApi.ListOfUsersPlaylistsResponse>}
    */
   async getUserPlaylist(param?: { limit: number }): Promise<SpotifyApi.ListOfUsersPlaylistsResponse> {
-    await this.refreshAccessToken();
+    this.updateAccessToken();
     return this._spotifyApi.getUserPlaylists(undefined, param);
   }
 
@@ -42,7 +44,7 @@ export class SpotifyAPIService {
    * @returns {Promise<object>}
    */
   async getGeneric(url: string): Promise<object> {
-    await this.refreshAccessToken();
+    this.updateAccessToken();
     return this._spotifyApi.getGeneric(url);
   }
 
@@ -51,7 +53,7 @@ export class SpotifyAPIService {
    * @returns {Promise<SpotifyApi.UsersTopArtistsResponse>}
    */
   async getTopArtists(): Promise<SpotifyApi.UsersTopArtistsResponse> {
-    await this.refreshAccessToken();
+    this.updateAccessToken();
     return this._spotifyApi.getMyTopArtists();
   }
 
@@ -60,7 +62,7 @@ export class SpotifyAPIService {
    * @returns {Promise<SpotifyApi.UsersTopTracksResponse>}
    */
   async getTopTracks(): Promise<SpotifyApi.UsersTopTracksResponse> {
-    await this.refreshAccessToken();
+    this.updateAccessToken();
     return this._spotifyApi.getMyTopTracks({limit: 10});
   }
 
@@ -68,8 +70,8 @@ export class SpotifyAPIService {
    * Refresh the access token with the spotify API
    * @private
    */
-  private async refreshAccessToken(): Promise<void> {
-    const data = await this.spotifyAuth.refreshAndGetAccessToken();
+  private updateAccessToken(): void {
+    const data = this.spotifyAuth.getAccessToken();
     this._spotifyApi.setAccessToken(data);
   }
 }

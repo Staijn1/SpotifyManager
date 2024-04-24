@@ -1,21 +1,21 @@
-import { CurrentUsersProfileResponse } from "@spotify-manager/core";
-import { Action } from '@ngrx/store';
+import { CurrentUsersProfileResponse } from '@spotify-manager/core';
+import { SpotifyManagerAction } from '../SpotifyManagerAction';
 
 export enum UserStateAction {
-  SET_LOGGED_IN = 'SET_LOGGED_IN',
-  SET_LOGGED_OUT = 'SET_LOGGED_OUT',
+  UPDATE_LOGIN_STATUS = 'UPDATE_LOGIN_STATUS',
   SET_USER = 'SET_USER',
 }
 
-export class SetLoggedIn implements Action {
-  readonly type = UserStateAction.SET_LOGGED_IN;
+export class UpdateUserLoginStatus implements SpotifyManagerAction<boolean> {
+  readonly type = UserStateAction.UPDATE_LOGIN_STATUS;
+  public payload: boolean;
+
+  constructor(payload: boolean) {
+    this.payload = payload;
+  }
 }
 
-export class SetLoggedOut implements Action {
-  readonly type = UserStateAction.SET_LOGGED_OUT;
-}
-
-export class SetUser implements Action {
+export class SetCurrentLoggedInUser implements SpotifyManagerAction<CurrentUsersProfileResponse> {
   readonly type = UserStateAction.SET_USER;
   public payload: CurrentUsersProfileResponse;
 

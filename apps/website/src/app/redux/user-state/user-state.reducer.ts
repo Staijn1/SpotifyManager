@@ -7,11 +7,8 @@ const initialState = {
 
 export const userStateReducer = (state = initialState, action: any) => {
   switch (action.type) {
-    case UserStateAction.SET_LOGGED_IN: {
-      return { ...state, isLoggedIn: true };
-    }
-    case UserStateAction.SET_LOGGED_OUT: {
-      return { ...state, isLoggedIn: false };
+    case UserStateAction.UPDATE_LOGIN_STATUS: {
+      return { ...state, isLoggedIn: action.payload };
     }
     case UserStateAction.SET_USER: {
       return { ...state, user: action.payload };
