@@ -9,9 +9,11 @@ import { HomePageComponent } from './pages/home/home-page.component';
 import { RemixOverviewPageComponent } from './pages/remix-overview/remix-overview-page.component';
 import { SyncRemixedPlaylistPageComponent } from './pages/sync-remixed-playlist/sync-remixed-playlist-page.component';
 import { SettingsPageComponent } from './pages/settings/settings-page.component';
+import { Store } from '@ngrx/store';
+import { take } from 'rxjs';
 
 
-const AuthGuard: CanActivateFn = (): boolean => {
+const RequireLoginGuard: CanActivateFn = (): boolean => {
   const isAllowed = inject(SpotifyAuthenticationService).canActivate();
 
   if (!isAllowed) {
@@ -23,6 +25,21 @@ const AuthGuard: CanActivateFn = (): boolean => {
   return true;
 };
 
+const RequireUserPreferencesSetGuard: CanActivateFn = (): boolean => {
+  let userPreferencesSet = false;
+  const store = inject(Store);
+
+  // Read the user preferences from the redux store once to check if we have user preferences
+  store.select('userState').pipe(take(1)).subscribe(state => {
+    userPreferencesSet = state.userPreferences !== null;
+  });
+
+  if (!userPreferencesSet) {
+    inject(Router).navigate(['/account/settings']);
+  }
+
+  return userPreferencesSet;
+};
 
 export const appRoutes: Route[] = [
   { path: '', component: HomePageComponent },
@@ -31,24 +48,30 @@ export const appRoutes: Route[] = [
   {
     path: 'account',
     children: [
-      { path: '', component: AccountPageComponent },
-      { path: 'settings', component: SettingsPageComponent }
-    ],
-    canActivate: [AuthGuard]
+      {
+        path: '',
+        component: AccountPageComponent,
+        canActivate: [RequireLoginGuard, RequireUserPreferencesSetGuard]
+      },
+      {
+        path: 'settings', component: SettingsPageComponent,
+        canActivate: [RequireLoginGuard]
+      }
+    ]
   },
   {
     path: 'remix',
     component: RemixPageComponent,
-    canActivate: [AuthGuard]
+    canActivate: [RequireLoginGuard, RequireUserPreferencesSetGuard]
   },
   {
     path: 'remix-overview',
     component: RemixOverviewPageComponent,
-    canActivate: [AuthGuard]
+    canActivate: [RequireLoginGuard, RequireUserPreferencesSetGuard]
   },
   {
     path: 'sync-remixed-playlist',
     component: SyncRemixedPlaylistPageComponent,
-    canActivate: [AuthGuard]
+    canActivate: [RequireLoginGuard, RequireUserPreferencesSetGuard]
   }
 ];
