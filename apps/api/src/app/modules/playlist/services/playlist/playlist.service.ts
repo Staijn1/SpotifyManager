@@ -38,13 +38,9 @@ export class PlaylistService {
     Logger.log(`Getting all songs in playlist ${playlistid}`);
     const response = await this.spotifyService.getTracksInPlaylist(playlistid);
     const amountOfChunks = Math.ceil(response.total / 100);
-    Logger.log(
-      `Playlist ${playlistid} has ${response.total} tracks total. (${amountOfChunks} chunks of 100 songs.)`
-    );
+    Logger.log(`Playlist ${playlistid} has ${response.total} tracks total. (${amountOfChunks} chunks of 100 songs.)`);
     for (let i = 1; i < amountOfChunks; i++) {
-      Logger.log(
-        `Loading chunk ${i}/${amountOfChunks} for playlist ${playlistid}`
-      );
+      Logger.log(`Loading chunk ${i}/${amountOfChunks} for playlist ${playlistid}`);
       const options = {
         offset: i * 100
       };
