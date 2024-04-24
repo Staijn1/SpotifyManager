@@ -6,6 +6,8 @@ import { provideOAuthClient } from 'angular-oauth2-oidc';
 import { provideHttpClient } from '@angular/common/http';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { userPreferencesReducer } from './redux/user-preferences/user-preferences.reducer';
+import { userStateReducer } from './redux/user-state/user-state.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,7 +15,10 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideAnimations(),
     provideOAuthClient(),
-    provideStore(),
+    provideStore({
+      userPreferences: userPreferencesReducer,
+      userState: userStateReducer,
+    }),
     provideStoreDevtools(),
   ],
 };
