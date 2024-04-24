@@ -9,6 +9,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './typeorm/typeorm.service';
 import { ConfigurationUtils } from './configuration/ConfigurationUtils';
 import { UserPreferencesModule } from './modules/user-preferences/user-preferences.module';
+import { UserPreferencesController } from './modules/user-preferences/controllers/user-preferences.controller';
 
 @Module({
   imports: [
@@ -32,7 +33,7 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(SpotifyAuthenticationMiddleware)
-      .forRoutes(PlaylistController);
+      .forRoutes(PlaylistController, UserPreferencesController);
     consumer.apply(LoggingMiddleware).forRoutes('*');
   }
 }
