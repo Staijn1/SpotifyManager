@@ -6,26 +6,40 @@
     <div class="col-span-2">
       <div class="card bg-base-300 shadow-xl">
         <div class="card-body">
-          <h2 class="card-title">Email Preferences</h2>
+          <h2 class="card-title font-semibold text-white">Email Preferences</h2>
           <p>Let us know how often you would like to receive email notifications.</p>
 
 
-          <form #emailPreferencesForm="ngForm">
-            <label class="form-control w-1/2">
-              <div class="label">
-                <span class="label-text">Original playlist updates</span>
-              </div>
-              <select class="select select-bordered">
-                <option value="weekly">Weekly</option>
-                <option value="monthly">Monthly</option>
-                <option value="never">Never</option>
-              </select>
-            </label>
+          <form #emailPreferencesForm="ngForm" class="rounded border mt-5 p-4 border-base-100">
+            <p>Original Playlist Update notifications:</p>
 
-            <button class="btn btn-primary w-32 mt-5" (click)="saveEmailPreferences()">Save</button>
+            <div>
+              <div class="grid w-1/2 grid-cols-4 gap-2 rounded-xl bg-base-100 mt-2">
+                @for (frequencyOption of availableEmailFrequencyOptions; track frequencyOption) {
+                  <div>
+                    <input
+                      type="radio"
+                      name="original-playlist-updated-notification"
+                      [id]="'original-playlist-update-' + frequencyOption"
+                      [value]="frequencyOption"
+                      [(ngModel)]="userPreferences.originalPlaylistChangeNotificationFrequency"
+                      class="peer hidden" checked />
+                    <label
+                      [for]="'original-playlist-update-' + frequencyOption"
+                      class="transition-all duration-200 capitalize block cursor-pointer select-none rounded-xl p-1 text-center peer-checked:bg-secondary peer-checked:font-semibold peer-checked:text-secondary-content">{{ frequencyOption }}</label>
+                  </div>
+                }
+              </div>
+            </div>
+
+            <div class="flex justify-end">
+              <button class="btn btn-primary btn-sm w-32 mt-5" (click)="saveEmailPreferences()">Save</button>
+            </div>
           </form>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+
