@@ -14,21 +14,35 @@ export class UserPreferenceService extends HTTPService {
   }
 
   async saveUserPreference(userPreferencesRequest: IUserPreferencesRequest): Promise<IUserPreferencesResponse> {
+    const accessToken = this.spotifyAuth.getAccessToken();
     return this.request(`${environment.apiURL}/user-preferences`, {
       method: 'PUT',
       body: JSON.stringify(userPreferencesRequest),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`
       }
     });
   }
 
 
   async getEmailFrequencyOptions(): Promise<EmailNotificationFrequency[]> {
-    return this.request(`${environment.apiURL}/user-preferences/email-frequencies`, { method: 'GET' });
+    const accessToken = this.spotifyAuth.getAccessToken();
+    return this.request(`${environment.apiURL}/user-preferences/email-frequencies`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`
+      }
+    });
   }
 
-  async getUserPreferences(accessToken: string): Promise<IUserPreferencesResponse> {
-    return this.request(`${environment.apiURL}/user-preferences/?accessToken=${accessToken}`, { method: 'GET' });
+  async getUserPreferences(): Promise<IUserPreferencesResponse> {
+    const accessToken = this.spotifyAuth.getAccessToken();
+    return this.request(`${environment.apiURL}/user-preferences/?accessToken=${accessToken}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`
+      }
+    });
   }
 }

@@ -23,7 +23,6 @@ export class AppComponent implements OnInit {
   constructor(
     protected readonly messageService: MessageService,
     private readonly store: Store<{ userState: SpotifyManagerUserState }>,
-    private readonly spotifyAuthenticationService: SpotifyAuthenticationService,
     private readonly spotifyApi: SpotifyAPIService,
     private readonly userPreferencesService: UserPreferenceService
   ) {
@@ -47,7 +46,7 @@ export class AppComponent implements OnInit {
 
   private async loadGlobalUserData() {
     const me = await this.spotifyApi.getCurrentAccount();
-    const userpreferences = await this.userPreferencesService.getUserPreferences(this.spotifyAuthenticationService.getAccessToken());
+    const userpreferences = await this.userPreferencesService.getUserPreferences();
 
     this.store.dispatch(new SetCurrentLoggedInUser(me));
     this.store.dispatch(new ReceiveUserPreferences(userpreferences));
