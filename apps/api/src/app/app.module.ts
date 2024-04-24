@@ -33,7 +33,7 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(SpotifyAuthenticationMiddleware)
-      .forRoutes(PlaylistController, UserPreferencesController);
+      .forRoutes('*');
     consumer.apply(LoggingMiddleware).forRoutes('*');
   }
 }
