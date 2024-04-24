@@ -5,7 +5,7 @@
  */
 
 
-import { IUserPreferencesRequest } from './IRequestObjects';
+import { IUserPreferences } from './UserPreferences';
 
 
-export type IUserPreferencesResponse = IUserPreferencesRequest | null;
+export type IUserPreferencesResponse = IUserPreferences | null;

@@ -6,3 +6,4 @@ export * from './lib/IResponseObjects';
 export * from './lib/SyncPlaylistResult';
 export * from './lib/Utils';
 export * from './lib/EmailNotificationFrequency';
+export * from './lib/UserPreferences';
