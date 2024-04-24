@@ -1,9 +1,10 @@
-import { CurrentUsersProfileResponse } from '@spotify-manager/core';
+import { CurrentUsersProfileResponse, IUserPreferencesResponse } from '@spotify-manager/core';
 import { SpotifyManagerAction } from '../SpotifyManagerAction';
 
 export enum UserStateAction {
   UPDATE_LOGIN_STATUS = 'UPDATE_LOGIN_STATUS',
   SET_USER = 'SET_USER',
+  RECEIVE_USER_PREFERENCES = 'RECEIVE_USER_PREFERENCES',
 }
 
 export class UpdateUserLoginStatus implements SpotifyManagerAction<boolean> {
@@ -23,3 +24,11 @@ export class SetCurrentLoggedInUser implements SpotifyManagerAction<CurrentUsers
     this.payload = payload;
   }
 }
+
+export class ReceiveUserPreferences implements SpotifyManagerAction<IUserPreferencesResponse> {
+  readonly type = UserStateAction.RECEIVE_USER_PREFERENCES;
+
+  constructor(public payload: IUserPreferencesResponse) {
+  }
+}
+

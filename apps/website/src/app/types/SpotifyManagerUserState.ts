@@ -1,6 +1,7 @@
-import { CurrentUsersProfileResponse } from '@spotify-manager/core';
+import { CurrentUsersProfileResponse, IUserPreferences } from '@spotify-manager/core';
 
 export type SpotifyManagerUserState = {
   isLoggedIn: boolean;
   user: CurrentUsersProfileResponse | null;
+  userPreferences: IUserPreferences | null;
 };

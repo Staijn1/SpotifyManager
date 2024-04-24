@@ -1,8 +1,10 @@
 import { UserStateAction } from './user-state.action';
+import { SpotifyManagerUserState } from '../../types/SpotifyManagerUserState';
 
-const initialState = {
+const initialState: SpotifyManagerUserState = {
   isLoggedIn: false,
-  user: null
+  user: null,
+  userPreferences: null,
 };
 
 export const userStateReducer = (state = initialState, action: any) => {
@@ -12,6 +14,9 @@ export const userStateReducer = (state = initialState, action: any) => {
     }
     case UserStateAction.SET_USER: {
       return { ...state, user: action.payload };
+    }
+    case UserStateAction.RECEIVE_USER_PREFERENCES: {
+      return { ...state, userPreferences: action.payload };
     }
     default:
       return state;
