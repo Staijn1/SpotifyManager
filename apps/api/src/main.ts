@@ -28,10 +28,10 @@ async function bootstrap() {
   const port = process.env.PORT || 3333;
   const app = await NestFactory.create(AppModule);
   const adapterHost = app.get(HttpAdapterHost);
+  app.setGlobalPrefix(globalPrefix);
   setupSwagger(app, globalPrefix);
 
   app.useGlobalFilters(new AllExceptionsFilter(adapterHost));
-  app.setGlobalPrefix(globalPrefix);
   app.enableCors();
 
   app.use(json({ limit: '1mb' }));
