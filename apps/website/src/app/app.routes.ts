@@ -1,4 +1,4 @@
-import { CanActivateFn, Route } from '@angular/router';
+import { CanActivateFn, Route, Router } from '@angular/router';
 import { GetStartedPageComponent } from './pages/get-started/get-started-page.component';
 import { AuthorizePageComponent } from './pages/authorize/authorize-page.component';
 import { AccountPageComponent } from './pages/account/account-page.component';
@@ -12,8 +12,16 @@ import { SettingsPageComponent } from './pages/settings/settings-page.component'
 
 
 const AuthGuard: CanActivateFn = (): boolean => {
-  return inject(SpotifyAuthenticationService).canActivate();
-}
+  const isAllowed = inject(SpotifyAuthenticationService).canActivate();
+
+  if (!isAllowed) {
+    const router = inject(Router);
+    router.navigate(['/']);
+    return false;
+  }
+
+  return true;
+};
 
 
 export const appRoutes: Route[] = [
