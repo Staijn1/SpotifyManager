@@ -7,7 +7,6 @@ import {
   Diff,
   EpisodeObjectFull, ICompareRemixedPlaylistRequest, ListOfUsersPlaylistsResponse,
   PlaylistTrackResponse,
-  RemixedPlaylistInformation,
   SinglePlaylistResponse,
   TrackObjectFull
 } from '@spotify-manager/core';
@@ -21,7 +20,7 @@ export class ApiService extends HTTPService {
    * @param spotifyAuth
    * @param messageService
    */
-  constructor(private readonly spotifyAuth: SpotifyAuthenticationService, protected override readonly messageService: MessageService) {
+  constructor(private readonly spotifyAuth: SpotifyAuthenticationService, messageService: MessageService) {
     super(messageService);
   }
 
