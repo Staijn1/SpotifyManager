@@ -184,6 +184,8 @@ export class PlaylistService {
    * - Songs that were in the original playlist and the remixed playlist at the time of remixing but have been removed in the current remixed playlist are marked as 'removed-in-remix'.
    * - Songs that have been added to the original playlist after remixing are marked as 'added-in-original'.
    * - Songs that have been added to the remixed playlist after remixing are marked as 'added-in-remix'.
+   * - Songs that have been added to both the original and remixed playlist after remixing are marked as 'added-in-both'.
+   * - Songs that are removed from both the original and remixed playlist after remixing will not be included in the result.
    *
    * @param {string} originalPlaylistId - The ID of the original playlist.
    * @param {string} remixedPlaylistId - The ID of the remixed playlist.

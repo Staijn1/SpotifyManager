@@ -155,4 +155,39 @@ describe('PlaylistService', () => {
     result.sort((a, b) => a[1].track.name.localeCompare(b[1].track.name));
     expect(result).toEqual(expected);
   })
+
+
+  it('should not include tracks that are removed in both', async () => {
+    const basePlaylistId = 'basePlaylistId';
+    const remixedPlaylistId = 'remixedPlaylistId';
+
+    const originalPlaylistNow = buildMockPlaylistTrackResponse(['Song A', 'Song B']);
+    const originalPlaylistAtTimeOfLastSync = buildMockPlaylistTrackResponse(['Song A', 'Song B', 'Song C']);
+    const remixedPlaylistNow = buildMockPlaylistTrackResponse(['Song A', 'Song B']);
+
+    jest.spyOn(service, 'getAllSongsInPlaylist')
+      .mockResolvedValueOnce(originalPlaylistNow)
+      .mockResolvedValueOnce(remixedPlaylistNow);
+
+    jest.spyOn(historyService, 'getPlaylistDefinition').mockResolvedValueOnce({
+      id: new ObjectId("someObjectId"),
+      originalPlaylistId: basePlaylistId,
+      remixPlaylistId: remixedPlaylistId,
+      timestamp: new Date(),
+      userId: 'someUserId',
+      originalPlaylistTrackIds: originalPlaylistAtTimeOfLastSync.items.map(track => track.track.id)
+    });
+
+    jest.spyOn(spotifyService, 'getMe').mockResolvedValueOnce({ id: 'someUserId' } as CurrentUsersProfileResponse);
+
+    const result = await service.compareRemixedPlaylistWithOriginal(basePlaylistId, remixedPlaylistId);
+    const expected: Diff[] = [
+      [DiffIdentifier.UNCHANGED, mockSong('Song A')],
+      [DiffIdentifier.UNCHANGED, mockSong('Song B')],
+    ];
+
+    // sort result by song name
+    // result.sort((a, b) => a[1].track.name.localeCompare(b[1].track.name));
+    expect(result).toEqual(expected);
+  });
 });
