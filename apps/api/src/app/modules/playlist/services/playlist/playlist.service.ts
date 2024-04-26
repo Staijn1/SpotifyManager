@@ -220,7 +220,6 @@ export class PlaylistService {
     // Step 3: Create a hashmap of all these tracks so we can easily look up the entire track object by its ID
     const tracksHashmap = new Map<string, PlaylistTrackObject>();
     originalPlaylistNow.items.forEach(track => tracksHashmap.set(track.track.id, track));
-    originalPlaylistTrackIdsAtLastSync.forEach(trackId => tracksHashmap.set(trackId, tracksHashmap.get(trackId)));
     remixedPlaylistNow.items.forEach(track => tracksHashmap.set(track.track.id, track));
 
     // Step 4: Calculate the differences between the playlists
@@ -231,7 +230,7 @@ export class PlaylistService {
     const unchanged = _.intersection(originalPlaylistTrackIdsAtLastSync, remixedTrackIdsNow, originalTrackIdsNow);
 
     const diff = [];
-    removedInOriginal.forEach((trackId: string) => diff.push([DiffIdentifier.REMOVED_IN_ORIGINAL, tracksHashmap.get(trackId)]));
+    removedInOriginal.filter(removedId => tracksHashmap.has(removedId)).forEach((trackId: string) => diff.push([DiffIdentifier.REMOVED_IN_ORIGINAL, tracksHashmap.get(trackId)]));
     addedInOriginal.forEach((trackId: string) => {
       // If this track is also added in the remixed playlist, we will actually mark this track as added in both.
       if (addedInRemix.includes(trackId)) {
@@ -240,7 +239,7 @@ export class PlaylistService {
         diff.push([DiffIdentifier.ADDED_IN_ORIGINAL, tracksHashmap.get(trackId)]);
       }
     });
-    removedInRemix.forEach((trackId: string) => diff.push([DiffIdentifier.REMOVED_IN_REMIX, tracksHashmap.get(trackId)]));
+    removedInRemix.filter(removedId => tracksHashmap.has(removedId)).forEach((trackId: string) => diff.push([DiffIdentifier.REMOVED_IN_REMIX, tracksHashmap.get(trackId)]));
     addedInRemix.forEach((trackId: string) => {
       // If the track is also added in the original playlist, we already marked it as added in both so we skip it here.
       // All other tracks are added as 'added in remix'.
