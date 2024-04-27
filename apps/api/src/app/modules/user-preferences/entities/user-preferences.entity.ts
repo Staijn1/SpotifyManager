@@ -1,10 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ObjectIdColumn } from 'typeorm';
 import { ObjectId } from 'mongodb';
 import { EmailNotificationFrequency } from '@spotify-manager/core';
 
 @Entity('user_preferences')
 export class UserPreferencesEntity {
-  @PrimaryGeneratedColumn()
+  @ObjectIdColumn()
   id: ObjectId;
 
   @Column()
