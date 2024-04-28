@@ -36,7 +36,8 @@ export class SettingsPageComponent implements OnInit {
         this.hasUserPreferencesSet = preferences !== null;
 
         // If the user logs in and has no preferences, the defaults will be used otherwise the user's preferences will be used
-        this.userPreferences = preferences ?? this.userPreferences;
+        // Create a copy of the preferences because the object from redux is immutable
+        this.userPreferences = { ...preferences } as IUserPreferences ?? this.userPreferences;
       });
   }
 
