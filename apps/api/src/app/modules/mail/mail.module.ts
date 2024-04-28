@@ -3,19 +3,17 @@ import { MailService } from './mail.service';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { join } from 'path';
+import nodemailerSendgrid from 'nodemailer-sendgrid';
+
+const sendgridTransport = nodemailerSendgrid({
+  apiKey: process.env.SENDGRID_API_KEY,
+});
 
 @Module({
   imports: [
     MailerModule.forRoot({
      // or
-      transport: {
-        host: 'smtp.example.com',
-        secure: false,
-        auth: {
-          user: 'user@example.com',
-          pass: 'topsecret'
-        }
-      },
+      transport: sendgridTransport,
       defaults: {
         from: '"No Reply" <noreply@example.com>'
       },
