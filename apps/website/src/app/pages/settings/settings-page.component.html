@@ -24,8 +24,8 @@
 
 
           <form #emailPreferencesForm="ngForm" class="rounded border mt-5 p-4 border-base-100">
-            <p>Original Playlist Update notifications:</p>
-
+            <p class="text-gray-300">Original Playlist Update notifications:</p>
+            <p>Determines the frequency of emails you will receive when the original playlist of one of your remixes has updated.</p>
             <div>
               <div class="grid w-1/2 grid-cols-4 gap-2 rounded-xl bg-base-100 mt-2">
                 @for (frequencyOption of availableEmailFrequencyOptions; track frequencyOption) {
