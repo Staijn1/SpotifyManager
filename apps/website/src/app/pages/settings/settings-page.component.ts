@@ -26,6 +26,7 @@ export class SettingsPageComponent implements OnInit {
     originalPlaylistChangeNotificationFrequency: EmailNotificationFrequency.WEEKLY
   };
   hasUserPreferencesSet = false;
+  protected isInitializing = true;
 
   constructor(
     private readonly userPreferenceService: UserPreferenceService,
@@ -42,7 +43,9 @@ export class SettingsPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userPreferenceService.getEmailFrequencyOptions().then(options => this.availableEmailFrequencyOptions = options);
+    this.userPreferenceService.getEmailFrequencyOptions()
+      .then(options => this.availableEmailFrequencyOptions = options)
+      .finally(() => this.isInitializing = false)
   }
 
   saveEmailPreferences() {

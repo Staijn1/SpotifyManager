@@ -1,5 +1,5 @@
 <div class="container mx-auto mt-3">
-  @if (!hasUserPreferencesSet) {
+  @if (!hasUserPreferencesSet && !isInitializing) {
     <div role="alert" class="alert alert-info my-3">
       <fa-icon [icon]="informationIcon"></fa-icon>
       <div>
