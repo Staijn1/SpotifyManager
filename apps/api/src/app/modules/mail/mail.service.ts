@@ -1,30 +1,29 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
-import { Address, ISendMailOptions } from '@nestjs-modules/mailer/dist/interfaces/send-mail-options.interface';
+import { EmailData } from '@sendgrid/helpers/classes/email-address';
+import sgMail from '@sendgrid/mail';
+
 
 @Injectable()
 export class MailService {
   private readonly logger = new Logger(MailService.name);
 
   constructor(
-    private readonly mailerService: MailerService,
     private readonly configService: ConfigService) {
+    sgMail.setApiKey(configService.get('SENDGRID_API_KEY'));
   }
 
-  async sendUserConfirmation(user: { email: string; name: string }) {
-    await this.mailerService.sendMail({
-      to: user.email,
-      subject: 'Welcome to our platform',
-      template: './user-confirmation',
-      context: {
-        name: user.name
-      }
-    });
-  }
-
-
-  private async sendMail(mailOptions: ISendMailOptions) {
+  private async sendMail(optionsOverride: Omit<sgMail.MailDataRequired, 'from'>) {
+    const mailoptions = {
+      ...{
+        from: this.configService.get('FROM_EMAIL'),
+        to: optionsOverride.to,
+        subject: optionsOverride.subject,
+        text: optionsOverride.text,
+        html: optionsOverride.html
+      },
+      ...optionsOverride
+    };
     const overrideEmail = this.configService.get('OVERRIDE_EMAIL');
 
     // OverrideEmail is a comma seperated list of emails to override emails to, or it is NONE. If undefined or empty string no emails are sent
@@ -33,13 +32,20 @@ export class MailService {
       return;
     }
 
-    let recipients: string | Address | (string | Address)[];
+    let recipients: EmailData | EmailData[];
     if (overrideEmail !== 'NONE') {
       recipients = overrideEmail.split(',');
     }
 
-    mailOptions.to = recipients ?? mailOptions.to;
+    mailoptions.to = recipients ?? optionsOverride.to;
+    await sgMail.send(mailoptions);
+  }
 
-    await this.mailerService.sendMail(mailOptions);
+  async testMail() {
+    return this.sendMail({
+      to: 'stein@jnkr.eu',
+      subject: 'Test'
+
+    });
   }
 }
