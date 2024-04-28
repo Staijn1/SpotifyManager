@@ -38,14 +38,15 @@ export class MailService {
     }
 
     mailoptions.to = recipients ?? optionsOverride.to;
+    console.log(mailoptions);
     await sgMail.send(mailoptions);
   }
 
   async testMail() {
     return this.sendMail({
       to: 'stein@jnkr.eu',
-      subject: 'Test'
-
+      subject: 'Test',
+text: 'Test'
     });
   }
 }
