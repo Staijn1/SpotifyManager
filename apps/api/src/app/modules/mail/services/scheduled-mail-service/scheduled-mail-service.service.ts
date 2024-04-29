@@ -18,17 +18,17 @@ export class ScheduledMailServiceService {
 
     this.logger.log('Sending daily emails');
     sw.start();
-    await this.mailService.sendOriginalPlaylistUpdatedEmail(EmailNotificationFrequency.DAILY);
+    await this.mailService.sendOriginalPlaylistUpdatedEmails(EmailNotificationFrequency.DAILY);
     this.logger.log(`Daily emails sent, took: ${sw.stop()} ms`);
 
     this.logger.log("Sending weekly emails")
     sw.start();
-    await this.mailService.sendOriginalPlaylistUpdatedEmail(EmailNotificationFrequency.WEEKLY);
+    await this.mailService.sendOriginalPlaylistUpdatedEmails(EmailNotificationFrequency.WEEKLY);
     this.logger.log(`Weekly emails sent, took: ${sw.stop()} ms`);
 
     this.logger.log("Sending monthly emails")
     sw.start();
-    await this.mailService.sendOriginalPlaylistUpdatedEmail(EmailNotificationFrequency.MONTHLY);
+    await this.mailService.sendOriginalPlaylistUpdatedEmails(EmailNotificationFrequency.MONTHLY);
     this.logger.log(`Monthly emails sent, took: ${sw.stop()} ms`);
   }
 }

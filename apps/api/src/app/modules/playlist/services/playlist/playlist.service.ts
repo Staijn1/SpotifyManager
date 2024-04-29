@@ -256,20 +256,4 @@ export class PlaylistService {
 
     return diff;
   }
-
-  /**
-   * Method to send emails to all users that have not been notified yet about one of the original playlists of their remixed playlists being updated.
-   * @param frequency
-   */
-  async sendOriginalPlaylistUpdatedEmails(frequency: EmailNotificationFrequency) {
-    const users = await this.userPreferenceService.getUnnotifiedEmailAddresses(frequency, EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION);
-    for (const user of users) {
-      await this.sendMail({
-        to: user,
-        subject: 'Original playlist updated',
-        text: 'One of your original playlist has been updated'
-      });
-      await this.userPreferenceService.recordEmailSent(user, EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION);
-    }
-  }
 }
