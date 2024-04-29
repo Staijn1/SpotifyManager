@@ -3,7 +3,7 @@ import { Column, Entity, ObjectId, ObjectIdColumn, PrimaryColumn } from 'typeorm
 @Entity('playlist_remix')
 export class PlaylistRemixEntity {
 
-  constructor(originalPlaylistId: string, remixPlaylistId: string, userId: string, timestamp?: Date, originalPlaylistTrackIds?: string[]) {
+  constructor(originalPlaylistId: string, remixPlaylistId: string, userId: string, timestamp: Date, originalPlaylistTrackIds: string[]) {
     this.originalPlaylistId = originalPlaylistId;
     this.remixPlaylistId = remixPlaylistId;
     this.userId = userId;

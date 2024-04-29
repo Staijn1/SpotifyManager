@@ -56,13 +56,18 @@ export class SyncRemixedPlaylistPageComponent {
         // Automatically build the draft synced playlist with tracks that are:
         // - Added in the remix
         // - Added in the original
+        // - Added in both
         // - Unchanged
         const diffs = changes.filter(change => {
-          return change[0] === DiffIdentifier.ADDED_IN_REMIX || change[0] === DiffIdentifier.ADDED_IN_ORIGINAL || change[0] === DiffIdentifier.UNCHANGED;
+          return [DiffIdentifier.ADDED_IN_REMIX, DiffIdentifier.ADDED_IN_ORIGINAL, DiffIdentifier.UNCHANGED, DiffIdentifier.ADDED_IN_BOTH].includes(change[0]);
         });
         this.draftSyncedPlaylist = this.sortDiffs(diffs, true);
         // The changed tracks are then the ones that are in the list of changes, but not in the draft synced playlist
         this.changedTracks = _.differenceWith(changes, this.draftSyncedPlaylist, (a: Diff, b: Diff) => a[1].track.id === b[1].track.id);
+
+        console.log('Diffs (added or unchanged): ', diffs);
+        console.log('Draft synced playlist: ', this.draftSyncedPlaylist);
+        console.log('Changed tracks (left): ', this.changedTracks);
       }).finally(() => this.isComparisonLoading = false);
   }
 
@@ -130,6 +135,22 @@ export class SyncRemixedPlaylistPageComponent {
         return 'Removed in original';
       default:
         return 'Unknown DiffIdentifier';
+    }
+  }
+
+  getClassForDiff(diff: DiffIdentifier) {
+    switch (diff) {
+      case DiffIdentifier.UNCHANGED:
+        return 'unchanged';
+      case DiffIdentifier.REMOVED_IN_REMIX:
+      case DiffIdentifier.REMOVED_IN_ORIGINAL:
+        return 'deleted';
+      case DiffIdentifier.ADDED_IN_REMIX:
+      case DiffIdentifier.ADDED_IN_BOTH:
+      case DiffIdentifier.ADDED_IN_ORIGINAL:
+        return 'added';
+      default:
+        return 'unknown-diff-' + diff;
     }
   }
 }
