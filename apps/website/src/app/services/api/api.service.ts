@@ -100,6 +100,7 @@ export class ApiService extends HTTPService {
 
   /**
    * Make a request to the API to sync the playlist
+   * @param originalPlaylistId
    * @param remixedPlaylistId
    * @param mergedTracks
    */
@@ -120,6 +121,14 @@ export class ApiService extends HTTPService {
         }),
         headers: { 'Content-Type': 'application/json' },
       }
+    );
+  }
+
+  getMyRemixedPlaylists() {
+    const token = this.spotifyAuth.getAccessToken();
+    return this.request(
+      `${environment.apiURL}/playlists/remix/?accessToken=${token}`,
+      { method: 'GET' }
     );
   }
 }

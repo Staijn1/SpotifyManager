@@ -99,6 +99,15 @@ export class PlaylistController {
     return this.playlistService.syncPlaylist(body.remixedPlaylistId, body.originalPlaylistId, body.tracks);
   }
 
+  @Get('remix')
+  public async getMyRemixedPlaylists(): Promise<ListOfUsersPlaylistsResponse> {
+    console.log('Getting remixed playlists');
+    // wth this is not called??? todo
+return {} as any
+
+    // return this.playlistService.getRemixedPlaylists();
+  }
+
   @Post('testmail')
   public async testMail(): Promise<void> {
     return this.mailService.testMail();

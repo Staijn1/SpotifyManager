@@ -8,7 +8,7 @@
   </p>
 
   <div class="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-10 mt-10">
-    @for (playlist of remixedPlaylists; track playlist) {
+    @for (playlist of remixedPlaylists.items; track playlist) {
       <app-spotify-playlist data-aos="fade" data-aos-delay="100" [playlist]="playlist">
         <div class="flex justify-center my-5">
           <button class="btn btn-primary" type="button" (click)="startComparingPlaylist(playlist)">

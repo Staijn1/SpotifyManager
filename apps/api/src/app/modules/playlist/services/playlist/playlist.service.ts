@@ -3,7 +3,7 @@ import { SpotifyService } from '../../../spotify/spotify.service';
 import {
   CreatePlaylistResponse,
   Diff,
-  DiffIdentifier, EmailNotificationFrequency,
+  DiffIdentifier,
   EpisodeObjectFull,
   ListOfUsersPlaylistsResponse,
   PlaylistTrackObject,
@@ -15,10 +15,15 @@ import {
 import _ from 'lodash';
 import { PlaylistHistoryService } from '../playlist-history/playlist-history.service';
 import { PlaylistRemixEntity } from '../../entities/playlist-remix.entity';
-import { EmailType } from '../../../../types/EmailType';
 
 @Injectable()
 export class PlaylistService {
+  /**
+   * A regex to identify the original playlist ID in the description of a remixed playlist.
+   * e.g. Original playlist: {6vDGVr652ztNWKZuHvsFvx} (matches the ID between the curly braces)
+   * @private
+   */
+  private readonly originalIdRegex = /\{([^}]+)\}/g;
   /**
    * Inject dependencies
    * @param spotifyService
@@ -127,8 +132,8 @@ export class PlaylistService {
   /**
    * Get all the playlists that belong to the user that belongs to the given access token.
    */
-  async getAllUserPlaylists(): Promise<ListOfUsersPlaylistsResponse> {
-    const playlists = await this.spotifyService.getUserPlaylists();
+  async getAllUserPlaylists(userid?: string): Promise<ListOfUsersPlaylistsResponse> {
+    const playlists = await this.spotifyService.getUserPlaylists(userid);
 
     while (playlists.next != null) {
       const morePlaylists = (await this.spotifyService.getGeneric(playlists.next)) as ListOfUsersPlaylistsResponse;
@@ -177,6 +182,15 @@ export class PlaylistService {
     return {
       amountOfSongsInSyncedPlaylist: tracks.length
     };
+  }
+
+  /**
+   * Get all remixed playlists for a user
+   */
+  async getRemixedPlaylists(userid?: string): Promise<ListOfUsersPlaylistsResponse> {
+    const playlists = await this.getAllUserPlaylists(userid);
+    playlists.items = playlists.items.filter(playlist => playlist.description?.match(this.originalIdRegex));
+    return playlists;
   }
 
   /**
