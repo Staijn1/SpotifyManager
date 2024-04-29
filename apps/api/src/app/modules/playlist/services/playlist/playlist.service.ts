@@ -10,7 +10,7 @@ import {
   PlaylistTrackResponse,
   SinglePlaylistResponse,
   SyncPlaylistResult,
-  TrackObjectFull,
+  TrackObjectFull, Utils
 } from '@spotify-manager/core';
 import _ from 'lodash';
 import { PlaylistHistoryService } from '../playlist-history/playlist-history.service';
@@ -149,24 +149,28 @@ export class PlaylistService {
   /**
    * Remove all the songs in the given playlist and put the given tracks in the playlist.
    * @param remixedPlaylistId - The ID of the remixed playlist
+   * @param originalPlaylistId
    * @param tracks - Tracks the remixed playlist should contain after syncing is complete
    */
-  async syncPlaylist(remixedPlaylistId: string, tracks: (TrackObjectFull | EpisodeObjectFull)[]): Promise<SyncPlaylistResult> {
-    const tracksToDeleteFromRemix = await this.getAllSongsInPlaylist(remixedPlaylistId);
-    const currentRemixedPlaylist = await this.getPlaylistWithAllTracks(remixedPlaylistId);
+  async syncPlaylist(remixedPlaylistId: string, originalPlaylistId: string, tracks: (TrackObjectFull | EpisodeObjectFull)[]): Promise<SyncPlaylistResult> {
     const userId = (await this.spotifyService.getMe()).id;
-    const playlistDefinition = new PlaylistRemixEntity(
-      currentRemixedPlaylist.id,
+    const tracksInOriginalPlaylistNow = await this.getAllSongsInPlaylist(originalPlaylistId);
+
+    // Playlist definition of the original playlist at the time of syncing (now)
+    const originalPlaylistDefinition = new PlaylistRemixEntity(
+      originalPlaylistId,
       remixedPlaylistId,
       userId,
       new Date(),
-      currentRemixedPlaylist.tracks.items.map(track => track.track.id)
+      tracksInOriginalPlaylistNow.items.map(track => track.track.id)
     );
     // Update the original playlist definition in the database
-    await this.historyService.recordPlaylistDefinition(playlistDefinition);
+    await this.historyService.recordPlaylistDefinition(originalPlaylistDefinition);
 
     // Remove all the tracks in the playlist.
+    const tracksToDeleteFromRemix = await this.getAllSongsInPlaylist(remixedPlaylistId);
     await this.spotifyService.removeTracksFromPlaylist(remixedPlaylistId, tracksToDeleteFromRemix.items.map((track) => track.track));
+    // And only add the tracks back in that we want to keep.
     await this.spotifyService.addTracksToPlaylist(remixedPlaylistId, tracks.map((track) => track.uri));
 
     return {
