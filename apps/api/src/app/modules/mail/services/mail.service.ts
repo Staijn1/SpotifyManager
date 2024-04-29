@@ -1,7 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { EmailData } from '@sendgrid/helpers/classes/email-address';
 import sgMail from '@sendgrid/mail';
+import { UserPreferencesService } from '../../user-preferences/services/user-preferences.service';
+import { EmailType } from '../../../types/EmailType';
 
 
 @Injectable()
@@ -9,7 +10,8 @@ export class MailService {
   private readonly logger = new Logger(MailService.name);
 
   constructor(
-    private readonly configService: ConfigService) {
+    private readonly configService: ConfigService,
+    private readonly userPreferenceService: UserPreferencesService) {
     sgMail.setApiKey(configService.get('SENDGRID_API_KEY'));
   }
 
@@ -32,7 +34,7 @@ export class MailService {
       return;
     }
 
-    let recipients: EmailData | EmailData[];
+    let recipients: string[] = [];
     if (overrideEmail !== 'NONE') {
       recipients = overrideEmail.split(',');
     }
@@ -43,10 +45,11 @@ export class MailService {
   }
 
   async testMail() {
-    return this.sendMail({
+    await this.sendMail({
       to: 'stein@jnkr.eu',
       subject: 'Test',
-text: 'Test'
+      text: 'Test'
     });
+    await this.userPreferenceService.recordEmailSent('stein@jnkr.eu', EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION);
   }
 }

@@ -1,11 +1,13 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserPreferencesEntity } from '../entities/user-preferences.entity';
-import { LessThanOrEqual, Repository } from 'typeorm';
+import { In, LessThanOrEqual, Repository } from 'typeorm';
 import { SpotifyService } from '../../spotify/spotify.service';
 import { EmailNotificationFrequency, IUserPreferencesResponse } from '@spotify-manager/core';
 import { UserPreferencesRequest } from '../../../types/RequestObjectsDecorated';
 import { EmailType } from '../../../types/EmailType';
+import { EmailLogEntity } from '../../mail/entities/email-log.entity';
+import { EmailData } from '@sendgrid/helpers/classes/email-address';
 
 @Injectable()
 export class UserPreferencesService {
@@ -39,6 +41,28 @@ export class UserPreferencesService {
 
   getEmailFrequencies() {
     return Object.values(EmailNotificationFrequency);
+  }
+
+  async recordEmailSent(emailAddresses: string | string[], emailType: EmailType) {
+    if (!Array.isArray(emailAddresses)) {
+      emailAddresses = [emailAddresses];
+    }
+    // todo use In() on emailaddress
+    const users = await this.userPreferencesRepository.find({ where: { emailAddress: "stein@jnkr.eu" } });
+
+    if (emailAddresses.length !== users.length) {
+      const missingEmails = emailAddresses.filter(email => !users.some(user => user.emailAddress === email));
+
+      this.logger.warn(`Cannot record email sent for user(s) with email address(es) ${missingEmails.join(', ')}. User(s) not found.`);
+      return;
+    }
+
+    const log = new EmailLogEntity();
+    log.emailType = emailType;
+    log.sentAt = new Date();
+    users.forEach(user => user.emailLogs.push(log));
+
+    await this.userPreferencesRepository.save(users);
   }
 
   /**

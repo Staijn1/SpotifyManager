@@ -12,5 +12,6 @@ import { SpotifyModule } from '../spotify/spotify.module';
     TypeOrmModule.forFeature([UserPreferencesEntity]),
   ],
   providers: [UserPreferencesService],
+  exports: [UserPreferencesService],
 })
 export class UserPreferencesModule {}
