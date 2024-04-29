@@ -3,18 +3,19 @@ import { SpotifyService } from '../../../spotify/spotify.service';
 import {
   CreatePlaylistResponse,
   Diff,
-  DiffIdentifier,
+  DiffIdentifier, EmailNotificationFrequency,
   EpisodeObjectFull,
   ListOfUsersPlaylistsResponse,
   PlaylistTrackObject,
   PlaylistTrackResponse,
   SinglePlaylistResponse,
   SyncPlaylistResult,
-  TrackObjectFull, Utils
+  TrackObjectFull
 } from '@spotify-manager/core';
 import _ from 'lodash';
 import { PlaylistHistoryService } from '../playlist-history/playlist-history.service';
 import { PlaylistRemixEntity } from '../../entities/playlist-remix.entity';
+import { EmailType } from '../../../../types/EmailType';
 
 @Injectable()
 export class PlaylistService {
@@ -23,7 +24,9 @@ export class PlaylistService {
    * @param spotifyService
    * @param historyService
    */
-  constructor(private readonly spotifyService: SpotifyService, private readonly historyService: PlaylistHistoryService) {
+  constructor(
+    private readonly spotifyService: SpotifyService,
+    private readonly historyService: PlaylistHistoryService) {
   }
 
   /**
@@ -31,9 +34,7 @@ export class PlaylistService {
    * This method will loop through the playlist and get the tracks in chunks of 100, and then return all the tracks.
    * @param playlistid
    */
-  public async getAllSongsInPlaylist(
-    playlistid: string
-  ): Promise<PlaylistTrackResponse> {
+  public async getAllSongsInPlaylist(playlistid: string): Promise<PlaylistTrackResponse> {
     Logger.log(`Getting all songs in playlist ${playlistid}`);
     const response = await this.spotifyService.getTracksInPlaylist(playlistid);
     const amountOfChunks = Math.ceil(response.total / 100);
@@ -254,5 +255,21 @@ export class PlaylistService {
     unchanged.forEach((trackId: string) => diff.push([DiffIdentifier.UNCHANGED, tracksHashmap.get(trackId)]));
 
     return diff;
+  }
+
+  /**
+   * Method to send emails to all users that have not been notified yet about one of the original playlists of their remixed playlists being updated.
+   * @param frequency
+   */
+  async sendOriginalPlaylistUpdatedEmails(frequency: EmailNotificationFrequency) {
+    const users = await this.userPreferenceService.getUnnotifiedEmailAddresses(frequency, EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION);
+    for (const user of users) {
+      await this.sendMail({
+        to: user,
+        subject: 'Original playlist updated',
+        text: 'One of your original playlist has been updated'
+      });
+      await this.userPreferenceService.recordEmailSent(user, EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION);
+    }
   }
 }

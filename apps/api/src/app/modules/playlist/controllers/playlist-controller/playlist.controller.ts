@@ -10,7 +10,7 @@ import {
   SyncPlaylistResult
 } from '@spotify-manager/core';
 import { CompareRemixedPlaylistRequest, PlaylistSyncRequest } from '../../../../types/RequestObjectsDecorated';
-import { MailService } from '../../../mail/services/mail.service';
+import { MailService } from '../../../mail/services/mail-service/mail.service';
 
 @ApiBearerAuth()
 @ApiTags('playlists')

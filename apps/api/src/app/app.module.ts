@@ -8,11 +8,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './typeorm/typeorm.service';
 import { ConfigurationUtils } from './configuration/ConfigurationUtils';
 import { UserPreferencesModule } from './modules/user-preferences/user-preferences.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
     SpotifyModule,
     PlaylistModule,
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       load: [ConfigurationUtils.LoadConfiguration],
       isGlobal: true,

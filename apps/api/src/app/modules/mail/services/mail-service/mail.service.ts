@@ -1,8 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import sgMail from '@sendgrid/mail';
-import { UserPreferencesService } from '../../user-preferences/services/user-preferences.service';
-import { EmailType } from '../../../types/EmailType';
+import { UserPreferencesService } from '../../../user-preferences/services/user-preferences.service';
+import { EmailType } from '../../../../types/EmailType';
+import { EmailNotificationFrequency } from '@spotify-manager/core';
 
 
 @Injectable()
@@ -51,5 +52,32 @@ export class MailService {
       text: 'Test'
     });
     await this.userPreferenceService.recordEmailSent('stein@jnkr.eu', EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION);
+  }
+
+  /**
+   * For each user that has not been notified for the given frequency, send an email if one of the original playlists have been updated of their remixed playlists.
+   * @param frequency
+   */
+  async sendOriginalPlaylistUpdatedEmails(frequency: EmailNotificationFrequency) {
+    const users = await this.userPreferenceService.getUnnotifiedEmailAddresses(frequency, EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION);
+    for (const user of users) {
+      // todo get remixed playlists for this user
+      // todo compare remixed playlist with original playlist
+      // todo if original playlist has been updated, send email and record email sent
+
+      //eslint-disable-next-line
+      let hasAnyOriginalPlaylistChanged = false;
+
+      if (!hasAnyOriginalPlaylistChanged) {
+        continue;
+      }
+
+      await this.sendMail({
+        to: user,
+        subject: 'Original playlist updated',
+        text: 'One of your original playlist has been updated'
+      });
+      await this.userPreferenceService.recordEmailSent(user, EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION);
+    }
   }
 }
