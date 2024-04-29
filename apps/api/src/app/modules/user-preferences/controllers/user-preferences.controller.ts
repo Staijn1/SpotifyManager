@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Put } from '@nestjs/common';
 import { UserPreferencesService } from '../services/user-preferences.service';
-import { UserPreferencesRequest } from '../../../RequestObjectsDecorated';
+import { UserPreferencesRequest } from '../../../types/RequestObjectsDecorated';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('user-preferences')

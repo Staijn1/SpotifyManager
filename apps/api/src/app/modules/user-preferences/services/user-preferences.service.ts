@@ -4,7 +4,7 @@ import { UserPreferencesEntity } from '../entities/user-preferences.entity';
 import { Repository } from 'typeorm';
 import { SpotifyService } from '../../spotify/spotify.service';
 import { EmailNotificationFrequency, IUserPreferencesResponse } from '@spotify-manager/core';
-import { UserPreferencesRequest } from '../../../RequestObjectsDecorated';
+import { UserPreferencesRequest } from '../../../types/RequestObjectsDecorated';
 
 @Injectable()
 export class UserPreferencesService {
