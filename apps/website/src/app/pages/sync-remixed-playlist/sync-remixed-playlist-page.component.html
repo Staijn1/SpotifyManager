@@ -21,11 +21,7 @@
           <div class="my-2">
             <app-spotify-track
               imageClasses="w-full md:w-32"
-              [ngClass]="{
-                'added': diff[0] === (DiffIdentifier.ADDED_IN_REMIX || DiffIdentifier.ADDED_IN_ORIGINAL),
-                'deleted': diff[0] === (DiffIdentifier.REMOVED_IN_REMIX || DiffIdentifier.REMOVED_IN_ORIGINAL),
-                'unchanged': diff[0] === (DiffIdentifier.UNCHANGED)
-              }"
+              [class]="getClassForDiff(diff[0])"
               [isHorizontalLayout]="true"
               [showPreview]="true"
               [track]="diff[1]">
