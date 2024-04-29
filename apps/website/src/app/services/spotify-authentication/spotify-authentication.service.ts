@@ -19,7 +19,7 @@ export class SpotifyAuthenticationService extends HTTPService {
   // The ID of the spotify application registered in the Spotify developer portal.
   private readonly CLIENT_ID = '0ad647aa391e490ba42610b5dde235b4';
   // Scopes is a space-separated list of scopes, found in the spotify API documentation.
-  private readonly SCOPES = 'user-top-read playlist-modify-public playlist-modify-private playlist-read-private playlist-read-collaborative';
+  private readonly SCOPES = 'user-top-read playlist-modify-public playlist-modify-private playlist-read-private playlist-read-collaborative user-read-email';
   /**
    * The redirect URI is the URL where the user will be redirected after the authentication process.
    * It must be registered in the Spotify developer portal.
