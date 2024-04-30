@@ -16,7 +16,11 @@
         "tsConfig": "apps/api/tsconfig.app.json",
         "assets": [
           "apps/api/src/assets",
-          "apps/api/src/app/modules/mail/templates"
+          {
+            "input": "apps/api/src/app/modules/mail/templates",
+            "glob": "**/*",
+            "output": "./templates"
+          }
         ],
         "webpackConfig": "apps/api/webpack.config.js"
       },

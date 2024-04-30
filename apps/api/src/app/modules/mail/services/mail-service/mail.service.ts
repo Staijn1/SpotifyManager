@@ -3,6 +3,8 @@ import { ConfigService } from '@nestjs/config';
 import { UserPreferencesService } from '../../../user-preferences/services/user-preferences.service';
 import { EmailType } from '../../../../types/EmailType';
 import { EmailNotificationFrequency } from '@spotify-manager/core';
+import { ISendMailOptions, MailerService } from '@nestjs-modules/mailer';
+import * as path from 'node:path';
 
 
 @Injectable()
@@ -11,23 +13,12 @@ export class MailService {
 
   constructor(
     private readonly configService: ConfigService,
+    private readonly mailerService: MailerService,
     private readonly userPreferenceService: UserPreferencesService) {
   }
 
-  // todo type
-  private async sendMail(optionsOverride: any) {
-    const mailoptions = {
-      ...{
-        from: this.configService.get('FROM_EMAIL'),
-        to: optionsOverride.to,
-        subject: optionsOverride.subject,
-        text: optionsOverride.text,
-        html: optionsOverride.html
-      },
-      ...optionsOverride
-    };
+  private async sendMail(options: ISendMailOptions) {
     const overrideEmail = this.configService.get('OVERRIDE_EMAIL');
-
     // OverrideEmail is a comma seperated list of emails to override emails to, or it is NONE. If undefined or empty string no emails are sent
     if (!overrideEmail) {
       this.logger.warn('No override email set, no emails will be sent. To send emails to real users set OVERRIDE_EMAIL to NONE');
@@ -39,15 +30,21 @@ export class MailService {
       recipients = overrideEmail.split(',');
     }
 
-    mailoptions.to = recipients ?? optionsOverride.to;
-    console.log(mailoptions);
+    options.to = recipients.length == 0 ? options.to : recipients;
+    // todo: remove
+    console.log(options)
+    await this.mailerService.sendMail(options);
   }
 
   async testMail() {
     await this.sendMail({
       to: 'stein@jnkr.eu',
       subject: 'Test',
-      text: 'Test'
+      text: 'Test',
+      template: './test',
+      context: {
+        name: "Testing A Name"
+      }
     });
     await this.userPreferenceService.recordEmailSent('stein@jnkr.eu', EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION);
   }
