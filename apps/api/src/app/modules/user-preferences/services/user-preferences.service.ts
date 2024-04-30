@@ -7,7 +7,6 @@ import { EmailNotificationFrequency, IUserPreferencesResponse } from '@spotify-m
 import { UserPreferencesRequest } from '../../../types/RequestObjectsDecorated';
 import { EmailType } from '../../../types/EmailType';
 import { EmailLogEntity } from '../../mail/entities/email-log.entity';
-import { EmailData } from '@sendgrid/helpers/classes/email-address';
 
 @Injectable()
 export class UserPreferencesService {

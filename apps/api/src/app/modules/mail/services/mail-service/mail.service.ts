@@ -1,6 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import sgMail from '@sendgrid/mail';
 import { UserPreferencesService } from '../../../user-preferences/services/user-preferences.service';
 import { EmailType } from '../../../../types/EmailType';
 import { EmailNotificationFrequency } from '@spotify-manager/core';
@@ -13,10 +12,10 @@ export class MailService {
   constructor(
     private readonly configService: ConfigService,
     private readonly userPreferenceService: UserPreferencesService) {
-    sgMail.setApiKey(configService.get('SENDGRID_API_KEY'));
   }
 
-  private async sendMail(optionsOverride: Omit<sgMail.MailDataRequired, 'from'>) {
+  // todo type
+  private async sendMail(optionsOverride: any) {
     const mailoptions = {
       ...{
         from: this.configService.get('FROM_EMAIL'),
@@ -42,7 +41,6 @@ export class MailService {
 
     mailoptions.to = recipients ?? optionsOverride.to;
     console.log(mailoptions);
-    await sgMail.send(mailoptions);
   }
 
   async testMail() {
