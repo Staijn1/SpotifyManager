@@ -33,7 +33,8 @@ export class MailService {
     options.to = recipients.length == 0 ? options.to : recipients;
     // todo: remove
     console.log(options)
-    await this.mailerService.sendMail(options);
+    const result = await this.mailerService.sendMail(options);
+    console.log(result)
   }
 
   async testMail() {
