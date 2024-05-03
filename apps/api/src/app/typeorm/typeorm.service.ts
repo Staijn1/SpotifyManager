@@ -4,7 +4,7 @@ import {TypeOrmModuleOptions, TypeOrmOptionsFactory} from '@nestjs/typeorm';
 import {DatabaseLogger} from './DatabaseLogger';
 import {join} from 'path';
 import {DataSourceOptions} from "typeorm";
-import {IDatabaseConfiguration, IHeliosConfiguration} from "../configuration/ConfigurationTypes";
+import {IDatabaseConfiguration, IAppSettings} from "../configuration/ConfigurationTypes";
 
 
 @Injectable()
@@ -20,7 +20,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
      * Builds the options to use for TypeORM
      */
     public createTypeOrmOptions(): TypeOrmModuleOptions {
-        const dbConfig = this.config.get<IHeliosConfiguration['database']>('database');
+        const dbConfig = this.config.get<IAppSettings['database']>('database');
 
         return {
             ...TypeOrmConfigService.GetBaseDatasourceOptions(dbConfig),

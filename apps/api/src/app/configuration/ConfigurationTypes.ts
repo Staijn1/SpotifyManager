@@ -7,6 +7,6 @@ export interface IDatabaseConfiguration {
 }
 
 
-export interface IHeliosConfiguration {
+export interface IAppSettings {
   database: IDatabaseConfiguration;
 }

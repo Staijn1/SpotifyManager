@@ -1,10 +1,8 @@
-import {plainToInstance} from "class-transformer";
-import {IsNumber, IsObject, IsString, validateSync} from "class-validator";
-import {IDatabaseConfiguration, IHeliosConfiguration} from "./ConfigurationTypes";
-import {Logger} from "@nestjs/common";
+import { plainToInstance } from 'class-transformer';
+import { IsNumber, IsObject, IsString, validateSync } from 'class-validator';
+import { IAppSettings, IDatabaseConfiguration } from './ConfigurationTypes';
 
 export class ConfigurationUtils {
-    private readonly logger = new Logger(ConfigurationUtils.name);
 
     /**
      * As the configuration can be manually set by environment variables we must validate if they are correct, e.g. type and required fields.
@@ -12,12 +10,12 @@ export class ConfigurationUtils {
      */
     public static ValidateConfiguration = () => {
         // Create one object with all the configuration values
-        const unvalidatedHeliosConfig: IHeliosConfiguration = {
+        const unvalidatedHeliosConfig: IAppSettings = {
             database: ConfigurationUtils.getDatabaseConfigurationFromEnvironmentVariables()
         };
 
         // From the plain object create class instances. This method will automatically convert the plain object to the correct types.
-        const configuration = plainToInstance(HeliosConfiguration, unvalidatedHeliosConfig, {enableImplicitConversion: true});
+        const configuration = plainToInstance(AppSettings, unvalidatedHeliosConfig, {enableImplicitConversion: true});
         // Recursively validates the entire configuration object
         const configurationValidationErrors = validateSync(configuration, {skipMissingProperties: false});
 
@@ -33,7 +31,7 @@ export class ConfigurationUtils {
      * Should be validated by {@link ConfigurationUtils.ValidateConfiguration}, which is called when initializing the NestJS config module on application startup.
      * @constructor
      */
-    public static LoadConfiguration(): IHeliosConfiguration {
+    public static LoadConfiguration(): IAppSettings {
         return {
             database: ConfigurationUtils.getDatabaseConfigurationFromEnvironmentVariables()
         }
@@ -71,7 +69,7 @@ class DatabaseConfiguration implements IDatabaseConfiguration {
     password: string;
 }
 
-class HeliosConfiguration implements IHeliosConfiguration {
+class AppSettings implements IAppSettings {
     @IsObject()
     database: DatabaseConfiguration;
 }
