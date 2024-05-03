@@ -19,7 +19,7 @@
         <p [class.text-right]="reverse">{{ artists }}</p>
 
         @if (showPreview && previewUrl) {
-          <div class="mt-3">
+          <div class="mt-3 flex" [class.justify-end]="reverse">
             <app-spotify-preview [previewUrl]="previewUrl"></app-spotify-preview>
           </div>
         }

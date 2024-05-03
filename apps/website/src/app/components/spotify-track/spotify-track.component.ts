@@ -18,6 +18,8 @@ import { SpotifyPreviewComponent } from '../spotify-preview/spotify-preview.comp
 })
 export class SpotifyTrackComponent {
   @Input({
+    // The playlist track object has a track property that is a TrackObjectFull
+    // So we transform the PlaylistTrackObject to a TrackObjectFull for better compatibility
     transform: (value: PlaylistTrackObject | TrackObjectFull | undefined) => {
       if (!value) return value;
 
@@ -34,20 +36,28 @@ export class SpotifyTrackComponent {
   @Input() imageClasses = 'w-full';
   @Input() reverse = false;
   @Input() showPreview = false;
-  get previewUrl(): string | undefined {
-    if (this.track?.type == 'track') {
-      return this.track.preview_url;
-    }
 
-    return undefined;
+  get previewUrl(): string | undefined {
+    switch (this.track?.type) {
+      case 'track':
+        return this.track.preview_url;
+      case 'episode':
+        return this.track.audio_preview_url ?? undefined;
+      default:
+        return undefined;
+    }
   }
 
   get coverImage(): string {
-    if (this.track?.type == 'track') {
-      return this.track.album.images[1].url;
+    if (!this.track) return '';
+    switch (this.track.type) {
+      case 'track':
+        return this.track.album.images[1].url;
+      case 'episode':
+        return this.track.album.images[0].url ?? '';
+      default:
+        return '';
     }
-
-    return this.track?.show.images[0].url ?? '';
   }
 
   get artists(): string {

@@ -1,4 +1,11 @@
 import { PlaylistTrackObject } from './SpotifyAPI';
 
 export type Diff = [DiffIdentifier, PlaylistTrackObject];
-export type DiffIdentifier = 0 | 1 | -1;
+export enum DiffIdentifier {
+  UNCHANGED = 'UNCHANGED',
+  REMOVED_IN_ORIGINAL = 'REMOVED_IN_ORIGINAL',
+  ADDED_IN_ORIGINAL = 'ADDED_IN_ORIGINAL',
+  REMOVED_IN_REMIX = 'REMOVED_IN_REMIX',
+  ADDED_IN_REMIX = 'ADDED_IN_REMIX',
+  ADDED_IN_BOTH = 'ADDED_IN_BOTH',
+}

@@ -5,7 +5,7 @@ import { SpotifyAuthenticationService } from '../spotify-authentication/spotify-
 import { MessageService } from '../message/message.service';
 import {
   Diff,
-  EpisodeObjectFull, ListOfUsersPlaylistsResponse,
+  EpisodeObjectFull, ICompareRemixedPlaylistRequest, ListOfUsersPlaylistsResponse,
   PlaylistTrackResponse,
   RemixedPlaylistInformation,
   SinglePlaylistResponse,
@@ -80,22 +80,20 @@ export class ApiService extends HTTPService {
   /**
    * Compare a playlist to another.
    * One playlist is set as the base playlist, of which the other playlist will be compared against.
-   * @param basePlaylistId
-   * @param otherPlaylistId
+   * @param originalPlaylistId
+   * @param remixedPlaylistId
    */
-  async comparePlaylists(
-    basePlaylistId: string,
-    otherPlaylistId: string,
-  ): Promise<Diff[]> {
+  async comparePlaylists(originalPlaylistId: string, remixedPlaylistId: string,): Promise<Diff[]> {
     const token = await this.spotifyAuth.refreshAndGetAccessToken();
+    const body: ICompareRemixedPlaylistRequest = {
+      originalPlaylistId: originalPlaylistId,
+      remixedPlaylistId: remixedPlaylistId,
+    }
     return this.request(
-      `${environment.apiURL}/playlists/compare?accessToken=${token}`,
+      `${environment.apiURL}/playlists/remix/compare?accessToken=${token}`,
       {
         method: 'POST',
-        body: JSON.stringify({
-          basePlaylistId: basePlaylistId,
-          otherPlaylistId: otherPlaylistId,
-        }),
+        body: JSON.stringify(body),
         headers: { 'Content-Type': 'application/json' },
       }
     );
@@ -107,15 +105,17 @@ export class ApiService extends HTTPService {
    * @param mergedTracks
    */
   async syncPlaylist(
+    originalPlaylistId: string,
     remixedPlaylistId: string,
     mergedTracks: (TrackObjectFull | EpisodeObjectFull)[]
   ): Promise<void> {
     const token = await this.spotifyAuth.refreshAndGetAccessToken();
     return this.request(
-      `${environment.apiURL}/playlists/sync?accessToken=${token}`,
+      `${environment.apiURL}/playlists/remix/sync?accessToken=${token}`,
       {
         method: 'POST',
         body: JSON.stringify({
+          originalPlaylistId: originalPlaylistId,
           remixedPlaylistId: remixedPlaylistId,
           tracks: mergedTracks,
         }),

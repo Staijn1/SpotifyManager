@@ -4,9 +4,22 @@ import { PlaylistController } from './modules/playlist/controllers/playlist-cont
 import { LoggingMiddleware } from './middleware/logging/logging.middleware';
 import { PlaylistModule } from './modules/playlist/playlist.module';
 import { SpotifyModule } from './modules/spotify/spotify.module';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmConfigService } from './typeorm/typeorm.service';
+import { ConfigurationUtils } from './configuration/ConfigurationUtils';
 
 @Module({
-  imports: [SpotifyModule, PlaylistModule],
+  imports: [
+    SpotifyModule,
+    PlaylistModule,
+    ConfigModule.forRoot({
+      load: [ConfigurationUtils.LoadConfiguration],
+      isGlobal: true,
+      cache: true,
+      validate: ConfigurationUtils.ValidateConfiguration,
+    }),
+    TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),],
   providers: [SpotifyAuthenticationMiddleware],
 })
 export class AppModule implements NestModule {

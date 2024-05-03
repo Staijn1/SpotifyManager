@@ -4,10 +4,10 @@ import { SpotifyAPIService } from '../../services/spotifyAPI/spotify-api.service
 import { ApiService } from '../../services/api/api.service';
 import { LoadingComponent } from '../../components/loading/loading.component';
 import { SpotifyPlaylistComponent } from '../../components/spotify-playlist/spotify-playlist.component';
-import { PlaylistObjectSimplified } from '@spotify-manager/core';
+import { PlaylistObjectSimplified, Utils } from '@spotify-manager/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import ListOfUsersPlaylistsResponse = SpotifyApi.ListOfUsersPlaylistsResponse;
 import { Router } from '@angular/router';
+import ListOfUsersPlaylistsResponse = SpotifyApi.ListOfUsersPlaylistsResponse;
 
 @Component({
   selector: 'app-remix',
@@ -87,18 +87,15 @@ export class RemixOverviewPageComponent implements OnInit {
    * @param playlist
    */
   startComparingPlaylist(playlist:PlaylistObjectSimplified){
-    const leftPlaylistId = playlist.id;
+    const remixedPlaylistId = playlist.id;
     // The left playlist is the remixed playlist, containing the original playlist ID in the description in the form of {playlistId}
-    let rightPlaylistId;
-    const matchResult = playlist.description?.match(this.originalIdRegex);
-    if (matchResult && matchResult.length > 0) {
-      rightPlaylistId = matchResult[0].replace('{', '').replace('}', '');
-    }
+    const originalPlaylistId = Utils.GetOriginalPlaylistIdFromDescription(playlist.description);
+
 
     this.router.navigate(['sync-remixed-playlist'], {
         state: {
-          leftPlaylistId: leftPlaylistId,
-          rightPlaylistId: rightPlaylistId,
+          remixedPlaylistId: remixedPlaylistId,
+          originalPlaylistId: originalPlaylistId,
         },
       })
   }

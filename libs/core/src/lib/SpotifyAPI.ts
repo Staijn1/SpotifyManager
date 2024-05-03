@@ -1257,7 +1257,7 @@ export interface ShowObjectSimplified {
  * [episode object (full)](https://developer.spotify.com/documentation/web-api/reference/object-model/#episode-object-full)
  */
 export interface EpisodeObjectFull extends EpisodeObjectSimplified {
-  show: ShowObjectSimplified;
+  album: ShowObjectSimplified;
 }
 
 /**
@@ -1267,6 +1267,7 @@ export interface EpisodeObjectFull extends EpisodeObjectSimplified {
 export interface EpisodeObjectSimplified {
   audio_preview_url: string | null;
   description: string;
+  html_description: string;
   duration_ms: number;
   explicit: boolean;
   external_urls: ExternalUrlObject;
