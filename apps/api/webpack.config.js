@@ -8,6 +8,11 @@ module.exports = composePlugins(
   (config) => {
     // Update the webpack config as needed here.
     // e.g. `config.plugins.push(new MyPlugin())`
-    return config;
+
+    const configOverrides = {
+      devtool: 'inline-source-map',
+    }
+
+    return { ...config, ...configOverrides };
   }
 );
