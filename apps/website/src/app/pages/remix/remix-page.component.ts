@@ -4,11 +4,11 @@ import { SpotifyAPIService } from '../../services/spotifyAPI/spotify-api.service
 import { ApiService } from '../../services/api/api.service';
 import { LoadingComponent } from '../../components/loading/loading.component';
 import { SpotifyPlaylistComponent } from '../../components/spotify-playlist/spotify-playlist.component';
-import { PlaylistObjectSimplified } from '@spotify-manager/core';
-import ListOfUsersPlaylistsResponse = SpotifyApi.ListOfUsersPlaylistsResponse;
+import { PlaylistObjectSimplified, Utils } from '@spotify-manager/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MessageService } from '../../services/message/message.service';
 import { Message } from '../../types/Message';
+import ListOfUsersPlaylistsResponse = SpotifyApi.ListOfUsersPlaylistsResponse;
 
 @Component({
   selector: 'app-remix',
@@ -37,7 +37,7 @@ export class RemixPageComponent implements OnInit {
   constructor(
     private readonly spotifyAPI: SpotifyAPIService,
     private readonly api: ApiService,
-    private readonly messageService: MessageService){
+    private readonly messageService: MessageService) {
   }
 
   /**
@@ -60,7 +60,11 @@ export class RemixPageComponent implements OnInit {
   getPlaylists(): void {
     this.isLoading = true;
     this.spotifyAPI.getUserPlaylist()
-      .then(data => this.playlistResponse = data as ListOfUsersPlaylistsResponse)
+      .then(data => {
+        this.playlistResponse = data as ListOfUsersPlaylistsResponse;
+        // Filter out any remixed playlists
+        this.playlistResponse.items = this.playlistResponse.items.filter(playlist => Utils.GetOriginalPlaylistIdFromDescription(playlist.description) === null);
+      })
       .finally(() => this.isLoading = false);
   }
 
@@ -74,6 +78,9 @@ export class RemixPageComponent implements OnInit {
         const playlistsFromPreviousPage = this.playlistResponse.items;
         this.playlistResponse = data as ListOfUsersPlaylistsResponse;
         this.playlistResponse.items = playlistsFromPreviousPage.concat(this.playlistResponse.items);
+
+        // Filter out any remixed playlists
+        this.playlistResponse.items = this.playlistResponse.items.filter(playlist => Utils.GetOriginalPlaylistIdFromDescription(playlist.description) === null);
       }
     ).finally(() => this.isLoading = false);
   }
@@ -86,7 +93,7 @@ export class RemixPageComponent implements OnInit {
     this.loadingPlaylists[playlist.id] = true;
     this.api.remixPlaylist(playlist.id)
       .then(() => this.messageService.setMessage(new Message('success', `Successfully remixed "${playlist.name}"`)))
-      .finally(() =>  this.loadingPlaylists[playlist.id] = false);
+      .finally(() => this.loadingPlaylists[playlist.id] = false);
   }
 
   get playlistsNotOwnedByUser(): PlaylistObjectSimplified[] {
