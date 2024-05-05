@@ -64,6 +64,11 @@ export class PlaylistController {
     return this.playlistService.getAllUserPlaylists();
   }
 
+  @Get('remix')
+  public async getMyRemixedPlaylists(): Promise<ListOfUsersPlaylistsResponse> {
+    return this.playlistService.getRemixedPlaylists();
+  }
+
   /**
    * Get playlist details for one playlist
    * @param params
@@ -97,15 +102,6 @@ export class PlaylistController {
     @Body() body: PlaylistSyncRequest
   ): Promise<SyncPlaylistResult> {
     return this.playlistService.syncPlaylist(body.remixedPlaylistId, body.originalPlaylistId, body.tracks);
-  }
-
-  @Get('remix')
-  public async getMyRemixedPlaylists(): Promise<ListOfUsersPlaylistsResponse> {
-    console.log('Getting remixed playlists');
-    // wth this is not called??? todo
-return {} as any
-
-    // return this.playlistService.getRemixedPlaylists();
   }
 
   @Post('testmail')
