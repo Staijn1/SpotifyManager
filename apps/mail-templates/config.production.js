@@ -15,7 +15,7 @@ module.exports = {
   build: {
     templates: {
       destination: {
-        path: 'build_production',
+        path: '../api/src/assets/mail-templates',
       },
     },
   },

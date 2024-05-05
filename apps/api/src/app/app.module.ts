@@ -9,11 +9,13 @@ import { TypeOrmConfigService } from './typeorm/typeorm.service';
 import { ConfigurationUtils } from './configuration/ConfigurationUtils';
 import { UserPreferencesModule } from './modules/user-preferences/user-preferences.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { MailModule } from './modules/mail/mail.module';
 
 @Module({
   imports: [
     SpotifyModule,
     PlaylistModule,
+    MailModule,
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       load: [ConfigurationUtils.LoadConfiguration],

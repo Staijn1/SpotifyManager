@@ -10,7 +10,6 @@ import {
   SyncPlaylistResult
 } from '@spotify-manager/core';
 import { CompareRemixedPlaylistRequest, PlaylistSyncRequest } from '../../../../types/RequestObjectsDecorated';
-import { MailService } from '../../../mail/services/mail-service/mail.service';
 
 @ApiBearerAuth()
 @ApiTags('playlists')
@@ -19,9 +18,8 @@ export class PlaylistController {
   /**
    * Inject dependencies
    * @param playlistService
-   * @param mailService
    */
-  constructor(private readonly playlistService: PlaylistService, private readonly mailService: MailService) {
+  constructor(private readonly playlistService: PlaylistService) {
   }
 
   /**
@@ -102,10 +100,5 @@ export class PlaylistController {
     @Body() body: PlaylistSyncRequest
   ): Promise<SyncPlaylistResult> {
     return this.playlistService.syncPlaylist(body.remixedPlaylistId, body.originalPlaylistId, body.tracks);
-  }
-
-  @Post('testmail')
-  public async testMail(): Promise<void> {
-    return this.mailService.testMail();
   }
 }

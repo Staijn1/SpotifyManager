@@ -6,12 +6,18 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import { join } from 'path';
 import { MailService } from './services/mail-service/mail.service';
 import { ConfigService } from '@nestjs/config';
+import { PlaylistModule } from '../playlist/playlist.module';
+import { MailController } from './controllers/mail.controller';
+import { SpotifyModule } from '../spotify/spotify.module';
 
 
 @Module({
   providers: [MailService, ScheduledMailServiceService],
+  controllers: [MailController],
   imports: [
     UserPreferencesModule,
+    PlaylistModule,
+    SpotifyModule,
     MailerModule.forRootAsync({
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => ({

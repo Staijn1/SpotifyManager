@@ -18,9 +18,9 @@
         "assets": [
           "apps/api/src/assets",
           {
-            "input": "apps/api/src/app/modules/mail/templates",
+            "input": "apps/api/src/assets/mail-templates",
             "glob": "**/*",
-            "output": "./templates"
+            "output": "./mail-templates"
           }
         ],
         "webpackConfig": "apps/api/webpack.config.js"
