@@ -4,10 +4,12 @@ import { SpotifyAPIService } from '../../services/spotifyAPI/spotify-api.service
 import { ApiService } from '../../services/api/api.service';
 import { LoadingComponent } from '../../components/loading/loading.component';
 import { SpotifyPlaylistComponent } from '../../components/spotify-playlist/spotify-playlist.component';
-import { PlaylistObjectSimplified, Utils } from '@spotify-manager/core';
+import { PlaylistObjectSimplified } from '@spotify-manager/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MessageService } from '../../services/message/message.service';
 import { Message } from '../../types/Message';
+import { SpotifyManagerUserState } from '../../types/SpotifyManagerUserState';
+import { Store } from '@ngrx/store';
 import ListOfUsersPlaylistsResponse = SpotifyApi.ListOfUsersPlaylistsResponse;
 
 @Component({
@@ -27,17 +29,23 @@ export class RemixPageComponent implements OnInit {
   loadingPlaylists: { [id: string]: boolean } = {};
 
   remixIcon = faCompactDisc;
+  private userId: string | undefined;
 
   /**
    * Inject the right dependencies
    * @param spotifyAPI
    * @param api
    * @param messageService
+   * @param store
    */
   constructor(
     private readonly spotifyAPI: SpotifyAPIService,
     private readonly api: ApiService,
-    private readonly messageService: MessageService) {
+    private readonly messageService: MessageService,
+    private readonly store: Store<{ userState: SpotifyManagerUserState }>) {
+    this.store.select('userState').subscribe(userState => {
+      this.userId = userState.user?.id;
+    });
   }
 
   /**
@@ -62,8 +70,6 @@ export class RemixPageComponent implements OnInit {
     this.spotifyAPI.getUserPlaylist()
       .then(data => {
         this.playlistResponse = data as ListOfUsersPlaylistsResponse;
-        // Filter out any remixed playlists
-        this.playlistResponse.items = this.playlistResponse.items.filter(playlist => Utils.GetOriginalPlaylistIdFromDescription(playlist.description) === null);
       })
       .finally(() => this.isLoading = false);
   }
@@ -78,9 +84,6 @@ export class RemixPageComponent implements OnInit {
         const playlistsFromPreviousPage = this.playlistResponse.items;
         this.playlistResponse = data as ListOfUsersPlaylistsResponse;
         this.playlistResponse.items = playlistsFromPreviousPage.concat(this.playlistResponse.items);
-
-        // Filter out any remixed playlists
-        this.playlistResponse.items = this.playlistResponse.items.filter(playlist => Utils.GetOriginalPlaylistIdFromDescription(playlist.description) === null);
       }
     ).finally(() => this.isLoading = false);
   }
@@ -97,6 +100,6 @@ export class RemixPageComponent implements OnInit {
   }
 
   get playlistsNotOwnedByUser(): PlaylistObjectSimplified[] {
-    return this.playlistResponse?.items.filter(playlist => playlist.owner.id !== sessionStorage.getItem('userId')) ?? [];
+    return this.playlistResponse?.items.filter(playlist => playlist.owner.id !== this.userId) ?? [];
   }
 }

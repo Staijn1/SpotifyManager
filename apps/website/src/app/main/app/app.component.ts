@@ -10,7 +10,6 @@ import { distinct, map } from 'rxjs';
 import { SpotifyAPIService } from '../../services/spotifyAPI/spotify-api.service';
 import { ReceiveUserPreferences, SetCurrentLoggedInUser } from '../../redux/user-state/user-state.action';
 import { UserPreferenceService } from '../../services/user-preference/user-preference.service';
-import { SpotifyAuthenticationService } from '../../services/spotify-authentication/spotify-authentication.service';
 
 @Component({
   standalone: true,
