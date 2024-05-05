@@ -10,6 +10,7 @@
       "defaultConfiguration": "production",
       "options": {
         "target": "node",
+        "sourceMap": true,
         "compiler": "tsc",
         "outputPath": "dist/apps/api",
         "main": "apps/api/src/main.ts",

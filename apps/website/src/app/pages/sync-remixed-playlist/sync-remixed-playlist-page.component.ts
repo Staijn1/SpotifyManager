@@ -64,10 +64,6 @@ export class SyncRemixedPlaylistPageComponent {
         this.draftSyncedPlaylist = this.sortDiffs(diffs, true);
         // The changed tracks are then the ones that are in the list of changes, but not in the draft synced playlist
         this.changedTracks = _.differenceWith(changes, this.draftSyncedPlaylist, (a: Diff, b: Diff) => a[1].track.id === b[1].track.id);
-
-        console.log('Diffs (added or unchanged): ', diffs);
-        console.log('Draft synced playlist: ', this.draftSyncedPlaylist);
-        console.log('Changed tracks (left): ', this.changedTracks);
       }).finally(() => this.isComparisonLoading = false);
   }
 
