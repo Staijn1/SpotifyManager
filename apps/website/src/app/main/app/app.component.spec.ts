@@ -1,17 +1,26 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { RouterTestingModule } from '@angular/router/testing';
 import { OAuthService } from 'angular-oauth2-oidc';
+import { provideMockStore } from '@ngrx/store/testing';
+import { provideRouter } from '@angular/router';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppComponent, RouterTestingModule],
+      imports: [
+        AppComponent,
+      ],
       providers: [{
-        provide: OAuthService, useValue: {
-          configure: jest.fn()
+        provide: OAuthService,
+        useValue: {
+          configure: jest.fn(),
+          setupAutomaticSilentRefresh: jest.fn(),
+          hasValidAccessToken: jest.fn(),
         }
-      }]
+      },
+        provideRouter([]),
+        provideMockStore({ initialState: {} })
+      ]
     }).compileComponents();
   });
 

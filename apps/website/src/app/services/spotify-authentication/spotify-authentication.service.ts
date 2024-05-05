@@ -4,6 +4,8 @@ import { Message } from '../../types/Message';
 import { AuthConfig, OAuthService } from 'angular-oauth2-oidc';
 import { environment } from '../../../environments/environment';
 import { MessageService } from '../message/message.service';
+import { Store } from '@ngrx/store';
+import { UpdateUserLoginStatus } from '../../redux/user-state/user-state.action';
 
 /**
  * Handles the authentication process with Spotify, using the Spotify Web API.
@@ -17,7 +19,7 @@ export class SpotifyAuthenticationService extends HTTPService {
   // The ID of the spotify application registered in the Spotify developer portal.
   private readonly CLIENT_ID = '0ad647aa391e490ba42610b5dde235b4';
   // Scopes is a space-separated list of scopes, found in the spotify API documentation.
-  private readonly SCOPES = 'user-top-read playlist-modify-public playlist-modify-private playlist-read-private playlist-read-collaborative';
+  private readonly SCOPES = 'user-top-read playlist-modify-public playlist-modify-private playlist-read-private playlist-read-collaborative user-read-email';
   /**
    * The redirect URI is the URL where the user will be redirected after the authentication process.
    * It must be registered in the Spotify developer portal.
@@ -34,14 +36,23 @@ export class SpotifyAuthenticationService extends HTTPService {
     responseType: 'code',
     scope: this.SCOPES,
     oidc: false,
-    showDebugInformation: !environment.production
+    showDebugInformation: !environment.production,
+    useSilentRefresh: true
   };
 
   @Output() errorEvent = new EventEmitter<Message>();
 
-  constructor(private readonly oauthService: OAuthService, protected override readonly messageService: MessageService) {
+  constructor(
+    private readonly oauthService: OAuthService,
+    private readonly store: Store,
+    protected override readonly messageService: MessageService
+  ) {
     super(messageService);
     this.oauthService.configure(this.authCodeFlowConfig);
+    this.oauthService.setupAutomaticSilentRefresh();
+
+    // Check if we already have a valid token (perhaps due to a browser refresh) and update the store.
+    this.store.dispatch(new UpdateUserLoginStatus(this.isLoggedIn()));
   }
 
   public initializeAuthorizitionFlow(): void {
@@ -61,7 +72,9 @@ export class SpotifyAuthenticationService extends HTTPService {
    * @returns {Promise<void>}
    */
   async completeLogin(): Promise<boolean> {
-    return this.oauthService.tryLogin();
+    const isSuccessful = await this.oauthService.tryLogin();
+    this.store.dispatch(new UpdateUserLoginStatus(isSuccessful));
+    return isSuccessful;
   }
 
   /**
@@ -71,9 +84,8 @@ export class SpotifyAuthenticationService extends HTTPService {
     this.oauthService.logOut();
   }
 
-  async refreshAndGetAccessToken() {
-    const tokens = await this.oauthService.refreshToken();
-    return tokens.access_token;
+  getAccessToken() {
+    return this.oauthService.getAccessToken();
   }
 
   canActivate() {

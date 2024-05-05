@@ -6,6 +6,7 @@
 
 
 import { EpisodeObjectFull, TrackObjectFull } from './SpotifyAPI';
+import { IUserPreferences } from './UserPreferences';
 
 export interface ICompareRemixedPlaylistRequest {
   originalPlaylistId: string;
@@ -17,3 +18,5 @@ export interface IPlaylistSyncRequest {
   remixedPlaylistId: string;
   tracks: (TrackObjectFull | EpisodeObjectFull)[];
 }
+
+export type IUserPreferencesRequest = IUserPreferences;

@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { PlaylistService } from '../../services/playlist/playlist.service';
-import { ApiBearerAuth, ApiParam } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
 import {
   CreatePlaylistResponse,
   Diff,
@@ -9,16 +9,19 @@ import {
   SinglePlaylistResponse,
   SyncPlaylistResult
 } from '@spotify-manager/core';
-import { CompareRemixedPlaylistRequest, PlaylistSyncRequest } from '../../../../RequestObjectsDecorated';
+import { CompareRemixedPlaylistRequest, PlaylistSyncRequest } from '../../../../types/RequestObjectsDecorated';
+import { MailService } from '../../../mail/services/mail-service/mail.service';
 
 @ApiBearerAuth()
+@ApiTags('playlists')
 @Controller('playlists')
 export class PlaylistController {
   /**
    * Inject dependencies
    * @param playlistService
+   * @param mailService
    */
-  constructor(private readonly playlistService: PlaylistService) {
+  constructor(private readonly playlistService: PlaylistService, private readonly mailService: MailService) {
   }
 
   /**
@@ -61,6 +64,11 @@ export class PlaylistController {
     return this.playlistService.getAllUserPlaylists();
   }
 
+  @Get('remix')
+  public async getMyRemixedPlaylists(): Promise<ListOfUsersPlaylistsResponse> {
+    return this.playlistService.getRemixedPlaylists();
+  }
+
   /**
    * Get playlist details for one playlist
    * @param params
@@ -94,5 +102,10 @@ export class PlaylistController {
     @Body() body: PlaylistSyncRequest
   ): Promise<SyncPlaylistResult> {
     return this.playlistService.syncPlaylist(body.remixedPlaylistId, body.originalPlaylistId, body.tracks);
+  }
+
+  @Post('testmail')
+  public async testMail(): Promise<void> {
+    return this.mailService.testMail();
   }
 }

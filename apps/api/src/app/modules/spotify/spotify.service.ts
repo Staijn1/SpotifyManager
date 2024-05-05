@@ -99,10 +99,11 @@ export class SpotifyService {
   }
 
   /**
-   * Get the first page of user playlists
+   * Get the first page of user playlists.
+   * @param userid - The user id of the user to get the playlists from. If not provided, the current user's playlists are fetched.
    */
-  async getUserPlaylists(): Promise<ListOfUsersPlaylistsResponse> {
-    const response = await this._spotifyApi.getUserPlaylists();
+  async getUserPlaylists(userid?: string): Promise<ListOfUsersPlaylistsResponse> {
+    const response = userid ? await this._spotifyApi.getUserPlaylists(userid) : await this._spotifyApi.getUserPlaylists();
     return response.body
   }
 

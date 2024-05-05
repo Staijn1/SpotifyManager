@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faSpotify } from '@fortawesome/free-brands-svg-icons';
-import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faGears } from '@fortawesome/free-solid-svg-icons';
 import { SpotifyAPIService } from '../../services/spotifyAPI/spotify-api.service';
 import { JsonPipe, NgIf } from '@angular/common';
 import { SpotifyUserComponent } from '../../components/spotify-user/spotify-user.component';
@@ -11,8 +11,14 @@ import {
   ArtistObjectFull,
   CurrentUsersProfileResponse,
   TrackObjectFull,
-  UsersTopArtistsResponse, UsersTopTracksResponse
+  UsersTopArtistsResponse,
+  UsersTopTracksResponse
 } from '@spotify-manager/core';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { RouterLink } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { SpotifyManagerUserState } from '../../types/SpotifyManagerUserState';
+import { map } from 'rxjs';
 
 
 @Component({
@@ -25,15 +31,17 @@ import {
     LoadingComponent,
     JsonPipe,
     SpotifyArtistComponent,
-    SpotifyTrackComponent
+    SpotifyTrackComponent,
+    FaIconComponent,
+    RouterLink
   ],
   styleUrls: ['./account-page.component.scss']
 })
 export class AccountPageComponent implements OnInit {
-  username = faUserCircle;
+  readonly accountSettingsIcon = faGears;
   spotify = faSpotify;
   isLoading = false;
-  accountInformation!: CurrentUsersProfileResponse;
+  accountInformation: CurrentUsersProfileResponse | null = null;
 
 
   topTracks: UsersTopTracksResponse | undefined;
@@ -42,8 +50,17 @@ export class AccountPageComponent implements OnInit {
   /**
    * Inject dependencies
    * @param spotifyAPI
+   * @param store
    */
-  constructor(private readonly spotifyAPI: SpotifyAPIService) {
+  constructor(
+    private readonly spotifyAPI: SpotifyAPIService,
+    private readonly store: Store<{ userState: SpotifyManagerUserState }>
+  ) {
+    this.store.select('userState')
+      .pipe(map(state => state.user))
+      .subscribe(user => {
+        this.accountInformation = user;
+      });
   }
 
   get topArtistsList(): ArtistObjectFull[] {
@@ -67,12 +84,7 @@ export class AccountPageComponent implements OnInit {
    */
   private getInformation(): void {
     this.isLoading = true;
-    this.spotifyAPI.getCurrentAccount()
-      .then(data => {
-        this.accountInformation = data;
-        sessionStorage.setItem('userId', data.id);
-        return this.spotifyAPI.getTopArtists();
-      })
+    this.spotifyAPI.getTopArtists()
       .then(topArtists => {
         this.topArtists = topArtists;
         return this.spotifyAPI.getTopTracks();

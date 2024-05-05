@@ -3,6 +3,7 @@ import { PlaylistController } from './playlist.controller';
 import { PlaylistService } from '../../services/playlist/playlist.service';
 import { SpotifyService } from '../../../spotify/spotify.service';
 import { PlaylistHistoryService } from '../../services/playlist-history/playlist-history.service';
+import { MailService } from '../../../mail/services/mail-service/mail.service';
 
 describe('PlaylistController', () => {
   let controller: PlaylistController;
@@ -21,6 +22,10 @@ describe('PlaylistController', () => {
         {
           provide: PlaylistHistoryService,
           useValue: {}
+        },
+        {
+          provide: MailService,
+          useValue: jest.fn()
         }
       ],
     }).compile();
