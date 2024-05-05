@@ -4,6 +4,7 @@ import { SpotifyAPIService } from '../../services/spotifyAPI/spotify-api.service
 import { ApiService } from '../../services/api/api.service';
 import { MessageService } from '../../services/message/message.service';
 import { of } from 'rxjs';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('RemixPageComponent', () => {
   let component: RemixPageComponent;
@@ -30,7 +31,8 @@ describe('RemixPageComponent', () => {
           useValue: {
             setMessage: jest.fn()
           }
-        }
+        },
+        provideMockStore()
       ]
     }).compileComponents();
 
