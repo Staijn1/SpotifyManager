@@ -41,7 +41,7 @@ export class AccountPageComponent implements OnInit {
   readonly accountSettingsIcon = faGears;
   spotify = faSpotify;
   isLoading = false;
-  accountInformation: CurrentUsersProfileResponse | null = null;
+  accountInformation: CurrentUsersProfileResponse | null | undefined = null;
 
 
   topTracks: UsersTopTracksResponse | undefined;
@@ -57,10 +57,9 @@ export class AccountPageComponent implements OnInit {
     private readonly store: Store<{ userState: SpotifyManagerUserState }>
   ) {
     this.store.select('userState')
-      .pipe(map(state => state.user))
-      .subscribe(user => {
-        this.accountInformation = user;
-      });
+      .pipe(map(state => state.user)).subscribe(user => {
+      this.accountInformation = user;
+    });
   }
 
   get topArtistsList(): ArtistObjectFull[] {

@@ -3,8 +3,8 @@ import { SpotifyManagerUserState } from '../../types/SpotifyManagerUserState';
 
 const initialState: SpotifyManagerUserState = {
   isLoggedIn: false,
-  user: null,
-  userPreferences: null,
+  user: undefined,
+  userPreferences: undefined,
 };
 
 export const userStateReducer = (state = initialState, action: any) => {

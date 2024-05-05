@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { NavigationBarComponent } from '../navigation-bar/navigation-bar.component';
 import { MessageService } from '../../services/message/message.service';
 import { ToastComponent } from '../../components/toast/toast.component';
@@ -10,6 +10,7 @@ import { distinct, map } from 'rxjs';
 import { SpotifyAPIService } from '../../services/spotifyAPI/spotify-api.service';
 import { ReceiveUserPreferences, SetCurrentLoggedInUser } from '../../redux/user-state/user-state.action';
 import { UserPreferenceService } from '../../services/user-preference/user-preference.service';
+import { Message } from '../../types/Message';
 
 @Component({
   standalone: true,
@@ -23,7 +24,8 @@ export class AppComponent implements OnInit {
     protected readonly messageService: MessageService,
     private readonly store: Store<{ userState: SpotifyManagerUserState }>,
     private readonly spotifyApi: SpotifyAPIService,
-    private readonly userPreferencesService: UserPreferenceService
+    private readonly userPreferencesService: UserPreferenceService,
+    private readonly router: Router
   ) {
   }
 
@@ -49,5 +51,10 @@ export class AppComponent implements OnInit {
 
     this.store.dispatch(new SetCurrentLoggedInUser(me));
     this.store.dispatch(new ReceiveUserPreferences(userpreferences));
+
+    if (userpreferences === null){
+      this.messageService.setMessage(new Message('info', 'Unfortunately, you have not set your preferences yet. Please let us know how you would like to use Spotify Manager, before you can continue.'));
+      this.router.navigate(['/account/settings']);
+    }
   }
 }
