@@ -31,24 +31,26 @@ export class PlaylistService {
    * This method will loop through the playlist and get the tracks in chunks of 100, and then return all the tracks.
    * @param playlistid
    */
-  public async getAllSongsInPlaylist(
-    playlistid: string
-  ): Promise<PlaylistTrackResponse> {
+  public async getAllSongsInPlaylist(playlistid: string): Promise<PlaylistTrackResponse> {
     Logger.log(`Getting all songs in playlist ${playlistid}`);
     const response = await this.spotifyService.getTracksInPlaylist(playlistid);
     const amountOfChunks = Math.ceil(response.total / 100);
     Logger.log(`Playlist ${playlistid} has ${response.total} tracks total. (${amountOfChunks} chunks of 100 songs.)`);
+
+    const promises = [];
     for (let i = 1; i < amountOfChunks; i++) {
-      Logger.log(`Loading chunk ${i}/${amountOfChunks} for playlist ${playlistid}`);
+      Logger.log(`Preparing to load chunk ${i}/${amountOfChunks} for playlist ${playlistid}`);
       const options = {
         offset: i * 100
       };
-      const tracks = await this.spotifyService.getTracksInPlaylist(
-        playlistid,
-        options
-      );
-      response.items = response.items.concat(tracks.items);
+      promises.push(this.spotifyService.getTracksInPlaylist(playlistid, options));
     }
+
+    const results = await Promise.all(promises);
+    results.forEach(tracks => {
+      response.items = response.items.concat(tracks.items);
+    });
+
     Logger.log(`Finished loading all songs in playlist ${playlistid}`);
     return response;
   }
@@ -97,13 +99,10 @@ export class PlaylistService {
     Logger.log(`Created new remix playlist with id ${newPlaylist.id} for original playlist ${playlistid}`);
     Logger.log(`Creating took ${retries} retries.`);
 
-    // Add all the tracks of the original playlist to the new playlist.
-    await this.spotifyService.addTracksToPlaylist(
-      newPlaylist.id,
-      originalPlaylist.tracks.items.map((track) => track.track.uri)
-    );
+    Logger.log(`Adding all tracks to the new playlist ${newPlaylist.id}`)
+    await this.spotifyService.addTracksToPlaylist(newPlaylist.id, originalPlaylist.tracks.items.map((track) => track.track.uri));
 
-    Logger.log(`Added all tracks to the new playlist ${newPlaylist.id}`);
+    Logger.log(`Added all ${originalPlaylist.tracks.items.length} tracks to the new playlist ${newPlaylist.id}`);
 
     const playlistDefinition = new PlaylistRemixEntity(originalPlaylist.id, newPlaylist.id, me.id, new Date(), originalPlaylist.tracks.items.map(track => track.track.id));
     await this.historyService.recordPlaylistDefinition(playlistDefinition);
