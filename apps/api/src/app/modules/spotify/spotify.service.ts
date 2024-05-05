@@ -184,4 +184,9 @@ export class SpotifyService {
   async removePlaylist(id: string) {
     await this._spotifyApi.unfollowPlaylist(id);
   }
+
+  async getUser(userId: string) {
+    const response = await this._spotifyApi.getUser(userId);
+    return response.body
+  }
 }

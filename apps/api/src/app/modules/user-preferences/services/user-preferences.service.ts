@@ -67,7 +67,7 @@ export class UserPreferencesService {
   /**
    * This method returns all email-addresses that should receive a notification because the last time they received a notification was more than the frequency ago.
    */
-  async getUnnotifiedEmailAddresses(frequency: EmailNotificationFrequency, emailType: EmailType) {
+  async getUnnotifiedUsers(frequency: EmailNotificationFrequency, emailType: EmailType) {
     if (frequency == EmailNotificationFrequency.NEVER) {
       this.logger.warn('Attempting to gather unnotified email addresses for a frequency of NEVER. This is not allowed.');
       return [];
@@ -110,6 +110,6 @@ export class UserPreferencesService {
     });
 
 
-    return users.map(user => user.emailAddress);
+    return users;
   }
 }
