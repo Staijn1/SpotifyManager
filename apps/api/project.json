@@ -27,7 +27,14 @@
       },
       "configurations": {
         "development": {},
-        "production": {}
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/api/src/environments/environment.ts",
+              "with": "apps/api/src/environments/environment.prod.ts"
+            }
+          ]
+        }
       }
     },
     "serve": {
