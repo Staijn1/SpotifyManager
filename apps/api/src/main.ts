@@ -10,6 +10,7 @@ import { AppModule } from './app/app.module';
 import { json, urlencoded } from 'express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AllExceptionsFilter } from './app/filters/all-exceptions-filter/all-exceptions-filter.filter';
+import { environment } from './environments/environment';
 
 function setupSwagger(app: INestApplication, swaggerUrl: string) {
   const swaggerConfig = new DocumentBuilder()
@@ -37,11 +38,11 @@ async function bootstrap() {
   app.use(json({ limit: '1mb' }));
   app.use(urlencoded({ extended: true, limit: '1mb' }));
 
-
   await app.listen(port);
   Logger.log(
     `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
   );
+  Logger.log(`Is production mode: ${environment.production}`)
 }
 
 bootstrap();
