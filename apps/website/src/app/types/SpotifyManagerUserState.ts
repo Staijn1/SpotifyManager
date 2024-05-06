@@ -2,6 +2,8 @@ import { CurrentUsersProfileResponse, IUserPreferences } from '@spotify-manager/
 
 export type SpotifyManagerUserState = {
   isLoggedIn: boolean;
-  user: CurrentUsersProfileResponse | null;
-  userPreferences: IUserPreferences | null;
+  // Null means we don't know, undefined means not loaded yet
+  user: CurrentUsersProfileResponse | null | undefined;
+  // Null means we don't know, undefined means not loaded yet
+  userPreferences: IUserPreferences | null | undefined;
 };

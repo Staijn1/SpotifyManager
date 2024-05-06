@@ -28,9 +28,10 @@ const RequireLoginGuard: CanActivateFn = (): boolean => {
 const RequireUserPreferencesSetGuard: CanActivateFn = (): boolean => {
   let userPreferencesSet = false;
   const store = inject(Store);
-
+debugger;
   // Read the user preferences from the redux store once to check if we have user preferences
   store.select('userState').pipe(take(1)).subscribe(state => {
+console.log('guard', state)
     userPreferencesSet = state.userPreferences !== null;
   });
 

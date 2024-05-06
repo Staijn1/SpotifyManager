@@ -10,7 +10,7 @@ import {
   PlaylistTrackResponse,
   SinglePlaylistResponse,
   SyncPlaylistResult,
-  TrackObjectFull
+  TrackObjectFull, Utils
 } from '@spotify-manager/core';
 import _ from 'lodash';
 import { PlaylistHistoryService } from '../playlist-history/playlist-history.service';
@@ -190,7 +190,7 @@ export class PlaylistService {
    */
   async getRemixedPlaylists(userid?: string): Promise<ListOfUsersPlaylistsResponse> {
     const playlists = await this.getAllUserPlaylists(userid);
-    playlists.items = playlists.items.filter(playlist => playlist.description?.match(this.originalIdRegex));
+    playlists.items = playlists.items.filter(playlist => Utils.GetOriginalPlaylistIdFromDescription(playlist.description) != null);
     return playlists;
   }
 
