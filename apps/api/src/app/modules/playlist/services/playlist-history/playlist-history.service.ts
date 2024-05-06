@@ -20,12 +20,12 @@ export class PlaylistHistoryService {
       where: {
         originalPlaylistId: originalPlaylistId,
         remixPlaylistId: remixedPlaylistId,
-        userId: userId,
+        userId: userId
       },
       order: timestamp ? undefined : { timestamp: 'DESC' }
     };
 
-    if(timestamp) {
+    if (timestamp) {
       query.where['timestamp'] = timestamp;
     }
 
@@ -49,5 +49,13 @@ export class PlaylistHistoryService {
       // Create a new playlist definition
       return await this.playlistRemixRepository.save(remixEntity);
     }
+  }
+
+  async getPlaylistDefinitionsForUser(userid: string) {
+    return await this.playlistRemixRepository.find({
+      where: {
+        userId: userid
+      }
+    });
   }
 }
