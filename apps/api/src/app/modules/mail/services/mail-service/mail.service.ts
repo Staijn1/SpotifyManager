@@ -70,6 +70,10 @@ export class MailService {
         user: {
           email: user.emailAddress,
           username: spotifyUser.display_name
+        },
+        appInfo: {
+          github: 'https://github.com/Staijn1/SpotifyManager',
+          appUrl: 'https://spotify.steinjonker.nl'
         }
       };
 
@@ -133,5 +137,10 @@ export type OriginalPlaylistUpdatedEmailContext = {
   user: {
     email: string,
     username: string
+  }
+
+  appInfo: {
+    github: string,
+    appUrl: string
   }
 }
