@@ -1,12 +1,13 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserPreferencesEntity } from '../entities/user-preferences.entity';
-import { In, LessThanOrEqual, Repository } from 'typeorm';
+import { LessThanOrEqual, Repository } from 'typeorm';
 import { SpotifyService } from '../../spotify/spotify.service';
 import { EmailNotificationFrequency, IUserPreferencesResponse } from '@spotify-manager/core';
 import { UserPreferencesRequest } from '../../../types/RequestObjectsDecorated';
 import { EmailType } from '../../../types/EmailType';
 import { EmailLogEntity } from '../../mail/entities/email-log.entity';
+import { ArrayNotContains } from 'class-validator';
 
 @Injectable()
 export class UserPreferencesService {
@@ -47,7 +48,7 @@ export class UserPreferencesService {
       emailAddresses = [emailAddresses];
     }
     // todo use In() on emailaddress
-    const users = await this.userPreferencesRepository.find({ where: { emailAddress: "stein@jnkr.eu" } });
+    const users = await this.userPreferencesRepository.find({ where: { emailAddress: 'stein@jnkr.eu' } });
 
     if (emailAddresses.length !== users.length) {
       const missingEmails = emailAddresses.filter(email => !users.some(user => user.emailAddress === email));
@@ -91,25 +92,23 @@ export class UserPreferencesService {
       default:
         throw new Error('Invalid frequency');
     }
-    // Get users that have not received a notification of this type since the lastNotificationDate
-    // Also include users that have never received a notification
-    const users = await this.userPreferencesRepository.find({
-      where: [
-        {
-          emailLogs: {
-            emailType: emailType,
-            sentAt: LessThanOrEqual(lastNotificationDate)
-          }
-        },
-        {
-          emailLogs: {
-            emailType: undefined
-          }
-        }
-      ]
+
+    const usersThatNeverReceivedANotification = await this.userPreferencesRepository.find({
+      where: {
+        emailLogs: ArrayNotContains([{ emailType: emailType }])
+      // Cast to unknown because of stupid TypeORM typing
+      } as unknown
     });
 
+    const usersThatShouldReceiveANotification = await this.userPreferencesRepository.find({
+      where: {
+        emailLogs: {
+          emailType: emailType,
+          sentAt: LessThanOrEqual(lastNotificationDate)
+        }
+      }
+    });
 
-    return users;
+    return usersThatShouldReceiveANotification.concat(usersThatNeverReceivedANotification);
   }
 }
