@@ -1,6 +1,17 @@
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { Controller, Post } from '@nestjs/common';
+import { ApiBearerAuth, ApiProperty, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Post } from '@nestjs/common';
 import { MailService } from '../services/mail-service/mail.service';
+import { EmailNotificationFrequency } from '@spotify-manager/core';
+
+class TriggerOriginalPlaylistUpdateNotificationsRequest {
+  @ApiProperty({
+    type: 'string',
+    required: true,
+    enum: EmailNotificationFrequency
+  })
+  frequency: EmailNotificationFrequency
+}
+
 
 @ApiBearerAuth()
 @ApiTags('mail')
@@ -14,5 +25,9 @@ export class MailController {
   public async testMail(): Promise<void> {
     return this.mailService.testMail();
   }
-}
 
+  @Post('original-playlist-update-notifications')
+  public async originalPlaylistUpdateNotifications(@Body() body: TriggerOriginalPlaylistUpdateNotificationsRequest): Promise<void> {
+    return this.mailService.sendOriginalPlaylistUpdatedEmails(body.frequency);
+  }
+}
