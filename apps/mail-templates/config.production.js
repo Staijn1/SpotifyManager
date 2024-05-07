@@ -16,6 +16,7 @@ module.exports = {
     templates: {
       destination: {
         path: '../api/src/assets/mail-templates',
+        extension: 'hbs'
       },
     },
   },
