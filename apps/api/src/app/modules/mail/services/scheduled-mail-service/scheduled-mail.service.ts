@@ -4,8 +4,8 @@ import { MailService } from '../mail-service/mail.service';
 import { EmailNotificationFrequency, Stopwatch } from '@spotify-manager/core';
 
 @Injectable()
-export class ScheduledMailServiceService implements OnModuleInit{
-  private readonly logger = new Logger(ScheduledMailServiceService.name);
+export class ScheduledMailService implements OnModuleInit{
+  private readonly logger = new Logger(ScheduledMailService.name);
 
   constructor(
     private readonly mailService: MailService,

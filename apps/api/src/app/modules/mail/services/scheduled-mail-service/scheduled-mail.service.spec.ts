@@ -1,22 +1,27 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ScheduledMailServiceService } from './scheduled-mail-service.service';
+import { ScheduledMailService } from './scheduled-mail.service';
 import { MailService } from '../mail-service/mail.service';
+import { SchedulerRegistry } from '@nestjs/schedule';
 
-describe('ScheduledMailServiceService', () => {
-  let service: ScheduledMailServiceService;
+describe('ScheduledMailService', () => {
+  let service: ScheduledMailService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        ScheduledMailServiceService,
+        ScheduledMailService,
         {
           provide: MailService,
+          useValue: jest.fn()
+        },
+        {
+          provide: SchedulerRegistry,
           useValue: jest.fn()
         }
       ],
     }).compile();
 
-    service = module.get<ScheduledMailServiceService>(ScheduledMailServiceService);
+    service = module.get<ScheduledMailService>(ScheduledMailService);
   });
 
   it('should be defined', () => {

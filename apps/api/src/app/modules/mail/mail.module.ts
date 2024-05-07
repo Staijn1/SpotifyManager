@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { UserPreferencesModule } from '../user-preferences/user-preferences.module';
-import { ScheduledMailServiceService } from './services/scheduled-mail-service/scheduled-mail-service.service';
+import { ScheduledMailService } from './services/scheduled-mail-service/scheduled-mail.service';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { join } from 'path';
@@ -12,7 +12,7 @@ import { SpotifyModule } from '../spotify/spotify.module';
 
 
 @Module({
-  providers: [MailService, ScheduledMailServiceService],
+  providers: [MailService, ScheduledMailService],
   controllers: [MailController],
   imports: [
     UserPreferencesModule,
