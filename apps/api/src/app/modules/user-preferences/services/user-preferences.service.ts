@@ -47,8 +47,15 @@ export class UserPreferencesService {
     if (!Array.isArray(emailAddresses)) {
       emailAddresses = [emailAddresses];
     }
-    // todo use In() on emailaddress
-    const users = await this.userPreferencesRepository.find({ where: { emailAddress: 'stein@jnkr.eu' } });
+
+    const users = await this.userPreferencesRepository.find({
+      where: {
+        emailAddress: {
+          $in: emailAddresses
+          // Cast to never because of stupid TypeORM typing
+        } as never
+      }
+    });
 
     if (emailAddresses.length !== users.length) {
       const missingEmails = emailAddresses.filter(email => !users.some(user => user.emailAddress === email));
@@ -96,7 +103,7 @@ export class UserPreferencesService {
     const usersThatNeverReceivedANotification = await this.userPreferencesRepository.find({
       where: {
         emailLogs: ArrayNotContains([{ emailType: emailType }])
-      // Cast to unknown because of stupid TypeORM typing
+        // Cast to unknown because of stupid TypeORM typing
       } as unknown
     });
 
