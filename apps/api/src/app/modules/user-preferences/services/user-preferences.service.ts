@@ -1,13 +1,12 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserPreferencesEntity } from '../entities/user-preferences.entity';
-import { LessThanOrEqual, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { SpotifyService } from '../../spotify/spotify.service';
 import { EmailNotificationFrequency, IUserPreferencesResponse } from '@spotify-manager/core';
 import { UserPreferencesRequest } from '../../../types/RequestObjectsDecorated';
 import { EmailType } from '../../../types/EmailType';
 import { EmailLogEntity } from '../../mail/entities/email-log.entity';
-import { ArrayNotContains } from 'class-validator';
 
 @Injectable()
 export class UserPreferencesService {
@@ -100,22 +99,19 @@ export class UserPreferencesService {
         throw new Error('Invalid frequency');
     }
 
-    const usersThatNeverReceivedANotification = await this.userPreferencesRepository.find({
-      where: {
-        emailLogs: ArrayNotContains([{ emailType: emailType }])
-        // Cast to unknown because of stupid TypeORM typing
-      } as unknown
-    });
+    const allUsers = await this.userPreferencesRepository.find();
 
-    const usersThatShouldReceiveANotification = await this.userPreferencesRepository.find({
-      where: {
-        emailLogs: {
-          emailType: emailType,
-          sentAt: LessThanOrEqual(lastNotificationDate)
-        }
-      }
-    });
+    // Return all users that should be notified
+    return allUsers.filter(user => {
+      // Sort the emailLogs array in descending order based on the sentAt field, that way the most recent email is the first element
+      const sortedEmailLogs = user.emailLogs.sort((a, b) => b.sentAt.getTime() - a.sentAt.getTime());
 
-    return usersThatShouldReceiveANotification.concat(usersThatNeverReceivedANotification);
+      // User should be notified if:
+      // - No email log is present for the given type, or
+      // - The most recent email log of the given email type was sent before the last notification date
+      const hasNoEmailLogForType = !sortedEmailLogs.some(log => log.emailType === emailType);
+      const mostRecentEmailLogForType = sortedEmailLogs.find(log => log.emailType === emailType);
+      return hasNoEmailLogForType || mostRecentEmailLogForType.sentAt <= lastNotificationDate;
+    });
   }
 }
