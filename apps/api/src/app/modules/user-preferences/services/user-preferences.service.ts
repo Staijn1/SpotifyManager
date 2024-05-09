@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserPreferencesEntity } from '../entities/user-preferences.entity';
 import { Repository } from 'typeorm';
-import { SpotifyService } from '../../spotify/spotify.service';
+import { SpotifyService } from '../../spotify/spotify/spotify.service';
 import { EmailNotificationFrequency, IUserPreferencesResponse } from '@spotify-manager/core';
 import { UserPreferencesRequest } from '../../../types/RequestObjectsDecorated';
 import { EmailType } from '../../../types/EmailType';

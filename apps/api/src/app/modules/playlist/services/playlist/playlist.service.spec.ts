@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PlaylistService } from './playlist.service';
-import { SpotifyService } from '../../../spotify/spotify.service';
+import { SpotifyService } from '../../../spotify/spotify/spotify.service';
 import { buildMockPlaylistTrackResponse, mockSong } from '../../../../utilities/testing-utils';
 import { CurrentUsersProfileResponse, Diff, DiffIdentifier } from '@spotify-manager/core';
 import { PlaylistHistoryService } from '../playlist-history/playlist-history.service';

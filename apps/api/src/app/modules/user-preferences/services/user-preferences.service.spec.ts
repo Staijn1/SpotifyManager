@@ -3,7 +3,7 @@ import { UserPreferencesService } from './user-preferences.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { UserPreferencesEntity } from '../entities/user-preferences.entity';
 import { repositoryMockFactory } from '../../../utilities/testing-utils';
-import { SpotifyService } from '../../spotify/spotify.service';
+import { SpotifyService } from '../../spotify/spotify/spotify.service';
 
 describe('UserPreferencesService', () => {
   let service: UserPreferencesService;

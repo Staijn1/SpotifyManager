@@ -1,5 +1,5 @@
 import {Module} from '@nestjs/common';
-import {SpotifyService} from './spotify.service';
+import {SpotifyService} from './spotify/spotify.service';
 import {HttpModule} from '@nestjs/axios';
 
 @Module({

@@ -1,5 +1,5 @@
 import { HttpException, Injectable, Logger } from '@nestjs/common';
-import { SpotifyService } from '../../../spotify/spotify.service';
+import { SpotifyService } from '../../../spotify/spotify/spotify.service';
 import {
   CreatePlaylistResponse,
   Diff,

@@ -1,5 +1,5 @@
 import {SpotifyAuthenticationMiddleware} from './spotify-authentication.middleware';
-import {SpotifyService} from '../../modules/spotify/spotify.service';
+import {SpotifyService} from '../../modules/spotify/spotify/spotify.service';
 
 describe('SpotifyAuthenticationMiddleware', () => {
   let sut: SpotifyAuthenticationMiddleware;

@@ -1,6 +1,6 @@
 import {HttpException, HttpStatus, Injectable, NestMiddleware} from '@nestjs/common';
 import {NextFunction, Request, Response} from 'express';
-import { SpotifyService } from '../../modules/spotify/spotify.service';
+import { SpotifyService } from '../../modules/spotify/spotify/spotify.service';
 
 @Injectable()
 export class SpotifyAuthenticationMiddleware implements NestMiddleware {

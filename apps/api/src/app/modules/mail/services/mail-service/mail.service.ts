@@ -5,7 +5,7 @@ import { EmailType } from '../../../../types/EmailType';
 import { DiffIdentifier, EmailNotificationFrequency, Utils } from '@spotify-manager/core';
 import { ISendMailOptions, MailerService } from '@nestjs-modules/mailer';
 import { PlaylistService } from '../../../playlist/services/playlist/playlist.service';
-import { SpotifyService } from '../../../spotify/spotify.service';
+import { SpotifyService } from '../../../spotify/spotify/spotify.service';
 
 
 @Injectable()
