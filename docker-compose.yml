@@ -33,6 +33,17 @@ services:
       - 4900:80
     networks:
       - corp
+
+  logging:
+    container_name: spotify_logging
+    image: datalust/seq
+    environment:
+      ACCEPT_EULA: Y
+    ports:
+      - "5341:80"
+    networks:
+        - corp
+
   spotify_db:
     container_name: spotify_db
     image: mongo

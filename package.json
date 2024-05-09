@@ -16,6 +16,7 @@
     "@angular/platform-browser": "17.3.4",
     "@angular/platform-browser-dynamic": "17.3.4",
     "@angular/router": "17.3.4",
+    "@datalust/winston-seq": "^2.0.0",
     "@fortawesome/angular-fontawesome": "^0.14.1",
     "@fortawesome/fontawesome-free": "^6.5.2",
     "@fortawesome/free-brands-svg-icons": "^6.5.2",
@@ -41,6 +42,7 @@
     "lodash": "^4.17.21",
     "mermaid": "^10.9.0",
     "mongodb": "^5.9.2",
+    "nest-winston": "^1.9.4",
     "nodemailer": "^6.9.13",
     "preview-email": "^3.0.19",
     "reflect-metadata": "^0.1.13",
@@ -49,6 +51,7 @@
     "spotify-web-api-node": "^5.0.2",
     "tslib": "^2.3.0",
     "typeorm": "^0.3.20",
+    "winston": "^3.13.0",
     "zone.js": "0.14.4"
   },
   "devDependencies": {
