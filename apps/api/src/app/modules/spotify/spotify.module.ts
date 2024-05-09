@@ -6,6 +6,6 @@ import { SpotifyAuthenticationService } from './authentication/spotify-authentic
 @Module({
   providers: [SpotifyService, SpotifyAuthenticationService],
   imports: [HttpModule],
-  exports: [SpotifyService],
+  exports: [SpotifyService, SpotifyAuthenticationService],
 })
 export class SpotifyModule {}
