@@ -8,31 +8,21 @@ import {
   CurrentUsersProfileResponse, ListOfUsersPlaylistsResponse,
   PlaylistTrackResponse, SinglePlaylistResponse
 } from '@spotify-manager/core';
+import { SpotifyAuthenticationService } from '../authentication/spotify-authentication.service';
 
 @Injectable()
 export class SpotifyService {
-  private _spotifyApi: SpotifyWebApi;
   readonly MAX_RETRIES = 15;
   currentRetryAttempt = 0;
+
+  private get spotifyApi(): SpotifyWebApi {
+    return this.spotifyAuthService.spotifyWebApi;
+  }
 
   /**
    * Create an instance of the SpotifyWebApi class.
    */
-  constructor(private httpService: HttpService) {
-    this._spotifyApi = new SpotifyWebApi();
-  }
-
-  /**
-   * Called by the authentication middleware to set the access token. This access token is used to make calls to the Spotify API.
-   * The access token belongs to the user that is currently logged in and made a call
-   * @param  accessToken
-   */
-  setAccessToken(accessToken: string) {
-    try {
-      this._spotifyApi.setAccessToken(accessToken);
-    } catch (e) {
-      throw new HttpException('Invalid access token', 401);
-    }
+  constructor(private httpService: HttpService, private readonly spotifyAuthService: SpotifyAuthenticationService) {
   }
 
   /**
@@ -40,7 +30,7 @@ export class SpotifyService {
    * @param  playlistid
    */
   async getPlaylistInformation(playlistid: string): Promise<SinglePlaylistResponse> {
-    const response = await this._spotifyApi.getPlaylist(playlistid);
+    const response = await this.spotifyApi.getPlaylist(playlistid);
     return response.body
   }
 
@@ -51,7 +41,7 @@ export class SpotifyService {
    * todo: remove any types
    */
   async createPlaylist(name: string, options?: Record<string, any>): Promise<CreatePlaylistResponse> {
-    const response = await this._spotifyApi.createPlaylist(name, options);
+    const response = await this.spotifyApi.createPlaylist(name, options);
     return response.body
   }
 
@@ -62,7 +52,7 @@ export class SpotifyService {
    * todo: remove any types
    */
   async getTracksInPlaylist(playlistid: string, options?: Record<string, any>): Promise<PlaylistTrackResponse> {
-    const response = await this._spotifyApi.getPlaylistTracks(playlistid, options);
+    const response = await this.spotifyApi.getPlaylistTracks(playlistid, options);
     return response.body
   }
 
@@ -80,7 +70,7 @@ export class SpotifyService {
       const chunks = this.splitArrayInChunks(trackURIs, 100);
       let response;
       for (const chunk of chunks) {
-        response = await this._spotifyApi.addTracksToPlaylist(id, chunk, options);
+        response = await this.spotifyApi.addTracksToPlaylist(id, chunk, options);
       }
 
       this.currentRetryAttempt = 0;
@@ -103,7 +93,7 @@ export class SpotifyService {
    * @param userid - The user id of the user to get the playlists from. If not provided, the current user's playlists are fetched.
    */
   async getUserPlaylists(userid?: string): Promise<ListOfUsersPlaylistsResponse> {
-    const response = userid ? await this._spotifyApi.getUserPlaylists(userid) : await this._spotifyApi.getUserPlaylists();
+    const response = userid ? await this.spotifyApi.getUserPlaylists(userid) : await this.spotifyApi.getUserPlaylists();
     return response.body
   }
 
@@ -112,7 +102,7 @@ export class SpotifyService {
    * @param url
    */
   async getGeneric(url: string): Promise<any> {
-    const response = await firstValueFrom(this.httpService.get(url, {headers: {'Authorization': `Bearer ${this._spotifyApi.getAccessToken()}`}}))
+    const response = await firstValueFrom(this.httpService.get(url, {headers: {'Authorization': `Bearer ${this.spotifyApi.getAccessToken()}`}}))
 
     if (response.status !== 200) {
       throw new HttpException(response.statusText, response.status)
@@ -121,17 +111,10 @@ export class SpotifyService {
   }
 
   /**
-   * Get the access token
-   */
-  getAccessToken(): string {
-    return this._spotifyApi.getAccessToken()
-  }
-
-  /**
    * Get the current signed in user
    */
   async getMe(): Promise<CurrentUsersProfileResponse> {
-    const response = await this._spotifyApi.getMe();
+    const response = await this.spotifyApi.getMe();
     return response.body
   }
 
@@ -145,7 +128,7 @@ export class SpotifyService {
     // So we need to split the tracks into chunks of 100 and remove them one by one
     const chunks = this.splitArrayInChunks(trackURIs, 100);
     for (const chunk of chunks) {
-      await this._spotifyApi.removeTracksFromPlaylist(playlistId, chunk.map(track => {
+      await this.spotifyApi.removeTracksFromPlaylist(playlistId, chunk.map(track => {
         return {uri: track.uri}
       }));
     }
@@ -173,7 +156,7 @@ export class SpotifyService {
    * @param options
    */
   async changePlaylistDetails(id: string, options: { description: string }) {
-    const newPlaylist = await this._spotifyApi.changePlaylistDetails(id, options)
+    const newPlaylist = await this.spotifyApi.changePlaylistDetails(id, options)
     return newPlaylist.body;
   }
 
@@ -182,11 +165,11 @@ export class SpotifyService {
    * @param id
    */
   async removePlaylist(id: string) {
-    await this._spotifyApi.unfollowPlaylist(id);
+    await this.spotifyApi.unfollowPlaylist(id);
   }
 
   async getUser(userId: string) {
-    const response = await this._spotifyApi.getUser(userId);
+    const response = await this.spotifyApi.getUser(userId);
     return response.body
   }
 }

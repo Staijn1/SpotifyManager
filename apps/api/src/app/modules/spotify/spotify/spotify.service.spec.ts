@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { SpotifyService } from './spotify.service';
 import { HttpService } from '@nestjs/axios';
 import { of } from 'rxjs';
+import { SpotifyAuthenticationService } from '../authentication/spotify-authentication.service';
 
 describe('SpotifyService', () => {
   let service: SpotifyService;
@@ -16,6 +17,10 @@ describe('SpotifyService', () => {
             get: jest.fn().mockImplementation(() => of({ data: {} })),
           },
         },
+        {
+          provide: SpotifyAuthenticationService,
+          useValue: jest.fn()
+        }
       ],
     }).compile();
 
