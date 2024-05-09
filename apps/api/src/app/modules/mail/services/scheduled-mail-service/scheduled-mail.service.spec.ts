@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ScheduledMailService } from './scheduled-mail.service';
 import { MailService } from '../mail-service/mail.service';
 import { SchedulerRegistry } from '@nestjs/schedule';
-import { ConfigService } from '@nestjs/config';
 import { SpotifyAuthenticationService } from '../../../spotify/authentication/spotify-authentication.service';
 
 describe('ScheduledMailService', () => {
