@@ -220,6 +220,7 @@ export class PlaylistService {
    *
    * @param {string} originalPlaylistId - The ID of the original playlist.
    * @param {string} remixedPlaylistId - The ID of the remixed playlist.
+   * @param userId
    * @returns {Promise<Diff[]>} - A promise that resolves to an array of differences between the playlists.
    *
    * @example
@@ -231,10 +232,10 @@ export class PlaylistService {
    *
    * // Returns: [['removed-in-original', 'Song A'], ['unchanged', 'Song B'], ['removed-in-remix', 'Song C'], ['unchanged', 'Song D'], ['unchanged', 'Song E'], ['added-in-original', 'Song F'], ['added-in-remix', 'Song G']]
    */
-  async compareRemixedPlaylistWithOriginal(originalPlaylistId: string, remixedPlaylistId: string): Promise<Diff[]> {
+  async compareRemixedPlaylistWithOriginal(originalPlaylistId: string, remixedPlaylistId: string, userId?:string): Promise<Diff[]> {
     // Step 1: Fetch all required data.
     // The current user, the original playlist at the time of remixing, the current state of the original playlist, and the current state of the remixed playlist.
-    const me = await this.spotifyService.getMe();
+    const me = userId ? (await this.spotifyService.getUser(userId)) : (await this.spotifyService.getMe());
     const originalPlaylistTrackIdsAtLastSync = (await this.historyService.getPlaylistDefinition(originalPlaylistId, remixedPlaylistId, me.id))?.originalPlaylistTrackIds;
 
     if (!originalPlaylistTrackIdsAtLastSync) {

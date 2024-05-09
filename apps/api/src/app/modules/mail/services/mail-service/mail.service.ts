@@ -79,7 +79,7 @@ export class MailService {
 
       for (const remix of remixes) {
         const originalPlaylistId = Utils.GetOriginalPlaylistIdFromDescription(remix.description);
-        const differences = await this.playlistService.compareRemixedPlaylistWithOriginal(originalPlaylistId, remix.id);
+        const differences = await this.playlistService.compareRemixedPlaylistWithOriginal(originalPlaylistId, remix.id, user.userId);
         const songsAddedInOriginal = differences.filter(diff => diff[0] === DiffIdentifier.ADDED_IN_ORIGINAL);
         const songsRemovedInOriginal = differences.filter(diff => diff[0] === DiffIdentifier.REMOVED_IN_ORIGINAL);
 
