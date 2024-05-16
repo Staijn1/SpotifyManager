@@ -5,6 +5,22 @@
   </div>
 } @else {
   <div class="container mx-auto my-3 pb-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+      <div class="bg-base-300 rounded-lg p-4 flex items-center">
+        <img class="w-48 h-48 rounded-lg mr-4" [src]="originalPlaylist?.images[0].url" alt="Original Playlist Cover">
+        <div>
+          <h3 class="text-xl font-bold">{{originalPlaylist?.name}}</h3>
+          <p>{{originalPlaylist?.description}}</p>
+        </div>
+      </div>
+      <div class="bg-base-300 rounded-lg p-4 flex items-center justify-end text-right">
+        <div>
+          <h3 class="text-xl font-bold">{{remixedPlaylist?.name}}</h3>
+          <p>{{remixedPlaylist?.description}}</p>
+        </div>
+        <img class="w-48 h-48 rounded-lg ml-4" [src]="remixedPlaylist?.images[0].url" alt="Remixed Playlist Cover">
+      </div>
+    </div>
     <div class="grid md:grid-cols-2 gap-4">
       <div>
         <h2>Changed Tracks</h2>
@@ -75,4 +91,3 @@
     </button>
   </div>
 }
-
