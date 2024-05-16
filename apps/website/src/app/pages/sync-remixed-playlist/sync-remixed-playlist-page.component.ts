@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LoadingComponent } from '../../components/loading/loading.component';
 import { SpotifyTrackComponent } from '../../components/spotify-track/spotify-track.component';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { Diff, DiffIdentifier } from '@spotify-manager/core';
+import { Diff, DiffIdentifier, SinglePlaylistResponse } from '@spotify-manager/core';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { Navigation, Router } from '@angular/router';
 import { ApiService } from '../../services/api/api.service';
@@ -30,6 +30,8 @@ export class SyncRemixedPlaylistPageComponent {
   arrowLeftIcon = faArrowLeft;
   isSyncing = false;
 
+  originalPlaylist: SinglePlaylistResponse | undefined;
+
   constructor(
     private readonly router: Router,
     private apiService: ApiService,
@@ -49,8 +51,10 @@ export class SyncRemixedPlaylistPageComponent {
     }
   }
 
-  private load() {
+  private async load() {
     this.isComparisonLoading = true;
+    // Fetch playlist details as the first step
+    await this.fetchPlaylistDetails();
     this.apiService.comparePlaylists(this.originalPlaylistId, this.remixedPlaylistId)
       .then(changes => {
         // Automatically build the draft synced playlist with tracks that are:
@@ -65,6 +69,11 @@ export class SyncRemixedPlaylistPageComponent {
         // The changed tracks are then the ones that are in the list of changes, but not in the draft synced playlist
         this.changedTracks = _.differenceWith(changes, this.draftSyncedPlaylist, (a: Diff, b: Diff) => a[1].track.id === b[1].track.id);
       }).finally(() => this.isComparisonLoading = false);
+  }
+
+  private async fetchPlaylistDetails() {
+    // Fetch the original playlist details
+    this.originalPlaylist = await this.apiService.getPlaylist(this.originalPlaylistId);
   }
 
   /**
