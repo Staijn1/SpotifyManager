@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LoadingComponent } from '../../components/loading/loading.component';
 import { SpotifyTrackComponent } from '../../components/spotify-track/spotify-track.component';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { Diff, DiffIdentifier } from '@spotify-manager/core';
+import { Diff, DiffIdentifier, SinglePlaylistResponse } from '@spotify-manager/core';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { Navigation, Router } from '@angular/router';
 import { ApiService } from '../../services/api/api.service';
@@ -30,9 +30,7 @@ export class SyncRemixedPlaylistPageComponent {
   arrowLeftIcon = faArrowLeft;
   isSyncing = false;
 
-  // Fields for storing fetched playlist details
-  originalPlaylist: SpotifyApi.SinglePlaylistResponse | undefined;
-  remixedPlaylist: SpotifyApi.SinglePlaylistResponse | undefined;
+  originalPlaylist: SinglePlaylistResponse | undefined;
 
   constructor(
     private readonly router: Router,
@@ -76,8 +74,6 @@ export class SyncRemixedPlaylistPageComponent {
   private async fetchPlaylistDetails() {
     // Fetch the original playlist details
     this.originalPlaylist = await this.apiService.getPlaylist(this.originalPlaylistId);
-    // Fetch the remixed playlist details
-    this.remixedPlaylist = await this.apiService.getPlaylist(this.remixedPlaylistId);
   }
 
   /**
