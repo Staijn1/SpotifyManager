@@ -26,6 +26,8 @@ h5 {
 }
 
 
-app-remix a {
-  @apply text-accent;
+app-remix, app-sync-remixed-playlist-page {
+  a {
+    @apply text-accent;
+  }
 }
