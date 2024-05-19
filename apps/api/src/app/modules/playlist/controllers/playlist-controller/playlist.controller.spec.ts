@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PlaylistController } from './playlist.controller';
 import { PlaylistService } from '../../services/playlist/playlist.service';
-import { SpotifyService } from '../../../spotify/spotify.service';
+import { SpotifyService } from '../../../spotify/spotify/spotify.service';
 import { PlaylistHistoryService } from '../../services/playlist-history/playlist-history.service';
 import { MailService } from '../../../mail/services/mail-service/mail.service';
 

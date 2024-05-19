@@ -1,5 +1,5 @@
 import { HttpException, Injectable, Logger } from '@nestjs/common';
-import { SpotifyService } from '../../../spotify/spotify.service';
+import { SpotifyService } from '../../../spotify/spotify/spotify.service';
 import {
   CreatePlaylistResponse,
   Diff,
@@ -10,20 +10,15 @@ import {
   PlaylistTrackResponse,
   SinglePlaylistResponse,
   SyncPlaylistResult,
-  TrackObjectFull, Utils
+  TrackObjectFull
 } from '@spotify-manager/core';
 import _ from 'lodash';
 import { PlaylistHistoryService } from '../playlist-history/playlist-history.service';
 import { PlaylistRemixEntity } from '../../entities/playlist-remix.entity';
+import { environment } from '../../../../../environments/environment';
 
 @Injectable()
 export class PlaylistService {
-  /**
-   * A regex to identify the original playlist ID in the description of a remixed playlist.
-   * e.g. Original playlist: {6vDGVr652ztNWKZuHvsFvx} (matches the ID between the curly braces)
-   * @private
-   */
-  private readonly originalIdRegex = /\{([^}]+)\}/g;
   /**
    * Inject dependencies
    * @param spotifyService
@@ -73,7 +68,13 @@ export class PlaylistService {
     const me = await this.spotifyService.getMe();
     const originalPlaylist = await this.getPlaylistWithAllTracks(playlistid);
 
-    const newPlaylistName = `Remix - ${originalPlaylist.name}`;
+    let newPlaylistName = originalPlaylist.name;
+    if (!environment.production) {
+      newPlaylistName = `Local Remix - ${newPlaylistName}`;
+    } else {
+      newPlaylistName = `Remix - ${newPlaylistName}`;
+    }
+
     // Somehow the spotify API does not always add the description properly. So we keep track of the expected description.
     // If the actual description does not match the expected description, we will update the playlist with the expected description.
     const expectedDescription = `This playlist has been remixed using SpotifyManager. Please do not remove the original playlist id from the description. Original playlist: {${originalPlaylist.id}}`;
@@ -186,11 +187,21 @@ export class PlaylistService {
   }
 
   /**
-   * Get all remixed playlists for a user
+   * Get all remixed playlists for a user, that are also recorded in the database.
+   * We filter out playlists that are not remixed by this application instance, because we don't have the original playlist definition for those, resulting in errors down the line.
+   * This is because the production environment uses the same Spotify account as when you are developing the application.
    */
   async getRemixedPlaylists(userid?: string): Promise<ListOfUsersPlaylistsResponse> {
     const playlists = await this.getAllUserPlaylists(userid);
-    playlists.items = playlists.items.filter(playlist => Utils.GetOriginalPlaylistIdFromDescription(playlist.description) != null);
+
+    if (!userid) {
+      userid = (await this.spotifyService.getMe()).id;
+    }
+
+    const playlistDefinitions = await this.historyService.getPlaylistDefinitionsForUser(userid);
+    const remixedPlaylistIds = playlistDefinitions.map(definition => definition.remixPlaylistId);
+
+    playlists.items = playlists.items.filter(playlist => remixedPlaylistIds.includes(playlist.id));
     return playlists;
   }
 
@@ -209,6 +220,7 @@ export class PlaylistService {
    *
    * @param {string} originalPlaylistId - The ID of the original playlist.
    * @param {string} remixedPlaylistId - The ID of the remixed playlist.
+   * @param userId
    * @returns {Promise<Diff[]>} - A promise that resolves to an array of differences between the playlists.
    *
    * @example
@@ -220,10 +232,10 @@ export class PlaylistService {
    *
    * // Returns: [['removed-in-original', 'Song A'], ['unchanged', 'Song B'], ['removed-in-remix', 'Song C'], ['unchanged', 'Song D'], ['unchanged', 'Song E'], ['added-in-original', 'Song F'], ['added-in-remix', 'Song G']]
    */
-  async compareRemixedPlaylistWithOriginal(originalPlaylistId: string, remixedPlaylistId: string): Promise<Diff[]> {
+  async compareRemixedPlaylistWithOriginal(originalPlaylistId: string, remixedPlaylistId: string, userId?:string): Promise<Diff[]> {
     // Step 1: Fetch all required data.
     // The current user, the original playlist at the time of remixing, the current state of the original playlist, and the current state of the remixed playlist.
-    const me = await this.spotifyService.getMe();
+    const me = userId ? (await this.spotifyService.getUser(userId)) : (await this.spotifyService.getMe());
     const originalPlaylistTrackIdsAtLastSync = (await this.historyService.getPlaylistDefinition(originalPlaylistId, remixedPlaylistId, me.id))?.originalPlaylistTrackIds;
 
     if (!originalPlaylistTrackIdsAtLastSync) {

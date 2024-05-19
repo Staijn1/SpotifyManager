@@ -1,0 +1,78 @@
+---
+title: "Original playlists have updated"
+preheader: "Some of your remixed playlists have original playlists that have updated since your remix or last synchronization. Navigate to Spotify Manager to get up-to-date quickly!"
+bodyClass: bg-slate-50
+---
+
+<x-main>
+  <div class="bg-slate-50 sm:px-4 font-sans">
+    <table align="center">
+      <tr>
+        <td class="w-[552px] max-w-full">
+          <div class="my-12 sm:my-8 text-center"></div>
+
+          <table class="w-full">
+            <tr>
+              <td class="p-12 sm:px-6 text-base text-slate-700 bg-white rounded shadow-sm">
+                <h1 class="m-0 mb-6 text-2xl sm:leading-8 text-black font-semibold">
+                  Original playlists have updated
+                </h1>
+
+                <p>Dear @{{user.username}},</p>
+
+                <p class="m-0 leading-6">
+                  Some of your remixed playlists have original playlists that have updated since your remix or last synchronization. Navigate to Spotify Manager to get up-to-date quickly!
+                </p>
+
+                <x-spacer height="24px" />
+
+                @{{#each updatedRemixes as |remix|}}
+                  <div class="spotify-track-container bg-base-300 rounded-lg overflow-hidden flex h-full">
+                    <div>
+                      <a href="@{{playlistUrl}}" target="_blank">
+                        <img class="w-24 h-24 object-cover" src="@{{playlistCoverUrl}}" alt="Track cover image" />
+                      </a>
+                    </div>
+
+                    <div class="p-3 flex-1 flex justify-between items-center">
+                      <div>
+                        <h3>@{{playlistTitle}}</h3>
+                        <p>Songs added: @{{amountOfSongsAddedInOrginal}}</p>
+                        <p>Songs removed: @{{amountOfSongsRemovedInOriginal}}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <x-spacer height="24px" />
+                @{{/each}}
+
+                <x-divider space-y="32px" class="bg-slate-200" />
+
+                <p class="m-0">
+                  Thanks, <br />The Spotify Manager Team
+                </p>
+              </td>
+            </tr>
+            <tr role="separator">
+              <td class="leading-12">&zwj;</td>
+            </tr>
+            <tr>
+              <td class="text-center text-slate-600 text-xs px-6">
+                <p class="m-0 mb-4 uppercase">
+                  Powered by Spotify Manager
+                </p>
+
+                <p class="cursor-default">
+                  <a href="@{{appInfo.github}}" class="text-indigo-700 [text-decoration:none] hover:![text-decoration:underline]">
+                    <img src="images/github-icon.png" alt="GitHub">
+                  </a>
+                  &bull;
+                  <a href="@{{appInfo.appUrl}}" class="text-indigo-700 [text-decoration:none] hover:![text-decoration:underline]">Spotify Manager</a>
+                </p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </div>
+</x-main>

@@ -1,8 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserPreferencesEntity } from '../entities/user-preferences.entity';
-import { In, LessThanOrEqual, Repository } from 'typeorm';
-import { SpotifyService } from '../../spotify/spotify.service';
+import { Repository } from 'typeorm';
+import { SpotifyService } from '../../spotify/spotify/spotify.service';
 import { EmailNotificationFrequency, IUserPreferencesResponse } from '@spotify-manager/core';
 import { UserPreferencesRequest } from '../../../types/RequestObjectsDecorated';
 import { EmailType } from '../../../types/EmailType';
@@ -46,8 +46,15 @@ export class UserPreferencesService {
     if (!Array.isArray(emailAddresses)) {
       emailAddresses = [emailAddresses];
     }
-    // todo use In() on emailaddress
-    const users = await this.userPreferencesRepository.find({ where: { emailAddress: "stein@jnkr.eu" } });
+
+    const users = await this.userPreferencesRepository.find({
+      where: {
+        emailAddress: {
+          $in: emailAddresses
+          // Cast to never because of stupid TypeORM typing
+        } as never
+      }
+    });
 
     if (emailAddresses.length !== users.length) {
       const missingEmails = emailAddresses.filter(email => !users.some(user => user.emailAddress === email));
@@ -67,7 +74,7 @@ export class UserPreferencesService {
   /**
    * This method returns all email-addresses that should receive a notification because the last time they received a notification was more than the frequency ago.
    */
-  async getUnnotifiedEmailAddresses(frequency: EmailNotificationFrequency, emailType: EmailType) {
+  async getUnnotifiedUsers(frequency: EmailNotificationFrequency, emailType: EmailType) {
     if (frequency == EmailNotificationFrequency.NEVER) {
       this.logger.warn('Attempting to gather unnotified email addresses for a frequency of NEVER. This is not allowed.');
       return [];
@@ -91,25 +98,20 @@ export class UserPreferencesService {
       default:
         throw new Error('Invalid frequency');
     }
-    // Get users that have not received a notification of this type since the lastNotificationDate
-    // Also include users that have never received a notification
-    const users = await this.userPreferencesRepository.find({
-      where: [
-        {
-          emailLogs: {
-            emailType: emailType,
-            sentAt: LessThanOrEqual(lastNotificationDate)
-          }
-        },
-        {
-          emailLogs: {
-            emailType: undefined
-          }
-        }
-      ]
+
+    const allUsers = await this.userPreferencesRepository.find();
+
+    // Return all users that should be notified
+    return allUsers.filter(user => {
+      // Sort the emailLogs array in descending order based on the sentAt field, that way the most recent email is the first element
+      const sortedEmailLogs = user.emailLogs.sort((a, b) => b.sentAt.getTime() - a.sentAt.getTime());
+
+      // User should be notified if:
+      // - No email log is present for the given type, or
+      // - The most recent email log of the given email type was sent before the last notification date
+      const hasNoEmailLogForType = !sortedEmailLogs.some(log => log.emailType === emailType);
+      const mostRecentEmailLogForType = sortedEmailLogs.find(log => log.emailType === emailType);
+      return hasNoEmailLogForType || mostRecentEmailLogForType.sentAt <= lastNotificationDate;
     });
-
-
-    return users.map(user => user.emailAddress);
   }
 }

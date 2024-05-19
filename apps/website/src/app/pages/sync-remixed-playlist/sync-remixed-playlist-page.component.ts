@@ -138,6 +138,8 @@ export class SyncRemixedPlaylistPageComponent {
         return 'Added in original';
       case DiffIdentifier.REMOVED_IN_ORIGINAL:
         return 'Removed in original';
+      case DiffIdentifier.ADDED_IN_BOTH:
+        return 'Added in both remix and original';
       default:
         return 'Unknown DiffIdentifier';
     }

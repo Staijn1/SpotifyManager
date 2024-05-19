@@ -1,11 +1,11 @@
-import {Module} from '@nestjs/common';
-import {SpotifyService} from './spotify.service';
-import {HttpModule} from '@nestjs/axios';
+import { Module } from '@nestjs/common';
+import { SpotifyService } from './spotify/spotify.service';
+import { HttpModule } from '@nestjs/axios';
+import { SpotifyAuthenticationService } from './authentication/spotify-authentication.service';
 
 @Module({
-  providers: [SpotifyService],
+  providers: [SpotifyService, SpotifyAuthenticationService],
   imports: [HttpModule],
-  exports: [SpotifyService],
+  exports: [SpotifyService, SpotifyAuthenticationService],
 })
-export class SpotifyModule {
-}
+export class SpotifyModule {}

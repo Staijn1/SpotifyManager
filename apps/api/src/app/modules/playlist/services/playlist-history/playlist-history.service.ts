@@ -13,21 +13,16 @@ export class PlaylistHistoryService {
    * @param originalPlaylistId
    * @param remixedPlaylistId
    * @param userId
-   * @param timestamp
    */
-  async getPlaylistDefinition(originalPlaylistId: string, remixedPlaylistId: string, userId: string, timestamp?: Date): Promise<PlaylistRemixEntity | null> {
+  async getPlaylistDefinition(originalPlaylistId: string, remixedPlaylistId: string, userId: string): Promise<PlaylistRemixEntity | null> {
     const query: FindOneOptions<PlaylistRemixEntity> = {
       where: {
         originalPlaylistId: originalPlaylistId,
         remixPlaylistId: remixedPlaylistId,
-        userId: userId,
+        userId: userId
       },
-      order: timestamp ? undefined : { timestamp: 'DESC' }
+      order: { timestamp: 'DESC' }
     };
-
-    if(timestamp) {
-      query.where['timestamp'] = timestamp;
-    }
 
     return await this.playlistRemixRepository.findOne(query);
   }
@@ -38,7 +33,7 @@ export class PlaylistHistoryService {
    */
   async recordPlaylistDefinition(remixEntity: PlaylistRemixEntity) {
     // Check if a playlist definition already exists for this playlist
-    const existingDefinition = await this.getPlaylistDefinition(remixEntity.originalPlaylistId, remixEntity.remixPlaylistId, remixEntity.userId, remixEntity.timestamp);
+    const existingDefinition = await this.getPlaylistDefinition(remixEntity.originalPlaylistId, remixEntity.remixPlaylistId, remixEntity.userId);
 
     if (existingDefinition) {
       // Update the existing playlist definition
@@ -49,5 +44,13 @@ export class PlaylistHistoryService {
       // Create a new playlist definition
       return await this.playlistRemixRepository.save(remixEntity);
     }
+  }
+
+  async getPlaylistDefinitionsForUser(userid: string) {
+    return await this.playlistRemixRepository.find({
+      where: {
+        userId: userid
+      }
+    });
   }
 }

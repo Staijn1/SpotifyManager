@@ -2,8 +2,10 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { UserPreferencesService } from '../../../user-preferences/services/user-preferences.service';
 import { EmailType } from '../../../../types/EmailType';
-import { EmailNotificationFrequency } from '@spotify-manager/core';
+import { DiffIdentifier, EmailNotificationFrequency, Utils } from '@spotify-manager/core';
 import { ISendMailOptions, MailerService } from '@nestjs-modules/mailer';
+import { PlaylistService } from '../../../playlist/services/playlist/playlist.service';
+import { SpotifyService } from '../../../spotify/spotify/spotify.service';
 
 
 @Injectable()
@@ -13,6 +15,8 @@ export class MailService {
   constructor(
     private readonly configService: ConfigService,
     private readonly mailerService: MailerService,
+    private readonly playlistService: PlaylistService,
+    private readonly spotifyService: SpotifyService,
     private readonly userPreferenceService: UserPreferencesService) {
   }
 
@@ -30,23 +34,8 @@ export class MailService {
     }
 
     options.to = recipients.length == 0 ? options.to : recipients;
-    // todo: remove
-    console.log(options)
-    const result = await this.mailerService.sendMail(options);
-    console.log(result)
-  }
-
-  async testMail() {
-    await this.sendMail({
-      to: 'stein@jnkr.eu',
-      subject: 'Test',
-      text: 'Test',
-      template: './test',
-      context: {
-        name: "Testing A Name"
-      }
-    });
-    await this.userPreferenceService.recordEmailSent('stein@jnkr.eu', EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION);
+    await this.mailerService.sendMail(options);
+    this.logger.log(`Sent email successfully`);
   }
 
   /**
@@ -54,26 +43,97 @@ export class MailService {
    * @param frequency
    */
   async sendOriginalPlaylistUpdatedEmails(frequency: EmailNotificationFrequency) {
-    this.logger.warn('sendOriginalPlaylistUpdatedEmails is not implemented, frequency: ' + frequency);
-    /*const users = await this.userPreferenceService.getUnnotifiedEmailAddresses(frequency, EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION);
+    this.logger.log('Starting change-detection for original playlist of remixed playlists');
+    const users = await this.userPreferenceService.getUnnotifiedUsers(frequency, EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION);
+
+    const promises: Map<string, Promise<any>[]> = new Map();
+    let amountOfUsersWithUpdatedOriginalPlaylists = 0;
     for (const user of users) {
-      // todo get remixed playlists for this user
-      // todo compare remixed playlist with original playlist
-      // todo if original playlist has been updated, send email and record email sent
+      const spotifyUser = await this.spotifyService.getUser(user.userId);
+      const remixes = (await this.playlistService.getRemixedPlaylists(user.userId)).items;
 
-      //eslint-disable-next-line
-      let hasAnyOriginalPlaylistChanged = false;
+      const userEmailContext: OriginalPlaylistUpdatedEmailContext = {
+        updatedRemixes: [],
+        user: {
+          email: user.emailAddress,
+          username: spotifyUser.display_name
+        },
+        appInfo: {
+          github: 'https://github.com/Staijn1/SpotifyManager',
+          appUrl: 'https://spotify.steinjonker.nl'
+        }
+      };
 
-      if (!hasAnyOriginalPlaylistChanged) {
+      for (const remix of remixes) {
+        const originalPlaylistId = Utils.GetOriginalPlaylistIdFromDescription(remix.description);
+        const differences = await this.playlistService.compareRemixedPlaylistWithOriginal(originalPlaylistId, remix.id, user.userId);
+        const songsAddedInOriginal = differences.filter(diff => diff[0] === DiffIdentifier.ADDED_IN_ORIGINAL);
+        const songsRemovedInOriginal = differences.filter(diff => diff[0] === DiffIdentifier.REMOVED_IN_ORIGINAL);
+
+        // Stop if no songs have been added or removed
+        if (songsAddedInOriginal.length == 0 && songsRemovedInOriginal.length == 0) {
+          continue;
+        }
+
+        userEmailContext.updatedRemixes.push({
+          amountOfSongsAddedInOrginal: songsAddedInOriginal.length,
+          amountOfSongsRemovedInOriginal: songsRemovedInOriginal.length,
+          playlistTitle: remix.name,
+          playlistUrl: remix.external_urls.spotify,
+          playlistCoverUrl: remix.images[0].url
+        });
+      }
+
+      if (userEmailContext.updatedRemixes.length == 0) {
+        this.logger.log(`No updates found for user ${user.userId}`);
         continue;
       }
 
-      await this.sendMail({
-        to: user,
-        subject: 'Original playlist updated',
-        text: 'One of your original playlist has been updated'
-      });
-      await this.userPreferenceService.recordEmailSent(user, EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION);
-    }*/
+      const promisesForUser = promises.get(user.userId) ?? [];
+      promisesForUser.push(
+        this.sendMail({
+          to: user.emailAddress,
+          subject: 'Spotify Manager - Original playlist updated',
+          template: './original-playlist-updated',
+          context: userEmailContext
+        }),
+        this.userPreferenceService.recordEmailSent(user.emailAddress, EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION)
+      );
+
+      amountOfUsersWithUpdatedOriginalPlaylists = amountOfUsersWithUpdatedOriginalPlaylists + 1;
+    }
+
+    this.logger.log(`Done processing change-detection for remixed playlists. ${amountOfUsersWithUpdatedOriginalPlaylists} user(s) will be notified, sending emails now`);
+
+
+    for (const userPromises of promises.entries()) {
+      try {
+        const promises = userPromises[1];
+        await Promise.all(promises);
+      } catch (e) {
+        this.logger.error(`Failed to complete sending emails for user ${userPromises[0]}`);
+        this.logger.error(e);
+      }
+    }
+  }
+}
+
+export type OriginalPlaylistUpdatedEmailContext = {
+  updatedRemixes: {
+    amountOfSongsAddedInOrginal: number,
+    amountOfSongsRemovedInOriginal: number,
+    playlistTitle: string,
+    playlistUrl: string
+    playlistCoverUrl: string
+  }[];
+
+  user: {
+    email: string,
+    username: string
+  }
+
+  appInfo: {
+    github: string,
+    appUrl: string
   }
 }
