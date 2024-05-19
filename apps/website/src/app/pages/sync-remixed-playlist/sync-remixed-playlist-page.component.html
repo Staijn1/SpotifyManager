@@ -5,6 +5,15 @@
   </div>
 } @else {
   <div class="container mx-auto my-3 pb-16">
+    <div class="bg-base-300 rounded-lg flex items-center overflow-hidden mb-4">
+      @if (originalPlaylist && originalPlaylist.images[0].url) {
+        <img class="w-40 h-40 mr-4" [src]="originalPlaylist.images[0].url" alt="Original Playlist Cover">
+      }
+      <div class="p-4">
+        <h3 class="text-xl font-bold">{{ originalPlaylist?.name }}</h3>
+        <p [innerHTML]="originalPlaylist?.description"></p>
+      </div>
+    </div>
     <div class="grid md:grid-cols-2 gap-4">
       <div>
         <h2>Changed Tracks</h2>
@@ -26,7 +35,8 @@
               [showPreview]="true"
               [track]="diff[1]">
               <div class="flex flex-col">
-                <span class="mb-3 text-gray-900 text-center font-semibold text-sm">{{getDiffIdentifierText(diff[0])}}</span>
+                <span
+                  class="mb-3 text-gray-900 text-center font-semibold text-sm">{{ getDiffIdentifierText(diff[0]) }}</span>
                 <button class="btn btn-success glass" (click)="addTrackToPreviewSyncedPlaylist(diff)">
                   Add to Preview
                   <fa-icon [icon]="arrowRightIcon"></fa-icon>
@@ -54,7 +64,8 @@
               [track]="track[1]">
               @if (track[0] !== DiffIdentifier.UNCHANGED) {
                 <div class="flex flex-col">
-                  <span class="mb-3 text-gray-900 text-center font-semibold text-sm">{{getDiffIdentifierText(track[0])}}</span>
+                  <span
+                    class="mb-3 text-gray-900 text-center font-semibold text-sm">{{ getDiffIdentifierText(track[0]) }}</span>
                   <button class="btn btn-error glass" (click)="removeTrackFromPreviewSyncedPlaylist(track)">
                     Remove from Preview
                     <fa-icon [icon]="arrowLeftIcon"></fa-icon>
@@ -77,4 +88,3 @@
     </button>
   </div>
 }
-
