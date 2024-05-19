@@ -20,12 +20,6 @@ export class MailController {
   constructor(private readonly mailService: MailService) {
   }
 
-
-  @Post('testmail')
-  public async testMail(): Promise<void> {
-    return this.mailService.testMail();
-  }
-
   @Post('original-playlist-update-notifications')
   public async originalPlaylistUpdateNotifications(@Body() body: TriggerOriginalPlaylistUpdateNotificationsRequest): Promise<void> {
     return this.mailService.sendOriginalPlaylistUpdatedEmails(body.frequency);

@@ -38,19 +38,6 @@ export class MailService {
     this.logger.log(`Sent email successfully`);
   }
 
-  async testMail() {
-    await this.sendMail({
-      to: 'stein@jnkr.eu',
-      subject: 'Test',
-      text: 'Test',
-      template: './test',
-      context: {
-        name: 'Testing A Name'
-      }
-    });
-    await this.userPreferenceService.recordEmailSent('stein@jnkr.eu', EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION);
-  }
-
   /**
    * For each user that has not been notified for the given frequency, send an email if one of the original playlists have been updated of their remixed playlists.
    * @param frequency
@@ -59,7 +46,7 @@ export class MailService {
     this.logger.log('Starting change-detection for original playlist of remixed playlists');
     const users = await this.userPreferenceService.getUnnotifiedUsers(frequency, EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION);
 
-    const promises = [];
+    const promises: Map<string, Promise<any>[]> = new Map();
     let amountOfUsersWithUpdatedOriginalPlaylists = 0;
     for (const user of users) {
       const spotifyUser = await this.spotifyService.getUser(user.userId);
@@ -102,7 +89,8 @@ export class MailService {
         continue;
       }
 
-      promises.push(
+      const promisesForUser = promises.get(user.userId) ?? [];
+      promisesForUser.push(
         this.sendMail({
           to: user.emailAddress,
           subject: 'Spotify Manager - Original playlist updated',
@@ -116,11 +104,16 @@ export class MailService {
     }
 
     this.logger.log(`Done processing change-detection for remixed playlists. ${amountOfUsersWithUpdatedOriginalPlaylists} user(s) will be notified, sending emails now`);
-    try {
-      await Promise.all(promises);
-    } catch (e) {
-      this.logger.error('An error occurred while sending original playlist change notifications');
-      this.logger.error(e);
+
+
+    for (const userPromises of promises.entries()) {
+      try {
+        const promises = userPromises[1];
+        await Promise.all(promises);
+      } catch (e) {
+        this.logger.error(`Failed to complete sending emails for user ${userPromises[0]}`);
+        this.logger.error(e);
+      }
     }
   }
 }
