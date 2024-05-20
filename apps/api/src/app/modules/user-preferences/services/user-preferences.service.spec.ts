@@ -1,13 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserPreferencesService } from './user-preferences.service';
-import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
+import { getRepositoryToken } from '@nestjs/typeorm';
 import { UserPreferencesEntity } from '../entities/user-preferences.entity';
-import { repositoryMockFactory } from '../../../utilities/testing-utils';
 import { SpotifyService } from '../../spotify/spotify/spotify.service';
 import { Repository } from 'typeorm';
 import { ObjectId } from 'mongodb';
 import { EmailNotificationFrequency } from '@spotify-manager/core';
 import { EmailType } from '../../../types/EmailType';
+import { DateTime } from 'luxon';
 
 describe('UserPreferencesService', () => {
   let service: UserPreferencesService;
@@ -71,7 +71,7 @@ describe('UserPreferencesService', () => {
       jest.spyOn(userPreferencesRepository, 'find').mockResolvedValue(mockUsers);
 
       // Act
-      const result = await service.getUnnotifiedUsers(EmailNotificationFrequency.DAILY, EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION);
+      const result = await service.getUnnotifiedUsers(EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION);
 
       // Assert
       expect(result.map(x => x.userId)).toEqual(['1', '2']);
@@ -86,7 +86,7 @@ describe('UserPreferencesService', () => {
             {
               emailType: EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION,
               // Today exactly one week ago
-              sentAt: new Date(new Date().setDate(new Date().getDate() - 7))
+              sentAt: DateTime.now().minus({ weeks: 1 }).toJSDate()
             }
           ],
           id: new ObjectId(),
@@ -99,7 +99,7 @@ describe('UserPreferencesService', () => {
             {
               emailType: EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION,
               // Today exactly one day ago
-              sentAt: new Date(new Date().setDate(new Date().getDate() - 1))
+              sentAt: DateTime.now().minus({ days: 1 }).toJSDate()
             }
           ],
           id: new ObjectId(),
@@ -112,7 +112,7 @@ describe('UserPreferencesService', () => {
             {
               emailType: EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION,
               // Today exactly one month ago
-              sentAt: new Date(new Date().setMonth(new Date().getMonth() - 1))
+              sentAt: DateTime.now().minus({ months: 1 }).toJSDate()
             }
           ],
           id: new ObjectId(),
@@ -136,10 +136,61 @@ describe('UserPreferencesService', () => {
       jest.spyOn(userPreferencesRepository, 'find').mockResolvedValue(mockUsers);
 
       // Act
-      const result = await service.getUnnotifiedUsers(EmailNotificationFrequency.DAILY, EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION);
+      const result = await service.getUnnotifiedUsers(EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION);
 
       // Assert
       expect(result.map(x => x.userId)).toEqual(['1', '2', '3']);
+    });
+
+
+    it('should only use the last known email log for the email type to determine if user must be notified', async () => {
+      // Arrange
+      const mockUsers: UserPreferencesEntity[] = [
+        {
+          userId: '1',
+          emailAddress: 'test1@example.com',
+          emailLogs: [
+            {
+              emailType: EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION,
+              // Today exactly six days ago (should not be notified because of weekly frequency preference)
+              sentAt: DateTime.now().minus({ days: 6 }).toJSDate()
+            },
+            {
+              emailType: EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION,
+              // Today exactly 14 days ago
+              sentAt: DateTime.now().minus({ days: 14 }).toJSDate()
+            }
+          ],
+          id: new ObjectId(),
+          originalPlaylistChangeNotificationFrequency: EmailNotificationFrequency.WEEKLY
+        },
+        {
+          userId: '2',
+          emailAddress: 'test2@example.com',
+          emailLogs: [
+            {
+              emailType: EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION,
+              // Today exactly 23 hours ago (should not be notified because of daily frequency preference)
+              sentAt: DateTime.now().minus({ hours: 23 }).toJSDate()
+            },
+            {
+              emailType: EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION,
+              // Today exactly 48 hours ago
+              sentAt: DateTime.now().minus({ hours: 48 }).toJSDate()
+            }
+          ],
+          id: new ObjectId(),
+          originalPlaylistChangeNotificationFrequency: EmailNotificationFrequency.DAILY
+        }
+      ];
+
+      jest.spyOn(userPreferencesRepository, 'find').mockResolvedValue(mockUsers);
+
+      // Act
+      const result = await service.getUnnotifiedUsers(EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION);
+
+      // Assert
+      expect(result).toEqual([]);
     });
   });
 });

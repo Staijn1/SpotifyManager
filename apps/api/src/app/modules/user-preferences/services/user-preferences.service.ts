@@ -7,10 +7,18 @@ import { EmailNotificationFrequency, IUserPreferencesResponse } from '@spotify-m
 import { UserPreferencesRequest } from '../../../types/RequestObjectsDecorated';
 import { EmailType } from '../../../types/EmailType';
 import { EmailLogEntity } from '../../mail/entities/email-log.entity';
+import { DateTime } from 'luxon';
 
 @Injectable()
 export class UserPreferencesService {
   private readonly logger = new Logger(UserPreferencesService.name);
+  /**
+   * This map is used to map an email type to the corresponding field in the UserPreferencesEntity that hold the preferred frequency for that email type.
+   * @private
+   */
+  private readonly emailTypePreferenceMap = new Map<EmailType, keyof UserPreferencesEntity>([
+    [EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION, 'originalPlaylistChangeNotificationFrequency']
+  ]);
 
   constructor(
     @InjectRepository(UserPreferencesEntity) private readonly userPreferencesRepository: Repository<UserPreferencesEntity>,
@@ -74,35 +82,19 @@ export class UserPreferencesService {
   /**
    * This method returns all email-addresses that should receive a notification because the last time they received a notification was more than the frequency ago.
    */
-  async getUnnotifiedUsers(frequency: EmailNotificationFrequency, emailType: EmailType) {
-    if (frequency == EmailNotificationFrequency.NEVER) {
-      this.logger.warn('Attempting to gather unnotified email addresses for a frequency of NEVER. This is not allowed.');
-      return [];
-    }
-
-    const now = new Date();
-
-    // Parse the enum to a date. All users that have NOT received a notification since this date should receive a notification.
-    let lastNotificationDate: Date;
-
-    switch (frequency) {
-      case EmailNotificationFrequency.DAILY:
-        lastNotificationDate = new Date(now.setDate(now.getDate() - 1));
-        break;
-      case EmailNotificationFrequency.WEEKLY:
-        lastNotificationDate = new Date(now.setDate(now.getDate() - 7));
-        break;
-      case EmailNotificationFrequency.MONTHLY:
-        lastNotificationDate = new Date(now.setMonth(now.getMonth() - 1));
-        break;
-      default:
-        throw new Error('Invalid frequency');
-    }
-
+  async getUnnotifiedUsers(emailType: EmailType) {
     const allUsers = await this.userPreferencesRepository.find();
+    const userFrequencyField = this.emailTypePreferenceMap.get(emailType);
 
     // Return all users that should be notified
     return allUsers.filter(user => {
+      const userPreferenceForThisEmailType = user[userFrequencyField];
+
+      // If the user has set the frequency to NEVER, they should never be notified
+      if (userPreferenceForThisEmailType === EmailNotificationFrequency.NEVER) {
+        return false;
+      }
+
       // Sort the emailLogs array in descending order based on the sentAt field, that way the most recent email is the first element
       const sortedEmailLogs = user.emailLogs.sort((a, b) => b.sentAt.getTime() - a.sentAt.getTime());
 
@@ -110,8 +102,27 @@ export class UserPreferencesService {
       // - No email log is present for the given type, or
       // - The most recent email log of the given email type was sent before the last notification date
       const hasNoEmailLogForType = !sortedEmailLogs.some(log => log.emailType === emailType);
+      if (hasNoEmailLogForType) return true;
+
       const mostRecentEmailLogForType = sortedEmailLogs.find(log => log.emailType === emailType);
-      return hasNoEmailLogForType || mostRecentEmailLogForType.sentAt <= lastNotificationDate;
+      const sentAtDateTime = DateTime.fromJSDate(mostRecentEmailLogForType.sentAt);
+
+      let lastNotificationDate: DateTime;
+      switch (userPreferenceForThisEmailType) {
+        case EmailNotificationFrequency.DAILY:
+          lastNotificationDate = DateTime.now().minus({ days: 1 });
+          break;
+        case EmailNotificationFrequency.WEEKLY:
+          lastNotificationDate = DateTime.now().minus({ weeks: 1 });
+          break;
+        case EmailNotificationFrequency.MONTHLY:
+          lastNotificationDate = DateTime.now().minus({ months: 1 });
+          break;
+        default:
+          throw new Error(`Unknown email notification frequency found for user ${user.userId}: ${userPreferenceForThisEmailType}`);
+      }
+
+      return hasNoEmailLogForType || sentAtDateTime <= lastNotificationDate;
     });
   }
 }
