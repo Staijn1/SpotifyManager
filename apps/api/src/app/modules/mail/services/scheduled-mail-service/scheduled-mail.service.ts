@@ -38,22 +38,7 @@ export class ScheduledMailService implements OnModuleInit {
   })
   async sendEmailDigests() {
     await this.executeJob('send-original-playlist-updated-emails', async () => {
-      const sw = new Stopwatch();
-
-      this.logger.log('Sending daily emails');
-      sw.start();
-      await this.mailService.sendOriginalPlaylistUpdatedEmails(EmailNotificationFrequency.DAILY);
-      this.logger.log(`Daily emails sent, took: ${sw.stop()} ms`);
-
-      this.logger.log('Sending weekly emails');
-      sw.start();
-      await this.mailService.sendOriginalPlaylistUpdatedEmails(EmailNotificationFrequency.WEEKLY);
-      this.logger.log(`Weekly emails sent, took: ${sw.stop()} ms`);
-
-      this.logger.log('Sending monthly emails');
-      sw.start();
-      await this.mailService.sendOriginalPlaylistUpdatedEmails(EmailNotificationFrequency.MONTHLY);
-      this.logger.log(`Monthly emails sent, took: ${sw.stop()} ms`);
+      await this.mailService.sendOriginalPlaylistUpdatedEmails();
     });
   }
 

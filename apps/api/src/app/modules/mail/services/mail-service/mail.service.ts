@@ -39,12 +39,11 @@ export class MailService {
   }
 
   /**
-   * For each user that has not been notified for the given frequency, send an email if one of the original playlists have been updated of their remixed playlists.
-   * @param frequency
+   * For each user that has not been notified within their given preference, send an email if one of the original playlists have been updated of their remixed playlists.
    */
-  async sendOriginalPlaylistUpdatedEmails(frequency: EmailNotificationFrequency) {
+  async sendOriginalPlaylistUpdatedEmails() {
     this.logger.log('Starting change-detection for original playlist of remixed playlists');
-    const users = await this.userPreferenceService.getUnnotifiedUsers(frequency, EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION);
+    const users = await this.userPreferenceService.getUnnotifiedUsers(EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION);
 
     const promises: Map<string, Promise<any>[]> = new Map();
     let amountOfUsersWithUpdatedOriginalPlaylists = 0;
