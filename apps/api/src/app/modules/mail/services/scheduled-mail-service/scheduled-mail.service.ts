@@ -1,7 +1,7 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { Cron, CronExpression, SchedulerRegistry } from '@nestjs/schedule';
 import { MailService } from '../mail-service/mail.service';
-import { EmailNotificationFrequency, Stopwatch } from '@spotify-manager/core';
+import { Stopwatch } from '@spotify-manager/core';
 import { SpotifyAuthenticationService } from '../../../spotify/authentication/spotify-authentication.service';
 
 @Injectable()
