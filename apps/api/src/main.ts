@@ -57,6 +57,7 @@ const createLogger = () => {
         apiKey: undefined,
         onError: (e => {
           console.error("An error occurred whilst setting up the Seq Transport!", e);
+          process.exit(-1);
         }),
         handleExceptions: true,
         handleRejections: true,
