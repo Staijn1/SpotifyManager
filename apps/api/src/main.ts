@@ -56,7 +56,7 @@ const createLogger = () => {
         serverUrl: process.env.SEQ_URL ?? 'http://localhost:5341',
         apiKey: undefined,
         onError: (e => {
-          console.error(e);
+          console.error("An error occurred whilst setting up the Seq Transport!", e);
         }),
         handleExceptions: true,
         handleRejections: true,
