@@ -235,8 +235,11 @@ export class PlaylistService {
   async compareRemixedPlaylistWithOriginal(originalPlaylistId: string, remixedPlaylistId: string, userId?:string): Promise<Diff[]> {
     // Step 1: Fetch all required data.
     // The current user, the original playlist at the time of remixing, the current state of the original playlist, and the current state of the remixed playlist.
-    const me = userId ? (await this.spotifyService.getUser(userId)) : (await this.spotifyService.getMe());
-    const originalPlaylistTrackIdsAtLastSync = (await this.historyService.getPlaylistDefinition(originalPlaylistId, remixedPlaylistId, me.id))?.originalPlaylistTrackIds;
+    if (!userId) {
+      userId = (await this.spotifyService.getMe()).id;
+    }
+
+    const originalPlaylistTrackIdsAtLastSync = (await this.historyService.getPlaylistDefinition(originalPlaylistId, remixedPlaylistId, userId))?.originalPlaylistTrackIds;
 
     if (!originalPlaylistTrackIdsAtLastSync) {
       throw new HttpException('No playlist definition found for the given playlists', 404);
