@@ -33,7 +33,7 @@ export class ScheduledMailService implements OnModuleInit {
     this.logger.log(`Job ${jobName} will execute in ${diff.hours} hours ${diff.minutes} minutes ${Math.floor(diff.seconds)} seconds`);
   }
 
-  @Cron(CronExpression.EVERY_HOUR, {
+ /* @Cron(CronExpression.EVERY_MINUTE, {
     name: 'send-original-playlist-updated-emails'
   })
   async sendEmailDigests() {
@@ -53,5 +53,5 @@ export class ScheduledMailService implements OnModuleInit {
     await method();
 
     this.logger.log(`Job ${jobName} executed, took: ${sw.stop()} ms`);
-  }
+  }*/
 }
