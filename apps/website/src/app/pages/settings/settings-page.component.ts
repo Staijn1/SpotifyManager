@@ -58,26 +58,27 @@ export class SettingsPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userPreferenceService.getEmailFrequencyOptions()
-      .then(options => this.availableEmailFrequencyOptions = options)
-      .finally(() => this.isInitializing = false);
-
-    this.userPreferenceService.getUserPreferences()
-      .then(preferences => {
-        this.store.dispatch(new ReceiveUserPreferences(preferences));
-      });
-
-    this.getRemixedPlaylists();
-  }
-
-  /**
-   * Get the remixed playlists for this user
-   */
-  getRemixedPlaylists(): void {
     this.isLoading = true;
-    this.api.getMyRemixedPlaylists()
-      .then(data => this.remixes = data as ListOfUsersPlaylistsResponse)
-      .finally(() => this.isLoading = false);
+    const promises: [
+      Promise<EmailNotificationFrequency[]>,
+      Promise<IUserPreferencesResponse>,
+      Promise<ListOfUsersPlaylistsResponse>
+    ] = [
+      this.userPreferenceService.getEmailFrequencyOptions(),
+      this.userPreferenceService.getUserPreferences(),
+      this.api.getMyRemixedPlaylists()
+    ];
+
+    Promise.all(promises)
+      .then(([options, preferences, remixes]) => {
+        this.availableEmailFrequencyOptions = options;
+        this.store.dispatch(new ReceiveUserPreferences(preferences));
+        this.remixes = remixes;
+      })
+      .finally(() => {
+        this.isInitializing = false;
+        this.isLoading = false;
+      });
   }
 
   saveEmailPreferences() {

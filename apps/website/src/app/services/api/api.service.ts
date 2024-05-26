@@ -134,7 +134,7 @@ export class ApiService extends HTTPService {
     );
   }
 
-  getMyRemixedPlaylists() {
+  async getMyRemixedPlaylists(): Promise<ListOfUsersPlaylistsResponse> {
     const token = this.spotifyAuth.getAccessToken();
     return this.request(
       `${environment.apiURL}/playlists/remix/?accessToken=${token}`,
