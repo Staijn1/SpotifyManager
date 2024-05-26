@@ -14,7 +14,9 @@ describe('SettingsPageComponent', () => {
       providers: [
         {
           provide: ApiService,
-          useValue: jest.fn()
+          useValue: {
+            getMyRemixedPlaylists: jest.fn().mockResolvedValue({}),
+          }
         },
         {
           provide: UserPreferenceService,
