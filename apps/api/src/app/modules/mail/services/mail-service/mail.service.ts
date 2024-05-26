@@ -6,7 +6,7 @@ import { DiffIdentifier, EmailNotificationFrequency, Utils } from '@spotify-mana
 import { ISendMailOptions, MailerService } from '@nestjs-modules/mailer';
 import { PlaylistService } from '../../../playlist/services/playlist/playlist.service';
 import { SpotifyService } from '../../../spotify/spotify/spotify.service';
-
+import { environment } from '../../../../../environments/environment';
 
 @Injectable()
 export class MailService {
@@ -22,7 +22,6 @@ export class MailService {
 
   private async sendMail(options: ISendMailOptions) {
     const overrideEmail = this.configService.get('OVERRIDE_EMAIL');
-    // OverrideEmail is a comma seperated list of emails to override emails to, or it is NONE. If undefined or empty string no emails are sent
     if (!overrideEmail) {
       this.logger.warn('No override email set, no emails will be sent. To send emails to real users set OVERRIDE_EMAIL to NONE');
       return;
@@ -38,9 +37,6 @@ export class MailService {
     this.logger.log(`Sent email successfully`);
   }
 
-  /**
-   * For each user that has not been notified within their given preference, send an email if one of the original playlists have been updated of their remixed playlists.
-   */
   async sendOriginalPlaylistUpdatedEmails() {
     this.logger.log('Starting change-detection for original playlist of remixed playlists');
     const users = await this.userPreferenceService.getUnnotifiedUsers(EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION);
@@ -60,17 +56,16 @@ export class MailService {
         appInfo: {
           github: 'https://github.com/Staijn1/SpotifyManager',
           appUrl: 'https://spotify.steinjonker.nl'
-        }
+        },
+        synchronizePlaylistUrl: this.getSynchronizePlaylistUrl()
       };
 
-      // Remixed playlists where the original playlist update notification is not ignored
       const remixesNotIgnored = remixes.filter(remix => !user.excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications.includes(remix.id));
       for (const remix of remixesNotIgnored) {
         const differences = await this.playlistService.compareRemixedPlaylistWithOriginal(remix.id, user.userId);
         const songsAddedInOriginal = differences.filter(diff => diff[0] === DiffIdentifier.ADDED_IN_ORIGINAL);
         const songsRemovedInOriginal = differences.filter(diff => diff[0] === DiffIdentifier.REMOVED_IN_ORIGINAL);
 
-        // Stop if no songs have been added or removed
         if (songsAddedInOriginal.length == 0 && songsRemovedInOriginal.length == 0) {
           continue;
         }
@@ -80,7 +75,8 @@ export class MailService {
           amountOfSongsRemovedInOriginal: songsRemovedInOriginal.length,
           playlistTitle: remix.name,
           playlistUrl: remix.external_urls.spotify,
-          playlistCoverUrl: remix.images[0].url
+          playlistCoverUrl: remix.images[0].url,
+          synchronizePlaylistUrl: `${userEmailContext.synchronizePlaylistUrl}/${remix.id}`
         });
       }
 
@@ -105,7 +101,6 @@ export class MailService {
 
     this.logger.log(`Done processing change-detection for remixed playlists. ${amountOfUsersWithUpdatedOriginalPlaylists} user(s) will be notified, sending emails now`);
 
-
     for (const userPromises of promises.entries()) {
       try {
         const promises = userPromises[1];
@@ -116,6 +111,10 @@ export class MailService {
       }
     }
   }
+
+  private getSynchronizePlaylistUrl(): string {
+    return environment.production ? 'https://spotify.steinjonker.nl/sync-remixed-playlist' : 'http://localhost:4200/sync-remixed-playlist';
+  }
 }
 
 export type OriginalPlaylistUpdatedEmailContext = {
@@ -123,17 +122,20 @@ export type OriginalPlaylistUpdatedEmailContext = {
     amountOfSongsAddedInOrginal: number,
     amountOfSongsRemovedInOriginal: number,
     playlistTitle: string,
-    playlistUrl: string
-    playlistCoverUrl: string
+    playlistUrl: string,
+    playlistCoverUrl: string,
+    synchronizePlaylistUrl: string
   }[];
 
   user: {
     email: string,
     username: string
-  }
+  };
 
   appInfo: {
     github: string,
     appUrl: string
-  }
+  };
+
+  synchronizePlaylistUrl: string;
 }
