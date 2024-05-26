@@ -84,7 +84,9 @@
               <div class="form-control">
                 <label class="label cursor-pointer">
                   <span class="label-text">Notifications Enabled</span>
-                  <input type="checkbox" class="toggle toggle-success"/>
+                  <input type="checkbox" class="toggle toggle-success"
+                         [checked]="isNotificationEnabled(remix.id)"
+                         (change)="toggleNotification(remix.id, $event.target)"/>
                 </label>
               </div>
             </div>

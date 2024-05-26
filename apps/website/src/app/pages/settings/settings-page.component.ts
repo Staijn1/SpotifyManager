@@ -80,4 +80,21 @@ export class SettingsPageComponent implements OnInit {
         this.store.dispatch(new ReceiveUserPreferences(response));
       });
   }
+
+  isNotificationEnabled(remixId: string): boolean {
+    // Return true if the remix id is not in the excluded list
+    return !this.userPreferences.excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications.includes(remixId);
+  }
+
+  toggleNotification(remixId: string, htmlElement: EventTarget | null): void {
+    const isChecked = (htmlElement as HTMLInputElement).checked;
+    if (isChecked) {
+      // If the checkbox is enabled, remove the remix id from the excluded list
+      this.userPreferences.excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications =
+        this.userPreferences.excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications.filter(id => id !== remixId);
+    } else {
+      // If the checkbox is disabled, add the remix id to the excluded list
+      this.userPreferences.excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications.push(remixId);
+    }
+  }
 }
