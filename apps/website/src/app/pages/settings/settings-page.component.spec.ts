@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SettingsPageComponent } from './settings-page.component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { UserPreferenceService } from '../../services/user-preference/user-preference.service';
+import { ApiService } from '../../services/api/api.service';
 
 describe('SettingsPageComponent', () => {
   let component: SettingsPageComponent;
@@ -12,12 +13,16 @@ describe('SettingsPageComponent', () => {
       imports: [SettingsPageComponent],
       providers: [
         {
+          provide: ApiService,
+          useValue: jest.fn()
+        },
+        {
           provide: UserPreferenceService,
           useValue: {
             getUserPreferences: jest.fn().mockResolvedValue({}),
             saveUserPreference: jest.fn().mockResolvedValue({}),
             getEmailFrequencyOptions: jest.fn().mockResolvedValue([])
-          },
+          }
         },
         provideMockStore({})
       ]
