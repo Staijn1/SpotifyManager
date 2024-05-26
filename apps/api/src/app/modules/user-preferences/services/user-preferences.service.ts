@@ -34,6 +34,8 @@ export class UserPreferencesService {
     userPreferences.userId = me.id;
     userPreferences.emailAddress = me.email;
     userPreferences.originalPlaylistChangeNotificationFrequency = updatedUserPreferences.originalPlaylistChangeNotificationFrequency;
+    // Add or remove playlist IDs from excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications
+    userPreferences.excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications = updatedUserPreferences.excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications ?? [];
 
     await this.userPreferencesRepository.save(userPreferences);
 

@@ -88,6 +88,15 @@ export class MailService {
         continue;
       }
 
+      // Filter out playlists that the user has chosen not to receive updates for
+      userEmailContext.updatedRemixes = userEmailContext.updatedRemixes.filter(remix => 
+        !user.excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications.includes(remix.playlistId)
+      );
+
+      if (userEmailContext.updatedRemixes.length == 0) {
+        continue;
+      }
+
       const promisesForUser = promises.get(user.userId) ?? [];
       promisesForUser.push(
         this.sendMail({
