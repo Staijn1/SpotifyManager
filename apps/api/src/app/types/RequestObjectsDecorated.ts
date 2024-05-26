@@ -47,4 +47,10 @@ export class UserPreferencesRequest implements IUserPreferencesRequest {
     required: true,
   })
   originalPlaylistChangeNotificationFrequency: EmailNotificationFrequency;
+
+  @ApiProperty({
+    type: 'string',
+    required: true,
+  })
+  excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications: string[];
 }
