@@ -73,9 +73,9 @@
                 <div class="w-40 rounded-xl">
                   <a [href]="remix.external_urls.spotify" target="_blank">
                     <img
-                      [ngSrc]="remix.images[0]?.url ?? ''"
-                      [width]="remix.images[0]?.width ?? 0"
-                      [height]="remix.images[0]?.height ?? 0"
+                      [ngSrc]="remix.images[0].url"
+                      [width]="remix.images[0].width"
+                      [height]="remix.images[0].height"
                       priority="high"
                       alt="Playlist Picture" />
                   </a>
@@ -97,6 +97,9 @@
           </div>
         } @empty {
           <p class="text-gray-500 p-4 text-center">No remixes found.</p>
+          @if(isLoading){
+            <app-loading class="flex justify-center"></app-loading>
+          }
         }
       </div>
     </div>

@@ -15,18 +15,19 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faInfoCircle, faSave } from '@fortawesome/free-solid-svg-icons';
 import { distinctUntilChanged, map } from 'rxjs';
 import { ApiService } from '../../services/api/api.service';
+import { LoadingComponent } from '../../components/loading/loading.component';
 
 @Component({
   selector: 'app-settings-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, FaIconComponent, NgOptimizedImage],
+  imports: [CommonModule, FormsModule, FaIconComponent, NgOptimizedImage, LoadingComponent],
   templateUrl: './settings-page.component.html',
   styleUrl: './settings-page.component.scss'
 })
 export class SettingsPageComponent implements OnInit {
   readonly informationIcon = faInfoCircle;
   readonly saveIcon = faSave;
-  remixes: SpotifyApi.ListOfUsersPlaylistsResponse | undefined;
+  remixes: ListOfUsersPlaylistsResponse | undefined;
   availableEmailFrequencyOptions: EmailNotificationFrequency[] = [];
 
   // Defaults for when the user first logs in and has no preferences
@@ -36,7 +37,7 @@ export class SettingsPageComponent implements OnInit {
   };
   hasUserPreferencesSet = false;
   protected isInitializing = true;
-  private isLoading = true;
+  isLoading = true;
 
   constructor(
     private readonly userPreferenceService: UserPreferenceService,
@@ -113,6 +114,6 @@ export class SettingsPageComponent implements OnInit {
   }
 
   getLabelTextForSwitch(remixId: string) {
-    return this.isNotificationEnabled(remixId) ? 'Enabled' : 'Disabled';
+    return this.isNotificationEnabled(remixId) ? 'Included' : 'Excluded';
   }
 }
