@@ -2,11 +2,11 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { UserPreferencesService } from '../../../user-preferences/services/user-preferences.service';
 import { EmailType } from '../../../../types/EmailType';
-import { DiffIdentifier, EmailNotificationFrequency, Utils } from '@spotify-manager/core';
+import { DiffIdentifier } from '@spotify-manager/core';
 import { ISendMailOptions, MailerService } from '@nestjs-modules/mailer';
 import { PlaylistService } from '../../../playlist/services/playlist/playlist.service';
 import { SpotifyService } from '../../../spotify/spotify/spotify.service';
-
+import { environment } from '../../../../../environments/environment';
 
 @Injectable()
 export class MailService {
@@ -60,7 +60,7 @@ export class MailService {
         appInfo: {
           github: 'https://github.com/Staijn1/SpotifyManager',
           appUrl: 'https://spotify.steinjonker.nl'
-        }
+        },
       };
 
       // Remixed playlists where the original playlist update notification is not ignored
@@ -80,7 +80,8 @@ export class MailService {
           amountOfSongsRemovedInOriginal: songsRemovedInOriginal.length,
           playlistTitle: remix.name,
           playlistUrl: remix.external_urls.spotify,
-          playlistCoverUrl: remix.images[0].url
+          playlistCoverUrl: remix.images[0].url,
+          synchronizePlaylistUrl: `${this.getSynchronizePlaylistUrl()}/${remix.id}`
         });
       }
 
@@ -105,7 +106,6 @@ export class MailService {
 
     this.logger.log(`Done processing change-detection for remixed playlists. ${amountOfUsersWithUpdatedOriginalPlaylists} user(s) will be notified, sending emails now`);
 
-
     for (const userPromises of promises.entries()) {
       try {
         const promises = userPromises[1];
@@ -116,6 +116,10 @@ export class MailService {
       }
     }
   }
+
+  private getSynchronizePlaylistUrl(): string {
+    return environment.production ? 'https://spotify.steinjonker.nl/sync-remixed-playlist' : 'http://localhost:4200/sync-remixed-playlist';
+  }
 }
 
 export type OriginalPlaylistUpdatedEmailContext = {
@@ -123,17 +127,18 @@ export type OriginalPlaylistUpdatedEmailContext = {
     amountOfSongsAddedInOrginal: number,
     amountOfSongsRemovedInOriginal: number,
     playlistTitle: string,
-    playlistUrl: string
-    playlistCoverUrl: string
+    playlistUrl: string,
+    playlistCoverUrl: string,
+    synchronizePlaylistUrl: string
   }[];
 
   user: {
     email: string,
     username: string
-  }
+  };
 
   appInfo: {
     github: string,
     appUrl: string
-  }
+  };
 }
