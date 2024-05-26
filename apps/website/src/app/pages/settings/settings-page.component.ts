@@ -23,7 +23,8 @@ export class SettingsPageComponent implements OnInit {
 
   // Defaults for when the user first logs in and has no preferences
   userPreferences: IUserPreferences = {
-    originalPlaylistChangeNotificationFrequency: EmailNotificationFrequency.WEEKLY
+    originalPlaylistChangeNotificationFrequency: EmailNotificationFrequency.WEEKLY,
+    excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications: []
   };
   hasUserPreferencesSet = false;
   protected isInitializing = true;
