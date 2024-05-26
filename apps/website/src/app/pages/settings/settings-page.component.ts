@@ -15,7 +15,6 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faInfoCircle, faSave } from '@fortawesome/free-solid-svg-icons';
 import { map } from 'rxjs';
 import { ApiService } from '../../services/api/api.service';
-import { deepCopy } from '@angular-devkit/core';
 
 @Component({
   selector: 'app-settings-page',
