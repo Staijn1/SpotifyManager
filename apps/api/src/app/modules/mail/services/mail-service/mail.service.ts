@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { UserPreferencesService } from '../../../user-preferences/services/user-preferences.service';
 import { EmailType } from '../../../../types/EmailType';
-import { DiffIdentifier, EmailNotificationFrequency, Utils } from '@spotify-manager/core';
+import { DiffIdentifier } from '@spotify-manager/core';
 import { ISendMailOptions, MailerService } from '@nestjs-modules/mailer';
 import { PlaylistService } from '../../../playlist/services/playlist/playlist.service';
 import { SpotifyService } from '../../../spotify/spotify/spotify.service';
@@ -22,6 +22,7 @@ export class MailService {
 
   private async sendMail(options: ISendMailOptions) {
     const overrideEmail = this.configService.get('OVERRIDE_EMAIL');
+    // OverrideEmail is a comma seperated list of emails to override emails to, or it is NONE. If undefined or empty string no emails are sent
     if (!overrideEmail) {
       this.logger.warn('No override email set, no emails will be sent. To send emails to real users set OVERRIDE_EMAIL to NONE');
       return;
@@ -37,6 +38,9 @@ export class MailService {
     this.logger.log(`Sent email successfully`);
   }
 
+  /**
+   * For each user that has not been notified within their given preference, send an email if one of the original playlists have been updated of their remixed playlists.
+   */
   async sendOriginalPlaylistUpdatedEmails() {
     this.logger.log('Starting change-detection for original playlist of remixed playlists');
     const users = await this.userPreferenceService.getUnnotifiedUsers(EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION);
@@ -57,15 +61,16 @@ export class MailService {
           github: 'https://github.com/Staijn1/SpotifyManager',
           appUrl: 'https://spotify.steinjonker.nl'
         },
-        synchronizePlaylistUrl: this.getSynchronizePlaylistUrl()
       };
 
+      // Remixed playlists where the original playlist update notification is not ignored
       const remixesNotIgnored = remixes.filter(remix => !user.excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications.includes(remix.id));
       for (const remix of remixesNotIgnored) {
         const differences = await this.playlistService.compareRemixedPlaylistWithOriginal(remix.id, user.userId);
         const songsAddedInOriginal = differences.filter(diff => diff[0] === DiffIdentifier.ADDED_IN_ORIGINAL);
         const songsRemovedInOriginal = differences.filter(diff => diff[0] === DiffIdentifier.REMOVED_IN_ORIGINAL);
 
+        // Stop if no songs have been added or removed
         if (songsAddedInOriginal.length == 0 && songsRemovedInOriginal.length == 0) {
           continue;
         }
@@ -76,7 +81,7 @@ export class MailService {
           playlistTitle: remix.name,
           playlistUrl: remix.external_urls.spotify,
           playlistCoverUrl: remix.images[0].url,
-          synchronizePlaylistUrl: `${userEmailContext.synchronizePlaylistUrl}/${remix.id}`
+          synchronizePlaylistUrl: `${this.getSynchronizePlaylistUrl()}/${remix.id}`
         });
       }
 
@@ -136,6 +141,4 @@ export type OriginalPlaylistUpdatedEmailContext = {
     github: string,
     appUrl: string
   };
-
-  synchronizePlaylistUrl: string;
 }
