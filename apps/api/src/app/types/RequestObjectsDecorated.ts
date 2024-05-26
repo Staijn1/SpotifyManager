@@ -3,7 +3,7 @@ import {
   EmailNotificationFrequency,
   EpisodeObjectFull,
   ICompareRemixedPlaylistRequest,
-  IPlaylistSyncRequest, IUserPreferencesRequest,
+  IPlaylistSyncRequest, IRemixPlaylistRequest, IUserPreferencesRequest,
   TrackObjectFull
 } from '@spotify-manager/core';
 
@@ -53,4 +53,18 @@ export class UserPreferencesRequest implements IUserPreferencesRequest {
     required: true,
   })
   excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications: string[];
+}
+
+export class RemixPlaylistRequest implements IRemixPlaylistRequest {
+  @ApiProperty({
+    type: 'string',
+    required: true,
+  })
+  playlistId!: string;
+
+  @ApiProperty({
+    type: 'boolean',
+    required: true,
+  })
+  ignoreNotificationsForPlaylist!: boolean;
 }

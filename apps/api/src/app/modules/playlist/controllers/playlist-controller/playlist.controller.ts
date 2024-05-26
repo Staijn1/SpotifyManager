@@ -9,7 +9,11 @@ import {
   SinglePlaylistResponse,
   SyncPlaylistResult
 } from '@spotify-manager/core';
-import { CompareRemixedPlaylistRequest, PlaylistSyncRequest } from '../../../../types/RequestObjectsDecorated';
+import {
+  CompareRemixedPlaylistRequest,
+  PlaylistSyncRequest,
+  RemixPlaylistRequest
+} from '../../../../types/RequestObjectsDecorated';
 
 @ApiBearerAuth()
 @ApiTags('playlists')
@@ -25,17 +29,9 @@ export class PlaylistController {
   /**
    * Copy a playlist to a new playlist.
    */
-  @Get('remix/:playlistid')
-  @ApiParam({
-    name: 'playlistid',
-    required: true,
-    description: 'The ID of the playlist to remix',
-    schema: { oneOf: [{ type: 'string' }], example: '6vDGVr652ztNWKZuHvsFvx' }
-  })
-  public async remixPlaylist(
-    @Param() params
-  ): Promise<CreatePlaylistResponse> {
-    return this.playlistService.remixPlaylist(params.playlistid);
+  @Post('remix')
+  public async remixPlaylist(@Body() body: RemixPlaylistRequest): Promise<CreatePlaylistResponse> {
+    return this.playlistService.remixPlaylist(body.playlistId, body.ignoreNotificationsForPlaylist);
   }
 
   /**

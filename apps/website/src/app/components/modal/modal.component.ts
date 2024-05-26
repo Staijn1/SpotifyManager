@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -6,16 +6,21 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './modal.component.html',
-  styleUrl: './modal.component.scss',
+  styleUrl: './modal.component.scss'
 })
 export class ModalComponent {
-  @ViewChild('dialogElement') dialogElement!: HTMLDialogElement;
+  @ViewChild('dialogElement') dialogRef!: ElementRef<HTMLDialogElement>;
+  @Input() width = '';
+
+  get modalBoxClasses(): string {
+    return ['modal-box', this.width].join(' ');
+  }
 
   open() {
-    this.dialogElement.showModal();
+    this.dialogRef.nativeElement.showModal();
   }
 
   close() {
-    this.dialogElement.close();
+    this.dialogRef.nativeElement.close();
   }
 }

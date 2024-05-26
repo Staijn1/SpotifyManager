@@ -20,3 +20,9 @@ export interface IPlaylistSyncRequest {
 }
 
 export type IUserPreferencesRequest = IUserPreferences;
+
+
+export interface IRemixPlaylistRequest {
+  playlistId: string;
+  ignoreNotificationsForPlaylist: boolean;
+}

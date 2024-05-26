@@ -1,8 +1,13 @@
 <dialog class="modal" #dialogElement>
-  <div class="modal-box">
+  <div [classList]="modalBoxClasses">
+    <!--    Create an X button in the top right-->
+    <form method="dialog">
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+    </form>
     <ng-content></ng-content>
   </div>
   <form method="dialog" class="modal-backdrop">
+    <!--    Allow user to click outside the modal and close the dialog-->
     <button>close</button>
   </form>
 </dialog>
