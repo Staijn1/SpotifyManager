@@ -64,6 +64,10 @@ export class MailService {
       };
 
       for (const remix of remixes) {
+        if (user.excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications.includes(remix.playlistId)) {
+          continue;
+        }
+
         const originalPlaylistId = Utils.GetOriginalPlaylistIdFromDescription(remix.description);
         const differences = await this.playlistService.compareRemixedPlaylistWithOriginal(originalPlaylistId, remix.id, user.userId);
         const songsAddedInOriginal = differences.filter(diff => diff[0] === DiffIdentifier.ADDED_IN_ORIGINAL);
@@ -85,15 +89,6 @@ export class MailService {
 
       if (userEmailContext.updatedRemixes.length == 0) {
         this.logger.log(`No updates found for user ${user.userId}`);
-        continue;
-      }
-
-      // Filter out playlists that the user has chosen not to receive updates for
-      userEmailContext.updatedRemixes = userEmailContext.updatedRemixes.filter(remix => 
-        !user.excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications.includes(remix.playlistId)
-      );
-
-      if (userEmailContext.updatedRemixes.length == 0) {
         continue;
       }
 
