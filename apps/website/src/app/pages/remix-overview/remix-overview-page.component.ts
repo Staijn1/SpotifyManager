@@ -55,19 +55,9 @@ export class RemixOverviewPageComponent implements OnInit {
 
   /**
    * Redirect to the synchronizing page with the right parameters
-   * @param playlist
+   * @param remixedPlaylist
    */
-  startComparingPlaylist(playlist: PlaylistObjectSimplified) {
-    const remixedPlaylistId = playlist.id;
-    // The left playlist is the remixed playlist, containing the original playlist ID in the description in the form of {playlistId}
-    const originalPlaylistId = Utils.GetOriginalPlaylistIdFromDescription(playlist.description);
-
-
-    this.router.navigate(['sync-remixed-playlist'], {
-      state: {
-        remixedPlaylistId: remixedPlaylistId,
-        originalPlaylistId: originalPlaylistId
-      }
-    });
+  startComparingPlaylist(remixedPlaylist: PlaylistObjectSimplified) {
+    this.router.navigate(['sync-remixed-playlist', remixedPlaylist.id]);
   }
 }

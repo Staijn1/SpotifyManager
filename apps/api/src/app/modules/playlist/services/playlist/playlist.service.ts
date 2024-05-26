@@ -169,11 +169,11 @@ export class PlaylistService {
   /**
    * Remove all the songs in the given playlist and put the given tracks in the playlist.
    * @param remixedPlaylistId - The ID of the remixed playlist
-   * @param originalPlaylistId
    * @param tracks - Tracks the remixed playlist should contain after syncing is complete
    */
-  async syncPlaylist(remixedPlaylistId: string, originalPlaylistId: string, tracks: (TrackObjectFull | EpisodeObjectFull)[]): Promise<SyncPlaylistResult> {
+  async syncPlaylist(remixedPlaylistId: string, tracks: (TrackObjectFull | EpisodeObjectFull)[]): Promise<SyncPlaylistResult> {
     const userId = (await this.spotifyService.getMe()).id;
+    const originalPlaylistId = (await this.historyService.getPlaylistDefinition(remixedPlaylistId, userId)).originalPlaylistId;
     const tracksInOriginalPlaylistNow = await this.getAllSongsInPlaylist(originalPlaylistId);
 
     // Playlist definition of the original playlist at the time of syncing (now)
@@ -230,7 +230,6 @@ export class PlaylistService {
    * - Songs that have been added to both the original and remixed playlist after remixing are marked as 'added-in-both'.
    * - Songs that are removed from both the original and remixed playlist after remixing will not be included in the result.
    *
-   * @param {string} originalPlaylistId - The ID of the original playlist.
    * @param {string} remixedPlaylistId - The ID of the remixed playlist.
    * @param userId
    * @returns {Promise<Diff[]>} - A promise that resolves to an array of differences between the playlists.
@@ -244,20 +243,21 @@ export class PlaylistService {
    *
    * // Returns: [['removed-in-original', 'Song A'], ['unchanged', 'Song B'], ['removed-in-remix', 'Song C'], ['unchanged', 'Song D'], ['unchanged', 'Song E'], ['added-in-original', 'Song F'], ['added-in-remix', 'Song G']]
    */
-  async compareRemixedPlaylistWithOriginal(originalPlaylistId: string, remixedPlaylistId: string, userId?:string): Promise<Diff[]> {
+  async compareRemixedPlaylistWithOriginal(remixedPlaylistId: string, userId?:string): Promise<Diff[]> {
     // Step 1: Fetch all required data.
     // The current user, the original playlist at the time of remixing, the current state of the original playlist, and the current state of the remixed playlist.
     if (!userId) {
       userId = (await this.spotifyService.getMe()).id;
     }
 
-    const originalPlaylistTrackIdsAtLastSync = (await this.historyService.getPlaylistDefinition(originalPlaylistId, remixedPlaylistId, userId))?.originalPlaylistTrackIds;
-
-    if (!originalPlaylistTrackIdsAtLastSync) {
+    const originalPlaylistAtLastSync = (await this.historyService.getPlaylistDefinition(remixedPlaylistId, userId));
+    if (!originalPlaylistAtLastSync) {
       throw new HttpException('No playlist definition found for the given playlists', 404);
     }
 
-    const originalPlaylistNow = await this.getAllSongsInPlaylist(originalPlaylistId);
+    const originalPlaylistTrackIdsAtLastSync = originalPlaylistAtLastSync.originalPlaylistTrackIds;
+
+    const originalPlaylistNow = await this.getAllSongsInPlaylist(originalPlaylistAtLastSync.originalPlaylistId);
     const remixedPlaylistNow = await this.getAllSongsInPlaylist(remixedPlaylistId);
 
     // Step 2: Map the tracks to only their ID's, so we can easily compare (simple strings are easier to compare than full objects)
@@ -297,5 +297,18 @@ export class PlaylistService {
     unchanged.forEach((trackId: string) => diff.push([DiffIdentifier.UNCHANGED, tracksHashmap.get(trackId)]));
 
     return diff;
+  }
+
+  /**
+   * Returns the original playlist definition given the playlist ID of a remixed playlist.
+   * @param playlistId
+   */
+  async getOriginalPlaylistForRemix(playlistId: string) {
+    const userId = (await this.spotifyService.getMe()).id;
+    const playlistDefinition = await this.historyService.getPlaylistDefinition(playlistId, userId);
+    if (!playlistDefinition) {
+      throw new HttpException('No playlist definition found for the given playlist', 404);
+    }
+    return this.getPlaylist(playlistDefinition.originalPlaylistId);
   }
 }

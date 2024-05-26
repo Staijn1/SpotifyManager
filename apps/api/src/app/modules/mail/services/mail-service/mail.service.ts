@@ -66,8 +66,7 @@ export class MailService {
       // Remixed playlists where the original playlist update notification is not ignored
       const remixesNotIgnored = remixes.filter(remix => !user.excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications.includes(remix.id));
       for (const remix of remixesNotIgnored) {
-        const originalPlaylistId = Utils.GetOriginalPlaylistIdFromDescription(remix.description);
-        const differences = await this.playlistService.compareRemixedPlaylistWithOriginal(originalPlaylistId, remix.id, user.userId);
+        const differences = await this.playlistService.compareRemixedPlaylistWithOriginal(remix.id, user.userId);
         const songsAddedInOriginal = differences.filter(diff => diff[0] === DiffIdentifier.ADDED_IN_ORIGINAL);
         const songsRemovedInOriginal = differences.filter(diff => diff[0] === DiffIdentifier.REMOVED_IN_ORIGINAL);
 

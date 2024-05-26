@@ -8,11 +8,6 @@ import {
 } from '@spotify-manager/core';
 
 export class CompareRemixedPlaylistRequest implements ICompareRemixedPlaylistRequest {
-  @ApiProperty({
-    type: 'string',
-    required: true,
-  })
-  originalPlaylistId!: string;
    @ApiProperty({
      type: 'string',
      required: true,
@@ -21,12 +16,6 @@ export class CompareRemixedPlaylistRequest implements ICompareRemixedPlaylistReq
 }
 
 export class PlaylistSyncRequest implements IPlaylistSyncRequest {
-  @ApiProperty({
-    type: 'string',
-    required: true,
-  })
-  originalPlaylistId!: string;
-
   @ApiProperty({
     type: 'string',
     required: true,

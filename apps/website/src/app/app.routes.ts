@@ -69,7 +69,7 @@ export const appRoutes: Route[] = [
     canActivate: [RequireLoginGuard, RequireUserPreferencesSetGuard]
   },
   {
-    path: 'sync-remixed-playlist',
+    path: 'sync-remixed-playlist/:remixedPlaylistId',
     component: SyncRemixedPlaylistPageComponent,
     canActivate: [RequireLoginGuard, RequireUserPreferencesSetGuard]
   }
