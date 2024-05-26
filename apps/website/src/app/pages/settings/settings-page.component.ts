@@ -16,6 +16,8 @@ import { faInfoCircle, faSave } from '@fortawesome/free-solid-svg-icons';
 import { distinctUntilChanged, map } from 'rxjs';
 import { ApiService } from '../../services/api/api.service';
 import { LoadingComponent } from '../../components/loading/loading.component';
+import { MessageService } from '../../services/message/message.service';
+import { Message } from '../../types/Message';
 
 @Component({
   selector: 'app-settings-page',
@@ -42,6 +44,7 @@ export class SettingsPageComponent implements OnInit {
   constructor(
     private readonly userPreferenceService: UserPreferenceService,
     private readonly api: ApiService,
+    private readonly messageService: MessageService,
     private readonly store: Store<{ userState: SpotifyManagerUserState }>) {
     this.store.select('userState')
       .pipe(
@@ -81,13 +84,14 @@ export class SettingsPageComponent implements OnInit {
       });
   }
 
-  saveEmailPreferences() {
+  saveUserPreferences() {
     if (!this.userPreferences) {
       return;
     }
 
     this.userPreferenceService.saveUserPreference(this.userPreferences)
       .then((response: IUserPreferencesResponse) => {
+        this.messageService.setMessage(new Message('success', 'User preferences saved successfully!'));
         this.store.dispatch(new ReceiveUserPreferences(response));
       });
   }

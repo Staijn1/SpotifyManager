@@ -3,6 +3,7 @@ import { SettingsPageComponent } from './settings-page.component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { UserPreferenceService } from '../../services/user-preference/user-preference.service';
 import { ApiService } from '../../services/api/api.service';
+import { MessageService } from '../../services/message/message.service';
 
 describe('SettingsPageComponent', () => {
   let component: SettingsPageComponent;
@@ -16,6 +17,13 @@ describe('SettingsPageComponent', () => {
           provide: ApiService,
           useValue: {
             getMyRemixedPlaylists: jest.fn().mockResolvedValue({}),
+          }
+        },
+        {
+          provide: MessageService,
+          useValue: {
+            setMessage: jest.fn(),
+            getMessages: jest.fn()
           }
         },
         {
