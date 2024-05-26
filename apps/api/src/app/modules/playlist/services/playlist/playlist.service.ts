@@ -16,6 +16,7 @@ import _ from 'lodash';
 import { PlaylistHistoryService } from '../playlist-history/playlist-history.service';
 import { PlaylistRemixEntity } from '../../entities/playlist-remix.entity';
 import { environment } from '../../../../../environments/environment';
+import { UserPreferencesService } from '../../../user-preferences/services/user-preferences.service';
 
 @Injectable()
 export class PlaylistService {
@@ -26,6 +27,7 @@ export class PlaylistService {
    */
   constructor(
     private readonly spotifyService: SpotifyService,
+    private readonly userPreferencesService: UserPreferencesService,
     private readonly historyService: PlaylistHistoryService) {
   }
 
@@ -61,9 +63,13 @@ export class PlaylistService {
   /**
    * Creates a new playlist and songs from the given playlist are copied to the new playlist.
    * The songs in the original playlist are saved in the database, so it can be used to sync the remixed playlist with the original one later.
+   *
+   * An additional parameter is added to exclude this playlist when checking if the original playlist has changed (only in jobs generating notifications).
+   * This is because some playlists are personalized playlists created by Spotify.
    * @param  playlistid
+   * @param ignoreNotifications
    */
-  public async remixPlaylist(playlistid: string): Promise<CreatePlaylistResponse> {
+  public async remixPlaylist(playlistid: string, ignoreNotifications: boolean): Promise<CreatePlaylistResponse> {
     Logger.log(`Creating new remix playlist for playlist ${playlistid}`);
     const me = await this.spotifyService.getMe();
     const originalPlaylist = await this.getPlaylistWithAllTracks(playlistid);
@@ -115,6 +121,12 @@ export class PlaylistService {
 
     const playlistDefinition = new PlaylistRemixEntity(originalPlaylist.id, newPlaylist.id, me.id, new Date(), originalPlaylist.tracks.items.map(track => track.track.id));
     await this.historyService.recordPlaylistDefinition(playlistDefinition);
+
+
+    // If the user wants to ignore notifications for the remixed playlist, we will add this playlist to the list of playlists to ignore in his user preferences
+    if (ignoreNotifications) {
+      await this.userPreferencesService.addPlaylistToIgnoreList(me.id, newPlaylist.id);
+    }
     return newPlaylist;
   }
 

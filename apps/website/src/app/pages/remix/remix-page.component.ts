@@ -1,16 +1,18 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { faCompactDisc } from '@fortawesome/free-solid-svg-icons';
 import { SpotifyAPIService } from '../../services/spotifyAPI/spotify-api.service';
 import { ApiService } from '../../services/api/api.service';
 import { LoadingComponent } from '../../components/loading/loading.component';
 import { SpotifyPlaylistComponent } from '../../components/spotify-playlist/spotify-playlist.component';
-import { PlaylistObjectSimplified } from '@spotify-manager/core';
+import { CurrentUsersProfileResponse, PlaylistObjectSimplified } from '@spotify-manager/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MessageService } from '../../services/message/message.service';
 import { Message } from '../../types/Message';
 import { SpotifyManagerUserState } from '../../types/SpotifyManagerUserState';
 import { Store } from '@ngrx/store';
 import ListOfUsersPlaylistsResponse = SpotifyApi.ListOfUsersPlaylistsResponse;
+import { ModalComponent } from '../../components/modal/modal.component';
+
 
 @Component({
   selector: 'app-remix',
@@ -20,16 +22,18 @@ import ListOfUsersPlaylistsResponse = SpotifyApi.ListOfUsersPlaylistsResponse;
   imports: [
     LoadingComponent,
     SpotifyPlaylistComponent,
-    FontAwesomeModule
+    FontAwesomeModule,
+    ModalComponent
   ]
 })
 export class RemixPageComponent implements OnInit {
+  @ViewChild(ModalComponent) private modal!: ModalComponent;
+  readonly remixIcon = faCompactDisc;
   playlistResponse!: SpotifyApi.ListOfUsersPlaylistsResponse;
   isLoading = false;
-  loadingPlaylists: { [id: string]: boolean } = {};
 
-  remixIcon = faCompactDisc;
-  private userId: string | undefined;
+  playlistAboutToBeRemixed: PlaylistObjectSimplified | undefined;
+  user: CurrentUsersProfileResponse | null | undefined;
 
   /**
    * Inject the right dependencies
@@ -44,7 +48,7 @@ export class RemixPageComponent implements OnInit {
     private readonly messageService: MessageService,
     private readonly store: Store<{ userState: SpotifyManagerUserState }>) {
     this.store.select('userState').subscribe(userState => {
-      this.userId = userState.user?.id;
+      this.user = userState.user;
     });
   }
 
@@ -60,6 +64,10 @@ export class RemixPageComponent implements OnInit {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
       this.getMorePlaylists();
     }
+  }
+
+  get playlistsNotOwnedByUser(): PlaylistObjectSimplified[] {
+    return this.playlistResponse?.items.filter(playlist => playlist.owner.id !== this.user?.id) ?? [];
   }
 
   /**
@@ -91,15 +99,20 @@ export class RemixPageComponent implements OnInit {
   /**
    * Create a remix of the playlist, which is initially a copy of the playlist
    * @param playlist
+   * @param ignoreNotificationsForPlaylist
    */
-  remixPlaylist(playlist: PlaylistObjectSimplified) {
-    this.loadingPlaylists[playlist.id] = true;
-    this.api.remixPlaylist(playlist.id)
-      .then(() => this.messageService.setMessage(new Message('success', `Successfully remixed "${playlist.name}"`)))
-      .finally(() => this.loadingPlaylists[playlist.id] = false);
+  remixPlaylist(playlist: PlaylistObjectSimplified, ignoreNotificationsForPlaylist: boolean) {
+    this.isLoading = true;
+    this.api.remixPlaylist(playlist.id, ignoreNotificationsForPlaylist)
+      .then(() => {
+        this.modal.close();
+        this.messageService.setMessage(new Message('success', `Successfully remixed "${playlist.name}"`));
+      })
+      .finally(() => this.isLoading = false);
   }
 
-  get playlistsNotOwnedByUser(): PlaylistObjectSimplified[] {
-    return this.playlistResponse?.items.filter(playlist => playlist.owner.id !== this.userId) ?? [];
+  openModal(playlist: PlaylistObjectSimplified) {
+    this.playlistAboutToBeRemixed = playlist;
+    this.modal.open();
   }
 }

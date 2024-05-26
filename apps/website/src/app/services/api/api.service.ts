@@ -5,14 +5,16 @@ import { SpotifyAuthenticationService } from '../spotify-authentication/spotify-
 import { MessageService } from '../message/message.service';
 import {
   Diff,
-  EpisodeObjectFull, ICompareRemixedPlaylistRequest, ListOfUsersPlaylistsResponse,
+  EpisodeObjectFull,
+  ICompareRemixedPlaylistRequest,
+  ListOfUsersPlaylistsResponse,
   PlaylistTrackResponse,
   SinglePlaylistResponse,
   TrackObjectFull
 } from '@spotify-manager/core';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ApiService extends HTTPService {
   /**
@@ -27,12 +29,20 @@ export class ApiService extends HTTPService {
   /**
    * Remix the playlist with given ID
    * @param playlistId
+   * @param ignoreNotificationsForPlaylist
    */
-  async remixPlaylist(playlistId: string): Promise<void> {
+  async remixPlaylist(playlistId: string, ignoreNotificationsForPlaylist: boolean): Promise<void> {
     const token = this.spotifyAuth.getAccessToken();
     await this.request(
-      `${environment.apiURL}/playlists/remix/${playlistId}/?accessToken=${token}`,
-      { method: 'GET' }
+      `${environment.apiURL}/playlists/remix/?accessToken=${token}`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          playlistId: playlistId,
+          ignoreNotificationsForPlaylist: ignoreNotificationsForPlaylist
+        }),
+        headers: { 'Content-Type': 'application/json' }
+      }
     );
   }
 
@@ -82,18 +92,18 @@ export class ApiService extends HTTPService {
    * @param originalPlaylistId
    * @param remixedPlaylistId
    */
-  async comparePlaylists(originalPlaylistId: string, remixedPlaylistId: string,): Promise<Diff[]> {
+  async comparePlaylists(originalPlaylistId: string, remixedPlaylistId: string): Promise<Diff[]> {
     const token = this.spotifyAuth.getAccessToken();
     const body: ICompareRemixedPlaylistRequest = {
       originalPlaylistId: originalPlaylistId,
-      remixedPlaylistId: remixedPlaylistId,
-    }
+      remixedPlaylistId: remixedPlaylistId
+    };
     return this.request(
       `${environment.apiURL}/playlists/remix/compare?accessToken=${token}`,
       {
         method: 'POST',
         body: JSON.stringify(body),
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' }
       }
     );
   }
@@ -117,14 +127,14 @@ export class ApiService extends HTTPService {
         body: JSON.stringify({
           originalPlaylistId: originalPlaylistId,
           remixedPlaylistId: remixedPlaylistId,
-          tracks: mergedTracks,
+          tracks: mergedTracks
         }),
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' }
       }
     );
   }
 
-  getMyRemixedPlaylists() {
+  async getMyRemixedPlaylists(): Promise<ListOfUsersPlaylistsResponse> {
     const token = this.spotifyAuth.getAccessToken();
     return this.request(
       `${environment.apiURL}/playlists/remix/?accessToken=${token}`,

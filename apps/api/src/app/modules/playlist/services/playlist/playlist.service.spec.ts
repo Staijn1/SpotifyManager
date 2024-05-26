@@ -5,6 +5,7 @@ import { buildMockPlaylistTrackResponse, mockSong } from '../../../../utilities/
 import { CurrentUsersProfileResponse, Diff, DiffIdentifier } from '@spotify-manager/core';
 import { PlaylistHistoryService } from '../playlist-history/playlist-history.service';
 import { ObjectId } from 'mongodb';
+import { UserPreferencesService } from '../../../user-preferences/services/user-preferences.service';
 
 describe('PlaylistService', () => {
   let service: PlaylistService;
@@ -25,6 +26,10 @@ describe('PlaylistService', () => {
           useValue: {
             getPlaylistDefinition: jest.fn()
           }
+        },
+        {
+          provide: UserPreferencesService,
+          useValue: jest.fn()
         }
       ]
     }).compile();

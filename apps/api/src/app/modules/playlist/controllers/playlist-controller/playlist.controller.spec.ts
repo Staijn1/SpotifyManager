@@ -12,20 +12,9 @@ describe('PlaylistController', () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [PlaylistController],
       providers: [
-        PlaylistService,
         {
-          provide: SpotifyService,
-          useValue: {
-            // mock methods here
-          },
-        },
-        {
-          provide: PlaylistHistoryService,
+          provide: PlaylistService,
           useValue: {}
-        },
-        {
-          provide: MailService,
-          useValue: jest.fn()
         }
       ],
     }).compile();

@@ -19,4 +19,7 @@ export class UserPreferencesEntity {
 
   @Column(() => EmailLogEntity)
   emailLogs: EmailLogEntity[] = [];
+
+  @Column('simple-array')
+  excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications: string[] = [];
 }

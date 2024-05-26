@@ -45,18 +45,21 @@ describe('UserPreferencesService', () => {
           emailAddress: 'test1@example.com',
           emailLogs: [],
           id: new ObjectId(),
-          originalPlaylistChangeNotificationFrequency: EmailNotificationFrequency.DAILY
+          originalPlaylistChangeNotificationFrequency: EmailNotificationFrequency.DAILY,
+          excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications: []
         },
         {
           userId: '2',
           emailAddress: 'test2@example.com',
           emailLogs: [],
           id: new ObjectId(),
-          originalPlaylistChangeNotificationFrequency: EmailNotificationFrequency.WEEKLY
+          originalPlaylistChangeNotificationFrequency: EmailNotificationFrequency.WEEKLY,
+          excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications: []
         },
         {
           userId: '3',
           emailAddress: 'test3@example.com',
+          excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications: [],
           emailLogs: [
             {
               emailType: EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION,
@@ -82,6 +85,7 @@ describe('UserPreferencesService', () => {
         {
           userId: '1',
           emailAddress: 'test1@example.com',
+          excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications: [],
           emailLogs: [
             {
               emailType: EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION,
@@ -95,6 +99,7 @@ describe('UserPreferencesService', () => {
         {
           userId: '2',
           emailAddress: 'test2@example.com',
+          excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications: [],
           emailLogs: [
             {
               emailType: EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION,
@@ -108,6 +113,7 @@ describe('UserPreferencesService', () => {
         {
           userId: '3',
           emailAddress: 'test3@example.com',
+          excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications: [],
           emailLogs: [
             {
               emailType: EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION,
@@ -121,6 +127,7 @@ describe('UserPreferencesService', () => {
         {
           userId: '4',
           emailAddress: 'test4@example.com',
+          excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications: [],
           emailLogs: [
             {
               emailType: EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION,
@@ -149,6 +156,7 @@ describe('UserPreferencesService', () => {
         {
           userId: '1',
           emailAddress: 'test1@example.com',
+          excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications: [],
           emailLogs: [
             {
               emailType: EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION,
@@ -167,6 +175,7 @@ describe('UserPreferencesService', () => {
         {
           userId: '2',
           emailAddress: 'test2@example.com',
+          excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications: [],
           emailLogs: [
             {
               emailType: EmailType.ORIGINAL_PLAYLIST_CHANGE_NOTIFICATION,

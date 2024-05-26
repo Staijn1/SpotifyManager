@@ -34,6 +34,8 @@ export class UserPreferencesService {
     userPreferences.userId = me.id;
     userPreferences.emailAddress = me.email;
     userPreferences.originalPlaylistChangeNotificationFrequency = updatedUserPreferences.originalPlaylistChangeNotificationFrequency;
+    // Add or remove playlist IDs from excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications
+    userPreferences.excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications = updatedUserPreferences.excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications ?? [];
 
     await this.userPreferencesRepository.save(userPreferences);
 
@@ -124,5 +126,20 @@ export class UserPreferencesService {
 
       return hasNoEmailLogForType || sentAtDateTime <= lastNotificationDate;
     });
+  }
+
+  async addPlaylistToIgnoreList(userid: string, playlistIdToIgnore: string) {
+    const userPreferences = await this.userPreferencesRepository.findOne({ where: { userId: userid } });
+
+    if (!userPreferences) {
+      throw new Error(`User with ID ${userid} not found`);
+    }
+
+    // Add the playlist ID to the list of ignored playlists if it's not already in there
+    if (!userPreferences.excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications.includes(playlistIdToIgnore)) {
+      userPreferences.excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications.push(playlistIdToIgnore);
+    }
+
+    await this.userPreferencesRepository.save(userPreferences);
   }
 }
