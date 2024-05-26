@@ -10,14 +10,12 @@ export class PlaylistHistoryService {
 
   /**
    * Get a playlist with a given ID at a given timestamp. If no timestamp is given, the last recorded playlist definition of the playlist with given id is returned.
-   * @param originalPlaylistId
    * @param remixedPlaylistId
    * @param userId
    */
-  async getPlaylistDefinition(originalPlaylistId: string, remixedPlaylistId: string, userId: string): Promise<PlaylistRemixEntity | null> {
+  async getPlaylistDefinition(remixedPlaylistId: string, userId: string): Promise<PlaylistRemixEntity | null> {
     const query: FindOneOptions<PlaylistRemixEntity> = {
       where: {
-        originalPlaylistId: originalPlaylistId,
         remixPlaylistId: remixedPlaylistId,
         userId: userId
       },
@@ -33,7 +31,7 @@ export class PlaylistHistoryService {
    */
   async recordPlaylistDefinition(remixEntity: PlaylistRemixEntity) {
     // Check if a playlist definition already exists for this playlist
-    const existingDefinition = await this.getPlaylistDefinition(remixEntity.originalPlaylistId, remixEntity.remixPlaylistId, remixEntity.userId);
+    const existingDefinition = await this.getPlaylistDefinition(remixEntity.remixPlaylistId, remixEntity.userId);
 
     if (existingDefinition) {
       // Update the existing playlist definition

@@ -84,7 +84,7 @@ export class PlaylistController {
    */
   @Post('remix/compare')
   public async compare(@Body() body: CompareRemixedPlaylistRequest): Promise<Diff[]> {
-    return this.playlistService.compareRemixedPlaylistWithOriginal(body.originalPlaylistId, body.remixedPlaylistId);
+    return this.playlistService.compareRemixedPlaylistWithOriginal(body.remixedPlaylistId);
   }
 
   /**
@@ -95,6 +95,11 @@ export class PlaylistController {
   public async syncRemixWithOriginal(
     @Body() body: PlaylistSyncRequest
   ): Promise<SyncPlaylistResult> {
-    return this.playlistService.syncPlaylist(body.remixedPlaylistId, body.originalPlaylistId, body.tracks);
+    return this.playlistService.syncPlaylist(body.remixedPlaylistId, body.tracks);
+  }
+
+  @Get('remix/original/:playlistId')
+  public async getOriginalPlaylistForRemix(@Param() params: {playlistId: string}): Promise<SinglePlaylistResponse> {
+    return this.playlistService.getOriginalPlaylistForRemix(params.playlistId);
   }
 }

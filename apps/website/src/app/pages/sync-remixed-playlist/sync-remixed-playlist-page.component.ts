@@ -5,7 +5,7 @@ import { SpotifyTrackComponent } from '../../components/spotify-track/spotify-tr
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { Diff, DiffIdentifier, SinglePlaylistResponse } from '@spotify-manager/core';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { Navigation, Router } from '@angular/router';
+import { ActivatedRoute, Navigation, Router } from '@angular/router';
 import { ApiService } from '../../services/api/api.service';
 import { MessageService } from '../../services/message/message.service';
 import { Message } from '../../types/Message';
@@ -21,7 +21,6 @@ import _ from 'lodash';
 export class SyncRemixedPlaylistPageComponent {
   readonly DiffIdentifier = DiffIdentifier;
   private remixedPlaylistId !: string;
-  private originalPlaylistId!: string;
 
   changedTracks: Diff[] = [];
   draftSyncedPlaylist: Diff[] = [];
@@ -35,17 +34,15 @@ export class SyncRemixedPlaylistPageComponent {
   constructor(
     private readonly router: Router,
     private apiService: ApiService,
-    private readonly messageService: MessageService
+    private readonly messageService: MessageService,
+    private readonly route: ActivatedRoute
   ) {
-    const nav: Navigation | null = this.router.getCurrentNavigation();
-
-    if (nav?.extras && nav.extras.state) {
-      this.remixedPlaylistId = nav.extras.state['remixedPlaylistId'];
-      this.originalPlaylistId = nav.extras.state['originalPlaylistId'];
-
+    const remixedPlaylistId = this.route.snapshot.paramMap.get('remixedPlaylistId');
+    if(remixedPlaylistId){
+      this.remixedPlaylistId = remixedPlaylistId;
       this.load();
     } else {
-      // This page cannot be viewed without a redirect from another page, supplying the right parameters
+      // This page cannot be viewed without a remixed playlist ID
       this.router.navigate(['/account']);
       return;
     }
@@ -55,7 +52,7 @@ export class SyncRemixedPlaylistPageComponent {
     this.isComparisonLoading = true;
     // Fetch playlist details as the first step
     await this.fetchPlaylistDetails();
-    this.apiService.comparePlaylists(this.originalPlaylistId, this.remixedPlaylistId)
+    this.apiService.comparePlaylists(this.remixedPlaylistId)
       .then(changes => {
         // Automatically build the draft synced playlist with tracks that are:
         // - Added in the remix
@@ -73,7 +70,7 @@ export class SyncRemixedPlaylistPageComponent {
 
   private async fetchPlaylistDetails() {
     // Fetch the original playlist details
-    this.originalPlaylist = await this.apiService.getPlaylist(this.originalPlaylistId);
+    this.originalPlaylist = await this.apiService.getOriginalPlaylistForRemix(this.remixedPlaylistId);
   }
 
   /**
@@ -120,7 +117,7 @@ export class SyncRemixedPlaylistPageComponent {
     this.isSyncing = true;
     const sortedDraftSyncedPlaylist = this.sortDiffs(this.draftSyncedPlaylist, false);
 
-    this.apiService.syncPlaylist(this.originalPlaylistId, this.remixedPlaylistId, sortedDraftSyncedPlaylist.map(diff => diff[1].track)).then(() => {
+    this.apiService.syncPlaylist(this.remixedPlaylistId, sortedDraftSyncedPlaylist.map(diff => diff[1].track)).then(() => {
       this.router.navigate(['/remix-overview']);
       this.messageService.setMessage(new Message('success', 'The playlist has been synced!'));
     }).finally(() => this.isSyncing = false);
