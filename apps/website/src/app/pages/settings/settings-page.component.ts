@@ -13,7 +13,7 @@ import { SpotifyManagerUserState } from '../../types/SpotifyManagerUserState';
 import { ReceiveUserPreferences } from '../../redux/user-state/user-state.action';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faInfoCircle, faSave } from '@fortawesome/free-solid-svg-icons';
-import { map } from 'rxjs';
+import { distinctUntilChanged, map } from 'rxjs';
 import { ApiService } from '../../services/api/api.service';
 
 @Component({
@@ -43,7 +43,10 @@ export class SettingsPageComponent implements OnInit {
     private readonly api: ApiService,
     private readonly store: Store<{ userState: SpotifyManagerUserState }>) {
     this.store.select('userState')
-      .pipe(map(state => state.userPreferences))
+      .pipe(
+        map(state => state.userPreferences),
+        distinctUntilChanged()
+      )
       .subscribe(preferences => {
         this.hasUserPreferencesSet = preferences !== null;
 
@@ -56,7 +59,12 @@ export class SettingsPageComponent implements OnInit {
   ngOnInit() {
     this.userPreferenceService.getEmailFrequencyOptions()
       .then(options => this.availableEmailFrequencyOptions = options)
-      .finally(() => this.isInitializing = false)
+      .finally(() => this.isInitializing = false);
+
+    this.userPreferenceService.getUserPreferences()
+      .then(preferences => {
+        this.store.dispatch(new ReceiveUserPreferences(preferences));
+      });
 
     this.getRemixedPlaylists();
   }
