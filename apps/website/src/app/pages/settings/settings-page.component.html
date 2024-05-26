@@ -16,6 +16,10 @@
   <h1>Settings Page</h1>
   <p>Manage your preferences here to tweak your experience to your liking!</p>
 
+  <div class="flex justify-end">
+    <button class="btn btn-primary btn-sm w-32 mt-5" (click)="saveEmailPreferences()"><fa-icon [icon]="saveIcon"></fa-icon> Save</button>
+  </div>
+
   <div class="grid grid-cols-5 gap-4 mt-10">
     <div class="col-span-3">
       <div class="card bg-base-300 shadow-xl">
@@ -46,9 +50,6 @@
                 }
               </div>
             </div>
-            <div class="flex justify-end">
-              <button class="btn btn-primary btn-sm w-32 mt-5" (click)="saveEmailPreferences()">Save</button>
-            </div>
           </form>
         </div>
       </div>
@@ -65,36 +66,38 @@
           </p>
         </div>
 
-      @for (remix of remixes?.items; track remix.id) {
-        <div class="bg-base-100 rounded-xl m-4">
-          <div class="flex">
-            <div class="avatar">
-              <div class="w-40 rounded-xl">
-                <a [href]="remix.external_urls.spotify" target="_blank">
-                  <img
-                    [ngSrc]="remix.images[0]?.url ?? ''"
-                    [width]="remix.images[0]?.width ?? 0"
-                    [height]="remix.images[0]?.height ?? 0"
-                    alt="Playlist Picture" />
-                </a>
+        @for (remix of remixes?.items; track remix.id) {
+          <div class="bg-base-100 rounded-xl m-4">
+            <div class="flex">
+              <div class="avatar">
+                <div class="w-40 rounded-xl">
+                  <a [href]="remix.external_urls.spotify" target="_blank">
+                    <img
+                      [ngSrc]="remix.images[0]?.url ?? ''"
+                      [width]="remix.images[0]?.width ?? 0"
+                      [height]="remix.images[0]?.height ?? 0"
+                      priority="high"
+                      alt="Playlist Picture" />
+                  </a>
+                </div>
+              </div>
+              <div class="p-4 w-full">
+                <h4> {{ remix.name }}</h4>
+                <div class="form-control">
+                  <label class="label cursor-pointer">
+                    <span class="label-text">{{ getLabelTextForSwitch(remix.id) }}</span>
+                    <input type="checkbox" class="toggle toggle-success"
+                           [checked]="isNotificationEnabled(remix.id)"
+                           (change)="toggleNotification(remix.id, $event.target)" />
+                  </label>
+                </div>
               </div>
             </div>
-            <div class="p-4 w-full">
-              <h4> {{ remix.name }}</h4>
-              <div class="form-control">
-                <label class="label cursor-pointer">
-                  <span class="label-text">Notifications Enabled</span>
-                  <input type="checkbox" class="toggle toggle-success"
-                         [checked]="isNotificationEnabled(remix.id)"
-                         (change)="toggleNotification(remix.id, $event.target)"/>
-                </label>
-              </div>
-            </div>
+
           </div>
-        </div>
-      } @empty {
-        <p class="text-gray-500 p-4 text-center">No remixes found.</p>
-      }
+        } @empty {
+          <p class="text-gray-500 p-4 text-center">No remixes found.</p>
+        }
       </div>
     </div>
   </div>

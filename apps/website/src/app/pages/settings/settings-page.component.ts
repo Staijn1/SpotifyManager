@@ -12,9 +12,10 @@ import { Store } from '@ngrx/store';
 import { SpotifyManagerUserState } from '../../types/SpotifyManagerUserState';
 import { ReceiveUserPreferences } from '../../redux/user-state/user-state.action';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { faInfoCircle, faSave } from '@fortawesome/free-solid-svg-icons';
 import { map } from 'rxjs';
 import { ApiService } from '../../services/api/api.service';
+import { deepCopy } from '@angular-devkit/core';
 
 @Component({
   selector: 'app-settings-page',
@@ -25,6 +26,7 @@ import { ApiService } from '../../services/api/api.service';
 })
 export class SettingsPageComponent implements OnInit {
   readonly informationIcon = faInfoCircle;
+  readonly saveIcon = faSave;
   remixes: SpotifyApi.ListOfUsersPlaylistsResponse | undefined;
   availableEmailFrequencyOptions: EmailNotificationFrequency[] = [];
 
@@ -48,7 +50,7 @@ export class SettingsPageComponent implements OnInit {
 
         // If the user logs in and has no preferences, the defaults will be used otherwise the user's preferences will be used
         // Create a copy of the preferences because the object from redux is immutable
-        this.userPreferences = { ...preferences } as IUserPreferences ?? this.userPreferences;
+        this.userPreferences = preferences == null ? this.userPreferences : JSON.parse(JSON.stringify(preferences));
       });
   }
 
@@ -81,8 +83,13 @@ export class SettingsPageComponent implements OnInit {
       });
   }
 
+  /**
+   * Check if the notification is enabled for the remix id
+   * Returns true if the remix id is not in the excluded list in the user preferences
+   * @param remixId
+   */
   isNotificationEnabled(remixId: string): boolean {
-    // Return true if the remix id is not in the excluded list
+    if (!this.userPreferences) return false;
     return !this.userPreferences.excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications.includes(remixId);
   }
 
@@ -96,5 +103,9 @@ export class SettingsPageComponent implements OnInit {
       // If the checkbox is disabled, add the remix id to the excluded list
       this.userPreferences.excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications.push(remixId);
     }
+  }
+
+  getLabelTextForSwitch(remixId: string) {
+    return this.isNotificationEnabled(remixId) ? 'Enabled' : 'Disabled';
   }
 }
