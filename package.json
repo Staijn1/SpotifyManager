@@ -30,6 +30,10 @@
     "@nestjs/schedule": "^4.0.2",
     "@nestjs/swagger": "^7.3.1",
     "@nestjs/typeorm": "^10.0.2",
+    "@ng-icons/core": "^27.5.0",
+    "@ng-icons/css.gg": "^27.5.0",
+    "@ng-icons/font-awesome": "^27.5.0",
+    "@ng-icons/heroicons": "^27.5.0",
     "@ngrx/store": "^17.1.0",
     "@ngrx/store-devtools": "^17.1.0",
     "@nx/angular": "19.0.4",
@@ -111,4 +115,3 @@
     "url-loader": "^4.1.1"
   }
 }
-
