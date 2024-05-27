@@ -6,6 +6,7 @@ import { environment } from '../../../environments/environment';
 import { MessageService } from '../message/message.service';
 import { Store } from '@ngrx/store';
 import { UpdateUserLoginStatus } from '../../redux/user-state/user-state.action';
+import { Router } from '@angular/router';
 
 /**
  * Handles the authentication process with Spotify, using the Spotify Web API.
@@ -44,6 +45,7 @@ export class SpotifyAuthenticationService extends HTTPService {
 
   constructor(
     private readonly oauthService: OAuthService,
+    private readonly router: Router,
     private readonly store: Store,
     protected override readonly messageService: MessageService
   ) {
@@ -82,6 +84,7 @@ export class SpotifyAuthenticationService extends HTTPService {
    */
   logOut(): void {
     this.oauthService.logOut();
+    this.router.navigate([''])
   }
 
   getAccessToken() {

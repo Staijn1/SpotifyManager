@@ -12,6 +12,7 @@ import { cssLogOut, cssMenu, cssSearch, cssUser } from '@ng-icons/css.gg';
 import { Store } from '@ngrx/store';
 import { SpotifyManagerUserState } from '../../../types/SpotifyManagerUserState';
 import { CurrentUsersProfileResponse } from '@spotify-manager/core';
+import { SpotifyAuthenticationService } from '../../../services/spotify-authentication/spotify-authentication.service';
 
 
 @Component({
@@ -25,9 +26,15 @@ import { CurrentUsersProfileResponse } from '@spotify-manager/core';
 export class LoggedInLayoutComponent {
   currentUser: CurrentUsersProfileResponse | null | undefined;
 
-  constructor(private readonly store: Store<{ userState: SpotifyManagerUserState }>) {
+  constructor(
+    private readonly store: Store<{ userState: SpotifyManagerUserState }>,
+    private readonly authService: SpotifyAuthenticationService) {
     this.store.select('userState').subscribe((userState) => {
       this.currentUser = userState.user;
     });
+  }
+
+  logout() {
+    this.authService.logOut();
   }
 }
