@@ -5,12 +5,14 @@ import { AccountPageComponent } from './pages/account/account-page.component';
 import { inject } from '@angular/core';
 import { SpotifyAuthenticationService } from './services/spotify-authentication/spotify-authentication.service';
 import { RemixPageComponent } from './pages/remix/remix-page.component';
-import { HomePageComponent } from './pages/home/home-page.component';
 import { RemixOverviewPageComponent } from './pages/remix-overview/remix-overview-page.component';
 import { SyncRemixedPlaylistPageComponent } from './pages/sync-remixed-playlist/sync-remixed-playlist-page.component';
 import { SettingsPageComponent } from './pages/settings/settings-page.component';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs';
+import { RegularLayoutComponent } from './main/layouts/regular/regular-layout.component';
+import { HomePageComponent } from './pages/home/home-page.component';
+import { LoggedInLayoutComponent } from './main/layouts/logged-in/logged-in-layout.component';
 
 
 const RequireLoginGuard: CanActivateFn = (): boolean => {
@@ -41,36 +43,54 @@ const RequireUserPreferencesSetGuard: CanActivateFn = (): boolean => {
 };
 
 export const appRoutes: Route[] = [
-  { path: '', component: HomePageComponent },
-  { path: 'get-started', component: GetStartedPageComponent },
-  { path: 'callback', component: AuthorizePageComponent },
   {
-    path: 'account',
+    path: '',
+    component: RegularLayoutComponent,
     children: [
-      {
-        path: '',
-        component: AccountPageComponent,
-        canActivate: [RequireLoginGuard, RequireUserPreferencesSetGuard]
-      },
-      {
-        path: 'settings', component: SettingsPageComponent,
-        canActivate: [RequireLoginGuard]
-      }
+      { path: '', component: HomePageComponent },
+      { path: 'get-started', component: GetStartedPageComponent },
+      { path: 'callback', component: AuthorizePageComponent }
     ]
   },
   {
-    path: 'remix',
-    component: RemixPageComponent,
-    canActivate: [RequireLoginGuard, RequireUserPreferencesSetGuard]
-  },
-  {
-    path: 'remix-overview',
-    component: RemixOverviewPageComponent,
-    canActivate: [RequireLoginGuard, RequireUserPreferencesSetGuard]
-  },
-  {
-    path: 'sync-remixed-playlist/:remixedPlaylistId',
-    component: SyncRemixedPlaylistPageComponent,
-    canActivate: [RequireLoginGuard, RequireUserPreferencesSetGuard]
+    path: 'apps',
+    component: LoggedInLayoutComponent,
+    children: [
+      { path: '', redirectTo: '/apps/account', pathMatch: 'full' },
+      {
+        path: 'account',
+        children: [
+          {
+            path: '',
+            component: AccountPageComponent,
+            canActivate: [RequireLoginGuard, RequireUserPreferencesSetGuard]
+          },
+          {
+            path: 'settings', component: SettingsPageComponent,
+            canActivate: [RequireLoginGuard]
+          }
+        ]
+      },
+      {
+        path: 'remix',
+        component: RemixPageComponent,
+        canActivate: [RequireLoginGuard, RequireUserPreferencesSetGuard]
+      },
+      {
+        path: 'remix-overview',
+        component: RemixOverviewPageComponent,
+        canActivate: [RequireLoginGuard, RequireUserPreferencesSetGuard]
+      },
+      {
+        path: 'sync-remixed-playlist/:remixedPlaylistId',
+        component: SyncRemixedPlaylistPageComponent,
+        canActivate: [RequireLoginGuard, RequireUserPreferencesSetGuard]
+      },
+      {
+        path: 'settings',
+        component: SettingsPageComponent,
+        canActivate: [RequireLoginGuard]
+      }
+    ]
   }
 ];
