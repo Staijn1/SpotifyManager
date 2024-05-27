@@ -1,5 +1,54 @@
-Logged In Layout
-<app-navigation-bar></app-navigation-bar>
-<div class="py-20">
-  <router-outlet></router-outlet>
+<div class="w-full h-full">
+  <div class="flex overflow-hidden">
+    <app-vertical-navigation-bar></app-vertical-navigation-bar>
+
+
+    <div class="main-container">
+      <div class="navbar z-10 border-b border-base-200 px-3">
+        <div class="gap-3 navbar-start">
+          <button aria-label="Leftmenu toggle" class="btn btn-sm btn-square btn-ghost">
+            <ng-icon name="cssMenu" class="text-lg"></ng-icon>
+          </button>
+        </div>
+        <div class="navbar-center"></div>
+        <div class="gap-1.5 navbar-end">
+          <div class="dropdown dropdown-bottom dropdown-end">
+            @if (currentUser) {
+              <label tabindex="0" class="btn btn-ghost rounded-btn px-1.5 hover:bg-base-content/20">
+                <div class="flex items-center gap-4">
+                  @if (currentUser.images) {
+                    <div aria-label="Avatar photo" class="avatar">
+                      <div
+                        class="mask"
+                        style="width: 40px; height: 40px;"
+                      >
+                        <img [src]="currentUser.images[0].url ?? ''" alt="Profile Picture" />
+                      </div>
+                    </div>
+                  }
+                  <p>{{ currentUser.display_name }}</p>
+                </div>
+              </label>
+            }
+            <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box mt-4 w-52" role="menu">
+              <li routerLink="/apps/account">
+                <div>
+                  <ng-icon name="cssUser" class="text-lg"></ng-icon>
+                  My Profile
+                </div>
+              </li>
+              <hr class="-mx-2 my-1 border-base-content/10">
+              <li>
+                <div class="text-error">
+                  <ng-icon name="cssLogOut" class="text-lg"></ng-icon>
+                  Logout
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
 </div>
