@@ -18,7 +18,7 @@ describe('PlaylistService', () => {
         {
           provide: SpotifyService,
           useValue: {
-            getMe: jest.fn(),
+            getCurrentUser: jest.fn(),
           }
         },
         {
@@ -70,7 +70,7 @@ describe('PlaylistService', () => {
       originalPlaylistTrackIds: originalPlaylistAtTimeOfLastSync.items.map(track => track.track.id)
     });
 
-    jest.spyOn(spotifyService, 'getMe').mockResolvedValueOnce({ id: 'someUserId' } as CurrentUsersProfileResponse);
+    jest.spyOn(spotifyService, 'getCurrentUser').mockReturnValueOnce({ id: 'someUserId' } as CurrentUsersProfileResponse);
 
     const result = await service.compareRemixedPlaylistWithOriginal(basePlaylistId, remixedPlaylistId);
     const expected: Diff[] = [
@@ -109,7 +109,7 @@ describe('PlaylistService', () => {
       originalPlaylistTrackIds: originalPlaylistAtTimeOfLastSync.items.map(track => track.track.id)
     });
 
-    jest.spyOn(spotifyService, 'getMe').mockResolvedValueOnce({ id: 'someUserId' } as CurrentUsersProfileResponse);
+    jest.spyOn(spotifyService, 'getCurrentUser').mockReturnValueOnce({ id: 'someUserId' } as CurrentUsersProfileResponse);
 
     const result = await service.compareRemixedPlaylistWithOriginal(basePlaylistId, remixedPlaylistId);
     const expected: Diff[] = [
@@ -147,7 +147,7 @@ describe('PlaylistService', () => {
       originalPlaylistTrackIds: originalPlaylistAtTimeOfLastSync.items.map(track => track.track.id)
     });
 
-    jest.spyOn(spotifyService, 'getMe').mockResolvedValueOnce({ id: 'someUserId' } as CurrentUsersProfileResponse);
+    jest.spyOn(spotifyService, 'getCurrentUser').mockReturnValueOnce({ id: 'someUserId' } as CurrentUsersProfileResponse);
 
     const result = await service.compareRemixedPlaylistWithOriginal(basePlaylistId, remixedPlaylistId);
     const expected: Diff[] = [
@@ -183,7 +183,7 @@ describe('PlaylistService', () => {
       originalPlaylistTrackIds: originalPlaylistAtTimeOfLastSync.items.map(track => track.track.id)
     });
 
-    jest.spyOn(spotifyService, 'getMe').mockResolvedValueOnce({ id: 'someUserId' } as CurrentUsersProfileResponse);
+    jest.spyOn(spotifyService, 'getCurrentUser').mockReturnValueOnce({ id: 'someUserId' } as CurrentUsersProfileResponse);
 
     const result = await service.compareRemixedPlaylistWithOriginal(basePlaylistId, remixedPlaylistId);
     const expected: Diff[] = [

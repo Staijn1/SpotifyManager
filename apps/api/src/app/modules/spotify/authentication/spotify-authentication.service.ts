@@ -1,10 +1,16 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import SpotifyWebApi from 'spotify-web-api-node';
 import { ConfigService } from '@nestjs/config';
+import { CurrentUsersProfileResponse, UserProfileResponse } from '@spotify-manager/core';
 
 @Injectable()
 export class SpotifyAuthenticationService {
   public spotifyWebApi: SpotifyWebApi;
+  private _currentUser: CurrentUsersProfileResponse;
+
+  get currentUser(): CurrentUsersProfileResponse {
+    return this._currentUser;
+  }
 
   constructor(readonly configService: ConfigService) {
     const clientId = configService.get('SPOTIFY_CLIENT_ID');
@@ -47,5 +53,9 @@ export class SpotifyAuthenticationService {
     } catch (e) {
       throw new HttpException('Could not authenticate with Spotify API', 401);
     }
+  }
+
+  setUser(user: CurrentUsersProfileResponse) {
+    this._currentUser = user;
   }
 }

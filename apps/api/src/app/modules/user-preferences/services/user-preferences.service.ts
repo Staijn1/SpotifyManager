@@ -3,7 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserPreferencesEntity } from '../entities/user-preferences.entity';
 import { Repository } from 'typeorm';
 import { SpotifyService } from '../../spotify/spotify/spotify.service';
-import { EmailNotificationFrequency, IUserPreferencesResponse } from '@spotify-manager/core';
+import {
+  CurrentUsersProfileResponse,
+  EmailNotificationFrequency,
+  IUserPreferencesResponse
+} from '@spotify-manager/core';
 import { UserPreferencesRequest } from '../../../types/RequestObjectsDecorated';
 import { EmailType } from '../../../types/EmailType';
 import { EmailLogEntity } from '../../mail/entities/email-log.entity';
@@ -27,7 +31,7 @@ export class UserPreferencesService {
   }
 
   async createOrUpdateUserPreferences(updatedUserPreferences: UserPreferencesRequest): Promise<IUserPreferencesResponse> {
-    const me = await this.spotifyService.getMe();
+    const me = this.spotifyService.getCurrentUser();
 
     const userPreferences = await this.userPreferencesRepository.findOne({ where: { userId: me.id } }) ?? new UserPreferencesEntity();
 
@@ -43,7 +47,7 @@ export class UserPreferencesService {
   }
 
   async getUserPreferences(): Promise<IUserPreferencesResponse> {
-    const me = await this.spotifyService.getMe();
+    const me = this.spotifyService.getCurrentUser();
 
     return await (this.userPreferencesRepository.findOne({ where: { userId: me.id } })) ?? null;
   }

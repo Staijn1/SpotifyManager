@@ -172,4 +172,8 @@ export class SpotifyService {
     const response = await this.spotifyApi.getUser(userId);
     return response.body
   }
+
+  getCurrentUser() {
+    return this.spotifyAuthService.currentUser;
+  }
 }

@@ -71,7 +71,7 @@ export class PlaylistService {
    */
   public async remixPlaylist(playlistid: string, ignoreNotifications: boolean): Promise<CreatePlaylistResponse> {
     Logger.log(`Creating new remix playlist for playlist ${playlistid}`);
-    const me = await this.spotifyService.getMe();
+    const me = this.spotifyService.getCurrentUser();
     const originalPlaylist = await this.getPlaylistWithAllTracks(playlistid);
 
     let newPlaylistName = originalPlaylist.name;
@@ -172,7 +172,7 @@ export class PlaylistService {
    * @param tracks - Tracks the remixed playlist should contain after syncing is complete
    */
   async syncPlaylist(remixedPlaylistId: string, tracks: (TrackObjectFull | EpisodeObjectFull)[]): Promise<SyncPlaylistResult> {
-    const userId = (await this.spotifyService.getMe()).id;
+    const userId = this.spotifyService.getCurrentUser().id;
     const originalPlaylistId = (await this.historyService.getPlaylistDefinition(remixedPlaylistId, userId)).originalPlaylistId;
     const tracksInOriginalPlaylistNow = await this.getAllSongsInPlaylist(originalPlaylistId);
 
@@ -207,7 +207,7 @@ export class PlaylistService {
     const playlists = await this.getAllUserPlaylists(userid);
 
     if (!userid) {
-      userid = (await this.spotifyService.getMe()).id;
+      userid = this.spotifyService.getCurrentUser().id;
     }
 
     const playlistDefinitions = await this.historyService.getPlaylistDefinitionsForUser(userid);
@@ -246,8 +246,9 @@ export class PlaylistService {
   async compareRemixedPlaylistWithOriginal(remixedPlaylistId: string, userId?:string): Promise<Diff[]> {
     // Step 1: Fetch all required data.
     // The current user, the original playlist at the time of remixing, the current state of the original playlist, and the current state of the remixed playlist.
+    // userId is not provided when this method is called from the frontend, we use the current user in that case.
     if (!userId) {
-      userId = (await this.spotifyService.getMe()).id;
+      userId = this.spotifyService.getCurrentUser().id;
     }
 
     const originalPlaylistAtLastSync = (await this.historyService.getPlaylistDefinition(remixedPlaylistId, userId));
@@ -304,7 +305,7 @@ export class PlaylistService {
    * @param playlistId
    */
   async getOriginalPlaylistForRemix(playlistId: string) {
-    const userId = (await this.spotifyService.getMe()).id;
+    const userId = this.spotifyService.getCurrentUser().id;
     const playlistDefinition = await this.historyService.getPlaylistDefinition(playlistId, userId);
     if (!playlistDefinition) {
       throw new HttpException('No playlist definition found for the given playlist', 404);
