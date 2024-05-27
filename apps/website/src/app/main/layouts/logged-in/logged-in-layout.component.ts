@@ -25,6 +25,7 @@ import { SpotifyAuthenticationService } from '../../../services/spotify-authenti
 })
 export class LoggedInLayoutComponent {
   currentUser: CurrentUsersProfileResponse | null | undefined;
+  isLeftMenuClosed = false;
 
   constructor(
     private readonly store: Store<{ userState: SpotifyManagerUserState }>,
@@ -36,5 +37,9 @@ export class LoggedInLayoutComponent {
 
   logout() {
     this.authService.logOut();
+  }
+
+  toggleLeftMenu() {
+    this.isLeftMenuClosed = !this.isLeftMenuClosed;
   }
 }

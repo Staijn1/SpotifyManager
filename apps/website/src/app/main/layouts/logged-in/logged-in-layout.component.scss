@@ -3,3 +3,22 @@
   max-width: 100vw;
   height: 100vh;
 }
+
+
+.leftmenu-wrapper{
+  @apply border-base-200;
+
+  transition: all 300ms linear;
+  position: sticky;
+  bottom: 0;
+  top: 0;
+  width: var(--leftbar-width);
+  height: 100vh;
+  min-width: 15rem;
+  border-inline-end-width: 1px;
+
+  &.hide{
+    border-inline-end-width: calc(var(--leftbar-width) * -1);
+  }
+}
+

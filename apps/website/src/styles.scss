@@ -5,6 +5,11 @@
 @import "aos/dist/aos.css";
 @import "@fortawesome/fontawesome-free/css/all.css";
 
+
+:root{
+  --leftbar-width: 240px;
+}
+
 h1 {
   @apply text-4xl font-bold;
 }
