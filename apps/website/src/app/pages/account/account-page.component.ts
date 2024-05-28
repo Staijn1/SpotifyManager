@@ -19,7 +19,8 @@ import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { SpotifyManagerUserState } from '../../types/SpotifyManagerUserState';
 import { map } from 'rxjs';
-
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { faSolidGears } from '@ng-icons/font-awesome/solid';
 
 @Component({
   selector: 'app-account',
@@ -33,8 +34,10 @@ import { map } from 'rxjs';
     SpotifyArtistComponent,
     SpotifyTrackComponent,
     FaIconComponent,
-    RouterLink
+    RouterLink,
+    NgIcon
   ],
+  providers: [provideIcons({faSolidGears})],
   styleUrls: ['./account-page.component.scss']
 })
 export class AccountPageComponent implements OnInit {
