@@ -15,8 +15,8 @@
         <div class="navbar-center"></div>
         <div class="gap-1.5 navbar-end">
           <div class="dropdown dropdown-bottom dropdown-end">
-            @if (currentUser) {
-              <label tabindex="0" class="btn btn-ghost rounded-btn px-1.5 hover:bg-base-content/20">
+            <label tabindex="0" class="btn btn-ghost rounded-btn px-1.5 hover:bg-base-content/20">
+              @if (currentUser) {
                 <div class="flex items-center gap-4">
                   @if (currentUser.images) {
                     <div aria-label="Avatar photo" class="avatar">
@@ -30,8 +30,10 @@
                   }
                   <p>{{ currentUser.display_name }}</p>
                 </div>
-              </label>
-            }
+              } @else {
+                No User Found
+              }
+            </label>
             <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box mt-4 w-52" role="menu">
               <li routerLink="/apps/account">
                 <div>
