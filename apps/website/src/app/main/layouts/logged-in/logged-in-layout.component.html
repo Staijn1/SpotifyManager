@@ -9,7 +9,7 @@
       <div class="navbar z-10 border-b border-base-200 px-3">
         <div class="gap-3 navbar-start">
           <button aria-label="Leftmenu toggle" class="btn btn-sm btn-square btn-ghost" (click)="toggleLeftMenu()">
-            <ng-icon name="cssMenu" class="text-lg"></ng-icon>
+            <ng-icon [name]="isLeftMenuClosed ? 'cssChevronRight' : 'cssChevronLeft'" class="text-lg"></ng-icon>
           </button>
         </div>
         <div class="navbar-center"></div>

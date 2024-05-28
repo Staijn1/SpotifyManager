@@ -8,7 +8,7 @@ import {
   VerticalNavigationBarComponent
 } from '../../navigation-bar/vertical-navigation-bar/vertical-navigation-bar.component';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { cssLogOut, cssMenu, cssSearch, cssUser } from '@ng-icons/css.gg';
+import { cssChevronLeft, cssChevronRight, cssLogOut, cssMenu, cssSearch, cssUser } from '@ng-icons/css.gg';
 import { Store } from '@ngrx/store';
 import { SpotifyManagerUserState } from '../../../types/SpotifyManagerUserState';
 import { CurrentUsersProfileResponse } from '@spotify-manager/core';
@@ -19,7 +19,7 @@ import { SpotifyAuthenticationService } from '../../../services/spotify-authenti
   selector: 'app-logged-in-layout',
   standalone: true,
   imports: [CommonModule, HorizontalNavigationBarComponent, RouterOutlet, VerticalNavigationBarComponent, NgIcon, RouterLink],
-  providers: [provideIcons({ cssMenu, cssSearch, cssLogOut, cssUser })],
+  providers: [provideIcons({ cssMenu, cssSearch, cssLogOut, cssUser, cssChevronRight, cssChevronLeft })],
   templateUrl: './logged-in-layout.component.html',
   styleUrl: './logged-in-layout.component.scss'
 })
