@@ -26,7 +26,7 @@ export class HorizontalNavigationBarComponent {
   @HostListener('window:scroll', ['$event'])
   onWindowScroll() {
     const scrolledClasses = ['z-20', 'border-b', 'border-base-content/10', 'bg-base-100', 'lg:bg-opacity-90', 'dark:lg:bg-opacity-95'];
-    const notScrolledClasses = ['z-[60]', 'backdrop-blur-sm', 'transition-all', 'duration-500', 'border-transparent'];
+    const notScrolledClasses = ['z-[60]', 'transition-all', 'duration-500', 'border-transparent'];
 
     if (window.scrollY > 20) {
       this.navbar.nativeElement.classList.remove(...notScrolledClasses);

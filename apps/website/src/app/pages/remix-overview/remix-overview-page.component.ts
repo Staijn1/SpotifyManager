@@ -58,6 +58,6 @@ export class RemixOverviewPageComponent implements OnInit {
    * @param remixedPlaylist
    */
   startComparingPlaylist(remixedPlaylist: PlaylistObjectSimplified) {
-    this.router.navigate(['/sync-remixed-playlist', remixedPlaylist.id]);
+    this.router.navigate(['/apps/sync-remixed-playlist', remixedPlaylist.id]);
   }
 }

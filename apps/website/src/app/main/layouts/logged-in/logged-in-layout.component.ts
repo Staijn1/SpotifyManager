@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   HorizontalNavigationBarComponent
@@ -24,6 +24,7 @@ import { SpotifyAuthenticationService } from '../../../services/spotify-authenti
   styleUrl: './logged-in-layout.component.scss'
 })
 export class LoggedInLayoutComponent {
+  @ViewChild('toolbar') toolbar!: ElementRef<HTMLElement>;
   currentUser: CurrentUsersProfileResponse | null | undefined;
   isLeftMenuClosed = false;
 
@@ -41,5 +42,20 @@ export class LoggedInLayoutComponent {
 
   toggleLeftMenu() {
     this.isLeftMenuClosed = !this.isLeftMenuClosed;
+  }
+
+  onMainContentScroll(currentTarget: EventTarget | null) {
+    if (!currentTarget) return;
+
+    const scrolledClasses: string[] = ['border-base-content/10', 'bg-base-100', 'lg:bg-opacity-90', 'dark:lg:bg-opacity-95'];
+    const notScrolledClasses: string[] = [];
+
+    if ((currentTarget as HTMLElement).scrollTop > 20) {
+      this.toolbar.nativeElement.classList.remove(...notScrolledClasses);
+      this.toolbar.nativeElement.classList.add(...scrolledClasses);
+    } else {
+      this.toolbar.nativeElement.classList.remove(...scrolledClasses);
+      this.toolbar.nativeElement.classList.add(...notScrolledClasses);
+    }
   }
 }
