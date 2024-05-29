@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { take } from 'rxjs';
 import { RegularLayoutComponent } from './main/layouts/regular/regular-layout.component';
 import { HomePageComponent } from './pages/home/home-page.component';
-import { LoggedInLayoutComponent } from './main/layouts/logged-in/logged-in-layout.component';
+import { SideBarLayoutComponent } from './main/layouts/sidebar/side-bar-layout.component';
 import { AccountPageComponent } from './pages/apps/account/account-page.component';
 import { SettingsPageComponent } from './pages/apps/settings/settings-page.component';
 import { RemixPageComponent } from './pages/apps/remix/remix-page.component';
@@ -56,7 +56,7 @@ export const appRoutes: Route[] = [
   },
   {
     path: 'apps',
-    component: LoggedInLayoutComponent,
+    component: SideBarLayoutComponent,
     children: [
       { path: '', redirectTo: '/apps/account', pathMatch: 'full' },
       {

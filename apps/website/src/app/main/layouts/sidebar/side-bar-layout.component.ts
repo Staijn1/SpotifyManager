@@ -16,14 +16,14 @@ import { SpotifyAuthenticationService } from '../../../services/spotify-authenti
 
 
 @Component({
-  selector: 'app-logged-in-layout',
+  selector: 'app-sidebar-layout',
   standalone: true,
   imports: [CommonModule, HorizontalNavigationBarComponent, RouterOutlet, VerticalNavigationBarComponent, NgIcon, RouterLink],
   providers: [provideIcons({ cssMenu, cssSearch, cssLogOut, cssUser, cssChevronRight, cssChevronLeft })],
-  templateUrl: './logged-in-layout.component.html',
-  styleUrl: './logged-in-layout.component.scss'
+  templateUrl: './side-bar-layout.component.html',
+  styleUrl: './side-bar-layout.component.scss'
 })
-export class LoggedInLayoutComponent {
+export class SideBarLayoutComponent {
   @ViewChild('toolbar') toolbar!: ElementRef<HTMLElement>;
   currentUser: CurrentUsersProfileResponse | null | undefined;
   isLeftMenuClosed = false;
