@@ -2,22 +2,24 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserPreferenceService } from '../../../services/user-preference/user-preference.service';
-import {
-  EmailNotificationFrequency,
-  IUserPreferences,
-  IUserPreferencesResponse,
-  ListOfUsersPlaylistsResponse
-} from '../../../../../../../libs/core/src';
+
 import { Store } from '@ngrx/store';
 import { SpotifyManagerUserState } from '../../../types/SpotifyManagerUserState';
 import { ReceiveUserPreferences } from '../../../redux/user-state/user-state.action';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faInfoCircle, faSave } from '@fortawesome/free-solid-svg-icons';
 import { distinctUntilChanged, map } from 'rxjs';
-import { ApiService } from '../../services/api/api.service';
-import { LoadingComponent } from '../../components/loading/loading.component';
-import { MessageService } from '../../services/message/message.service';
-import { Message } from '../../types/Message';
+import { LoadingComponent } from '../../../components/loading/loading.component';
+import {
+  EmailNotificationFrequency,
+  IUserPreferences,
+  IUserPreferencesResponse,
+  ListOfUsersPlaylistsResponse
+} from '@spotify-manager/core';
+import { ApiService } from '../../../services/api/api.service';
+import { MessageService } from '../../../services/message/message.service';
+import { Message } from '../../../types/Message';
+
 
 @Component({
   selector: 'app-settings-page',

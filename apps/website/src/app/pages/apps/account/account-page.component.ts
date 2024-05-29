@@ -1,12 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { faSpotify } from '@fortawesome/free-brands-svg-icons';
 import { faGears } from '@fortawesome/free-solid-svg-icons';
-import { SpotifyAPIService } from '../../services/spotifyAPI/spotify-api.service';
-import { JsonPipe, NgIf } from '@angular/common';
-import { SpotifyUserComponent } from '../../components/spotify-user/spotify-user.component';
-import { LoadingComponent } from '../../components/loading/loading.component';
-import { SpotifyArtistComponent } from '../../components/spotify-artist/spotify-artist.component';
-import { SpotifyTrackComponent } from '../../components/spotify-track/spotify-track.component';
+
 import {
   ArtistObjectFull,
   CurrentUsersProfileResponse,
@@ -17,10 +12,16 @@ import {
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { SpotifyManagerUserState } from '../../types/SpotifyManagerUserState';
 import { map } from 'rxjs';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidGears } from '@ng-icons/font-awesome/solid';
+import { SpotifyTrackComponent } from '../../../components/spotify-track/spotify-track.component';
+import { SpotifyArtistComponent } from '../../../components/spotify-artist/spotify-artist.component';
+import { JsonPipe, NgIf } from '@angular/common';
+import { SpotifyUserComponent } from '../../../components/spotify-user/spotify-user.component';
+import { LoadingComponent } from '../../../components/loading/loading.component';
+import { SpotifyAPIService } from '../../../services/spotifyAPI/spotify-api.service';
+import { SpotifyManagerUserState } from '../../../types/SpotifyManagerUserState';
 
 @Component({
   selector: 'app-account',

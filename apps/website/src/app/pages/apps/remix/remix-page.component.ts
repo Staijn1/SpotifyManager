@@ -1,17 +1,18 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { faCompactDisc } from '@fortawesome/free-solid-svg-icons';
-import { SpotifyAPIService } from '../../services/spotifyAPI/spotify-api.service';
-import { ApiService } from '../../services/api/api.service';
-import { LoadingComponent } from '../../components/loading/loading.component';
-import { SpotifyPlaylistComponent } from '../../components/spotify-playlist/spotify-playlist.component';
 import { CurrentUsersProfileResponse, PlaylistObjectSimplified } from '@spotify-manager/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { MessageService } from '../../services/message/message.service';
-import { Message } from '../../types/Message';
-import { SpotifyManagerUserState } from '../../types/SpotifyManagerUserState';
 import { Store } from '@ngrx/store';
 import ListOfUsersPlaylistsResponse = SpotifyApi.ListOfUsersPlaylistsResponse;
-import { ModalComponent } from '../../components/modal/modal.component';
+import { SpotifyAPIService } from '../../../services/spotifyAPI/spotify-api.service';
+import { LoadingComponent } from '../../../components/loading/loading.component';
+import { SpotifyPlaylistComponent } from '../../../components/spotify-playlist/spotify-playlist.component';
+import { ModalComponent } from '../../../components/modal/modal.component';
+import { ApiService } from '../../../services/api/api.service';
+import { MessageService } from '../../../services/message/message.service';
+import { SpotifyManagerUserState } from '../../../types/SpotifyManagerUserState';
+import { Message } from '../../../types/Message';
+
 
 
 @Component({

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { faSync } from '@fortawesome/free-solid-svg-icons';
-import { ApiService } from '../../services/api/api.service';
-import { LoadingComponent } from '../../components/loading/loading.component';
-import { SpotifyPlaylistComponent } from '../../components/spotify-playlist/spotify-playlist.component';
-import { PlaylistObjectSimplified, Utils } from '@spotify-manager/core';
+import { PlaylistObjectSimplified } from '@spotify-manager/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Router } from '@angular/router';
 import ListOfUsersPlaylistsResponse = SpotifyApi.ListOfUsersPlaylistsResponse;
+import { LoadingComponent } from '../../../components/loading/loading.component';
+import { SpotifyPlaylistComponent } from '../../../components/spotify-playlist/spotify-playlist.component';
+import { ApiService } from '../../../services/api/api.service';
 
 @Component({
   selector: 'app-remix',
