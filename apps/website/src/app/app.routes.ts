@@ -18,6 +18,9 @@ import {
 import {
   LoggedInNavigationBarComponent
 } from './main/navigation-bar/logged-in-navigation-bar/logged-in-navigation-bar.component';
+import {
+  DocumentationNavigationBarComponent
+} from './main/navigation-bar/documentation-navigation-bar/documentation-navigation-bar.component';
 
 
 const RequireLoginGuard: CanActivateFn = (): boolean => {
@@ -62,7 +65,7 @@ export const appRoutes: Route[] = [
     component: SideBarLayoutComponent,
     children: [
       { path: '', redirectTo: '/apps/account', pathMatch: 'full' },
-      { path: '', component: LoggedInNavigationBarComponent, outlet: 'navigation-items'},
+      { path: '', component: LoggedInNavigationBarComponent, outlet: 'navigation-items' },
       {
         path: 'account',
         children: [
@@ -97,6 +100,15 @@ export const appRoutes: Route[] = [
         component: SettingsPageComponent,
         canActivate: [RequireLoginGuard]
       }
+    ]
+  },
+  {
+    path: 'docs',
+    component: SideBarLayoutComponent,
+    children: [
+      { path: '', component: DocumentationNavigationBarComponent, outlet: 'navigation-items' },
+      { path: '', pathMatch: 'full', redirectTo: 'get-started' },
+      { path: 'get-started', component: GetStartedPageComponent }
     ]
   }
 ];
