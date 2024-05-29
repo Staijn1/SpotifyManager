@@ -21,6 +21,7 @@ import {
 import {
   DocumentationNavigationBarComponent
 } from './main/navigation-bar/documentation-navigation-bar/documentation-navigation-bar.component';
+import { MarkdownComponent } from './components/markdown/markdown.component';
 
 
 const RequireLoginGuard: CanActivateFn = (): boolean => {
@@ -108,6 +109,16 @@ export const appRoutes: Route[] = [
     children: [
       { path: '', component: DocumentationNavigationBarComponent, outlet: 'navigation-items' },
       { path: '', pathMatch: 'full', redirectTo: 'get-started' },
+      {
+        path: 'remix', children: [
+          {
+            path: '', pathMatch: 'full', redirectTo: 'overview'
+          },
+          {
+            path: 'overview', component: MarkdownComponent
+          }
+        ]
+      },
       { path: 'get-started', component: GetStartedPageComponent }
     ]
   }

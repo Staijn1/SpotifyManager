@@ -27,7 +27,7 @@ export class DocumentationNavigationBarComponent {
       children: [
         {
           title: "Overview",
-          path: "/documentation/remix/overview",
+          path: "/docs/remix/overview",
           markdownUrl: "/assets/docs/test.md"
         }
       ]
