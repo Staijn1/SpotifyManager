@@ -15,6 +15,9 @@ import { RemixOverviewPageComponent } from './pages/apps/remix-overview/remix-ov
 import {
   SyncRemixedPlaylistPageComponent
 } from './pages/apps/sync-remixed-playlist/sync-remixed-playlist-page.component';
+import {
+  LoggedInNavigationBarComponent
+} from './main/navigation-bar/logged-in-navigation-bar/logged-in-navigation-bar.component';
 
 
 const RequireLoginGuard: CanActivateFn = (): boolean => {
@@ -59,6 +62,7 @@ export const appRoutes: Route[] = [
     component: SideBarLayoutComponent,
     children: [
       { path: '', redirectTo: '/apps/account', pathMatch: 'full' },
+      { path: '', component: LoggedInNavigationBarComponent, outlet: 'navigation-items'},
       {
         path: 'account',
         children: [

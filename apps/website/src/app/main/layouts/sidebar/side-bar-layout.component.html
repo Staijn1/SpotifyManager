@@ -2,11 +2,12 @@
   <div class="flex overflow-hidden">
     <div class="hidden lg:block">
       <div class="leftmenu-wrapper" [class.hide]="isLeftMenuClosed">
-        <app-vertical-navigation-bar></app-vertical-navigation-bar>
+        <router-outlet name="navigation-items"></router-outlet>
       </div>
     </div>
     <div class="main-container" (scroll)="onMainContentScroll($event.currentTarget)">
-      <div class="navbar sticky top-0 z-[60] border-b border-base-200 backdrop-blur-sm transition-all duration-500" #toolbar>
+      <div class="navbar sticky top-0 z-[60] border-b border-base-200 backdrop-blur-sm transition-all duration-500"
+           #toolbar>
         <div class="gap-3 navbar-start">
           <button aria-label="Leftmenu toggle" class="btn btn-sm btn-square btn-ghost" (click)="toggleLeftMenu()">
             <ng-icon [name]="isLeftMenuClosed ? 'cssChevronRight' : 'cssChevronLeft'" class="text-lg"></ng-icon>

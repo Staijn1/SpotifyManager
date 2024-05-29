@@ -10,7 +10,7 @@ import { heroBookOpen } from '@ng-icons/heroicons/outline';
   standalone: true,
   imports: [CommonModule, RouterLink, NgIcon],
   providers: [provideIcons({cssDisc, cssHome, heroBookOpen})],
-  templateUrl: './vertical-navigation-bar.component.html',
-  styleUrl: './vertical-navigation-bar.component.scss',
+  templateUrl: './logged-in-navigation-bar.component.html',
+  styleUrl: './logged-in-navigation-bar.component.scss',
 })
-export class VerticalNavigationBarComponent {}
+export class LoggedInNavigationBarComponent {}

@@ -5,8 +5,8 @@ import {
 } from '../../navigation-bar/horizontal-navigation-bar/horizontal-navigation-bar.component';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import {
-  VerticalNavigationBarComponent
-} from '../../navigation-bar/vertical-navigation-bar/vertical-navigation-bar.component';
+  LoggedInNavigationBarComponent
+} from '../../navigation-bar/logged-in-navigation-bar/logged-in-navigation-bar.component';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { cssChevronLeft, cssChevronRight, cssLogOut, cssMenu, cssSearch, cssUser } from '@ng-icons/css.gg';
 import { Store } from '@ngrx/store';
@@ -18,7 +18,7 @@ import { SpotifyAuthenticationService } from '../../../services/spotify-authenti
 @Component({
   selector: 'app-sidebar-layout',
   standalone: true,
-  imports: [CommonModule, HorizontalNavigationBarComponent, RouterOutlet, VerticalNavigationBarComponent, NgIcon, RouterLink],
+  imports: [CommonModule, HorizontalNavigationBarComponent, RouterOutlet, LoggedInNavigationBarComponent, NgIcon, RouterLink],
   providers: [provideIcons({ cssMenu, cssSearch, cssLogOut, cssUser, cssChevronRight, cssChevronLeft })],
   templateUrl: './side-bar-layout.component.html',
   styleUrl: './side-bar-layout.component.scss'
