@@ -22,6 +22,7 @@ import {
   DocumentationNavigationBarComponent
 } from './main/navigation-bar/documentation-navigation-bar/documentation-navigation-bar.component';
 import { MarkdownComponent } from './components/markdown/markdown.component';
+import { MarkdownDocumentationComponent } from './pages/docs/markdown-documentation/markdown-documentation.component';
 
 
 const RequireLoginGuard: CanActivateFn = (): boolean => {
@@ -115,7 +116,7 @@ export const appRoutes: Route[] = [
             path: '', pathMatch: 'full', redirectTo: 'overview'
           },
           {
-            path: 'overview', component: MarkdownComponent
+            path: 'overview', component: MarkdownDocumentationComponent
           }
         ]
       },

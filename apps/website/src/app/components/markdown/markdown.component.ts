@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MarkdownComponent as NgxMarkdownComponent} from 'ngx-markdown';
 
@@ -9,4 +9,6 @@ import { MarkdownComponent as NgxMarkdownComponent} from 'ngx-markdown';
   templateUrl: './markdown.component.html',
   styleUrl: './markdown.component.scss',
 })
-export class MarkdownComponent {}
+export class MarkdownComponent {
+  @Input() pathToMarkdownFile: string | null | undefined;
+}
