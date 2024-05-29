@@ -1,18 +1,20 @@
 import { CanActivateFn, Route, Router } from '@angular/router';
 import { GetStartedPageComponent } from './pages/docs/get-started/get-started-page.component';
 import { AuthorizePageComponent } from './pages/authorize/authorize-page.component';
-import { AccountPageComponent } from './pages/account/account-page.component';
 import { inject } from '@angular/core';
 import { SpotifyAuthenticationService } from './services/spotify-authentication/spotify-authentication.service';
-import { RemixPageComponent } from './pages/remix/remix-page.component';
-import { RemixOverviewPageComponent } from './pages/remix-overview/remix-overview-page.component';
-import { SyncRemixedPlaylistPageComponent } from './pages/sync-remixed-playlist/sync-remixed-playlist-page.component';
-import { SettingsPageComponent } from './pages/settings/settings-page.component';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs';
 import { RegularLayoutComponent } from './main/layouts/regular/regular-layout.component';
 import { HomePageComponent } from './pages/home/home-page.component';
 import { LoggedInLayoutComponent } from './main/layouts/logged-in/logged-in-layout.component';
+import { AccountPageComponent } from './pages/apps/account/account-page.component';
+import { SettingsPageComponent } from './pages/apps/settings/settings-page.component';
+import { RemixPageComponent } from './pages/apps/remix/remix-page.component';
+import { RemixOverviewPageComponent } from './pages/apps/remix-overview/remix-overview-page.component';
+import {
+  SyncRemixedPlaylistPageComponent
+} from './pages/apps/sync-remixed-playlist/sync-remixed-playlist-page.component';
 
 
 const RequireLoginGuard: CanActivateFn = (): boolean => {
