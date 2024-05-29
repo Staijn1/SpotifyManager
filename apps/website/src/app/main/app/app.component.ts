@@ -54,7 +54,7 @@ export class AppComponent implements OnInit {
 
     if (userpreferences === null){
       this.messageService.setMessage(new Message('info', 'Unfortunately, you have not set your preferences yet. Please let us know how you would like to use Spotify Manager, before you can continue.'));
-      this.router.navigate(['/account/settings']);
+      this.router.navigate(['/apps/account/settings']);
     }
   }
 }

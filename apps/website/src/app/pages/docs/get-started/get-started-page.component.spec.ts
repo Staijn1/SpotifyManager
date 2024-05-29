@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { GetStartedPageComponent } from './get-started-page.component';
-import { SpotifyAuthenticationService } from '../../services/spotify-authentication/spotify-authentication.service';
+import { SpotifyAuthenticationService } from '../../../services/spotify-authentication/spotify-authentication.service';
 
 describe('GetStartedPageComponent', () => {
   let component: GetStartedPageComponent;

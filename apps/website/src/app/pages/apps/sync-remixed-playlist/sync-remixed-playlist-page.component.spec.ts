@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SyncRemixedPlaylistPageComponent } from './sync-remixed-playlist-page.component';
-import { ApiService } from '../../services/api/api.service';
+import { ApiService } from '../../../services/api/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 describe('SyncRemixedPlaylistPageComponent', () => {

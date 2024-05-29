@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoadingComponent } from '../../components/loading/loading.component';
-import { SpotifyTrackComponent } from '../../components/spotify-track/spotify-track.component';
+import { LoadingComponent } from '../../../components/loading/loading.component';
+import { SpotifyTrackComponent } from '../../../components/spotify-track/spotify-track.component';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { Diff, DiffIdentifier, SinglePlaylistResponse } from '@spotify-manager/core';
+import { Diff, DiffIdentifier, SinglePlaylistResponse } from '../../../../../../../libs/core/src';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute, Navigation, Router } from '@angular/router';
-import { ApiService } from '../../services/api/api.service';
-import { MessageService } from '../../services/message/message.service';
-import { Message } from '../../types/Message';
+import { ApiService } from '../../../services/api/api.service';
+import { MessageService } from '../../../services/message/message.service';
+import { Message } from '../../../types/Message';
 import _ from 'lodash';
 
 @Component({

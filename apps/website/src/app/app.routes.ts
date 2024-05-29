@@ -1,5 +1,5 @@
 import { CanActivateFn, Route, Router } from '@angular/router';
-import { GetStartedPageComponent } from './pages/get-started/get-started-page.component';
+import { GetStartedPageComponent } from './pages/docs/get-started/get-started-page.component';
 import { AuthorizePageComponent } from './pages/authorize/authorize-page.component';
 import { AccountPageComponent } from './pages/account/account-page.component';
 import { inject } from '@angular/core';

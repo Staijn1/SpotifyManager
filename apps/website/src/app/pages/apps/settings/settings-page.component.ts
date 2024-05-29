@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { UserPreferenceService } from '../../services/user-preference/user-preference.service';
+import { UserPreferenceService } from '../../../services/user-preference/user-preference.service';
 import {
   EmailNotificationFrequency,
   IUserPreferences,
   IUserPreferencesResponse,
   ListOfUsersPlaylistsResponse
-} from '@spotify-manager/core';
+} from '../../../../../../../libs/core/src';
 import { Store } from '@ngrx/store';
-import { SpotifyManagerUserState } from '../../types/SpotifyManagerUserState';
-import { ReceiveUserPreferences } from '../../redux/user-state/user-state.action';
+import { SpotifyManagerUserState } from '../../../types/SpotifyManagerUserState';
+import { ReceiveUserPreferences } from '../../../redux/user-state/user-state.action';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faInfoCircle, faSave } from '@fortawesome/free-solid-svg-icons';
 import { distinctUntilChanged, map } from 'rxjs';
