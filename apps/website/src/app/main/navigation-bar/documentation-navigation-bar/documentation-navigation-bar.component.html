@@ -29,7 +29,7 @@
             <ul>
               @for (subNavigationItem of rootNavigationItem.children; track $index) {
                 <li class="mb-0.5">
-                  <a class="hover:bg-base-content/15" [routerLink]="subNavigationItem.path" [state]="{markdownUrl: subNavigationItem.markdownUrl}">
+                  <a class="hover:bg-base-content/15" [routerLink]="subNavigationItem.path">
                     <span class="flex items-center gap-2">{{ subNavigationItem.title }}</span>
                   </a>
                 </li>
@@ -37,7 +37,7 @@
             </ul>
           </details>
         } @else {
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-2" [routerLink]="rootNavigationItem.path">
             <ng-icon [name]="rootNavigationItem.icon"></ng-icon>
             {{ rootNavigationItem.title }}
           </div>

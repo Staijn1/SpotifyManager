@@ -14,37 +14,75 @@ import { heroBookOpen } from '@ng-icons/heroicons/outline';
   styleUrl: './documentation-navigation-bar.component.scss'
 })
 export class DocumentationNavigationBarComponent {
-  navigationItems: RootNavigationItem[] = [
+  private static navigationItems: RootNavigationItem[] = [
     {
-      title: "Getting Started",
-      icon: "cssHome",
-      path: "/documentation/get-started",
+      title: 'Getting Started',
+      icon: 'cssHome',
+      path: '/docs/get-started',
       children: []
     },
     {
-      title: "Remixing a Playlist",
-      icon: "cssDisc",
+      title: 'Remixing a Playlist',
+      icon: 'cssDisc',
       children: [
         {
-          title: "Overview",
-          path: "/docs/remix/overview",
-          markdownUrl: "/assets/docs/test.md"
+          title: 'Overview',
+          path: '/docs/remix/overview',
+          markdownUrl: '/assets/docs/test.md'
         }
       ]
     }
   ];
 
+  get navigationItems() {
+    return DocumentationNavigationBarComponent.navigationItems;
+  }
+
+  /**
+   * Returns the markdown URL for a given path.
+   * Flattens the navigation items to easily find the markdown URL for a given path.
+   */
+  public static GetMarkdownUrlForPath(path: string): string | undefined{
+    const flattenedNavigationItems = DocumentationNavigationBarComponent.flattenNavigationItems(DocumentationNavigationBarComponent.navigationItems);
+
+    return flattenedNavigationItems.find(item => item.path === path)?.markdownUrl;
+  }
+
+  protected static flattenNavigationItems(navigationItems: RootNavigationItem[]): NavigationItem[] {
+    const flattenedItems: NavigationItem[] = [];
+
+    for (const item of navigationItems) {
+      if (typeof item.path === 'string' && typeof item.markdownUrl === 'string') {
+        flattenedItems.push({
+          title: item.title,
+          path: item.path,
+          markdownUrl: item.markdownUrl
+        });
+      }
+
+      for (const child of item.children) {
+        flattenedItems.push({
+          title: child.title,
+          path: child.path,
+          markdownUrl: child.markdownUrl
+        });
+      }
+    }
+
+    return flattenedItems;
+  }
 }
 
 
-type RootNavigationItem = {
+export type RootNavigationItem = {
   title: string;
   icon: string;
   path?: string;
   children: NavigationItem[];
+  markdownUrl?: string;
 }
 
-type NavigationItem = {
+export type NavigationItem = {
   markdownUrl: string;
   title: string;
   path: string;
