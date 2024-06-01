@@ -32,7 +32,7 @@
                   <p>{{ currentUser.display_name }}</p>
                 </div>
               } @else {
-                No User Found
+                <button (click)="this.authService.initializeAuthorizitionFlow()" class="btn btn-primary btn-sm w-28">Log In</button>
               }
             </label>
             <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box mt-4 w-52" role="menu">

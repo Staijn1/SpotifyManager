@@ -30,7 +30,7 @@ export class SideBarLayoutComponent {
 
   constructor(
     private readonly store: Store<{ userState: SpotifyManagerUserState }>,
-    private readonly authService: SpotifyAuthenticationService) {
+    protected readonly authService: SpotifyAuthenticationService) {
     this.store.select('userState').subscribe((userState) => {
       this.currentUser = userState.user;
     });
