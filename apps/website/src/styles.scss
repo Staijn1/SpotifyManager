@@ -49,3 +49,7 @@ app-remix, app-sync-remixed-playlist-page {
 .container {
   @apply mx-auto;
 }
+
+.active-link {
+  @apply bg-base-content/10;
+}

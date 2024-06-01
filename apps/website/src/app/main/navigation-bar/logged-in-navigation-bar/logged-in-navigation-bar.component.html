@@ -8,7 +8,7 @@
 <div class="navigation-items-container">
   <ul class="menu mb-6">
     <li class="mb-0.5">
-      <a class="hover:bg-base-content/15 bg-base-content/10" routerLink="/apps/account">
+      <a class="hover:bg-base-content/15" routerLinkActive="active-link" routerLink="/apps/account">
         <div class="flex items-center gap-2">
           <ng-icon name="cssHome"></ng-icon>
           Dashboard
@@ -26,12 +26,12 @@
         </summary>
         <ul>
           <li class="mb-0.5">
-            <a class="hover:bg-base-content/15" routerLink="/apps/remix">
+            <a class="hover:bg-base-content/15" routerLinkActive="active-link" routerLink="/apps/remix">
               <span class="flex items-center gap-2">Playlist Overview</span>
             </a>
           </li>
           <li class="mb-0.5">
-            <a class="hover:bg-base-content/15" routerLink="/apps/remix-overview">
+            <a class="hover:bg-base-content/15" routerLinkActive="active-link" routerLink="/apps/remix-overview">
               <span class="flex items-center gap-2">Synchronize Remix</span>
             </a>
           </li>
@@ -39,7 +39,7 @@
       </details>
     </li>
     <li class="menu-title font-semibold">Other</li>
-    <li class="mb-0.5"><a class="hover:bg-base-content/15" href="/docs">
+    <li class="mb-0.5"><a class="hover:bg-base-content/15" routerLinkActive="active-link" routerLink="/docs">
       <div class="flex items-center gap-2">
         <ng-icon name="heroBookOpen"></ng-icon>
         Documentation
