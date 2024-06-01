@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { faSpotify } from '@fortawesome/free-brands-svg-icons';
 import { SpotifyAuthenticationService } from '../../../services/spotify-authentication/spotify-authentication.service';
 import { TabsComponent } from '../../../components/tab-component/tabs.component';
-import { MermaidComponent } from '../../../components/mermaid-diagram/mermaid.component';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +9,6 @@ import { MermaidComponent } from '../../../components/mermaid-diagram/mermaid.co
   templateUrl: './get-started-page.component.html',
   imports: [
     TabsComponent,
-    MermaidComponent
   ],
   styleUrls: ['./get-started-page.component.scss']
 })

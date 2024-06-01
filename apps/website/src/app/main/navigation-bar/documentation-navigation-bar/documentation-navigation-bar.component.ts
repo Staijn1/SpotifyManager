@@ -6,7 +6,7 @@ import { cssDisc, cssHome } from '@ng-icons/css.gg';
 import { heroBookOpen } from '@ng-icons/heroicons/outline';
 
 @Component({
-  selector: 'app-vertical-navigation-bar',
+  selector: 'app-documentation-navigation-bar',
   standalone: true,
   imports: [CommonModule, RouterLink, NgIcon],
   providers: [provideIcons({ cssDisc, cssHome, heroBookOpen })],
@@ -19,6 +19,7 @@ export class DocumentationNavigationBarComponent {
       title: 'Getting Started',
       icon: 'cssHome',
       path: '/docs/get-started',
+      markdownUrl: "/assets/docs/get-started.md",
       children: []
     },
     {
