@@ -96,40 +96,4 @@ export class AccountPageComponent implements OnInit {
         this.topTracks = topTracks;
       }).finally(() => this.isLoading = false);
   }
-
-
-  /**
-   * Genres received from the spotify API need to be formatted
-   * Returns a string like | Edm | Gauze pop |
-   * @param genresArray
-   */
-  formatGenres(genresArray: string[]): string {
-    let genres = '| ';
-    if (genresArray.length === 0) {
-      genres = '';
-    }
-
-    let maxLoopLength;
-
-    if (genresArray.length < 2) {
-      maxLoopLength = genresArray.length;
-    } else {
-      maxLoopLength = 2;
-    }
-
-    for (let i = 0; i < maxLoopLength; i++) {
-      genres += this.capitalizeFirstLetter(genresArray[i]) + ' | ';
-    }
-
-    return genres;
-  }
-
-  /**
-   * Capitalizes the first letter of a string
-   * @param input
-   * @private
-   */
-  private capitalizeFirstLetter(input: string): string {
-    return input.charAt(0).toUpperCase() + input.slice(1);
-  }
 }
