@@ -33,7 +33,7 @@
             <p>Determines the frequency of emails you will receive when the original playlist of one of your remixes has
               updated.</p>
             <div>
-              <div class="grid w-1/2 grid-cols-4 gap-2 rounded-xl bg-base-100 mt-2">
+              <div class="grid w-1/2 grid-cols-4 gap-2 rounded bg-base-100 mt-2">
                 @for (frequencyOption of availableEmailFrequencyOptions; track frequencyOption) {
                   <div>
                     <input
@@ -45,7 +45,7 @@
                       class="peer hidden" />
                     <label
                       [for]="'original-playlist-update-' + frequencyOption"
-                      class="transition-all duration-200 capitalize block cursor-pointer select-none rounded-xl p-1 text-center peer-checked:bg-primary peer-checked:font-semibold peer-checked:text-secondary-content">{{ frequencyOption }}</label>
+                      class="transition-all duration-200 capitalize block cursor-pointer select-none rounded p-1 text-center peer-checked:bg-primary peer-checked:font-semibold peer-checked:text-secondary-content">{{ frequencyOption }}</label>
                   </div>
                 }
               </div>
@@ -67,10 +67,10 @@
         </div>
 
         @for (remix of remixes?.items; track remix.id) {
-          <div class="bg-base-100 rounded-xl m-4">
+          <div class="bg-base-100 rounded m-4">
             <div class="flex">
               <div class="avatar">
-                <div class="w-40 rounded-xl">
+                <div class="w-40 rounded">
                   <a [href]="remix.external_urls.spotify" target="_blank">
                     <img
                       [ngSrc]="remix.images[0].url"

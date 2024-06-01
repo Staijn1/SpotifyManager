@@ -5,16 +5,16 @@
   </div>
 } @else {
   <div class="container mx-auto my-3 pb-16">
-    <div class="bg-base-300 rounded-lg flex items-center overflow-hidden mb-4">
+    <div class="bg-base-300 rounded flex items-center overflow-hidden mb-4">
       @if (originalPlaylist && originalPlaylist.images[0].url) {
-        <img class="w-40 h-40 mr-4" [src]="originalPlaylist.images[0].url" alt="Original Playlist Cover">
+        <img class="w-32 h-32 mr-4" [src]="originalPlaylist.images[0].url" alt="Original Playlist Cover">
       }
-      <div class="p-4">
+      <div class="p-2">
         <h3 class="text-xl font-bold">{{ originalPlaylist?.name }}</h3>
         <p [innerHTML]="originalPlaylist?.description"></p>
       </div>
     </div>
-    <div class="grid md:grid-cols-2 gap-4">
+    <div class="grid md:grid-cols-2 gap-4 mb-3">
       <div>
         <h2>Changed Tracks</h2>
         <p>These are the tracks that have been changed, either in the original or in the remix.</p>
@@ -30,14 +30,14 @@
           <div class="my-2">
             <app-spotify-track
               imageClasses="w-full md:w-32"
-              [class]="getClassForDiff(diff[0])"
+              class="deleted"
               [isHorizontalLayout]="true"
               [showPreview]="true"
               [track]="diff[1]">
               <div class="flex flex-col">
                 <span
                   class="mb-3 text-gray-900 text-center font-semibold text-sm">{{ getDiffIdentifierText(diff[0]) }}</span>
-                <button class="btn btn-success glass" (click)="addTrackToPreviewSyncedPlaylist(diff)">
+                <button class="btn btn-secondary" (click)="addTrackToPreviewSyncedPlaylist(diff)">
                   Add to Preview
                   <fa-icon [icon]="arrowRightIcon"></fa-icon>
                 </button>
@@ -64,9 +64,8 @@
               [track]="track[1]">
               @if (track[0] !== DiffIdentifier.UNCHANGED) {
                 <div class="flex flex-col">
-                  <span
-                    class="mb-3 text-gray-900 text-center font-semibold text-sm">{{ getDiffIdentifierText(track[0]) }}</span>
-                  <button class="btn btn-error glass" (click)="removeTrackFromPreviewSyncedPlaylist(track)">
+                  <span class="mb-3 text-error-content text-center font-semibold text-sm">{{ getDiffIdentifierText(track[0]) }}</span>
+                  <button class="btn btn-secondary" (click)="removeTrackFromPreviewSyncedPlaylist(track)">
                     Remove from Preview
                     <fa-icon [icon]="arrowLeftIcon"></fa-icon>
                   </button>
@@ -77,14 +76,5 @@
         }
       </div>
     </div>
-  </div>
-
-  <div class="fixed bottom-0 w-full bg-base-300/90 p-4 flex justify-center border-t border-t-accent">
-    <button class="btn btn-primary w-28" (click)="syncPlaylist()">
-      @if (isSyncing) {
-        <app-loading></app-loading>
-      }
-      Sync!
-    </button>
   </div>
 }

@@ -1,6 +1,6 @@
 @if (track) {
   <div
-    class="spotify-track-container bg-base-300 rounded-lg overflow-hidden flex h-full"
+    class="spotify-track-container bg-base-300 rounded overflow-hidden flex h-full"
     [ngClass]="{'flex-row': isHorizontalLayout, 'flex-col': !isHorizontalLayout, 'flex-row-reverse': reverse}">
     <div>
       <a [href]="track.external_urls.spotify" target="_blank">
