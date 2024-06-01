@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SettingsPageComponent } from './settings-page.component';
 import { provideMockStore } from '@ngrx/store/testing';
-import { UserPreferenceService } from '../../services/user-preference/user-preference.service';
-import { ApiService } from '../../services/api/api.service';
-import { MessageService } from '../../services/message/message.service';
+import { ApiService } from '../../../services/api/api.service';
+import { MessageService } from '../../../services/message/message.service';
+import { UserPreferenceService } from '../../../services/user-preference/user-preference.service';
 
 describe('SettingsPageComponent', () => {
   let component: SettingsPageComponent;

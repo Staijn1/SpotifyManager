@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RemixPageComponent } from './remix-page.component';
-import { SpotifyAPIService } from '../../services/spotifyAPI/spotify-api.service';
-import { ApiService } from '../../services/api/api.service';
-import { MessageService } from '../../services/message/message.service';
 import { of } from 'rxjs';
 import { provideMockStore } from '@ngrx/store/testing';
+import { SpotifyAPIService } from '../../../services/spotifyAPI/spotify-api.service';
+import { ApiService } from '../../../services/api/api.service';
+import { MessageService } from '../../../services/message/message.service';
 
 describe('RemixPageComponent', () => {
   let component: RemixPageComponent;
