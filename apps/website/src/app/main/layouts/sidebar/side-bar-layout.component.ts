@@ -11,7 +11,6 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { cssChevronLeft, cssChevronRight, cssLogOut, cssMenu, cssSearch, cssUser } from '@ng-icons/css.gg';
 import { Store } from '@ngrx/store';
 import { SpotifyManagerUserState } from '../../../types/SpotifyManagerUserState';
-import { CurrentUsersProfileResponse } from '@spotify-manager/core';
 import { SpotifyAuthenticationService } from '../../../services/spotify-authentication/spotify-authentication.service';
 
 
@@ -25,14 +24,19 @@ import { SpotifyAuthenticationService } from '../../../services/spotify-authenti
 })
 export class SideBarLayoutComponent {
   @ViewChild('toolbar') toolbar!: ElementRef<HTMLElement>;
-  currentUser: CurrentUsersProfileResponse | null | undefined;
+  userState!: SpotifyManagerUserState;
   isLeftMenuClosed = false;
+
+  get currentUser(){
+    return this.userState.user;
+  }
 
   constructor(
     private readonly store: Store<{ userState: SpotifyManagerUserState }>,
     protected readonly authService: SpotifyAuthenticationService) {
     this.store.select('userState').subscribe((userState) => {
-      this.currentUser = userState.user;
+      console.log(userState)
+      this.userState = userState;
     });
   }
 

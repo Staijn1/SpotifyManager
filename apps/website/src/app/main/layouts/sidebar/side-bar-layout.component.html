@@ -15,42 +15,44 @@
         </div>
         <div class="navbar-center"></div>
         <div class="gap-1.5 navbar-end">
-          <div class="dropdown dropdown-bottom dropdown-end">
-            <label tabindex="0" class="btn btn-ghost rounded-btn px-1.5 hover:bg-base-content/20">
-              @if (currentUser) {
-                <div class="flex items-center gap-4">
-                  @if (currentUser.images) {
-                    <div aria-label="Avatar photo" class="avatar">
-                      <div
-                        class="mask"
-                        style="width: 40px; height: 40px;"
-                      >
-                        <img [src]="currentUser.images[1].url" alt="Profile Picture" />
+          @if(userState.isLoggedIn){
+            <div class="dropdown dropdown-bottom dropdown-end">
+              <label tabindex="0" class="btn btn-ghost rounded-btn px-1.5 hover:bg-base-content/20">
+                @if (currentUser) {
+                  <div class="flex items-center gap-4">
+                    @if (currentUser.images) {
+                      <div aria-label="Avatar photo" class="avatar">
+                        <div
+                          class="mask"
+                          style="width: 40px; height: 40px;"
+                        >
+                          <img [src]="currentUser.images[1].url" alt="Profile Picture" />
+                        </div>
                       </div>
-                    </div>
-                  }
-                  <p>{{ currentUser.display_name }}</p>
-                </div>
-              } @else {
-                <button (click)="this.authService.initializeAuthorizitionFlow()" class="btn btn-primary btn-sm w-28">Log In</button>
-              }
-            </label>
-            <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box mt-4 w-52" role="menu">
-              <li routerLink="/apps/account">
-                <div>
-                  <ng-icon name="cssUser" class="text-lg"></ng-icon>
-                  My Profile
-                </div>
-              </li>
-              <hr class="-mx-2 my-1 border-base-content/10">
-              <li (click)="logout()">
-                <div class="text-error">
-                  <ng-icon name="cssLogOut" class="text-lg"></ng-icon>
-                  Logout
-                </div>
-              </li>
-            </ul>
-          </div>
+                    }
+                    <p>{{ currentUser.display_name }}</p>
+                  </div>
+                }
+              </label>
+              <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box mt-4 w-52" role="menu">
+                <li routerLink="/apps/account">
+                  <div>
+                    <ng-icon name="cssUser" class="text-lg"></ng-icon>
+                    My Profile
+                  </div>
+                </li>
+                <hr class="-mx-2 my-1 border-base-content/10">
+                <li (click)="logout()">
+                  <div class="text-error">
+                    <ng-icon name="cssLogOut" class="text-lg"></ng-icon>
+                    Logout
+                  </div>
+                </li>
+              </ul>
+            </div>
+          } @else {
+            <button class="btn btn-primary btn-sm w-28" (click)="this.authService.initializeAuthorizitionFlow()">Log In</button>
+          }
         </div>
       </div>
       <router-outlet></router-outlet>
