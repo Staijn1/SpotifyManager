@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import { NavigationBarComponent } from '../navigation-bar/navigation-bar.component';
+import { HorizontalNavigationBarComponent } from '../navigation-bar/horizontal-navigation-bar/horizontal-navigation-bar.component';
 import { MessageService } from '../../services/message/message.service';
 import { ToastComponent } from '../../components/toast/toast.component';
 import * as AOS from 'aos';
@@ -14,7 +14,7 @@ import { Message } from '../../types/Message';
 
 @Component({
   standalone: true,
-  imports: [RouterOutlet, NavigationBarComponent, ToastComponent],
+  imports: [RouterOutlet, HorizontalNavigationBarComponent, ToastComponent],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
@@ -54,7 +54,7 @@ export class AppComponent implements OnInit {
 
     if (userpreferences === null){
       this.messageService.setMessage(new Message('info', 'Unfortunately, you have not set your preferences yet. Please let us know how you would like to use Spotify Manager, before you can continue.'));
-      this.router.navigate(['/account/settings']);
+      this.router.navigate(['/apps/account/settings']);
     }
   }
 }

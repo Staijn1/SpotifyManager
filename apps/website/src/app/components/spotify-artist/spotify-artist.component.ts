@@ -23,8 +23,12 @@ export class SpotifyArtistComponent {
    * Returns the genres of the artist, by capitalizing the first letter of each genre and joining them with a |
    */
   get genres(): string {
-    const genres = this.artist?.genres.map((genre: string) => genre.charAt(0).toUpperCase() + genre.slice(1));
-    return genres?.join(' | ') ?? '';
+    const genres = this.artist?.genres.map((genre: string) => genre.charAt(0).toUpperCase() + genre.slice(1)) ?? [];
+
+    if (genres.length > 0) {
+      return genres.join(' | ');
+    }
+    return 'Unknown';
   }
 
   get popularity(): number {

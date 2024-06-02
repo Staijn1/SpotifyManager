@@ -1,0 +1,7 @@
+.mobile-menu li {
+  @apply border-b border-base-300;
+
+  a {
+    @apply my-1 p-2;
+  }
+}

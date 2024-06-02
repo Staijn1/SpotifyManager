@@ -1,0 +1,48 @@
+<a class="flex h-16 items-center justify-center" routerLink="/">
+  <div class="inline p-4">
+    <img alt="logo-dark" class="hidden dark:inline" src="assets/logo-white.svg" />
+    <img alt="logo-light" class="inline dark:hidden" src="assets/logo-black.svg" />
+  </div>
+</a>
+
+<div class="navigation-items-container">
+  <ul class="menu mb-6">
+    <li class="mb-0.5">
+      <a class="hover:bg-base-content/15" routerLinkActive="active-link" routerLink="/apps/account">
+        <div class="flex items-center gap-2">
+          <ng-icon name="cssHome"></ng-icon>
+          Dashboard
+        </div>
+      </a>
+    </li>
+    <li class="menu-title font-semibold">Documentation</li>
+    @for (rootNavigationItem of navigationItems; track $index) {
+      <li class="mb-0.5">
+        @if (rootNavigationItem.children.length > 0) {
+          <details>
+            <summary>
+              <div class="flex items-center gap-2">
+                <ng-icon [name]="rootNavigationItem.icon"></ng-icon>
+                {{ rootNavigationItem.title }}
+              </div>
+            </summary>
+            <ul>
+              @for (subNavigationItem of rootNavigationItem.children; track $index) {
+                <li class="mb-0.5">
+                  <a class="hover:bg-base-content/15" routerLinkActive="active-link" [routerLink]="subNavigationItem.path">
+                    <span class="flex items-center gap-2">{{ subNavigationItem.title }}</span>
+                  </a>
+                </li>
+              }
+            </ul>
+          </details>
+        } @else {
+          <div class="flex items-center gap-2" routerLinkActive="active-link" [routerLink]="rootNavigationItem.path">
+            <ng-icon [name]="rootNavigationItem.icon"></ng-icon>
+            {{ rootNavigationItem.title }}
+          </div>
+        }
+      </li>
+    }
+  </ul>
+</div>

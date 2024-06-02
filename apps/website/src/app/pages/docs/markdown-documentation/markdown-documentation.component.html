@@ -1,0 +1,8 @@
+<div class="container flex justify-center">
+  @if (!markdownUrl) {
+    <div class="text-error">Could not find the documentation file for this path.</div>
+  } @else {
+    <app-markdown [pathToMarkdownFile]="markdownUrl"></app-markdown>
+  }
+</div>
+

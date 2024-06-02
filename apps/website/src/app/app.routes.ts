@@ -1,16 +1,13 @@
 import { CanActivateFn, Route, Router } from '@angular/router';
-import { GetStartedPageComponent } from './pages/get-started/get-started-page.component';
-import { AuthorizePageComponent } from './pages/authorize/authorize-page.component';
-import { AccountPageComponent } from './pages/account/account-page.component';
 import { inject } from '@angular/core';
 import { SpotifyAuthenticationService } from './services/spotify-authentication/spotify-authentication.service';
-import { RemixPageComponent } from './pages/remix/remix-page.component';
-import { HomePageComponent } from './pages/home/home-page.component';
-import { RemixOverviewPageComponent } from './pages/remix-overview/remix-overview-page.component';
-import { SyncRemixedPlaylistPageComponent } from './pages/sync-remixed-playlist/sync-remixed-playlist-page.component';
-import { SettingsPageComponent } from './pages/settings/settings-page.component';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs';
+import { RegularLayoutComponent } from './main/layouts/regular/regular-layout.component';
+import { SideBarLayoutComponent } from './main/layouts/sidebar/side-bar-layout.component';
+import {
+  DocumentationNavigationBarComponent
+} from './main/navigation-bar/documentation-navigation-bar/documentation-navigation-bar.component';
 
 
 const RequireLoginGuard: CanActivateFn = (): boolean => {
@@ -41,36 +38,91 @@ const RequireUserPreferencesSetGuard: CanActivateFn = (): boolean => {
 };
 
 export const appRoutes: Route[] = [
-  { path: '', component: HomePageComponent },
-  { path: 'get-started', component: GetStartedPageComponent },
-  { path: 'callback', component: AuthorizePageComponent },
   {
-    path: 'account',
+    path: '',
+    component: RegularLayoutComponent,
+    children: [
+      { path: '', loadComponent: () => import('./pages/home/home-page.component').then(m => m.HomePageComponent) }
+    ]
+  },
+  {
+    path: '',
+    component: SideBarLayoutComponent,
     children: [
       {
+        path: 'callback',
+        loadComponent: () => import('./pages/authorize/authorize-page.component').then(m => m.AuthorizePageComponent)
+      }
+    ]
+  },
+  {
+    path: 'apps',
+    component: SideBarLayoutComponent,
+    children: [
+      { path: '', redirectTo: '/apps/account', pathMatch: 'full' },
+      {
         path: '',
-        component: AccountPageComponent,
+        loadComponent: () => import('./main/navigation-bar/logged-in-navigation-bar/logged-in-navigation-bar.component').then(m => m.LoggedInNavigationBarComponent),
+        outlet: 'navigation-items'
+      },
+      {
+        path: 'account',
+        children: [
+          {
+            path: '',
+            loadComponent: () => import('./pages/apps/account/account-page.component').then(m => m.AccountPageComponent),
+            canActivate: [RequireLoginGuard, RequireUserPreferencesSetGuard]
+          },
+          {
+            path: 'settings',
+            loadComponent: () => import('./pages/apps/settings/settings-page.component').then(m => m.SettingsPageComponent),
+            canActivate: [RequireLoginGuard]
+          }
+        ]
+      },
+      {
+        path: 'remix',
+        loadComponent: () => import('./pages/apps/remix/remix-page.component').then(m => m.RemixPageComponent),
         canActivate: [RequireLoginGuard, RequireUserPreferencesSetGuard]
       },
       {
-        path: 'settings', component: SettingsPageComponent,
+        path: 'remix-overview',
+        loadComponent: () => import('./pages/apps/remix-overview/remix-overview-page.component').then(m => m.RemixOverviewPageComponent),
+        canActivate: [RequireLoginGuard, RequireUserPreferencesSetGuard]
+      },
+      {
+        path: 'sync-remixed-playlist/:remixedPlaylistId',
+        loadComponent: () => import('./pages/apps/sync-remixed-playlist/sync-remixed-playlist-page.component').then(m => m.SyncRemixedPlaylistPageComponent),
+        canActivate: [RequireLoginGuard, RequireUserPreferencesSetGuard]
+      },
+      {
+        path: 'settings',
+        loadComponent: () => import('./pages/apps/settings/settings-page.component').then(m => m.SettingsPageComponent),
         canActivate: [RequireLoginGuard]
       }
     ]
   },
   {
-    path: 'remix',
-    component: RemixPageComponent,
-    canActivate: [RequireLoginGuard, RequireUserPreferencesSetGuard]
-  },
-  {
-    path: 'remix-overview',
-    component: RemixOverviewPageComponent,
-    canActivate: [RequireLoginGuard, RequireUserPreferencesSetGuard]
-  },
-  {
-    path: 'sync-remixed-playlist/:remixedPlaylistId',
-    component: SyncRemixedPlaylistPageComponent,
-    canActivate: [RequireLoginGuard, RequireUserPreferencesSetGuard]
+    path: 'docs',
+    component: SideBarLayoutComponent,
+    children: [
+      { path: '', component: DocumentationNavigationBarComponent, outlet: 'navigation-items' },
+      { path: '', pathMatch: 'full', redirectTo: 'get-started' },
+      {
+        path: 'remix', children: [
+          {
+            path: '', pathMatch: 'full', redirectTo: 'overview'
+          },
+          {
+            path: 'overview',
+            loadComponent: () => import('./pages/docs/markdown-documentation/markdown-documentation.component').then(m => m.MarkdownDocumentationComponent)
+          }
+        ]
+      },
+      {
+        path: 'get-started',
+        loadComponent: () => import('./pages/docs/markdown-documentation/markdown-documentation.component').then(m => m.MarkdownDocumentationComponent)
+      }
+    ]
   }
 ];

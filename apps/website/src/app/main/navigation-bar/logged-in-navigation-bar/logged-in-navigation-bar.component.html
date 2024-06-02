@@ -1,0 +1,49 @@
+<a class="flex h-16 items-center justify-center" routerLink="/">
+  <div class="inline p-4">
+    <img alt="logo-dark" class="hidden dark:inline" src="assets/logo-white.svg" />
+    <img alt="logo-light" class="inline dark:hidden" src="assets/logo-black.svg" />
+  </div>
+</a>
+
+<div class="navigation-items-container">
+  <ul class="menu mb-6">
+    <li class="mb-0.5">
+      <a class="hover:bg-base-content/15" routerLinkActive="active-link" routerLink="/apps/account">
+        <div class="flex items-center gap-2">
+          <ng-icon name="cssHome"></ng-icon>
+          Dashboard
+        </div>
+      </a>
+    </li>
+    <li class="menu-title font-semibold">Apps</li>
+    <li class="mb-0.5">
+      <details>
+        <summary>
+          <div class="flex items-center gap-2">
+            <ng-icon name="cssDisc"></ng-icon>
+            Remixes
+          </div>
+        </summary>
+        <ul>
+          <li class="mb-0.5">
+            <a class="hover:bg-base-content/15" routerLinkActive="active-link" routerLink="/apps/remix">
+              <span class="flex items-center gap-2">Playlist Overview</span>
+            </a>
+          </li>
+          <li class="mb-0.5">
+            <a class="hover:bg-base-content/15" routerLinkActive="active-link" routerLink="/apps/remix-overview">
+              <span class="flex items-center gap-2">Synchronize Remix</span>
+            </a>
+          </li>
+        </ul>
+      </details>
+    </li>
+    <li class="menu-title font-semibold">Other</li>
+    <li class="mb-0.5"><a class="hover:bg-base-content/15" routerLinkActive="active-link" routerLink="/docs">
+      <div class="flex items-center gap-2">
+        <ng-icon name="heroBookOpen"></ng-icon>
+        Documentation
+      </div>
+    </a></li>
+  </ul>
+</div>

@@ -1,0 +1,37 @@
+<div class="fixed inset-x-0 top-0 z-[60] backdrop-blur-sm transition-all duration-500 border-transparent navbar" #navbar>
+  <div class="container">
+    <div class="navbar-start">
+      <div class="w-56 cursor-pointer p-4" routerLink="/">
+        <img alt="logo-dark" class="hidden dark:inline" src="assets/logo-white.svg" />
+        <img alt="logo-light" class="inline dark:hidden" src="assets/logo-black.svg" />
+      </div>
+    </div>
+    <div class="navbar-end">
+      <div class="drawer drawer-end md:hidden">
+        <!--This input toggles the drawer on/off-->
+        <input id="my-drawer" type="checkbox" class="drawer-toggle" />
+        <!--Clicking on this label will toggle the checkbox, only displayed on small screens-->
+        <div class="drawer-content flex justify-end">
+          <label for="my-drawer" class="btn btn-ghost drawer-button text-xl">
+            <fa-icon [icon]="hamburgerMenuIcon"></fa-icon>
+          </label>
+        </div>
+        <div class="drawer-side z-50">
+          <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+          <ul class="mobile-menu menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+            <li><a routerLink="/docs/get-started">Get Started</a></li>
+            @if (spotifyAuthService.isLoggedIn()) {
+              <li><a routerLink="/apps/">Dashboard</a></li>
+            }
+          </ul>
+        </div>
+      </div>
+      <ul class="menu menu-horizontal px-1 hidden md:flex justify-end items-center">
+        <li><a routerLink="/docs/get-started">Get Started</a></li>
+        @if (spotifyAuthService.isLoggedIn()) {
+          <li class="btn btn-primary btn-sm ms-3"><a routerLink="/apps/">Dashboard</a></li>
+        }
+      </ul>
+    </div>
+  </div>
+</div>

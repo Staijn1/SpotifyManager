@@ -1,0 +1,46 @@
+<div class="container mx-auto mt-3">
+  <h1>Account <a routerLink="settings" class="text-gray-500 hover:text-gray-400 transition ms-4">
+    <ng-icon name="faSolidGears"></ng-icon>
+  </a></h1>
+  <p>See your own account and statistics here!</p>
+  <div class="flex justify-center">
+    @if (isLoading) {
+      <app-loading></app-loading>
+    }
+  </div>
+  <div class="grid grid-cols-2 mt-5">
+    <div class="p-3">
+      <h3 class="mb-3">Your Account</h3>
+      @if (accountInformation) {
+        <app-spotify-user [user]="accountInformation"></app-spotify-user>
+      } @else {
+        <p class="text-gray-500">No account information found.</p>
+      }
+      <h3 class="mt-4 mb-3">Your Top Tracks</h3>
+      <div class="grid grid-cols-2 gap-2">
+        @for (track of topTracksList; track track.id; let index = $index) {
+          <app-spotify-track
+            data-aos="fade"
+            data-aos-delay="150"
+            [track]="track"
+            [ranking]="index + 1"></app-spotify-track>
+        }
+      </div>
+    </div>
+    <div class="p-3">
+      <div>
+        <h3 class="mb-3">Your Top Artists</h3>
+        @for (artist of topArtistsList; track artist.id; let index = $index) {
+          <div class="mb-2">
+            <app-spotify-artist
+              data-aos="fade"
+              data-aos-delay="100"
+              class="my-2"
+              [artist]="artist"
+              [ranking]="index + 1"></app-spotify-artist>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

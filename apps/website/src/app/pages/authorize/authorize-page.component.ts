@@ -31,7 +31,7 @@ export class AuthorizePageComponent implements OnInit {
     this.spotifyAuth.completeLogin()
       .then((isSuccessful) => {
         if (isSuccessful) {
-          this.router.navigate(['account']);
+          this.router.navigate(['apps']);
         } else {
           throw new Message("error", "Something went wrong while logging in");
         }

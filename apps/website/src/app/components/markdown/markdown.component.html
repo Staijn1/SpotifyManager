@@ -1,0 +1,8 @@
+@if (!pathToMarkdownFile) {
+  No markdown file found for this path.
+} @else {
+  <markdown
+    mermaid
+    [src]="pathToMarkdownFile">
+  </markdown>
+}

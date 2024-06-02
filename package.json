@@ -30,6 +30,10 @@
     "@nestjs/schedule": "^4.0.2",
     "@nestjs/swagger": "^7.3.1",
     "@nestjs/typeorm": "^10.0.2",
+    "@ng-icons/core": "^27.5.0",
+    "@ng-icons/css.gg": "^27.5.0",
+    "@ng-icons/font-awesome": "^27.5.0",
+    "@ng-icons/heroicons": "^27.5.0",
     "@ngrx/store": "^17.1.0",
     "@ngrx/store-devtools": "^17.1.0",
     "@nx/angular": "19.0.4",
@@ -44,6 +48,8 @@
     "mermaid": "^10.9.0",
     "mongodb": "^5.9.2",
     "nest-winston": "^1.9.4",
+    "ngx-markdown": "^17.2.1",
+    "marked": "^12.0.2",
     "nodemailer": "^6.9.13",
     "preview-email": "^3.0.19",
     "reflect-metadata": "^0.1.13",
@@ -111,4 +117,3 @@
     "url-loader": "^4.1.1"
   }
 }
-

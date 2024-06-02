@@ -5,17 +5,20 @@
     Like this home-page, some textual descriptions are still a placeholder or Work in Progress.
   </span>
 </div>
-<section class="bg-base-300">
+<section>
   <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
     <div class="mr-auto place-self-center lg:col-span-7">
       <h1 class="mb-4 tracking-tight leading-none md:text-5xl xl:text-6xl text-white">
         Add more functionality to your Spotify account!
       </h1>
       <p class="max-w-2xl mb-6 lg:mb-8 md:text-lg lg:text-xl my-10">
-        Spotify is great, and this website aims to make using it even better. Spotify Manager adds a bunch of new features to your Spotify account.<br>
+        Spotify is great, and this website aims to make using it even better. Spotify Manager adds a bunch of new
+        features to your Spotify account.<br>
         For an complete overview of all the features, keep scrolling down or get started right away!
       </p>
-      <a class="btn btn-primary" routerLink="get-started">Get started <fa-icon [icon]="rightArrowIcon"></fa-icon></a>
+      <a class="btn btn-primary" routerLink="/docs/get-started">Get started
+        <fa-icon [icon]="rightArrowIcon"></fa-icon>
+      </a>
     </div>
     <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
       <!--      todo put a new image here-->
@@ -23,3 +26,22 @@
     </div>
   </div>
 </section>
+
+<div class="container py-12 2xl:py-24">
+  <div class="text-center">
+    <p class="mt-2 text-3xl font-semibold">Features</p>
+    <p class="mt-3 inline-block max-w-md text-base-content/80">Explore all the awesome features of Spotify Manager to
+      enhance your Spotify experience!</p>
+  </div>
+  <div class="mt-8 grid grid-cols-2 gap-8 lg:grid-cols-4 2xl:mt-24 2xl:gap-16">
+    @for (feature of features; track feature.title) {
+      <div class="text-center hover:bg-base-200 transition p-3 rounded">
+        <div class="inline-block">
+          <ng-icon [name]="feature.icon" class="text-4xl"></ng-icon>
+        </div>
+        <p class="mt-3 text-lg font-medium">{{ feature.title }}</p>
+        <p class="mt-1 text-sm text-base-content/80 text-balance" [innerHTML]="feature.description"></p>
+      </div>
+    }
+  </div>
+</div>

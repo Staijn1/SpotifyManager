@@ -1,0 +1,79 @@
+@if (isComparisonLoading) {
+  <div class="flex flex-col justify-center items-center h-screen">
+    <app-loading></app-loading>
+    Comparing playlists...
+  </div>
+} @else {
+  <div class="container mx-auto my-3 pb-16">
+    <div class="bg-base-300 rounded flex items-center overflow-hidden mb-4">
+      @if (originalPlaylist && originalPlaylist.images[0].url) {
+        <img class="w-32 h-32 mr-4" [src]="originalPlaylist.images[0].url" alt="Original Playlist Cover">
+      }
+      <div class="p-2">
+        <h3 class="text-xl font-bold">{{ originalPlaylist?.name }}</h3>
+        <p [innerHTML]="originalPlaylist?.description"></p>
+      </div>
+    </div>
+    <div class="grid md:grid-cols-2 gap-4 mb-3">
+      <div>
+        <h2>Changed Tracks</h2>
+        <p>These are the tracks that have been changed, either in the original or in the remix.</p>
+      </div>
+      <div>
+        <h2>Preview Synced Playlist</h2>
+        <p>A preview of what the playlist will look like after syncing.</p>
+      </div>
+    </div>
+    <div class="grid md:grid-cols-2 gap-4">
+      <div>
+        @for (diff of this.changedTracks; track diff) {
+          <div class="my-2">
+            <app-spotify-track
+              imageClasses="w-full md:w-32"
+              class="deleted"
+              [isHorizontalLayout]="true"
+              [showPreview]="true"
+              [track]="diff[1]">
+              <div class="flex flex-col">
+                <span class="mb-3 text-center font-semibold text-sm">{{ getDiffIdentifierText(diff[0]) }}</span>
+                <button class="btn btn-secondary" (click)="addTrackToPreviewSyncedPlaylist(diff)">
+                  Add to Preview
+                  <fa-icon [icon]="arrowRightIcon"></fa-icon>
+                </button>
+              </div>
+            </app-spotify-track>
+          </div>
+        } @empty {
+          <div class="text-center text-gray-500 mt-5">No changed tracks found.</div>
+        }
+      </div>
+
+      <div>
+        @for (track of draftSyncedPlaylist; track track) {
+          <div class="my-2">
+            <app-spotify-track
+              imageClasses="w-full md:w-32"
+              [ngClass]="{
+                'added': track[0] !== (DiffIdentifier.UNCHANGED),
+                'unchanged': track[0] === (DiffIdentifier.UNCHANGED)
+              }"
+              [isHorizontalLayout]="true"
+              [reverse]="true"
+              [showPreview]="true"
+              [track]="track[1]">
+              @if (track[0] !== DiffIdentifier.UNCHANGED) {
+                <div class="flex flex-col">
+                  <span class="mb-3 text-center font-semibold text-sm">{{ getDiffIdentifierText(track[0]) }}</span>
+                  <button class="btn btn-secondary" (click)="removeTrackFromPreviewSyncedPlaylist(track)">
+                    Remove from Preview
+                    <fa-icon [icon]="arrowLeftIcon"></fa-icon>
+                  </button>
+                </div>
+              }
+            </app-spotify-track>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+}
