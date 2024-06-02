@@ -42,11 +42,7 @@ export const appRoutes: Route[] = [
     path: '',
     component: RegularLayoutComponent,
     children: [
-      { path: '', loadComponent: () => import('./pages/home/home-page.component').then(m => m.HomePageComponent) },
-      {
-        path: 'get-started',
-        loadComponent: () => import('./pages/docs/get-started/get-started-page.component').then(m => m.GetStartedPageComponent)
-      }
+      { path: '', loadComponent: () => import('./pages/home/home-page.component').then(m => m.HomePageComponent) }
     ]
   },
   {
