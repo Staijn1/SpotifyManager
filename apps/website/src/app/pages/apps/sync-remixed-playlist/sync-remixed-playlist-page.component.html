@@ -9,9 +9,21 @@
       @if (originalPlaylist && originalPlaylist.images[0].url) {
         <img class="w-32 h-32 mr-4" [src]="originalPlaylist.images[0].url" alt="Original Playlist Cover">
       }
-      <div class="p-2">
-        <h3 class="text-xl font-bold">{{ originalPlaylist?.name }}</h3>
-        <p [innerHTML]="originalPlaylist?.description"></p>
+
+      <div class="grid grid-cols-2 gap-4 w-full">
+        <div>
+          <h3 class="text-xl font-bold">{{ originalPlaylist?.name }}</h3>
+          <p [innerHTML]="originalPlaylist?.description"></p>
+        </div>
+        <div class="flex justify-end justify-items-center mr-4">
+          <button (click)="syncPlaylist()" class="btn btn-primary btn-lg w-36">
+            @if (isSyncing){
+              <app-loading></app-loading>
+            } @else {
+              Synchronize!
+            }
+          </button>
+        </div>
       </div>
     </div>
     <div class="grid md:grid-cols-2 gap-4 mb-3">
