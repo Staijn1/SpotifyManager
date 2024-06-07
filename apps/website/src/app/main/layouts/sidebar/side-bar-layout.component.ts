@@ -35,7 +35,6 @@ export class SideBarLayoutComponent {
     private readonly store: Store<{ userState: SpotifyManagerUserState }>,
     protected readonly authService: SpotifyAuthenticationService) {
     this.store.select('userState').subscribe((userState) => {
-      console.log(userState)
       this.userState = userState;
     });
   }
