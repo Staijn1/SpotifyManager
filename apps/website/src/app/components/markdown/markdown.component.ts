@@ -8,6 +8,7 @@ import { MarkdownComponent as NgxMarkdownComponent} from 'ngx-markdown';
   imports: [CommonModule, NgxMarkdownComponent],
   templateUrl: './markdown.component.html',
   styleUrl: './markdown.component.scss',
+  preserveWhitespaces: true
 })
 export class MarkdownComponent {
   @Input() pathToMarkdownFile: string | null | undefined;

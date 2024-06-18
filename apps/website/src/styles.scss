@@ -53,3 +53,24 @@ app-remix, app-sync-remixed-playlist-page {
 .active-link {
   @apply bg-base-content/10;
 }
+
+/**
+ * Styling for markdown content
+ */
+markdown {
+  ul {
+    @apply list-disc list-inside;
+
+    li ul {
+      @apply list-decimal list-inside ml-4;
+    }
+  }
+
+  p {
+    @apply mb-3;
+  }
+
+  a {
+    @apply text-accent underline;
+  }
+}
