@@ -62,8 +62,12 @@ markdown {
     @apply list-disc list-inside;
 
     li ul {
-      @apply list-decimal list-inside ml-4;
+      @apply list-disc list-inside ml-4;
     }
+  }
+
+  ol {
+    @apply list-decimal list-inside;
   }
 
   p {
@@ -72,5 +76,21 @@ markdown {
 
   a {
     @apply text-accent underline;
+  }
+
+  table {
+    @apply table-auto;
+
+    tr, th {
+      @apply border-y border-base-300 transition-colors;
+
+      &:hover {
+        @apply bg-base-content/10;
+      }
+    }
+
+    td, th {
+      @apply p-2 border-x border-base-300;
+    }
   }
 }
