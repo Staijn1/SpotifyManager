@@ -17,4 +17,8 @@ export class LoadingComponent {
   get additionalClassesJoint(): string {
     return this.additionalClasses.join(' ');
   }
+
+  get sizeClass(): string {
+    return `loading-${this.size}`
+  }
 }

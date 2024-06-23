@@ -4,7 +4,7 @@ import { faGears } from '@fortawesome/free-solid-svg-icons';
 
 import {
   ArtistObjectFull,
-  CurrentUsersProfileResponse,
+  CurrentUsersProfileResponse, TimeRange,
   TrackObjectFull,
   UsersTopArtistsResponse,
   UsersTopTracksResponse
@@ -22,6 +22,7 @@ import { SpotifyUserComponent } from '../../../components/spotify-user/spotify-u
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { SpotifyAPIService } from '../../../services/spotifyAPI/spotify-api.service';
 import { SpotifyManagerUserState } from '../../../types/SpotifyManagerUserState';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-account',
@@ -36,7 +37,8 @@ import { SpotifyManagerUserState } from '../../../types/SpotifyManagerUserState'
     SpotifyTrackComponent,
     FaIconComponent,
     RouterLink,
-    NgIcon
+    NgIcon,
+    FormsModule
   ],
   providers: [provideIcons({faSolidGears})],
   styleUrls: ['./account-page.component.scss']
@@ -50,6 +52,8 @@ export class AccountPageComponent implements OnInit {
 
   topTracks: UsersTopTracksResponse | undefined;
   topArtists: UsersTopArtistsResponse | undefined;
+  selectedTimeRangeForSongStats: TimeRange = 'medium_term';
+  selectedTimeRangeForArtistsStats: TimeRange = 'medium_term';
 
   /**
    * Inject dependencies
@@ -87,13 +91,29 @@ export class AccountPageComponent implements OnInit {
    */
   private getInformation(): void {
     this.isLoading = true;
-    this.spotifyAPI.getTopArtists()
+    this.spotifyAPI.getTopArtists(this.selectedTimeRangeForArtistsStats)
       .then(topArtists => {
         this.topArtists = topArtists;
-        return this.spotifyAPI.getTopTracks();
+        return this.spotifyAPI.getTopTracks(this.selectedTimeRangeForSongStats);
       })
       .then(topTracks => {
         this.topTracks = topTracks;
+      }).finally(() => this.isLoading = false);
+  }
+
+  onTimeRangeChangedForTracks() {
+    this.isLoading = true;
+    this.spotifyAPI.getTopTracks(this.selectedTimeRangeForSongStats)
+      .then(topTracks => {
+        this.topTracks = topTracks;
+      }).finally(() => this.isLoading = false);
+  }
+
+  onTimeRangeChangedForArtists() {
+    this.isLoading = true;
+    this.spotifyAPI.getTopArtists(this.selectedTimeRangeForArtistsStats)
+      .then(topArtists => {
+        this.topArtists = topArtists;
       }).finally(() => this.isLoading = false);
   }
 }

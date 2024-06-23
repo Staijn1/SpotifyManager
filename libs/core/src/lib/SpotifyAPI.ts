@@ -40,6 +40,16 @@ export interface SearchForItemParameterObject {
 }
 
 /**
+ * Available to use in the endpoint to get top tracks/artists for a user.
+ * Over what time frame the affinities are computed.
+ * Valid values:
+ * - long_term (calculated from ~1 year of data and including all new data as it becomes available),
+ * - medium_term (approximately last 6 months),
+ * - short_term (approximately last 4 weeks).
+ */
+export type TimeRange = 'long_term' | 'medium_term' | 'short_term';
+
+/**
  * Object for use in Recommendations Based on Seeds.
  * See: [Recommendations Based on Seeds](https://developer.spotify.com/web-api/get-recommendations/)
  *

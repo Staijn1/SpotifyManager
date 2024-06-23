@@ -3,6 +3,7 @@ import SpotifyWebApi from 'spotify-web-api-js';
 import { SpotifyAuthenticationService } from '../spotify-authentication/spotify-authentication.service';
 import { UpdateUserLoginStatus } from '../../redux/user-state/user-state.action';
 import { Store } from '@ngrx/store';
+import { TimeRange } from '@spotify-manager/core';
 
 @Injectable({
   providedIn: 'root'
@@ -52,18 +53,20 @@ export class SpotifyAPIService {
    * Get the tp artists for this user
    * @returns {Promise<SpotifyApi.UsersTopArtistsResponse>}
    */
-  async getTopArtists(): Promise<SpotifyApi.UsersTopArtistsResponse> {
+  async getTopArtists(timerange: TimeRange): Promise<SpotifyApi.UsersTopArtistsResponse> {
     this.updateAccessToken();
-    return this._spotifyApi.getMyTopArtists();
+    return this._spotifyApi.getMyTopArtists({
+      time_range: timerange,
+    });
   }
 
   /**
    * Get the most played tracks for this user
    * @returns {Promise<SpotifyApi.UsersTopTracksResponse>}
    */
-  async getTopTracks(): Promise<SpotifyApi.UsersTopTracksResponse> {
+  async getTopTracks(timerange: TimeRange): Promise<SpotifyApi.UsersTopTracksResponse> {
     this.updateAccessToken();
-    return this._spotifyApi.getMyTopTracks({limit: 10});
+    return this._spotifyApi.getMyTopTracks({limit: 10, time_range: timerange});
   }
 
   /**
