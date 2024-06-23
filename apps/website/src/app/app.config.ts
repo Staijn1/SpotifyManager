@@ -8,6 +8,7 @@ import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { userStateReducer } from './redux/user-state/user-state.reducer';
 import { provideMarkdown } from 'ngx-markdown';
+import { topItemsStatsReducer } from './redux/top-items/top-items-stats.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,6 +19,7 @@ export const appConfig: ApplicationConfig = {
     provideMarkdown(),
     provideStore({
       userState: userStateReducer,
+      topItemsStats: topItemsStatsReducer,
     }),
     provideStoreDevtools(),
   ],
