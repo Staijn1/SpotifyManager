@@ -61,6 +61,7 @@ export class MailService {
           github: 'https://github.com/Staijn1/SpotifyManager',
           appUrl: 'https://spotify.steinjonker.nl'
         },
+        ignoredPlaylistsCount: user.excludedPlaylistIdsFromOriginalPlaylistUpdatedNotifications.length
       };
 
       // Remixed playlists where the original playlist update notification is not ignored
@@ -141,4 +142,6 @@ export type OriginalPlaylistUpdatedEmailContext = {
     github: string,
     appUrl: string
   };
+
+  ignoredPlaylistsCount: number;
 }
