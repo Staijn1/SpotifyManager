@@ -118,7 +118,7 @@ export class SyncRemixedPlaylistPageComponent {
     const sortedDraftSyncedPlaylist = this.sortDiffs(this.draftSyncedPlaylist, false);
 
     this.apiService.syncPlaylist(this.remixedPlaylistId, sortedDraftSyncedPlaylist.map(diff => diff[1].track)).then(() => {
-      this.router.navigate(['/remix-overview']);
+      this.router.navigate(['/apps/remix-overview']);
       this.messageService.setMessage(new Message('success', 'The playlist has been synced!'));
     }).finally(() => this.isSyncing = false);
   }
