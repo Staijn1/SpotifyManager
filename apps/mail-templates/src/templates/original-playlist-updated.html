@@ -26,6 +26,13 @@ bodyClass: bg-slate-50
 
                 <x-spacer height="24px" />
 
+                {{#if ignoredPlaylistsCount}}
+                  <p class="m-0 leading-6 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded" role="alert">
+                    You have configured some of your remixed playlists to be excluded from this email-notification. Please sign in to Spotify Manager and check if they need synchronizing yourself!
+                  </p>
+                  <x-spacer height="24px" />
+                {{/if}}
+
                 @{{#each updatedRemixes as |remix|}}
                   <div class="spotify-track-container bg-base-300 rounded-lg overflow-hidden flex h-full">
                     <div>
