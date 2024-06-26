@@ -13,7 +13,10 @@
     @for (playlist of playlistsNotOwnedByUser; track playlist) {
       <app-spotify-playlist data-aos="fade" data-aos-delay="100" [playlist]="playlist">
         <div class="flex justify-center my-5">
-          <button class="btn btn-primary" type="button" (click)="openModal(playlist)"><fa-icon [icon]="remixIcon"></fa-icon>Remix!</button>
+          <button class="btn btn-primary" type="button" (click)="openModal(playlist)">
+            <fa-icon [icon]="remixIcon"></fa-icon>
+            Remix!
+          </button>
         </div>
       </app-spotify-playlist>
     }
@@ -34,22 +37,10 @@
       Would you like to include the remix of <span class="italic">{{ playlistAboutToBeRemixed.name }}</span> in the
       Original Playlist Update notification emails?
     </p>
-    <p class="mt-3">
 
-    </p>
-
-    <div class="grid grid-cols-3 mt-5">
-      <div class="col-span-1">
-        <div class="form-control">
-          <label class="label cursor-pointer">
-            <span class="label-text">Include in emails?</span>
-            <input type="checkbox" class="toggle toggle-success" #checkbox
-                   [checked]="playlistAboutToBeRemixed.owner.id !=='spotify'" />
-          </label>
-        </div>
-      </div>
+    <div class="mt-5 flex flex-col lg:flex-row lg:justify-between">
       @if (playlistAboutToBeRemixed.owner.id === 'spotify') {
-        <div class="col-span-2 px-5">
+        <div class="lg:px-5 order-1 lg:order-2">
           <span class="font-bold text-warning">
             Note: This playlist is owned by Spotify.
           </span><br>
@@ -58,6 +49,15 @@
           (Playlist will display "Made for {{ user?.display_name }}")
         </div>
       }
+      <div class="order-2 mt-3 lg:order-1 lg:mt-0">
+        <div class="form-control">
+          <label class="label cursor-pointer">
+            <span class="label-text">Include in emails?</span>
+            <input type="checkbox" class="toggle toggle-success lg:ml-5" #checkbox
+                   [checked]="playlistAboutToBeRemixed.owner.id !=='spotify'" />
+          </label>
+        </div>
+      </div>
     </div>
 
     <div class="flex justify-center mt-5">
