@@ -20,8 +20,8 @@
     <button class="btn btn-primary btn-sm w-32 mt-5" (click)="saveUserPreferences()"><fa-icon [icon]="saveIcon"></fa-icon> Save</button>
   </div>
 
-  <div class="grid grid-cols-5 gap-4 mt-10">
-    <div class="col-span-3">
+  <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 mt-10">
+    <div class="lg:col-span-3">
       <div class="card bg-base-300 shadow-xl">
         <div class="card-body">
           <h2 class="card-title font-semibold text-white">Email Preferences</h2>
@@ -33,7 +33,7 @@
             <p>Determines the frequency of emails you will receive when the original playlist of one of your remixes has
               updated.</p>
             <div>
-              <div class="grid w-1/2 grid-cols-4 gap-2 rounded bg-base-100 mt-2">
+              <div class="grid lg:w-1/2 grid-cols-4 gap-0 lg:gap-2 rounded bg-base-100 mt-2">
                 @for (frequencyOption of availableEmailFrequencyOptions; track frequencyOption) {
                   <div>
                     <input
@@ -55,7 +55,7 @@
       </div>
     </div>
 
-    <div class="col-span-2">
+    <div class="lg:col-span-2">
       <div class="card bg-base-300 shadow-xl">
         <div class="card-body">
           <h2 class="card-title font-semibold text-white">Ignored Playlists from Notifications</h2>
@@ -86,7 +86,7 @@
                 <div class="form-control">
                   <label class="label cursor-pointer">
                     <span class="label-text">{{ getLabelTextForSwitch(remix.id) }}</span>
-                    <input type="checkbox" class="toggle toggle-success"
+                    <input type="checkbox" class="toggle toggle-success ml-2"
                            [checked]="isNotificationEnabled(remix.id)"
                            (change)="toggleNotification(remix.id, $event.target)" />
                   </label>
