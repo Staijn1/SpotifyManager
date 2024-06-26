@@ -1,9 +1,9 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   HorizontalNavigationBarComponent
 } from '../../navigation-bar/horizontal-navigation-bar/horizontal-navigation-bar.component';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import {
   LoggedInNavigationBarComponent
 } from '../../navigation-bar/logged-in-navigation-bar/logged-in-navigation-bar.component';
@@ -12,31 +12,49 @@ import { cssChevronLeft, cssChevronRight, cssLogOut, cssMenu, cssSearch, cssUser
 import { Store } from '@ngrx/store';
 import { SpotifyManagerUserState } from '../../../types/SpotifyManagerUserState';
 import { SpotifyAuthenticationService } from '../../../services/spotify-authentication/spotify-authentication.service';
+import { OffCanvasComponent } from '../../../components/offcanvas/off-canvas.component';
+import { filter, skip, Subscription } from 'rxjs';
 
 
 @Component({
   selector: 'app-sidebar-layout',
   standalone: true,
-  imports: [CommonModule, HorizontalNavigationBarComponent, RouterOutlet, LoggedInNavigationBarComponent, NgIcon, RouterLink],
+  imports: [CommonModule, HorizontalNavigationBarComponent, RouterOutlet, LoggedInNavigationBarComponent, NgIcon, RouterLink, OffCanvasComponent],
   providers: [provideIcons({ cssMenu, cssSearch, cssLogOut, cssUser, cssChevronRight, cssChevronLeft })],
   templateUrl: './side-bar-layout.component.html',
   styleUrl: './side-bar-layout.component.scss'
 })
-export class SideBarLayoutComponent {
+export class SideBarLayoutComponent implements OnDestroy {
   @ViewChild('toolbar') toolbar!: ElementRef<HTMLElement>;
+  @ViewChild(OffCanvasComponent) mobileMenu: OffCanvasComponent | undefined;
+
   userState!: SpotifyManagerUserState;
   isLeftMenuClosed = false;
+  private navigationEndSubscription: Subscription;
 
-  get currentUser(){
+  get currentUser() {
     return this.userState.user;
   }
 
   constructor(
     private readonly store: Store<{ userState: SpotifyManagerUserState }>,
-    protected readonly authService: SpotifyAuthenticationService) {
+    protected readonly authService: SpotifyAuthenticationService,
+    private readonly router: Router) {
     this.store.select('userState').subscribe((userState) => {
       this.userState = userState;
     });
+
+    // Close the mobile menu when the route changes
+    this.navigationEndSubscription = this.router.events.pipe(
+      skip(1),
+      filter((event) => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.mobileMenu?.close();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.navigationEndSubscription.unsubscribe();
   }
 
   logout() {
@@ -60,5 +78,9 @@ export class SideBarLayoutComponent {
       this.toolbar.nativeElement.classList.remove(...scrolledClasses);
       this.toolbar.nativeElement.classList.add(...notScrolledClasses);
     }
+  }
+
+  toggleMobileMenu() {
+    this.mobileMenu?.toggle();
   }
 }

@@ -1,0 +1,13 @@
+<div
+  class='drawer z-50'
+  [class.drawer-end]='position === "right"'
+>
+  <input [(ngModel)]='isOpen'  [id]='id' type='checkbox' class='drawer-toggle' />
+  <div class='drawer-side'>
+    <div (click)='close()' class='drawer-overlay'></div>
+    <div class='p-4 w-80 min-h-full bg-base-200 text-base-content'>
+      <ng-content select='[header]'></ng-content>
+      <ng-content select='[body]'></ng-content>
+    </div>
+  </div>
+</div>
