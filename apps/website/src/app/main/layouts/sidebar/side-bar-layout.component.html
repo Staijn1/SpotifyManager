@@ -21,7 +21,7 @@
         </div>
         <div class="navbar-center"></div>
         <div class="gap-1.5 navbar-end">
-          @if(userState.isLoggedIn){
+          @if (userState.isLoggedIn) {
             <div class="dropdown dropdown-bottom dropdown-end">
               <label tabindex="0" class="btn btn-ghost rounded-btn px-1.5 hover:bg-base-content/20">
                 @if (currentUser) {
@@ -57,7 +57,9 @@
               </ul>
             </div>
           } @else {
-            <button class="btn btn-primary btn-sm w-28" (click)="this.authService.initializeAuthorizitionFlow()">Log In</button>
+            <button class="btn btn-primary btn-sm w-28" (click)="this.authService.initializeAuthorizitionFlow()">Log
+              In
+            </button>
           }
         </div>
       </div>
@@ -66,7 +68,9 @@
   </div>
 </div>
 
-<app-offcanvas>
+<app-offcanvas
+  position="left"
+>
   <div body>
     <router-outlet name="navigation-items"></router-outlet>
   </div>

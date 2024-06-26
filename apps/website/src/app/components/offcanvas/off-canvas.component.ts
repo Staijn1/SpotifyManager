@@ -11,7 +11,6 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./off-canvas.component.scss']
 })
 export class OffCanvasComponent {
-  @Input() width = '400px';
   @Input() position: 'left' | 'right' = 'right';
   @Output() stateChanged = new EventEmitter<boolean>();
   protected id = this.generateElementId();
