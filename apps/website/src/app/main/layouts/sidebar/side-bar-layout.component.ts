@@ -14,13 +14,14 @@ import { SpotifyManagerUserState } from '../../../types/SpotifyManagerUserState'
 import { SpotifyAuthenticationService } from '../../../services/spotify-authentication/spotify-authentication.service';
 import { OffCanvasComponent } from '../../../components/offcanvas/off-canvas.component';
 import { filter, skip, Subscription } from 'rxjs';
+import { faSolidGears } from '@ng-icons/font-awesome/solid';
 
 
 @Component({
   selector: 'app-sidebar-layout',
   standalone: true,
   imports: [CommonModule, HorizontalNavigationBarComponent, RouterOutlet, LoggedInNavigationBarComponent, NgIcon, RouterLink, OffCanvasComponent],
-  providers: [provideIcons({ cssMenu, cssSearch, cssLogOut, cssUser, cssChevronRight, cssChevronLeft })],
+  providers: [provideIcons({ cssMenu, cssSearch, cssLogOut, cssUser, cssChevronRight, cssChevronLeft, faSolidGears })],
   templateUrl: './side-bar-layout.component.html',
   styleUrl: './side-bar-layout.component.scss'
 })
