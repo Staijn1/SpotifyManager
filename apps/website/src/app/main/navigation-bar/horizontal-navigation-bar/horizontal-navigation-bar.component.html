@@ -29,7 +29,7 @@
       <ul class="menu menu-horizontal px-1 hidden md:flex justify-end items-center">
         <li><a routerLink="/docs/get-started">Get Started</a></li>
         @if (spotifyAuthService.isLoggedIn()) {
-          <li class="btn btn-primary btn-sm ms-3"><a routerLink="/apps/">Dashboard</a></li>
+          <li class="btn btn-primary btn-sm ms-3" routerLink="/apps/">Dashboard</li>
         }
       </ul>
     </div>
