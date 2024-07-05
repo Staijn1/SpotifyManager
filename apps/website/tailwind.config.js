@@ -1,5 +1,7 @@
 const { createGlobPatternsForDependencies } = require('@nx/angular/tailwind');
 const { join } = require('path');
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -8,7 +10,11 @@ module.exports = {
     ...createGlobPatternsForDependencies(__dirname),
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'headings': ['"Outfit"', ...defaultTheme.fontFamily.sans],
+      }
+    },
   },
   daisyui: {
     themes: [
@@ -39,5 +45,5 @@ module.exports = {
       }
     ],
   },
-  plugins: [require("daisyui")],
+  plugins: [require("@tailwindcss/typography"),require("daisyui")],
 };
