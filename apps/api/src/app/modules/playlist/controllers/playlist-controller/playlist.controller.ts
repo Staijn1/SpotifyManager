@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { PlaylistService } from '../../services/playlist/playlist.service';
 import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
 import {
@@ -101,5 +101,25 @@ export class PlaylistController {
   @Get('remix/original/:playlistId')
   public async getOriginalPlaylistForRemix(@Param() params: {playlistId: string}): Promise<SinglePlaylistResponse> {
     return this.playlistService.getOriginalPlaylistForRemix(params.playlistId);
+  }
+
+  /**
+   * DJ Mode: Get ordered playlist based on smooth transitions.
+   * @param playlistid
+   * @param fadingTime
+   */
+  @Get('dj-mode/:playlistid')
+  @ApiParam({
+    name: 'playlistid',
+    required: true,
+    description: 'The ID of the playlist to be ordered',
+    schema: { oneOf: [{ type: 'string' }], example: '6vDGVr652ztNWKZuHvsFvx' }
+  })
+  public async getDJModePlaylist(
+    @Param('playlistid') playlistid: string,
+    @Query('fadingTime') fadingTime: number
+  ): Promise<{ [key: string]: any }> {
+    const orderedPlaylist = await this.playlistService.getDJModePlaylist(playlistid, fadingTime);
+    return { [playlistid]: orderedPlaylist };
   }
 }

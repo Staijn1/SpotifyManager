@@ -19,6 +19,7 @@ describe('PlaylistService', () => {
           provide: SpotifyService,
           useValue: {
             getCurrentUser: jest.fn(),
+            getAudioFeaturesForTracks: jest.fn(),
           }
         },
         {
@@ -47,7 +48,6 @@ describe('PlaylistService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
-
 
   it('should properly compare a remixed playlist with its original', async () => {
     const basePlaylistId = 'basePlaylistId';
@@ -125,7 +125,6 @@ describe('PlaylistService', () => {
     expect(result).toEqual(expected);
   });
 
-
   it('should detect a song as added in both, when it was added to the original AND added to the remix', async () => {
     const basePlaylistId = 'basePlaylistId';
     const remixedPlaylistId = 'remixedPlaylistId';
@@ -159,8 +158,7 @@ describe('PlaylistService', () => {
     // sort result by song name
     result.sort((a, b) => a[1].track.name.localeCompare(b[1].track.name));
     expect(result).toEqual(expected);
-  })
-
+  });
 
   it('should not include tracks that are removed in both', async () => {
     const basePlaylistId = 'basePlaylistId';
@@ -194,5 +192,28 @@ describe('PlaylistService', () => {
     // sort result by song name
     // result.sort((a, b) => a[1].track.name.localeCompare(b[1].track.name));
     expect(result).toEqual(expected);
+  });
+
+  it('should return the expected ordered playlist for DJ Mode', async () => {
+    const playlistId = 'testPlaylistId';
+    const fadingTime = 5;
+    const playlistTracks = buildMockPlaylistTrackResponse(['Song A', 'Song B', 'Song C']);
+    const audioFeatures = [
+      { id: 'Song_A', energy: 0.8, valence: 0.6 },
+      { id: 'Song_B', energy: 0.7, valence: 0.5 },
+      { id: 'Song_C', energy: 0.9, valence: 0.7 }
+    ];
+    const orderedPlaylist = [{ id: 'Song_B' }, { id: 'Song_A' }, { id: 'Song_C' }];
+
+    jest.spyOn(service, 'getAllSongsInPlaylist').mockResolvedValue(playlistTracks);
+    jest.spyOn(spotifyService, 'getAudioFeaturesForTracks').mockResolvedValue(audioFeatures);
+    jest.spyOn(service, 'orderPlaylistBySmoothTransitions').mockReturnValue(orderedPlaylist);
+
+    const result = await service.getDJModePlaylist(playlistId, fadingTime);
+
+    expect(result).toEqual(orderedPlaylist);
+    expect(service.getAllSongsInPlaylist).toHaveBeenCalledWith(playlistId);
+    expect(spotifyService.getAudioFeaturesForTracks).toHaveBeenCalledWith(['Song_A', 'Song_B', 'Song_C']);
+    expect(service.orderPlaylistBySmoothTransitions).toHaveBeenCalledWith(playlistTracks.items, audioFeatures, fadingTime);
   });
 });

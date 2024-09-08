@@ -312,4 +312,32 @@ export class PlaylistService {
     }
     return this.getPlaylist(playlistDefinition.originalPlaylistId);
   }
+
+  /**
+   * Get ordered playlist based on smooth transitions.
+   * @param playlistid
+   * @param fadingTime
+   */
+  async getDJModePlaylist(playlistid: string, fadingTime: number): Promise<any> {
+    const playlist = await this.getAllSongsInPlaylist(playlistid);
+    const trackIds = playlist.items.map(track => track.track.id);
+    const audioFeatures = await this.spotifyService.getAudioFeaturesForTracks(trackIds);
+
+    // Implement the logic to compare songs and order the playlist based on smooth transitions
+    const orderedPlaylist = this.orderPlaylistBySmoothTransitions(playlist.items, audioFeatures, fadingTime);
+
+    return orderedPlaylist;
+  }
+
+  /**
+   * Order the playlist based on smooth transitions.
+   * @param tracks
+   * @param audioFeatures
+   * @param fadingTime
+   */
+  private orderPlaylistBySmoothTransitions(tracks: PlaylistTrackObject[], audioFeatures: any[], fadingTime: number): any[] {
+    // Implement the logic to compare songs and order the playlist based on smooth transitions
+    // This is a placeholder implementation and should be replaced with the actual logic
+    return tracks;
+  }
 }

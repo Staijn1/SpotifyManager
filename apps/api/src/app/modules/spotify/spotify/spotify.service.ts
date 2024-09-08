@@ -176,4 +176,13 @@ export class SpotifyService {
   getCurrentUser() {
     return this.spotifyAuthService.currentUser;
   }
+
+  /**
+   * Get audio features for the given track IDs.
+   * @param trackIds
+   */
+  async getAudioFeaturesForTracks(trackIds: string[]): Promise<any[]> {
+    const response = await this.spotifyApi.getAudioFeaturesForTracks(trackIds);
+    return response.body.audio_features;
+  }
 }
