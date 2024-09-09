@@ -97,7 +97,16 @@ export const appRoutes: Route[] = [
       },
       {
         path: 'dj-mode',
-        loadComponent: () => import('./pages/apps/dj-mode/dj-mode-page.component').then(m => m.DjModePageComponent),
+        children: [
+          {
+            path: '',
+            loadComponent: () => import('./pages/apps/dj-mode/dj-mode-page.component').then(m => m.DjModePageComponent),
+          },
+          {
+            path: 'details/:playlistId',
+            loadComponent: () => import('./pages/apps/dj-mode-details/dj-mode-details-page.component').then(m => m.DjModeDetailsPageComponent)
+          }
+        ],
         canActivate: [RequireLoginGuard]
       },
       {

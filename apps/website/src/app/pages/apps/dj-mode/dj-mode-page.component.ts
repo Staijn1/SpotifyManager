@@ -1,49 +1,88 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {ApiService} from "../../../services/api/api.service";
-import {AudioFeaturesObject, ListOfUsersPlaylistsResponse, TrackObjectFull} from "@spotify-manager/core";
+import {
+  CurrentUsersProfileResponse,
+  ListOfUsersPlaylistsResponse,
+  PlaylistObjectSimplified
+} from "@spotify-manager/core";
 import {FormsModule} from "@angular/forms";
+import {FaIconComponent} from "@fortawesome/angular-fontawesome";
+import {LoadingComponent} from "../../../components/loading/loading.component";
+import {SpotifyPlaylistComponent} from "../../../components/spotify-playlist/spotify-playlist.component";
+import {faCompactDisc} from "@fortawesome/free-solid-svg-icons";
+import {SpotifyAPIService} from "../../../services/spotifyAPI/spotify-api.service";
+import {Store} from "@ngrx/store";
+import {SpotifyManagerUserState} from "../../../types/SpotifyManagerUserState";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-dj-mode',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, FaIconComponent, LoadingComponent, SpotifyPlaylistComponent, RouterLink],
   templateUrl: './dj-mode-page.component.html',
   styleUrl: './dj-mode-page.component.scss',
 })
 export class DjModePageComponent implements OnInit {
-  playlistId ='';
-  userplaylists: ListOfUsersPlaylistsResponse | undefined;
-  private sortedPlaylist: { track: TrackObjectFull, audioFeatures: AudioFeaturesObject, score: number }[] = [];
+  readonly remixIcon = faCompactDisc;
+  playlistResponse!: SpotifyApi.ListOfUsersPlaylistsResponse;
+  isLoading = false;
 
-  constructor(private readonly apiService: ApiService) {
-  }
+  user: CurrentUsersProfileResponse | null | undefined;
 
-  ngOnInit(): void {
-    this.apiService.getAllUserPlaylists().then(userplaylists => {
-      userplaylists.items.sort((a, b) => a.name.localeCompare(b.name))
-      this.userplaylists = userplaylists;
+  /**
+   * Inject the right dependencies
+   * @param spotifyAPI
+   * @param store
+   */
+  constructor(
+    private readonly spotifyAPI: SpotifyAPIService,
+    private readonly store: Store<{ userState: SpotifyManagerUserState }>) {
+    this.store.select('userState').subscribe(userState => {
+      this.user = userState.user;
     });
   }
 
-  getSuggestedSorting() {
-    this.apiService.djModePlaylist(this.playlistId).then(sortedPlaylist => {
-      this.sortedPlaylist = sortedPlaylist as { track: TrackObjectFull, audioFeatures: AudioFeaturesObject, score: number }[];
-      const nameUriPairs = this.sortedPlaylist.map(x => ({name: x.track.name, uri: x.track.uri, score: x.score}));
-      console.log(nameUriPairs)
-
-      // log any duplicates names
-      const duplicates = nameUriPairs.filter((x, i) => nameUriPairs.slice(i + 1).some(y => y.name === x.name));
-      console.log('Duplicates:', duplicates);
-    })
+  /**
+   * On page load, load the necessary data
+   */
+  ngOnInit(): void {
+    this.getPlaylists();
   }
 
-  applySuggestedSorting() {
+  @HostListener('window:scroll', ['$event'])
+  onScroll(): void {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+      this.getMorePlaylists();
+    }
+  }
 
+  get playlistsOwnedByUser(): PlaylistObjectSimplified[] {
+    return this.playlistResponse?.items.filter(playlist => playlist.owner.id === this.user?.id) ?? [];
+  }
 
+  /**
+   * Get the playlists for this user
+   */
+  getPlaylists(): void {
+    this.isLoading = true;
+    this.spotifyAPI.getUserPlaylist()
+      .then(data => {
+        this.playlistResponse = data as ListOfUsersPlaylistsResponse;
+      })
+      .finally(() => this.isLoading = false);
+  }
 
-    this.apiService.applySorting(this.playlistId, this.sortedPlaylist.map(x => x.track.uri)).then(() => {
-      console.log('Playlist reordered successfully');
-    })
+  /**
+   * Get more playlists to show. The spotify API uses paging for playlists. This method gets the next page
+   */
+  getMorePlaylists(): void {
+    if (!this.playlistResponse.next) return;
+    this.isLoading = true;
+    this.spotifyAPI.getGeneric(this.playlistResponse.next).then(data => {
+        const playlistsFromPreviousPage = this.playlistResponse.items;
+        this.playlistResponse = data as ListOfUsersPlaylistsResponse;
+        this.playlistResponse.items = playlistsFromPreviousPage.concat(this.playlistResponse.items);
+      }
+    ).finally(() => this.isLoading = false);
   }
 }

@@ -1,13 +1,31 @@
-<div class="container">
-  <!--  Create a select dropdown-->
-  @if (userplaylists) {
-    <h2>Choose a playlist</h2>
+<section class="container mx-auto mb-10 mt-3 p-5">
+  <h1>Get Ready to DJ!</h1>
+  <p class="mb-3">Create a Seamless Playlist</p>
+  <p>
+    Want to experience your music in a whole new way? Now you can!<br />
+    With DJ Mode, you can take your playlist to the next level by rearranging tracks for smooth transitions.<br />
+    Let the system analyze and reorder your playlist based on song similarities, ensuring every track flows perfectly into the next.
+    <br>
+    Once your playlist is set, just hit play and enjoy a seamless listening experience like never before!
+  </p>
 
-    <select class="form-select" [(ngModel)]="playlistId">
-      <option *ngFor="let playlist of userplaylists?.items" [value]="playlist.id">{{ playlist.name }}</option>
-    </select>
 
-    <button class="btn btn-primary" (click)="getSuggestedSorting()">Get Suggested Sorting</button>
-    <button class="btn btn-primary" (click)="applySuggestedSorting()">Apply Suggested Sorting</button>
+  <div class="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-10 mt-10">
+    @for (playlist of playlistsOwnedByUser; track playlist) {
+      <app-spotify-playlist data-aos="fade" data-aos-delay="100" [playlist]="playlist">
+        <div class="flex justify-center my-5">
+          <button class="btn btn-primary" type="button" [routerLink]="'details/' + playlist.id">
+            <fa-icon [icon]="remixIcon"></fa-icon>
+            DJ!
+          </button>
+        </div>
+      </app-spotify-playlist>
+    }
+  </div>
+
+  @if (isLoading) {
+    <div class="flex justify-center my-20">
+      <app-loading></app-loading>
+    </div>
   }
-</div>
+</section>

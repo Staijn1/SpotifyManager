@@ -1,0 +1,9 @@
+<div class="container">
+  <!--  Create a select dropdown-->
+  @if (userplaylists) {
+    <h2>Choose a playlist</h2>
+
+    <button class="btn btn-primary" (click)="getSuggestedSorting()">Get Suggested Sorting</button>
+    <button class="btn btn-primary" (click)="applySuggestedSorting()">Apply Suggested Sorting</button>
+  }
+</div>
