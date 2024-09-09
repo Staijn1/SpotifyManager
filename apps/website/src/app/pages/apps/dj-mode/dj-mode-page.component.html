@@ -7,9 +7,6 @@
       <option *ngFor="let playlist of userplaylists?.items" [value]="playlist.id">{{ playlist.name }}</option>
     </select>
 
-    <h2>Set Fading Time</h2>
-    <input type="number" class="form-control" [(ngModel)]="fadingTime" min="1" max="30" />
-
     <button class="btn btn-primary" (click)="getSuggestedSorting()">Get Suggested Sorting</button>
     <button class="btn btn-primary" (click)="applySuggestedSorting()">Apply Suggested Sorting</button>
   }

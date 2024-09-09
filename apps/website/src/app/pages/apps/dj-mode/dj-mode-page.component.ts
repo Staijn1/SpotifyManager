@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ApiService} from "../../../services/api/api.service";
-import {ListOfUsersPlaylistsResponse} from "@spotify-manager/core";
+import {AudioFeaturesObject, ListOfUsersPlaylistsResponse, TrackObjectFull} from "@spotify-manager/core";
 import {FormsModule} from "@angular/forms";
 
 @Component({
@@ -14,7 +14,7 @@ import {FormsModule} from "@angular/forms";
 export class DjModePageComponent implements OnInit {
   playlistId ='';
   userplaylists: ListOfUsersPlaylistsResponse | undefined;
-  fadingTime = 5;
+  private sortedPlaylist: { track: TrackObjectFull, audioFeatures: AudioFeaturesObject, score: number }[] = [];
 
   constructor(private readonly apiService: ApiService) {
   }
@@ -26,19 +26,14 @@ export class DjModePageComponent implements OnInit {
   }
 
   getSuggestedSorting() {
-    this.apiService.djModePlaylist(this.playlistId, this.fadingTime).then(sortedPlaylist => {
-      console.log(sortedPlaylist);
-      this.sortedPlaylist = sortedPlaylist;
-    }).catch(error => {
-      console.error('Error fetching sorted playlist:', error);
-    });
+    this.apiService.djModePlaylist(this.playlistId).then(sortedPlaylist => {
+      this.sortedPlaylist = sortedPlaylist as { track: TrackObjectFull, audioFeatures: AudioFeaturesObject, score: number }[];
+    })
   }
 
   applySuggestedSorting() {
-    this.apiService.applySorting(this.playlistId, this.sortedPlaylist).then(() => {
+    this.apiService.applySorting(this.playlistId, this.sortedPlaylist.map(x => x.track.uri)).then(() => {
       console.log('Playlist reordered successfully');
-    }).catch(error => {
-      console.error('Error reordering playlist:', error);
-    });
+    })
   }
 }

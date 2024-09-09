@@ -123,7 +123,7 @@ export class PlaylistController {
   /**
    * Apply the suggested sorting to the playlist.
    * @param playlistid
-   * @param sortedTracks
+   * @param sortedTracksUris
    */
   @Post('dj-mode/:playlistid/apply-sorting')
   @ApiParam({
@@ -134,8 +134,8 @@ export class PlaylistController {
   })
   public async applySorting(
     @Param('playlistid') playlistid: string,
-    @Body() sortedTracks: string[]
+    @Body() sortedTracksUris: string[]
   ): Promise<void> {
-    return this.playlistService.applySorting(playlistid, sortedTracks);
+    return this.playlistService.applySorting(playlistid, sortedTracksUris);
   }
 }

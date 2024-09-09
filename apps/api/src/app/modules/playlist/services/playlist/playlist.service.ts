@@ -382,10 +382,9 @@ export class PlaylistService {
   /**
    * Apply the suggested sorting to the playlist.
    * @param playlistid
-   * @param sortedTracks
+   * @param sortedTracksUris
    */
-  async applySorting(playlistid: string, sortedTracks: string[]): Promise<void> {
-    const trackUris = sortedTracks.map(track => `spotify:track:${track}`);
-    await this.spotifyService.reorderPlaylist(playlistid, trackUris);
+  async applySorting(playlistid: string, sortedTracksUris: string[]): Promise<void> {
+    await this.spotifyService.reorderPlaylist(playlistid, sortedTracksUris);
   }
 }

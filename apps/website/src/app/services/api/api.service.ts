@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment';
 import { SpotifyAuthenticationService } from '../spotify-authentication/spotify-authentication.service';
 import { MessageService } from '../message/message.service';
 import {
+  AudioFeaturesObject,
   Diff,
   EpisodeObjectFull,
   ICompareRemixedPlaylistRequest,
@@ -145,10 +146,10 @@ export class ApiService extends HTTPService {
     );
   }
 
-  djModePlaylist(playlistId: string, fadingTime: number) {
+  djModePlaylist(playlistId: string): Promise<{ track: TrackObjectFull, audioFeatures: AudioFeaturesObject, score: number }[]> {
     const token = this.spotifyAuth.getAccessToken();
     return this.request(
-      `${environment.apiURL}/playlists/dj-mode/${playlistId}?fadingTime=${fadingTime}&accessToken=${token}`,
+      `${environment.apiURL}/playlists/dj-mode/${playlistId}?accessToken=${token}`,
       {
         method: 'GET',
       }
@@ -160,7 +161,7 @@ export class ApiService extends HTTPService {
    * @param playlistId
    * @param sortedTracks
    */
-  async applySorting(playlistId: string, sortedTracks: { trackId: string }[]): Promise<void> {
+  async applySorting(playlistId: string, sortedTracks: string[]): Promise<void> {
     const token = this.spotifyAuth.getAccessToken();
     await this.request(
       `${environment.apiURL}/playlists/dj-mode/${playlistId}/apply-sorting?accessToken=${token}`,
