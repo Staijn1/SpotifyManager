@@ -34,7 +34,7 @@ describe('PlaylistController', () => {
       const shuffledPlaylist = [{ id: 'track1' }, { id: 'track2' }];
       jest.spyOn(playlistService, 'getDJModePlaylist').mockResolvedValue(shuffledPlaylist);
 
-      const result = await controller.getDJModePlaylist({ playlistid: playlistId }, fadingTime);
+      const result = await controller.getDJModePlaylist(playlistId, fadingTime);
 
       expect(result).toEqual({ [playlistId]: shuffledPlaylist });
       expect(playlistService.getDJModePlaylist).toHaveBeenCalledWith(playlistId, fadingTime);
