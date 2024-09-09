@@ -1,0 +1,13 @@
+<div class="container">
+  <!--  Create a select dropdown-->
+  @if (userplaylists) {
+    <h2>Choose a playlist</h2>
+
+    <select class="form-select" [(ngModel)]="playlistId">
+      <option *ngFor="let playlist of userplaylists?.items" [value]="playlist.id">{{ playlist.name }}</option>
+    </select>
+
+
+    <button class="btn btn-primary" (click)="go()">Go!</button>
+  }
+</div>

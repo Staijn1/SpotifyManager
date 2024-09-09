@@ -144,4 +144,14 @@ export class ApiService extends HTTPService {
       { method: 'GET' }
     );
   }
+
+  djModePlaylist(playlistId: string, fadingTime: number) {
+    const token = this.spotifyAuth.getAccessToken();
+    return this.request(
+      `${environment.apiURL}/playlists/dj-mode/${playlistId}?fadingTime=${fadingTime}&accessToken=${token}`,
+      {
+        method: 'GET',
+      }
+    );
+  }
 }

@@ -96,6 +96,11 @@ export const appRoutes: Route[] = [
         canActivate: [RequireLoginGuard, RequireUserPreferencesSetGuard]
       },
       {
+        path: 'dj-mode',
+        loadComponent: () => import('./pages/apps/dj-mode/dj-mode-page.component').then(m => m.DjModePageComponent),
+        canActivate: [RequireLoginGuard]
+      },
+      {
         path: 'settings',
         loadComponent: () => import('./pages/apps/settings/settings-page.component').then(m => m.SettingsPageComponent),
         canActivate: [RequireLoginGuard]
