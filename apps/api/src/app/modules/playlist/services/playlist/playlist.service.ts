@@ -33,35 +33,6 @@ export class PlaylistService {
   }
 
   /**
-   * The spotify API returns only the first 100 tracks in a playlist.
-   * This method will loop through the playlist and get the tracks in chunks of 100, and then return all the tracks.
-   * @param playlistid
-   */
-  public async getAllSongsInPlaylist(playlistid: string): Promise<PlaylistTrackResponse> {
-    Logger.log(`Getting all songs in playlist ${playlistid}`);
-    const response = await this.spotifyService.getTracksInPlaylist(playlistid);
-    const amountOfChunks = Math.ceil(response.total / 100);
-    Logger.log(`Playlist ${playlistid} has ${response.total} tracks total. (${amountOfChunks} chunks of 100 songs.)`);
-
-    const promises = [];
-    for (let i = 1; i < amountOfChunks; i++) {
-      Logger.log(`Preparing to load chunk ${i}/${amountOfChunks} for playlist ${playlistid}`);
-      const options = {
-        offset: i * 100
-      };
-      promises.push(this.spotifyService.getTracksInPlaylist(playlistid, options));
-    }
-
-    const results = await Promise.all(promises);
-    results.forEach(tracks => {
-      response.items = response.items.concat(tracks.items);
-    });
-
-    Logger.log(`Finished loading all songs in playlist ${playlistid}`);
-    return response;
-  }
-
-  /**
    * Creates a new playlist and songs from the given playlist are copied to the new playlist.
    * The songs in the original playlist are saved in the database, so it can be used to sync the remixed playlist with the original one later.
    *
@@ -139,7 +110,7 @@ export class PlaylistService {
   private async getPlaylistWithAllTracks(playlistid: string) {
     const originalPlaylist = await this.spotifyService.getPlaylistInformation(playlistid);
     originalPlaylist.tracks.items = (
-      await this.getAllSongsInPlaylist(playlistid)
+      await this.spotifyService.getAllSongsInPlaylist(playlistid)
     ).items;
     return originalPlaylist;
   }
@@ -175,7 +146,7 @@ export class PlaylistService {
   async syncPlaylist(remixedPlaylistId: string, tracks: (TrackObjectFull | EpisodeObjectFull)[]): Promise<SyncPlaylistResult> {
     const userId = this.spotifyService.getCurrentUser().id;
     const originalPlaylistId = (await this.historyService.getPlaylistDefinition(remixedPlaylistId, userId)).originalPlaylistId;
-    const tracksInOriginalPlaylistNow = await this.getAllSongsInPlaylist(originalPlaylistId);
+    const tracksInOriginalPlaylistNow = await this.spotifyService.getAllSongsInPlaylist(originalPlaylistId);
 
     // Playlist definition of the original playlist at the time of syncing (now)
     const originalPlaylistDefinition = new PlaylistRemixEntity(
@@ -189,7 +160,7 @@ export class PlaylistService {
     await this.historyService.recordPlaylistDefinition(originalPlaylistDefinition);
 
     // Remove all the tracks in the playlist.
-    const tracksToDeleteFromRemix = await this.getAllSongsInPlaylist(remixedPlaylistId);
+    const tracksToDeleteFromRemix = await this.spotifyService.getAllSongsInPlaylist(remixedPlaylistId);
     await this.spotifyService.removeTracksFromPlaylist(remixedPlaylistId, tracksToDeleteFromRemix.items.map((track) => track.track));
     // And only add the tracks back in that we want to keep.
     await this.spotifyService.addTracksToPlaylist(remixedPlaylistId, tracks.map((track) => track.uri));
@@ -259,8 +230,8 @@ export class PlaylistService {
 
     const originalPlaylistTrackIdsAtLastSync = originalPlaylistAtLastSync.originalPlaylistTrackIds;
 
-    const originalPlaylistNow = await this.getAllSongsInPlaylist(originalPlaylistAtLastSync.originalPlaylistId);
-    const remixedPlaylistNow = await this.getAllSongsInPlaylist(remixedPlaylistId);
+    const originalPlaylistNow = await this.spotifyService.getAllSongsInPlaylist(originalPlaylistAtLastSync.originalPlaylistId);
+    const remixedPlaylistNow = await this.spotifyService.getAllSongsInPlaylist(remixedPlaylistId);
 
     // Step 2: Map the tracks to only their ID's, so we can easily compare (simple strings are easier to compare than full objects)
     const originalTrackIdsNow = originalPlaylistNow.items.map(track => track.track.id);
@@ -315,68 +286,118 @@ export class PlaylistService {
   }
 
   /**
-   * Get ordered playlist based on smooth transitions.
-   * @param playlistid
+   * Get the playlist with all tracks and their audio features.
+   * Then, reorder the playlist using Euclidean distance to ensure smooth transitions.
+   * @param {string} playlistid - The ID of the playlist to reorder.
+   * @returns {Promise<any>} - The reordered playlist.
    */
   async getDJModePlaylist(playlistid: string): Promise<any> {
-    const playlist = await this.getAllSongsInPlaylist(playlistid);
-    const trackIds = playlist.items.map(track => track.track.id);
+    const playlist = await this.spotifyService.getAllSongsInPlaylist(playlistid);
+    const trackIds = playlist.items.map((track) => track.track.id);
     const audioFeatures = await this.spotifyService.getAudioAnalysisForTracks(trackIds);
 
-    // Implement the logic to compare songs and order the playlist based on smooth transitions
     return this.orderPlaylistBySmoothTransitions(playlist.items, audioFeatures);
   }
 
   /**
-   * Order the tracks in the playlist based on their track score, which is calculated based on the audio features.
-   * @see calculateTrackScore
-   * @param tracks
-   * @param audioFeatures
+   * Reorders the playlist based on Euclidean distance between audio features of tracks.
+   * @param tracks - List of tracks in the playlist.
+   * @param audioFeatures - Corresponding audio features for each track.
+   * @returns An ordered list of tracks with corresponding audio features and score.
    */
-  private orderPlaylistBySmoothTransitions(tracks: PlaylistTrackObject[], audioFeatures: AudioFeaturesObject[]): {
-    track: TrackObjectFull | EpisodeObjectFull,
-    audioFeatures: AudioFeaturesObject,
-    score: number
-  }[] {
-    // Map to keep playlist id together with its track score
-    const trackScores: Map<string, number> = new Map();
-    // Map to keep playlist id together with its audio features
+  private orderPlaylistBySmoothTransitions(
+    tracks: PlaylistTrackObject[],
+    audioFeatures: AudioFeaturesObject[]
+  ): { track: TrackObjectFull | EpisodeObjectFull; audioFeatures: AudioFeaturesObject; score: number }[] {
+    // Create a map of track IDs to their audio features
     const audioFeaturesMap: Map<string, AudioFeaturesObject> = new Map();
-
-    audioFeatures.forEach(audioFeature => {
-      trackScores.set(audioFeature.id, this.calculateTrackScore(audioFeature));
+    audioFeatures.forEach((audioFeature) => {
       audioFeaturesMap.set(audioFeature.id, audioFeature);
     });
 
-    // Sort the tracks by their track score
-    tracks.sort((a, b) => {
-      return trackScores.get(b.track.id) - trackScores.get(a.track.id);
-    });
+    // Start by selecting a random track, then iteratively add the closest track based on Euclidean distance
+    const orderedTracks: { track: PlaylistTrackObject, distance: number }[] = [];
+    const remainingTracks = [...tracks];
+    let currentTrack = remainingTracks.shift();
+    orderedTracks.push({ track: currentTrack, distance: 0 });
 
-    return tracks.map(track => {
+    while (remainingTracks.length > 0) {
+      const [distance, closestTrack] = this.findClosestTrack(currentTrack.track.id, remainingTracks, audioFeaturesMap);
+      orderedTracks.push({ track: closestTrack, distance });
+      currentTrack = closestTrack;
+      remainingTracks.splice(remainingTracks.indexOf(closestTrack), 1);
+    }
+
+    return orderedTracks.map(({ track, distance }) => {
       return {
         track: track.track,
         audioFeatures: audioFeaturesMap.get(track.track.id),
-        score: trackScores.get(track.track.id)
+        score: distance,
       };
     });
   }
 
   /**
-   * Calculate the track score based on the audio features.
-   * This is used in the DJ-mode to determine the order of the tracks.
-   * @param audioFeatures
-   * @private
+   * Finds the track closest to the current one based on Euclidean distance.
+   * @param {string} currentTrackId - ID of the current track.
+   * @param {PlaylistTrackObject[]} remainingTracks - The tracks that are still to be ordered.
+   * @param {Map<string, AudioFeaturesObject>} audioFeaturesMap - Map of track IDs to their audio features.
+   * @returns {[number, PlaylistTrackObject]} - A tuple containing the distance and the closest track.
    */
-  private calculateTrackScore(audioFeatures: AudioFeaturesObject): number {
-    return audioFeatures.acousticness +
-      audioFeatures.danceability +
-      audioFeatures.energy +
-      audioFeatures.instrumentalness +
-      audioFeatures.liveness +
-      audioFeatures.loudness +
-      audioFeatures.speechiness +
-      audioFeatures.valence
+  private findClosestTrack(currentTrackId: string, remainingTracks: PlaylistTrackObject[], audioFeaturesMap: Map<string, AudioFeaturesObject>): [number, PlaylistTrackObject] {
+    let closestTrack: PlaylistTrackObject = null;
+    let closestDistance = Infinity;
+
+    const currentTrackFeatures = audioFeaturesMap.get(currentTrackId);
+    remainingTracks.forEach((track) => {
+      const distance = this.calculateEuclideanDistance(currentTrackFeatures, audioFeaturesMap.get(track.track.id));
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestTrack = track;
+      }
+    });
+
+    return [closestDistance, closestTrack];
+  }
+
+  /**
+   * Calculates the Euclidean distance between two sets of audio features.
+   * @param {AudioFeaturesObject} trackA - Audio features of the first track.
+   * @param {AudioFeaturesObject} trackB - Audio features of the second track.
+   * @returns {number} - The Euclidean distance between the two tracks.
+   */
+  private calculateEuclideanDistance(trackA: AudioFeaturesObject, trackB: AudioFeaturesObject): number {
+    const featuresA = [
+      trackA.acousticness,
+      trackA.danceability,
+      trackA.energy,
+      trackA.instrumentalness,
+      trackA.liveness,
+      trackA.loudness,
+      trackA.speechiness,
+      trackA.valence,
+      trackA.tempo,
+    ];
+
+    const featuresB = [
+      trackB.acousticness,
+      trackB.danceability,
+      trackB.energy,
+      trackB.instrumentalness,
+      trackB.liveness,
+      trackB.loudness,
+      trackB.speechiness,
+      trackB.valence,
+      trackB.tempo,
+    ];
+
+    // Calculate the Euclidean distance between the two feature vectors
+    return Math.sqrt(
+      featuresA.reduce((sum, featureA, index) => {
+        const featureB = featuresB[index];
+        return sum + Math.pow(featureA - featureB, 2);
+      }, 0)
+    );
   }
 
   /**

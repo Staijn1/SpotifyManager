@@ -1,4 +1,4 @@
-import {HttpException, Injectable} from '@nestjs/common';
+import {HttpException, Injectable, Logger} from '@nestjs/common';
 import SpotifyWebApi from 'spotify-web-api-node';
 import {HttpService} from '@nestjs/axios';
 import {firstValueFrom} from 'rxjs';
@@ -194,13 +194,42 @@ export class SpotifyService {
   }
 
   /**
+   * The spotify API returns only the first 100 tracks in a playlist.
+   * This method will loop through the playlist and get the tracks in chunks of 100, and then return all the tracks.
+   * @param playlistid
+   */
+  public async getAllSongsInPlaylist(playlistid: string): Promise<PlaylistTrackResponse> {
+    Logger.log(`Getting all songs in playlist ${playlistid}`);
+    const response = await this.getTracksInPlaylist(playlistid);
+    const amountOfChunks = Math.ceil(response.total / 100);
+    Logger.log(`Playlist ${playlistid} has ${response.total} tracks total. (${amountOfChunks} chunks of 100 songs.)`);
+
+    const promises = [];
+    for (let i = 1; i < amountOfChunks; i++) {
+      Logger.log(`Preparing to load chunk ${i}/${amountOfChunks} for playlist ${playlistid}`);
+      const options = {
+        offset: i * 100
+      };
+      promises.push(this.getTracksInPlaylist(playlistid, options));
+    }
+
+    const results = await Promise.all(promises);
+    results.forEach(tracks => {
+      response.items = response.items.concat(tracks.items);
+    });
+
+    Logger.log(`Finished loading all songs in playlist ${playlistid}`);
+    return response;
+  }
+
+  /**
    * Reorder the playlist based on the given order.
    * @param playlistId
    * @param trackUris
    */
   async reorderPlaylist(playlistId: string, trackUris: string[]): Promise<void> {
     // Remove all tracks from the playlist
-    const tracksToRemove = await this.getTracksInPlaylist(playlistId);
+    const tracksToRemove = await this.getAllSongsInPlaylist(playlistId);
     await this.removeTracksFromPlaylist(playlistId, tracksToRemove.items.map(track => ({ uri: track.track.uri })));
 
     // Add the tracks back in the new order

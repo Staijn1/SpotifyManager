@@ -59,20 +59,6 @@ export class ApiService extends HTTPService {
   }
 
   /**
-   * Get all tracks of a playlist
-   * @param playlistId
-   */
-  async getAllTracksInPlaylist(
-    playlistId: string
-  ): Promise<PlaylistTrackResponse> {
-    const token = this.spotifyAuth.getAccessToken();
-    return this.request(
-      `${environment.apiURL}/playlists/${playlistId}/songs/?accessToken=${token}`,
-      { method: 'GET' }
-    );
-  }
-
-  /**
    * Get a specific playlist
    * @param {string} playlistid
    * @returns {Promise<any>}

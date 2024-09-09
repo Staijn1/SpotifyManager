@@ -1,11 +1,10 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
-import { PlaylistService } from '../../services/playlist/playlist.service';
-import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
+import {Body, Controller, Get, Param, Post} from '@nestjs/common';
+import {PlaylistService} from '../../services/playlist/playlist.service';
+import {ApiBearerAuth, ApiParam, ApiTags} from '@nestjs/swagger';
 import {
   CreatePlaylistResponse,
   Diff,
   ListOfUsersPlaylistsResponse,
-  PlaylistTrackResponse,
   SinglePlaylistResponse,
   SyncPlaylistResult
 } from '@spotify-manager/core';
@@ -32,22 +31,6 @@ export class PlaylistController {
   @Post('remix')
   public async remixPlaylist(@Body() body: RemixPlaylistRequest): Promise<CreatePlaylistResponse> {
     return this.playlistService.remixPlaylist(body.playlistId, body.ignoreNotificationsForPlaylist);
-  }
-
-  /**
-   * Get all songs of a playlist.
-   */
-  @Get(':playlistid/songs')
-  @ApiParam({
-    name: 'playlistid',
-    required: true,
-    description: 'The ID of the playlist to get all the songs for',
-    schema: { oneOf: [{ type: 'string' }], example: '6vDGVr652ztNWKZuHvsFvx' }
-  })
-  public async getAllSongsInPlaylist(
-    @Param() params
-  ): Promise<PlaylistTrackResponse> {
-    return this.playlistService.getAllSongsInPlaylist(params.playlistid);
   }
 
   /**
