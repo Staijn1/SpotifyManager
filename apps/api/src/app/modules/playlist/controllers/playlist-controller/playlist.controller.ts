@@ -119,4 +119,23 @@ export class PlaylistController {
   ): Promise<{ [key: string]: any }> {
     return this.playlistService.getDJModePlaylist(playlistid);
   }
+
+  /**
+   * Apply the suggested sorting to the playlist.
+   * @param playlistid
+   * @param sortedTracks
+   */
+  @Post('dj-mode/:playlistid/apply-sorting')
+  @ApiParam({
+    name: 'playlistid',
+    required: true,
+    description: 'The ID of the playlist to apply the sorting to',
+    schema: { oneOf: [{ type: 'string' }], example: '6vDGVr652ztNWKZuHvsFvx' }
+  })
+  public async applySorting(
+    @Param('playlistid') playlistid: string,
+    @Body() sortedTracks: string[]
+  ): Promise<void> {
+    return this.playlistService.applySorting(playlistid, sortedTracks);
+  }
 }

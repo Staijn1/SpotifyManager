@@ -154,4 +154,21 @@ export class ApiService extends HTTPService {
       }
     );
   }
+
+  /**
+   * Apply the suggested sorting to the playlist.
+   * @param playlistId
+   * @param sortedTracks
+   */
+  async applySorting(playlistId: string, sortedTracks: { trackId: string }[]): Promise<void> {
+    const token = this.spotifyAuth.getAccessToken();
+    await this.request(
+      `${environment.apiURL}/playlists/dj-mode/${playlistId}/apply-sorting?accessToken=${token}`,
+      {
+        method: 'POST',
+        body: JSON.stringify(sortedTracks),
+        headers: { 'Content-Type': 'application/json' }
+      }
+    );
+  }
 }

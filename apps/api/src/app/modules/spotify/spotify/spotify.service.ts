@@ -192,4 +192,18 @@ export class SpotifyService {
 
     return responses.flatMap(response => response.body.audio_features);
   }
+
+  /**
+   * Reorder the playlist based on the given order.
+   * @param playlistId
+   * @param trackUris
+   */
+  async reorderPlaylist(playlistId: string, trackUris: string[]): Promise<void> {
+    // Remove all tracks from the playlist
+    const tracksToRemove = await this.getTracksInPlaylist(playlistId);
+    await this.removeTracksFromPlaylist(playlistId, tracksToRemove.items.map(track => ({ uri: track.track.uri })));
+
+    // Add the tracks back in the new order
+    await this.addTracksToPlaylist(playlistId, trackUris);
+  }
 }

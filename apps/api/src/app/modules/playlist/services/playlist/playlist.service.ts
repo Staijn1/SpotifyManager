@@ -378,4 +378,14 @@ export class PlaylistService {
       audioFeatures.speechiness +
       audioFeatures.valence
   }
+
+  /**
+   * Apply the suggested sorting to the playlist.
+   * @param playlistid
+   * @param sortedTracks
+   */
+  async applySorting(playlistid: string, sortedTracks: string[]): Promise<void> {
+    const trackUris = sortedTracks.map(track => `spotify:track:${track}`);
+    await this.spotifyService.reorderPlaylist(playlistid, trackUris);
+  }
 }

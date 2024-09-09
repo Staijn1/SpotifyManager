@@ -25,9 +25,20 @@ export class DjModePageComponent implements OnInit {
     });
   }
 
-  go() {
+  getSuggestedSorting() {
     this.apiService.djModePlaylist(this.playlistId, this.fadingTime).then(sortedPlaylist => {
       console.log(sortedPlaylist);
-    })
+      this.sortedPlaylist = sortedPlaylist;
+    }).catch(error => {
+      console.error('Error fetching sorted playlist:', error);
+    });
+  }
+
+  applySuggestedSorting() {
+    this.apiService.applySorting(this.playlistId, this.sortedPlaylist).then(() => {
+      console.log('Playlist reordered successfully');
+    }).catch(error => {
+      console.error('Error reordering playlist:', error);
+    });
   }
 }
