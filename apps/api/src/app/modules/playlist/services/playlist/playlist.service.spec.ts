@@ -20,6 +20,7 @@ describe('PlaylistService', () => {
           useValue: {
             getCurrentUser: jest.fn(),
             getAudioFeaturesForTracks: jest.fn(),
+            getAllSongsInPlaylist: jest.fn()
           }
         },
         {
@@ -57,7 +58,7 @@ describe('PlaylistService', () => {
     const originalPlaylistAtTimeOfLastSync = buildMockPlaylistTrackResponse(['Song A', 'Song B', 'Song C', 'Song D', 'Song E']);
     const remixedPlaylistNow = buildMockPlaylistTrackResponse(['Song A', 'Song B', 'Song D', 'Song G', 'Song E']);
 
-    jest.spyOn(service, 'getAllSongsInPlaylist')
+    jest.spyOn(spotifyService, 'getAllSongsInPlaylist')
       .mockResolvedValueOnce(originalPlaylistNow)
       .mockResolvedValueOnce(remixedPlaylistNow);
 
@@ -96,7 +97,7 @@ describe('PlaylistService', () => {
     const originalPlaylistAtTimeOfLastSync = buildMockPlaylistTrackResponse(['Song B', 'Song C', 'Song F', 'Song D', 'Song E']);
     const remixedPlaylistNow = buildMockPlaylistTrackResponse(['Song B', 'Song C', 'Song F', 'Song D', 'Song E']);
 
-    jest.spyOn(service, 'getAllSongsInPlaylist')
+    jest.spyOn(spotifyService, 'getAllSongsInPlaylist')
       .mockResolvedValueOnce(originalPlaylistNow)
       .mockResolvedValueOnce(remixedPlaylistNow);
 
@@ -133,7 +134,7 @@ describe('PlaylistService', () => {
     const originalPlaylistAtTimeOfLastSync = buildMockPlaylistTrackResponse(['Song A', 'Song B']);
     const remixedPlaylistNow = buildMockPlaylistTrackResponse(['Song A', 'Song B', 'Song C']);
 
-    jest.spyOn(service, 'getAllSongsInPlaylist')
+    jest.spyOn(spotifyService, 'getAllSongsInPlaylist')
       .mockResolvedValueOnce(originalPlaylistNow)
       .mockResolvedValueOnce(remixedPlaylistNow);
 
@@ -168,7 +169,7 @@ describe('PlaylistService', () => {
     const originalPlaylistAtTimeOfLastSync = buildMockPlaylistTrackResponse(['Song A', 'Song B', 'Song C']);
     const remixedPlaylistNow = buildMockPlaylistTrackResponse(['Song A', 'Song B']);
 
-    jest.spyOn(service, 'getAllSongsInPlaylist')
+    jest.spyOn(spotifyService, 'getAllSongsInPlaylist')
       .mockResolvedValueOnce(originalPlaylistNow)
       .mockResolvedValueOnce(remixedPlaylistNow);
 
