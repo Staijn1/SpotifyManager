@@ -1,6 +1,7 @@
-import { HttpException, Injectable, Logger } from '@nestjs/common';
-import { SpotifyService } from '../../../spotify/spotify/spotify.service';
+import {HttpException, Injectable, Logger} from '@nestjs/common';
+import {SpotifyService} from '../../../spotify/spotify/spotify.service';
 import {
+  AudioFeaturesObject,
   CreatePlaylistResponse,
   Diff,
   DiffIdentifier,
@@ -13,10 +14,10 @@ import {
   TrackObjectFull
 } from '@spotify-manager/core';
 import _ from 'lodash';
-import { PlaylistHistoryService } from '../playlist-history/playlist-history.service';
-import { PlaylistRemixEntity } from '../../entities/playlist-remix.entity';
-import { environment } from '../../../../../environments/environment';
-import { UserPreferencesService } from '../../../user-preferences/services/user-preferences.service';
+import {PlaylistHistoryService} from '../playlist-history/playlist-history.service';
+import {PlaylistRemixEntity} from '../../entities/playlist-remix.entity';
+import {environment} from '../../../../../environments/environment';
+import {UserPreferencesService} from '../../../user-preferences/services/user-preferences.service';
 
 @Injectable()
 export class PlaylistService {
@@ -243,7 +244,7 @@ export class PlaylistService {
    *
    * // Returns: [['removed-in-original', 'Song A'], ['unchanged', 'Song B'], ['removed-in-remix', 'Song C'], ['unchanged', 'Song D'], ['unchanged', 'Song E'], ['added-in-original', 'Song F'], ['added-in-remix', 'Song G']]
    */
-  async compareRemixedPlaylistWithOriginal(remixedPlaylistId: string, userId?:string): Promise<Diff[]> {
+  async compareRemixedPlaylistWithOriginal(remixedPlaylistId: string, userId?: string): Promise<Diff[]> {
     // Step 1: Fetch all required data.
     // The current user, the original playlist at the time of remixing, the current state of the original playlist, and the current state of the remixed playlist.
     // userId is not provided when this method is called from the frontend, we use the current user in that case.
@@ -316,28 +317,65 @@ export class PlaylistService {
   /**
    * Get ordered playlist based on smooth transitions.
    * @param playlistid
-   * @param fadingTime
    */
-  async getDJModePlaylist(playlistid: string, fadingTime: number): Promise<any> {
+  async getDJModePlaylist(playlistid: string): Promise<any> {
     const playlist = await this.getAllSongsInPlaylist(playlistid);
     const trackIds = playlist.items.map(track => track.track.id);
-    const audioFeatures = await this.spotifyService.getAudioFeaturesForTracks(trackIds);
+    const audioFeatures = await this.spotifyService.getAudioAnalysisForTracks(trackIds);
 
     // Implement the logic to compare songs and order the playlist based on smooth transitions
-    const orderedPlaylist = this.orderPlaylistBySmoothTransitions(playlist.items, audioFeatures, fadingTime);
-
-    return orderedPlaylist;
+    return this.orderPlaylistBySmoothTransitions(playlist.items, audioFeatures);
   }
 
   /**
-   * Order the playlist based on smooth transitions.
+   * Order the tracks in the playlist based on their track score, which is calculated based on the audio features.
+   * @see calculateTrackScore
    * @param tracks
    * @param audioFeatures
-   * @param fadingTime
    */
-  private orderPlaylistBySmoothTransitions(tracks: PlaylistTrackObject[], audioFeatures: any[], fadingTime: number): any[] {
-    // Implement the logic to compare songs and order the playlist based on smooth transitions
-    // This is a placeholder implementation and should be replaced with the actual logic
-    return tracks;
+  private orderPlaylistBySmoothTransitions(tracks: PlaylistTrackObject[], audioFeatures: AudioFeaturesObject[]): {
+    track: TrackObjectFull | EpisodeObjectFull,
+    audioFeatures: AudioFeaturesObject,
+    score: number
+  }[] {
+    // Map to keep playlist id together with its track score
+    const trackScores: Map<string, number> = new Map();
+    // Map to keep playlist id together with its audio features
+    const audioFeaturesMap: Map<string, AudioFeaturesObject> = new Map();
+
+    audioFeatures.forEach(audioFeature => {
+      trackScores.set(audioFeature.id, this.calculateTrackScore(audioFeature));
+      audioFeaturesMap.set(audioFeature.id, audioFeature);
+    });
+
+    // Sort the tracks by their track score
+    tracks.sort((a, b) => {
+      return trackScores.get(b.track.id) - trackScores.get(a.track.id);
+    });
+
+    return tracks.map(track => {
+      return {
+        track: track.track,
+        audioFeatures: audioFeaturesMap.get(track.track.id),
+        score: trackScores.get(track.track.id)
+      };
+    });
+  }
+
+  /**
+   * Calculate the track score based on the audio features.
+   * This is used in the DJ-mode to determine the order of the tracks.
+   * @param audioFeatures
+   * @private
+   */
+  private calculateTrackScore(audioFeatures: AudioFeaturesObject): number {
+    return audioFeatures.acousticness +
+      audioFeatures.danceability +
+      audioFeatures.energy +
+      audioFeatures.instrumentalness +
+      audioFeatures.liveness +
+      audioFeatures.loudness +
+      audioFeatures.speechiness +
+      audioFeatures.valence
   }
 }

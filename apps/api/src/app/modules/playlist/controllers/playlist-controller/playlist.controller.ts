@@ -106,7 +106,6 @@ export class PlaylistController {
   /**
    * DJ Mode: Get ordered playlist based on smooth transitions.
    * @param playlistid
-   * @param fadingTime
    */
   @Get('dj-mode/:playlistid')
   @ApiParam({
@@ -116,10 +115,8 @@ export class PlaylistController {
     schema: { oneOf: [{ type: 'string' }], example: '6vDGVr652ztNWKZuHvsFvx' }
   })
   public async getDJModePlaylist(
-    @Param('playlistid') playlistid: string,
-    @Query('fadingTime') fadingTime: number
+    @Param('playlistid') playlistid: string
   ): Promise<{ [key: string]: any }> {
-    const orderedPlaylist = await this.playlistService.getDJModePlaylist(playlistid, fadingTime);
-    return { [playlistid]: orderedPlaylist };
+    return this.playlistService.getDJModePlaylist(playlistid);
   }
 }

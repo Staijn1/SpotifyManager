@@ -1,14 +1,17 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import {HttpException, Injectable} from '@nestjs/common';
 import SpotifyWebApi from 'spotify-web-api-node';
-import { HttpService } from '@nestjs/axios';
-import { firstValueFrom } from 'rxjs';
+import {HttpService} from '@nestjs/axios';
+import {firstValueFrom} from 'rxjs';
 import {
   AddTracksToPlaylistResponse,
+  AudioFeaturesObject,
   CreatePlaylistResponse,
-  CurrentUsersProfileResponse, ListOfUsersPlaylistsResponse,
-  PlaylistTrackResponse, SinglePlaylistResponse
+  CurrentUsersProfileResponse,
+  ListOfUsersPlaylistsResponse,
+  PlaylistTrackResponse,
+  SinglePlaylistResponse
 } from '@spotify-manager/core';
-import { SpotifyAuthenticationService } from '../authentication/spotify-authentication.service';
+import {SpotifyAuthenticationService} from '../authentication/spotify-authentication.service';
 
 @Injectable()
 export class SpotifyService {
@@ -181,8 +184,12 @@ export class SpotifyService {
    * Get audio features for the given track IDs.
    * @param trackIds
    */
-  async getAudioFeaturesForTracks(trackIds: string[]): Promise<any[]> {
-    const response = await this.spotifyApi.getAudioFeaturesForTracks(trackIds);
-    return response.body.audio_features;
+  async getAudioAnalysisForTracks(trackIds: string[]): Promise<AudioFeaturesObject[]> {
+    const chunks = this.splitArrayInChunks(trackIds, 100) as string[][];
+    const promises = chunks.map(chunk => this.spotifyApi.getAudioFeaturesForTracks(chunk));
+
+    const responses = await Promise.all(promises);
+
+    return responses.flatMap(response => response.body.audio_features);
   }
 }
