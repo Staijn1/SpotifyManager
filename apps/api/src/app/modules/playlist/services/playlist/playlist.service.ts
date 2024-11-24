@@ -167,9 +167,12 @@ export class PlaylistService {
   }
 
   /**
-   * Remove all the songs in the given playlist and put the given tracks in the playlist.
+   * Synchronize the remixed playlist with the original playlist by handling additions and deletions intelligently.
+   * This method ensures that the original order and 'added date' metadata of songs in the remixed playlist are preserved.
+   *
    * @param remixedPlaylistId - The ID of the remixed playlist
    * @param tracks - Tracks the remixed playlist should contain after syncing is complete
+   * @returns {Promise<SyncPlaylistResult>} - A promise that resolves to the result of the synchronization
    */
   async syncPlaylist(remixedPlaylistId: string, tracks: (TrackObjectFull | EpisodeObjectFull)[]): Promise<SyncPlaylistResult> {
     const userId = this.spotifyService.getCurrentUser().id;
@@ -187,14 +190,25 @@ export class PlaylistService {
     // Update the original playlist definition in the database
     await this.historyService.recordPlaylistDefinition(originalPlaylistDefinition);
 
-    // Remove all the tracks in the playlist.
-    const tracksToDeleteFromRemix = await this.getAllSongsInPlaylist(remixedPlaylistId);
-    await this.spotifyService.removeTracksFromPlaylist(remixedPlaylistId, tracksToDeleteFromRemix.items.map((track) => track.track));
-    // And only add the tracks back in that we want to keep.
-    await this.spotifyService.addTracksToPlaylist(remixedPlaylistId, tracks.map((track) => track.uri));
+    // Get the current tracks in the remixed playlist
+    const currentTracksInRemix = await this.getAllSongsInPlaylist(remixedPlaylistId);
+
+    // Create sets of track URIs for efficient comparison
+    const currentTrackUrisInRemix = new Set(currentTracksInRemix.items.map(track => track.track.uri));
+    const newTrackUris = new Set(tracks.map(track => track.uri));
+
+    // Identify tracks to add and remove
+    const tracksToAdd = tracks.filter(track => !currentTrackUrisInRemix.has(track.uri));
+    const tracksToRemove = currentTracksInRemix.items.filter(track => !newTrackUris.has(track.track.uri));
+
+    // Remove tracks that are not in the new list
+    await this.spotifyService.removeTracksFromPlaylist(remixedPlaylistId, tracksToRemove.map(track => track.track));
+
+    // Add tracks that are in the new list but not in the current list
+    await this.spotifyService.addTracksToPlaylist(remixedPlaylistId, tracksToAdd.map(track => track.uri));
 
     return {
-      amountOfSongsInSyncedPlaylist: tracks.length
+      amountOfSongsInSyncedPlaylist: (await this.getAllSongsInPlaylist(remixedPlaylistId)).items.length
     };
   }
 
