@@ -7,3 +7,39 @@
     <button class="btn btn-primary" (click)="applySuggestedSorting()">Apply Suggested Sorting</button>
   }
 </div>
+
+<div class="flex justify-around">
+  <!-- Original Order -->
+  <div>
+    <h2 class="text-lg font-bold">Original Order</h2>
+    <ul>
+      <li *ngFor="let song of originalOrder; let i = index" [attr.data-index]="i" data-order="original" class="py-2">
+        {{ song.name }}
+      </li>
+    </ul>
+  </div>
+
+  <!-- SVG Canvas -->
+  <div class="relative">
+    <svg [attr.width]="svgWidth" [attr.height]="svgHeight" class="absolute top-0 left-0">
+      <line
+        *ngFor="let line of svgLines"
+        [attr.x1]="line.x1"
+        [attr.y1]="line.y1"
+        [attr.x2]="line.x2"
+        [attr.y2]="line.y2"
+        class="stroke-gray-500 stroke-2"
+      ></line>
+    </svg>
+  </div>
+
+  <!-- Sorted Order -->
+  <div>
+    <h2 class="text-lg font-bold">Sorted Order</h2>
+    <ul>
+      <li *ngFor="let song of sortedOrder; let i = index" [attr.data-index]="i" data-order="sorted" class="py-2">
+        {{ song.name }}
+      </li>
+    </ul>
+  </div>
+</div>

@@ -24,6 +24,7 @@ export class PlaylistService {
   /**
    * Inject dependencies
    * @param spotifyService
+   * @param userPreferencesService
    * @param historyService
    */
   constructor(
