@@ -168,7 +168,7 @@ export class PlaylistService {
 
   /**
    * Synchronize the remixed playlist with the original playlist by handling additions and deletions intelligently.
-   * This method ensures that the original order and 'added date' metadata of songs in the remixed playlist are preserved.
+   * This way, unchanged songs are not removed and re-added, preserving their Added At date, which in turn preserves the custom ordering/sorting of the playlist
    *
    * @param remixedPlaylistId - The ID of the remixed playlist
    * @param tracks - Tracks the remixed playlist should contain after syncing is complete
