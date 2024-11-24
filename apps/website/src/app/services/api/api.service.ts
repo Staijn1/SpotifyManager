@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment';
 import { SpotifyAuthenticationService } from '../spotify-authentication/spotify-authentication.service';
 import { MessageService } from '../message/message.service';
 import {
+  AudioFeaturesObject,
   Diff,
   EpisodeObjectFull,
   ICompareRemixedPlaylistRequest,
@@ -53,20 +54,6 @@ export class ApiService extends HTTPService {
     const token = this.spotifyAuth.getAccessToken();
     return await this.request(
       `${environment.apiURL}/playlists/?accessToken=${token}`,
-      { method: 'GET' }
-    );
-  }
-
-  /**
-   * Get all tracks of a playlist
-   * @param playlistId
-   */
-  async getAllTracksInPlaylist(
-    playlistId: string
-  ): Promise<PlaylistTrackResponse> {
-    const token = this.spotifyAuth.getAccessToken();
-    return this.request(
-      `${environment.apiURL}/playlists/${playlistId}/songs/?accessToken=${token}`,
       { method: 'GET' }
     );
   }
@@ -142,6 +129,33 @@ export class ApiService extends HTTPService {
     return this.request(
       `${environment.apiURL}/playlists/remix/original/${remixedPlaylistId}?accessToken=${token}`,
       { method: 'GET' }
+    );
+  }
+
+  djModePlaylist(playlistId: string): Promise<{ track: TrackObjectFull, audioFeatures: AudioFeaturesObject, score: number }[]> {
+    const token = this.spotifyAuth.getAccessToken();
+    return this.request(
+      `${environment.apiURL}/playlists/dj-mode/${playlistId}?accessToken=${token}`,
+      {
+        method: 'GET',
+      }
+    );
+  }
+
+  /**
+   * Apply the suggested sorting to the playlist.
+   * @param playlistId
+   * @param sortedTracks
+   */
+  async applySorting(playlistId: string, sortedTracks: string[]): Promise<void> {
+    const token = this.spotifyAuth.getAccessToken();
+    await this.request(
+      `${environment.apiURL}/playlists/dj-mode/${playlistId}/apply-sorting?accessToken=${token}`,
+      {
+        method: 'POST',
+        body: JSON.stringify(sortedTracks),
+        headers: { 'Content-Type': 'application/json' }
+      }
     );
   }
 }

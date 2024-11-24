@@ -19,6 +19,8 @@ describe('PlaylistService', () => {
           provide: SpotifyService,
           useValue: {
             getCurrentUser: jest.fn(),
+            getAudioFeaturesForTracks: jest.fn(),
+            getAllSongsInPlaylist: jest.fn()
           }
         },
         {
@@ -48,7 +50,6 @@ describe('PlaylistService', () => {
     expect(service).toBeDefined();
   });
 
-
   it('should properly compare a remixed playlist with its original', async () => {
     const basePlaylistId = 'basePlaylistId';
     const remixedPlaylistId = 'remixedPlaylistId';
@@ -57,7 +58,7 @@ describe('PlaylistService', () => {
     const originalPlaylistAtTimeOfLastSync = buildMockPlaylistTrackResponse(['Song A', 'Song B', 'Song C', 'Song D', 'Song E']);
     const remixedPlaylistNow = buildMockPlaylistTrackResponse(['Song A', 'Song B', 'Song D', 'Song G', 'Song E']);
 
-    jest.spyOn(service, 'getAllSongsInPlaylist')
+    jest.spyOn(spotifyService, 'getAllSongsInPlaylist')
       .mockResolvedValueOnce(originalPlaylistNow)
       .mockResolvedValueOnce(remixedPlaylistNow);
 
@@ -96,7 +97,7 @@ describe('PlaylistService', () => {
     const originalPlaylistAtTimeOfLastSync = buildMockPlaylistTrackResponse(['Song B', 'Song C', 'Song F', 'Song D', 'Song E']);
     const remixedPlaylistNow = buildMockPlaylistTrackResponse(['Song B', 'Song C', 'Song F', 'Song D', 'Song E']);
 
-    jest.spyOn(service, 'getAllSongsInPlaylist')
+    jest.spyOn(spotifyService, 'getAllSongsInPlaylist')
       .mockResolvedValueOnce(originalPlaylistNow)
       .mockResolvedValueOnce(remixedPlaylistNow);
 
@@ -125,7 +126,6 @@ describe('PlaylistService', () => {
     expect(result).toEqual(expected);
   });
 
-
   it('should detect a song as added in both, when it was added to the original AND added to the remix', async () => {
     const basePlaylistId = 'basePlaylistId';
     const remixedPlaylistId = 'remixedPlaylistId';
@@ -134,7 +134,7 @@ describe('PlaylistService', () => {
     const originalPlaylistAtTimeOfLastSync = buildMockPlaylistTrackResponse(['Song A', 'Song B']);
     const remixedPlaylistNow = buildMockPlaylistTrackResponse(['Song A', 'Song B', 'Song C']);
 
-    jest.spyOn(service, 'getAllSongsInPlaylist')
+    jest.spyOn(spotifyService, 'getAllSongsInPlaylist')
       .mockResolvedValueOnce(originalPlaylistNow)
       .mockResolvedValueOnce(remixedPlaylistNow);
 
@@ -159,8 +159,7 @@ describe('PlaylistService', () => {
     // sort result by song name
     result.sort((a, b) => a[1].track.name.localeCompare(b[1].track.name));
     expect(result).toEqual(expected);
-  })
-
+  });
 
   it('should not include tracks that are removed in both', async () => {
     const basePlaylistId = 'basePlaylistId';
@@ -170,7 +169,7 @@ describe('PlaylistService', () => {
     const originalPlaylistAtTimeOfLastSync = buildMockPlaylistTrackResponse(['Song A', 'Song B', 'Song C']);
     const remixedPlaylistNow = buildMockPlaylistTrackResponse(['Song A', 'Song B']);
 
-    jest.spyOn(service, 'getAllSongsInPlaylist')
+    jest.spyOn(spotifyService, 'getAllSongsInPlaylist')
       .mockResolvedValueOnce(originalPlaylistNow)
       .mockResolvedValueOnce(remixedPlaylistNow);
 
