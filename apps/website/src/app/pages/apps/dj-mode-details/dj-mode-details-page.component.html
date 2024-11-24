@@ -1,45 +1,34 @@
-<div class="container">
-  <!--  Create a select dropdown-->
-  @if (userplaylists) {
-    <h2>Choose a playlist</h2>
-
-    <button class="btn btn-primary" (click)="getSuggestedSorting()">Get Suggested Sorting</button>
-    <button class="btn btn-primary" (click)="applySuggestedSorting()">Apply Suggested Sorting</button>
-  }
-</div>
-
 <div class="flex justify-around">
-  <!-- Original Order -->
+  <!-- Suggested Order with Movements -->
   <div>
-    <h2 class="text-lg font-bold">Original Order</h2>
-    <ul>
-      <li *ngFor="let song of originalOrder; let i = index" [attr.data-index]="i" data-order="original" class="py-2">
-        {{ song.name }}
-      </li>
-    </ul>
-  </div>
-
-  <!-- SVG Canvas -->
-  <div class="relative">
-    <svg [attr.width]="svgWidth" [attr.height]="svgHeight" class="absolute top-0 left-0">
-      <line
-        *ngFor="let line of svgLines"
-        [attr.x1]="line.x1"
-        [attr.y1]="line.y1"
-        [attr.x2]="line.x2"
-        [attr.y2]="line.y2"
-        class="stroke-gray-500 stroke-2"
-      ></line>
-    </svg>
-  </div>
-
-  <!-- Sorted Order -->
-  <div>
-    <h2 class="text-lg font-bold">Sorted Order</h2>
-    <ul>
-      <li *ngFor="let song of sortedOrder; let i = index" [attr.data-index]="i" data-order="sorted" class="py-2">
-        {{ song.name }}
-      </li>
-    </ul>
+    <h2 class="text-lg font-bold">Suggested Order (DJ Mode)</h2>
+    <ol class="list-decimal">
+      @for (song of songMovements; track song.id) {
+        <li class="py-2 flex items-center">
+          {{ song.name }}
+          <span class="ml-2">
+            @switch (song.direction) {
+              @case ('up') {
+                <span class="text-green-500">
+                  &#9650; {{ song.positionsMoved }}
+                </span>
+              }
+              @case ('down') {
+                <span class="text-red-500">
+                  &#9660; {{ song.positionsMoved }}
+                </span>
+              }
+              @default {
+                <span>
+                  -
+                </span>
+              }
+            }
+          </span>
+        </li>
+      } @empty {
+        <p class="text-gray-500 p-4 text-center">No songs found.</p>
+      }
+    </ol>
   </div>
 </div>
