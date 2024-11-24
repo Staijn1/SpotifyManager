@@ -116,3 +116,7 @@ jobs:
       - name: Build and push Website image
         run: docker buildx build --platform=linux/arm64/v8,linux/amd64 -f ./apps/website/Dockerfile -t ${{ secrets.USERNAME }}/spotifymanager:website -t ${{secrets.USERNAME}}/spotifymanager:website-${{env.GitVersion_SemVer}} --push .
 
+      - uses: dkershner6/post-api-call-action@v2
+        name: Update Portainer Stack
+        with:
+          url: ${{ secrets.PORTAINER_WEBHOOK_URL }}
