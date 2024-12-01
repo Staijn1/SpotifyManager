@@ -155,6 +155,9 @@ export class PlaylistService {
       playlists.items = playlists.items.concat(morePlaylists.items);
     }
 
+    // Somehow body.items can contain null object.. filter them out
+    playlists.items = playlists.items.filter(playlist => playlist !== null);
+
     return playlists;
   }
 
@@ -227,7 +230,9 @@ export class PlaylistService {
     const playlistDefinitions = await this.historyService.getPlaylistDefinitionsForUser(userid);
     const remixedPlaylistIds = playlistDefinitions.map(definition => definition.remixPlaylistId);
 
-    playlists.items = playlists.items.filter(playlist => remixedPlaylistIds.includes(playlist.id));
+    playlists.items = playlists.items.filter(playlist => {
+      return remixedPlaylistIds.includes(playlist.id)
+    });
     return playlists;
   }
 

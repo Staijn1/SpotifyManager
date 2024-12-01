@@ -94,7 +94,11 @@ export class SpotifyService {
    */
   async getUserPlaylists(userid?: string): Promise<ListOfUsersPlaylistsResponse> {
     const response = userid ? await this.spotifyApi.getUserPlaylists(userid) : await this.spotifyApi.getUserPlaylists();
-    return response.body
+
+    const body = response.body;
+    // Somehow body.items can contain null object.. filter them out
+    body.items = body.items.filter(playlist => playlist !== null);
+    return body;
   }
 
   /**
