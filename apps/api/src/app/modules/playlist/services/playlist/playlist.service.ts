@@ -184,7 +184,7 @@ export class PlaylistService {
     await this.spotifyService.addTracksToPlaylist(remixedPlaylistId, tracksToAdd.map(track => track.uri));
 
     return {
-      amountOfSongsInSyncedPlaylist: (await this.getAllSongsInPlaylist(remixedPlaylistId)).items.length
+      amountOfSongsInSyncedPlaylist: (await this.spotifyService.getAllSongsInPlaylist(remixedPlaylistId)).items.length
     };
   }
 
