@@ -1,6 +1,7 @@
-import { HttpException, Injectable, Logger } from '@nestjs/common';
-import { SpotifyService } from '../../../spotify/spotify/spotify.service';
+import {HttpException, Injectable, Logger} from '@nestjs/common';
+import {SpotifyService} from '../../../spotify/spotify/spotify.service';
 import {
+  AudioFeaturesObject,
   CreatePlaylistResponse,
   Diff,
   DiffIdentifier,
@@ -13,51 +14,23 @@ import {
   TrackObjectFull
 } from '@spotify-manager/core';
 import _ from 'lodash';
-import { PlaylistHistoryService } from '../playlist-history/playlist-history.service';
-import { PlaylistRemixEntity } from '../../entities/playlist-remix.entity';
-import { environment } from '../../../../../environments/environment';
-import { UserPreferencesService } from '../../../user-preferences/services/user-preferences.service';
+import {PlaylistHistoryService} from '../playlist-history/playlist-history.service';
+import {PlaylistRemixEntity} from '../../entities/playlist-remix.entity';
+import {environment} from '../../../../../environments/environment';
+import {UserPreferencesService} from '../../../user-preferences/services/user-preferences.service';
 
 @Injectable()
 export class PlaylistService {
   /**
    * Inject dependencies
    * @param spotifyService
+   * @param userPreferencesService
    * @param historyService
    */
   constructor(
     private readonly spotifyService: SpotifyService,
     private readonly userPreferencesService: UserPreferencesService,
     private readonly historyService: PlaylistHistoryService) {
-  }
-
-  /**
-   * The spotify API returns only the first 100 tracks in a playlist.
-   * This method will loop through the playlist and get the tracks in chunks of 100, and then return all the tracks.
-   * @param playlistid
-   */
-  public async getAllSongsInPlaylist(playlistid: string): Promise<PlaylistTrackResponse> {
-    Logger.log(`Getting all songs in playlist ${playlistid}`);
-    const response = await this.spotifyService.getTracksInPlaylist(playlistid);
-    const amountOfChunks = Math.ceil(response.total / 100);
-    Logger.log(`Playlist ${playlistid} has ${response.total} tracks total. (${amountOfChunks} chunks of 100 songs.)`);
-
-    const promises = [];
-    for (let i = 1; i < amountOfChunks; i++) {
-      Logger.log(`Preparing to load chunk ${i}/${amountOfChunks} for playlist ${playlistid}`);
-      const options = {
-        offset: i * 100
-      };
-      promises.push(this.spotifyService.getTracksInPlaylist(playlistid, options));
-    }
-
-    const results = await Promise.all(promises);
-    results.forEach(tracks => {
-      response.items = response.items.concat(tracks.items);
-    });
-
-    Logger.log(`Finished loading all songs in playlist ${playlistid}`);
-    return response;
   }
 
   /**
@@ -138,7 +111,7 @@ export class PlaylistService {
   private async getPlaylistWithAllTracks(playlistid: string) {
     const originalPlaylist = await this.spotifyService.getPlaylistInformation(playlistid);
     originalPlaylist.tracks.items = (
-      await this.getAllSongsInPlaylist(playlistid)
+      await this.spotifyService.getAllSongsInPlaylist(playlistid)
     ).items;
     return originalPlaylist;
   }
@@ -180,7 +153,7 @@ export class PlaylistService {
   async syncPlaylist(remixedPlaylistId: string, tracks: (TrackObjectFull | EpisodeObjectFull)[]): Promise<SyncPlaylistResult> {
     const userId = this.spotifyService.getCurrentUser().id;
     const originalPlaylistId = (await this.historyService.getPlaylistDefinition(remixedPlaylistId, userId)).originalPlaylistId;
-    const tracksInOriginalPlaylistNow = await this.getAllSongsInPlaylist(originalPlaylistId);
+    const tracksInOriginalPlaylistNow = await this.spotifyService.getAllSongsInPlaylist(originalPlaylistId);
 
     // Playlist definition of the original playlist at the time of syncing (now)
     const originalPlaylistDefinition = new PlaylistRemixEntity(
@@ -194,7 +167,7 @@ export class PlaylistService {
     await this.historyService.recordPlaylistDefinition(originalPlaylistDefinition);
 
     // Get the current tracks in the remixed playlist
-    const currentTracksInRemix = await this.getAllSongsInPlaylist(remixedPlaylistId);
+    const currentTracksInRemix = await this.spotifyService.getAllSongsInPlaylist(remixedPlaylistId);
 
     // Create sets of track URIs for efficient comparison
     const currentTrackUrisInRemix = new Set(currentTracksInRemix.items.map(track => track.track.uri));
@@ -211,7 +184,7 @@ export class PlaylistService {
     await this.spotifyService.addTracksToPlaylist(remixedPlaylistId, tracksToAdd.map(track => track.uri));
 
     return {
-      amountOfSongsInSyncedPlaylist: (await this.getAllSongsInPlaylist(remixedPlaylistId)).items.length
+      amountOfSongsInSyncedPlaylist: (await this.spotifyService.getAllSongsInPlaylist(remixedPlaylistId)).items.length
     };
   }
 
@@ -262,7 +235,7 @@ export class PlaylistService {
    *
    * // Returns: [['removed-in-original', 'Song A'], ['unchanged', 'Song B'], ['removed-in-remix', 'Song C'], ['unchanged', 'Song D'], ['unchanged', 'Song E'], ['added-in-original', 'Song F'], ['added-in-remix', 'Song G']]
    */
-  async compareRemixedPlaylistWithOriginal(remixedPlaylistId: string, userId?:string): Promise<Diff[]> {
+  async compareRemixedPlaylistWithOriginal(remixedPlaylistId: string, userId?: string): Promise<Diff[]> {
     // Step 1: Fetch all required data.
     // The current user, the original playlist at the time of remixing, the current state of the original playlist, and the current state of the remixed playlist.
     // userId is not provided when this method is called from the frontend, we use the current user in that case.
@@ -277,8 +250,8 @@ export class PlaylistService {
 
     const originalPlaylistTrackIdsAtLastSync = originalPlaylistAtLastSync.originalPlaylistTrackIds;
 
-    const originalPlaylistNow = await this.getAllSongsInPlaylist(originalPlaylistAtLastSync.originalPlaylistId);
-    const remixedPlaylistNow = await this.getAllSongsInPlaylist(remixedPlaylistId);
+    const originalPlaylistNow = await this.spotifyService.getAllSongsInPlaylist(originalPlaylistAtLastSync.originalPlaylistId);
+    const remixedPlaylistNow = await this.spotifyService.getAllSongsInPlaylist(remixedPlaylistId);
 
     // Step 2: Map the tracks to only their ID's, so we can easily compare (simple strings are easier to compare than full objects)
     const originalTrackIdsNow = originalPlaylistNow.items.map(track => track.track.id);
@@ -330,5 +303,129 @@ export class PlaylistService {
       throw new HttpException('No playlist definition found for the given playlist', 404);
     }
     return this.getPlaylist(playlistDefinition.originalPlaylistId);
+  }
+
+  /**
+   * Get the playlist with all tracks and their audio features.
+   * Then, reorder the playlist using Euclidean distance to ensure smooth transitions.
+   * @param {string} playlistid - The ID of the playlist to reorder.
+   * @returns {Promise<any>} - The reordered playlist.
+   */
+  async getDJModePlaylist(playlistid: string): Promise<any> {
+    const playlist = await this.spotifyService.getAllSongsInPlaylist(playlistid);
+    const trackIds = playlist.items.map((track) => track.track.id);
+    const audioFeatures = await this.spotifyService.getAudioAnalysisForTracks(trackIds);
+
+    return this.orderPlaylistBySmoothTransitions(playlist.items, audioFeatures);
+  }
+
+  /**
+   * Reorders the playlist based on Euclidean distance between audio features of tracks.
+   * @param tracks - List of tracks in the playlist.
+   * @param audioFeatures - Corresponding audio features for each track.
+   * @returns An ordered list of tracks with corresponding audio features and score.
+   */
+  private orderPlaylistBySmoothTransitions(
+    tracks: PlaylistTrackObject[],
+    audioFeatures: AudioFeaturesObject[]
+  ): { track: TrackObjectFull | EpisodeObjectFull; audioFeatures: AudioFeaturesObject; score: number }[] {
+    // Create a map of track IDs to their audio features
+    const audioFeaturesMap: Map<string, AudioFeaturesObject> = new Map();
+    audioFeatures.forEach((audioFeature) => {
+      audioFeaturesMap.set(audioFeature.id, audioFeature);
+    });
+
+    // Start by selecting a random track, then iteratively add the closest track based on Euclidean distance
+    const orderedTracks: { track: PlaylistTrackObject, distance: number }[] = [];
+    const remainingTracks = [...tracks];
+    let currentTrack = remainingTracks.shift();
+    orderedTracks.push({ track: currentTrack, distance: 0 });
+
+    while (remainingTracks.length > 0) {
+      const [distance, closestTrack] = this.findClosestTrack(currentTrack.track.id, remainingTracks, audioFeaturesMap);
+      orderedTracks.push({ track: closestTrack, distance });
+      currentTrack = closestTrack;
+      remainingTracks.splice(remainingTracks.indexOf(closestTrack), 1);
+    }
+
+    return orderedTracks.map(({ track, distance }) => {
+      return {
+        track: track.track,
+        audioFeatures: audioFeaturesMap.get(track.track.id),
+        score: distance,
+      };
+    });
+  }
+
+  /**
+   * Finds the track closest to the current one based on Euclidean distance.
+   * @param {string} currentTrackId - ID of the current track.
+   * @param {PlaylistTrackObject[]} remainingTracks - The tracks that are still to be ordered.
+   * @param {Map<string, AudioFeaturesObject>} audioFeaturesMap - Map of track IDs to their audio features.
+   * @returns {[number, PlaylistTrackObject]} - A tuple containing the distance and the closest track.
+   */
+  private findClosestTrack(currentTrackId: string, remainingTracks: PlaylistTrackObject[], audioFeaturesMap: Map<string, AudioFeaturesObject>): [number, PlaylistTrackObject] {
+    let closestTrack: PlaylistTrackObject = null;
+    let closestDistance = Infinity;
+
+    const currentTrackFeatures = audioFeaturesMap.get(currentTrackId);
+    remainingTracks.forEach((track) => {
+      const distance = this.calculateEuclideanDistance(currentTrackFeatures, audioFeaturesMap.get(track.track.id));
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestTrack = track;
+      }
+    });
+
+    return [closestDistance, closestTrack];
+  }
+
+  /**
+   * Calculates the Euclidean distance between two sets of audio features.
+   * @param {AudioFeaturesObject} trackA - Audio features of the first track.
+   * @param {AudioFeaturesObject} trackB - Audio features of the second track.
+   * @returns {number} - The Euclidean distance between the two tracks.
+   */
+  private calculateEuclideanDistance(trackA: AudioFeaturesObject, trackB: AudioFeaturesObject): number {
+    const featuresA = [
+      trackA.acousticness,
+      trackA.danceability,
+      trackA.energy,
+      trackA.instrumentalness,
+      trackA.liveness,
+      trackA.loudness,
+      trackA.speechiness,
+      trackA.valence,
+      trackA.tempo,
+    ];
+
+    const featuresB = [
+      trackB.acousticness,
+      trackB.danceability,
+      trackB.energy,
+      trackB.instrumentalness,
+      trackB.liveness,
+      trackB.loudness,
+      trackB.speechiness,
+      trackB.valence,
+      trackB.tempo,
+    ];
+
+    // Calculate the Euclidean distance between the two feature vectors
+    return Math.sqrt(
+      featuresA.reduce((sum, featureA, index) => {
+        const featureB = featuresB[index];
+        return sum + Math.pow(featureA - featureB, 2);
+      }, 0)
+    );
+  }
+
+  /**
+   * Apply the suggested sorting to the playlist.
+   * @param playlistid
+   * @param sortedTracksUris
+   */
+  async applySorting(playlistid: string, sortedTracksUris: string[]): Promise<void> {
+    await this.spotifyService.reorderPlaylist(playlistid, sortedTracksUris);
   }
 }

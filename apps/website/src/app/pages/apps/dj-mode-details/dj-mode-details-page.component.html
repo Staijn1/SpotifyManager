@@ -1,0 +1,34 @@
+<div class="flex justify-around">
+  <!-- Suggested Order with Movements -->
+  <div>
+    <h2 class="text-lg font-bold">Suggested Order (DJ Mode)</h2>
+    <ol class="list-decimal">
+      @for (song of songMovements; track song.id) {
+        <li class="py-2 flex items-center">
+          {{ song.name }}
+          <span class="ml-2">
+            @switch (song.direction) {
+              @case ('up') {
+                <span class="text-green-500">
+                  &#9650; {{ song.positionsMoved }}
+                </span>
+              }
+              @case ('down') {
+                <span class="text-red-500">
+                  &#9660; {{ song.positionsMoved }}
+                </span>
+              }
+              @default {
+                <span>
+                  -
+                </span>
+              }
+            }
+          </span>
+        </li>
+      } @empty {
+        <p class="text-gray-500 p-4 text-center">No songs found.</p>
+      }
+    </ol>
+  </div>
+</div>
