@@ -3,28 +3,29 @@
   <div>
     <h2 class="text-lg font-bold">Suggested Order (DJ Mode)</h2>
     <ol class="list-decimal">
-      @for (song of songMovements; track song.id) {
+      @for (change of songMovements; track change.id) {
         <li class="py-2 flex items-center">
-          {{ song.name }}
-          <span class="ml-2">
-            @switch (song.direction) {
-              @case ('up') {
-                <span class="text-green-500">
-                  &#9650; {{ song.positionsMoved }}
-                </span>
+          <app-spotify-track [track]="change.track" [ranking]="songMovements.indexOf(change) + 1">
+            <span class="ml-2">
+              @switch (change.direction) {
+                @case ('up') {
+                  <span class="text-green-500">
+                    &#9650; {{ change.positionsMoved }}
+                  </span>
+                }
+                @case ('down') {
+                  <span class="text-red-500">
+                    &#9660; {{ change.positionsMoved }}
+                  </span>
+                }
+                @default {
+                  <span>
+                    -
+                  </span>
+                }
               }
-              @case ('down') {
-                <span class="text-red-500">
-                  &#9660; {{ song.positionsMoved }}
-                </span>
-              }
-              @default {
-                <span>
-                  -
-                </span>
-              }
-            }
-          </span>
+            </span>
+          </app-spotify-track>
         </li>
       } @empty {
         <p class="text-gray-500 p-4 text-center">No songs found.</p>

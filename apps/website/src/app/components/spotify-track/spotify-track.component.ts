@@ -1,6 +1,6 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { ArtistObjectSimplified, EpisodeObjectFull, PlaylistTrackObject, TrackObjectFull } from '@spotify-manager/core';
-import { NgClass } from '@angular/common';
+import { JsonPipe, NgClass } from '@angular/common';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { SpotifyPreviewComponent } from '../spotify-preview/spotify-preview.component';
 
@@ -10,7 +10,8 @@ import { SpotifyPreviewComponent } from '../spotify-preview/spotify-preview.comp
   imports: [
     NgClass,
     FaIconComponent,
-    SpotifyPreviewComponent
+    SpotifyPreviewComponent,
+    JsonPipe
   ],
   templateUrl: './spotify-track.component.html',
   styleUrl: './spotify-track.component.scss',

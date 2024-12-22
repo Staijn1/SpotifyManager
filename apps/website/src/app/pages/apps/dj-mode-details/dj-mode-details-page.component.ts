@@ -1,22 +1,33 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AudioFeaturesObject, SinglePlaylistResponse, TrackObjectFull } from '@spotify-manager/core';
+import {
+  AudioFeaturesObject,
+  PlaylistTrackObject,
+  SinglePlaylistResponse,
+  TrackObjectFull
+} from '@spotify-manager/core';
 import { ApiService } from '../../../services/api/api.service';
 import { ActivatedRoute } from '@angular/router';
+import { SpotifyTrackComponent } from '../../../components/spotify-track/spotify-track.component';
 
 @Component({
   selector: 'app-dj-mode-details',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, SpotifyTrackComponent],
   templateUrl: './dj-mode-details-page.component.html',
   styleUrls: ['./dj-mode-details-page.component.scss']
 })
 export class DjModeDetailsPageComponent implements OnInit {
   playlistId = '';
   protected sortedPlaylist: { track: TrackObjectFull, audioFeatures: AudioFeaturesObject, score: number }[] = [];
-  protected songMovements: { positionsMoved: number; name: string; id: string; direction: 'none' | 'up' | 'down' }[] = [];
   protected currentPlaylist: SinglePlaylistResponse | undefined;
+  protected songMovements: {
+    track: PlaylistTrackObject | TrackObjectFull;
+    positionsMoved: number;
+    id: string;
+    direction: "none" | "up" | "down"
+  }[] = [];
 
   constructor(
     private readonly apiService: ApiService,
@@ -68,8 +79,8 @@ export class DjModeDetailsPageComponent implements OnInit {
       }
 
       return {
+        track: song.track as PlaylistTrackObject | TrackObjectFull,
         id: song.track.id,
-        name: song.track.name,
         direction: direction,
         positionsMoved: Math.abs(positionsMoved)
       };
