@@ -7,13 +7,12 @@ import { join } from 'path';
 import { MailService } from './services/mail-service/mail.service';
 import { ConfigService } from '@nestjs/config';
 import { PlaylistModule } from '../playlist/playlist.module';
-import { MailController } from './controllers/mail.controller';
 import { SpotifyModule } from '../spotify/spotify.module';
 
 
 @Module({
   providers: [MailService, ScheduledMailService],
-  controllers: [MailController],
+  controllers: [],
   imports: [
     UserPreferencesModule,
     PlaylistModule,
