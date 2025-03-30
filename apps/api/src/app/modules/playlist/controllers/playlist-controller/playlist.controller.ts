@@ -44,9 +44,7 @@ export class PlaylistController {
     description: 'The ID of the playlist to get all the songs for',
     schema: { oneOf: [{ type: 'string' }], example: '6vDGVr652ztNWKZuHvsFvx' }
   })
-  public async getAllSongsInPlaylist(
-    @Param() params
-  ): Promise<PlaylistTrackResponse> {
+  public async getAllSongsInPlaylist(@Param() params): Promise<PlaylistTrackResponse> {
     return this.playlistService.getAllSongsInPlaylist(params.playlistid);
   }
 
@@ -74,7 +72,7 @@ export class PlaylistController {
     description: 'The ID of the playlist to get all the songs for',
     schema: { oneOf: [{ type: 'string' }], example: '6vDGVr652ztNWKZuHvsFvx' }
   })
-  public async getPlaylist(@Param() params: {playlistid: string}): Promise<SinglePlaylistResponse> {
+  public async getPlaylist(@Param() params: { playlistid: string }): Promise<SinglePlaylistResponse> {
     return this.playlistService.getPlaylist(params.playlistid);
   }
 
@@ -92,14 +90,12 @@ export class PlaylistController {
    * @param body
    */
   @Post('remix/sync')
-  public async syncRemixWithOriginal(
-    @Body() body: PlaylistSyncRequest
-  ): Promise<SyncPlaylistResult> {
+  public async syncRemixWithOriginal(@Body() body: PlaylistSyncRequest): Promise<SyncPlaylistResult> {
     return this.playlistService.syncPlaylist(body.remixedPlaylistId, body.tracks);
   }
 
   @Get('remix/original/:playlistId')
-  public async getOriginalPlaylistForRemix(@Param() params: {playlistId: string}): Promise<SinglePlaylistResponse> {
+  public async getOriginalPlaylistForRemix(@Param() params: { playlistId: string }): Promise<SinglePlaylistResponse> {
     return this.playlistService.getOriginalPlaylistForRemix(params.playlistId);
   }
 }

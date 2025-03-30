@@ -137,9 +137,7 @@ export class PlaylistService {
    */
   private async getPlaylistWithAllTracks(playlistid: string) {
     const originalPlaylist = await this.spotifyService.getPlaylistInformation(playlistid);
-    originalPlaylist.tracks.items = (
-      await this.getAllSongsInPlaylist(playlistid)
-    ).items;
+    originalPlaylist.tracks.items = (await this.getAllSongsInPlaylist(playlistid)).items;
     return originalPlaylist;
   }
 
