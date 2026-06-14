@@ -52,7 +52,7 @@ const createLogger = () => {
           winston.format.simple(),
         ),
       }),
-      new SeqTransport({
+      /*new SeqTransport({
         serverUrl: process.env.SEQ_URL ?? 'http://localhost:5341',
         apiKey: undefined,
         onError: (e => {
@@ -61,7 +61,7 @@ const createLogger = () => {
         }),
         handleExceptions: true,
         handleRejections: true,
-      }),
+      }),*/
     ],
   });
 };
