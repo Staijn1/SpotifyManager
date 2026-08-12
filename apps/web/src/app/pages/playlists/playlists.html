@@ -1,0 +1,79 @@
+<section>
+  <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+    <div>
+      <p class="text-xs font-bold uppercase tracking-[0.22em] text-blue-400">Playlist library</p>
+      <h1 class="mt-5 text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">Choose an original</h1>
+      <p class="mt-5 max-w-2xl text-base leading-7 text-[var(--sm-muted)]">
+        Browse playlists you own or follow. Spotify images and links remain attributed to their source.
+      </p>
+    </div>
+
+    @if (providerState().connections[0]?.status === 'active') {
+      <form class="flex w-full max-w-md gap-2" (submit)="$event.preventDefault(); search(searchInput.value)">
+        <label for="playlist-search" class="sr-only">Search playlists</label>
+        <input
+          #searchInput
+          id="playlist-search"
+          type="search"
+          [value]="playlistsState().query"
+          placeholder="Search by playlist or owner"
+          class="min-h-11 min-w-0 flex-1 rounded-xl border border-white/10 bg-[var(--sm-panel)] px-4 text-sm text-white outline-none transition focus:border-blue-400"
+        />
+        <button type="submit" class="ui-button">Search</button>
+      </form>
+    }
+  </div>
+
+  @if (providerState().loading) {
+    <div class="mt-10 rounded-3xl border border-white/7 bg-[var(--sm-panel)] p-10 text-sm text-[var(--sm-muted)]">Checking your Spotify connection…</div>
+  } @else if (providerState().connections[0]?.status !== 'active') {
+    <div class="mt-10 rounded-3xl border border-white/7 bg-[var(--sm-panel)] p-8 sm:p-12">
+      <h2 class="text-2xl font-semibold">Connect Spotify to browse playlists</h2>
+      <p class="mt-4 max-w-xl text-sm leading-6 text-[var(--sm-muted)]">
+        @if (providerState().spotifyConfigured === false) {
+          Spotify application credentials must be added before account connections can start.
+        } @else {
+          Authorize playlist read access to see your owned and followed playlists here.
+        }
+      </p>
+      @if (providerState().spotifyConfigured === false) {
+        <a href="/settings" class="ui-button ui-button-secondary mt-6">View setup status</a>
+      } @else {
+        <a [href]="spotifyConnectionUrl" class="ui-button mt-6">Connect Spotify</a>
+      }
+    </div>
+  } @else if (playlistsState().loading) {
+    <div class="mt-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+      @for (item of [1, 2, 3, 4, 5, 6]; track item) {
+        <div class="h-56 animate-pulse rounded-3xl border border-white/5 bg-white/[0.035]"></div>
+      }
+    </div>
+  } @else if (playlistsState().error) {
+    <div role="alert" class="mt-10 rounded-3xl border border-red-400/15 bg-red-400/5 p-8 text-sm text-red-200">{{ playlistsState().error }}</div>
+  } @else if (playlistsState().items.length === 0) {
+    <div class="mt-10 rounded-3xl border border-dashed border-white/10 p-12 text-center">
+      <h2 class="text-xl font-semibold">No playlists found</h2>
+      <p class="mt-3 text-sm text-[var(--sm-muted)]">Try a different search or create a playlist in Spotify first.</p>
+    </div>
+  } @else {
+    <div class="mt-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+      @for (playlist of playlistsState().items; track playlist.id) {
+        <article class="flex min-w-0 gap-5 rounded-3xl border border-white/7 bg-[var(--sm-panel)] p-5">
+          @if (playlist.imageUrl) {
+            <img [src]="playlist.imageUrl" [alt]="playlist.name + ' cover on Spotify'" class="h-24 w-24 shrink-0 rounded-xl object-contain" />
+          } @else {
+            <div class="grid h-24 w-24 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-blue-600 to-cyan-400 text-xs font-bold">PLAY</div>
+          }
+          <div class="min-w-0 flex-1">
+            <h2 class="truncate text-lg font-semibold">{{ playlist.name }}</h2>
+            <p class="mt-1 truncate text-sm text-[var(--sm-muted)]">{{ playlist.ownerDisplayName }}</p>
+            <p class="mt-4 text-xs text-[var(--sm-muted)]">{{ playlist.itemCount }} items</p>
+            @if (playlist.providerUrl) {
+              <a [href]="playlist.providerUrl" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex text-xs font-semibold text-blue-300 hover:text-blue-200">Open in Spotify ↗</a>
+            }
+          </div>
+        </article>
+      }
+    </div>
+  }
+</section>

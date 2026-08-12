@@ -9,15 +9,7 @@ export const routes: Routes = [
   },
   {
     path: 'playlists',
-    loadComponent: () =>
-      import('./pages/feature-placeholder/feature-placeholder').then(
-        (module) => module.FeaturePlaceholderPage,
-      ),
-    data: {
-      eyebrow: 'Playlist search',
-      title: 'Choose an original playlist',
-      description: 'Provider-backed playlist search will land here after the secure Spotify connection flow.',
-    },
+    loadComponent: () => import('./pages/playlists/playlists').then((module) => module.PlaylistsPage),
     title: 'Browse playlists | Spotify Manager',
   },
   {

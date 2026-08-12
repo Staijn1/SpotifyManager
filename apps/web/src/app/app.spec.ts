@@ -5,6 +5,7 @@ import { App } from './app';
 import { authReducer } from './state/auth/auth.reducer';
 import { forksReducer } from './state/forks/forks.reducer';
 import { providerConnectionsReducer } from './state/provider-connections/provider-connections.reducer';
+import { playlistsReducer } from './state/playlists/playlists.reducer';
 
 describe('App', () => {
   beforeEach(async () => {
@@ -15,6 +16,7 @@ describe('App', () => {
         provideStore({
           auth: authReducer,
           providerConnections: providerConnectionsReducer,
+          playlists: playlistsReducer,
           forks: forksReducer,
         }),
       ],

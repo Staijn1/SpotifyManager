@@ -10,6 +10,8 @@ import { AuthEffects } from './state/auth/auth.effects';
 import { forksReducer } from './state/forks/forks.reducer';
 import { providerConnectionsReducer } from './state/provider-connections/provider-connections.reducer';
 import { ProviderConnectionsEffects } from './state/provider-connections/provider-connections.effects';
+import { PlaylistsEffects } from './state/playlists/playlists.effects';
+import { playlistsReducer } from './state/playlists/playlists.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,9 +21,10 @@ export const appConfig: ApplicationConfig = {
     provideStore({
       auth: authReducer,
       providerConnections: providerConnectionsReducer,
+      playlists: playlistsReducer,
       forks: forksReducer,
     }),
-    provideEffects(AuthEffects, ProviderConnectionsEffects),
+    provideEffects(AuthEffects, ProviderConnectionsEffects, PlaylistsEffects),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
   ],
 };

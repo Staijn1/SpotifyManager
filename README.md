@@ -59,6 +59,6 @@ npm test -- --watch=false
 
 ## Current boundary
 
-The domain model, playlist-difference engine, persistence schema, process topology, responsive shell, Spotify OAuth/session flow, and connection settings screen are implemented. Authenticated playlist browsing, applying proposals, and email digests are the next vertical slices.
+The domain model, playlist-difference engine, persistence schema, process topology, responsive shell, Spotify OAuth/session flow, connection settings, and authenticated playlist library are implemented. Playlist inspection/fork creation, applying proposals, and email digests are the next vertical slices.
 
 The captured deployed UI reference is documented in `docs/legacy-ui-baseline/README.md`.
