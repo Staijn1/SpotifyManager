@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
       <PrivateAssets>all</PrivateAssets>
@@ -23,6 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SpotifyManager.Application\SpotifyManager.Application.csproj" />
     <ProjectReference Include="..\SpotifyManager.Domain\SpotifyManager.Domain.csproj" />
+    <ProjectReference Include="..\SpotifyManager.Provider.Abstractions\SpotifyManager.Provider.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

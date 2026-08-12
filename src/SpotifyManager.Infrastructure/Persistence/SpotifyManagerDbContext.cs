@@ -1,10 +1,14 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 
 namespace SpotifyManager.Infrastructure.Persistence;
 
 public sealed class SpotifyManagerDbContext(DbContextOptions<SpotifyManagerDbContext> options)
-    : DbContext(options)
+    : DbContext(options), IDataProtectionKeyContext
 {
+    public DbSet<DataProtectionKey> DataProtectionKeys => Set<DataProtectionKey>();
+    public DbSet<ProviderAuthorizationRequestRecord> ProviderAuthorizationRequests => Set<ProviderAuthorizationRequestRecord>();
+    public DbSet<AppSessionRecord> AppSessions => Set<AppSessionRecord>();
     public DbSet<UserRecord> Users => Set<UserRecord>();
     public DbSet<ProviderConnectionRecord> ProviderConnections => Set<ProviderConnectionRecord>();
     public DbSet<SourcePlaylistRecord> SourcePlaylists => Set<SourcePlaylistRecord>();
@@ -20,11 +24,37 @@ public sealed class SpotifyManagerDbContext(DbContextOptions<SpotifyManagerDbCon
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema("spotify_manager");
+        ConfigureIdentity(modelBuilder);
         ConfigureUsers(modelBuilder);
         ConfigureProviderConnections(modelBuilder);
         ConfigurePlaylists(modelBuilder);
         ConfigureChangesAndNotifications(modelBuilder);
         ConfigureScheduledWork(modelBuilder);
+    }
+
+    private static void ConfigureIdentity(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<DataProtectionKey>().ToTable("data_protection_keys");
+
+        var requests = modelBuilder.Entity<ProviderAuthorizationRequestRecord>();
+        requests.ToTable("provider_authorization_requests");
+        requests.HasKey(request => request.Id);
+        requests.Property(request => request.Provider).HasConversion<string>().HasMaxLength(40);
+        requests.Property(request => request.StateHash).HasMaxLength(100);
+        requests.Property(request => request.ReturnPath).HasMaxLength(500);
+        requests.HasIndex(request => request.StateHash).IsUnique();
+        requests.HasIndex(request => request.ExpiresAt);
+
+        var sessions = modelBuilder.Entity<AppSessionRecord>();
+        sessions.ToTable("app_sessions");
+        sessions.HasKey(session => session.Id);
+        sessions.Property(session => session.TokenHash).HasMaxLength(100);
+        sessions.HasIndex(session => session.TokenHash).IsUnique();
+        sessions.HasIndex(session => new { session.UserId, session.ExpiresAt });
+        sessions.HasOne(session => session.User)
+            .WithMany()
+            .HasForeignKey(session => session.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 
     private static void ConfigureUsers(ModelBuilder modelBuilder)

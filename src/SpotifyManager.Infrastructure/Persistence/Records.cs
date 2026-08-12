@@ -4,6 +4,29 @@ using SpotifyManager.Domain.Providers;
 
 namespace SpotifyManager.Infrastructure.Persistence;
 
+public sealed class ProviderAuthorizationRequestRecord
+{
+    public Guid Id { get; set; }
+    public MusicProvider Provider { get; set; }
+    public string StateHash { get; set; } = string.Empty;
+    public string ProtectedCodeVerifier { get; set; } = string.Empty;
+    public string ReturnPath { get; set; } = "/";
+    public DateTimeOffset ExpiresAt { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+}
+
+public sealed class AppSessionRecord
+{
+    public Guid Id { get; set; }
+    public Guid UserId { get; set; }
+    public string TokenHash { get; set; } = string.Empty;
+    public DateTimeOffset ExpiresAt { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset LastSeenAt { get; set; }
+    public DateTimeOffset? RevokedAt { get; set; }
+    public UserRecord User { get; set; } = null!;
+}
+
 public sealed class UserRecord
 {
     public Guid Id { get; set; }

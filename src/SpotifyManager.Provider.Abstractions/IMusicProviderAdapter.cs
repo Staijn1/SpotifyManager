@@ -24,3 +24,18 @@ public interface IProviderTokenProvider
         MusicProvider provider,
         CancellationToken cancellationToken);
 }
+
+public sealed record ProviderTokenRefreshResult(
+    string AccessToken,
+    string? RefreshToken,
+    DateTimeOffset ExpiresAt,
+    IReadOnlyCollection<string>? Scopes = null);
+
+public interface IProviderTokenRefreshStrategy
+{
+    MusicProvider Provider { get; }
+
+    Task<ProviderTokenRefreshResult> RefreshAsync(
+        string refreshToken,
+        CancellationToken cancellationToken);
+}

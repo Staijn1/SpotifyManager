@@ -15,7 +15,7 @@ builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddScoped<IProviderStrategyResolver, ProviderStrategyResolver>();
 builder.Services.AddScoped<ForkPlaylistHandler>();
 builder.Services.AddSpotifyManagerInfrastructure(builder.Configuration);
-builder.Services.AddSpotifyProvider();
+builder.Services.AddSpotifyProvider(builder.Configuration);
 
 var app = builder.Build();
 
@@ -30,6 +30,7 @@ app.MapHealthChecks("/health/ready", new HealthCheckOptions
 });
 
 var api = app.MapGroup("/api/v1");
+api.MapSpotifyAuthorizationEndpoints();
 api.MapGet("/system/status", () => Results.Ok(new
 {
     service = "Spotify Manager API",
