@@ -1,9 +1,17 @@
 node_modules
+**/node_modules
 dist
+**/dist
 tmp
 .vscode
 .idea
 .git
 .env
 .angular
+**/.angular
 .nx
+.tools
+.packages
+**/bin
+**/obj
+docs/legacy-ui-baseline/*.png

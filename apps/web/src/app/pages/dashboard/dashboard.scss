@@ -1,0 +1,62 @@
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  background:
+    radial-gradient(circle at 72% 32%, rgb(22 123 255 / 18%), transparent 38%),
+    var(--sm-panel);
+
+  @media (min-width: 1024px) {
+    grid-template-columns: minmax(0, 1.08fr) minmax(23rem, 0.92fr);
+  }
+}
+
+.hero-grid > * {
+  min-width: 0;
+}
+
+.playlist-stack {
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.playlist-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid rgb(255 255 255 / 9%);
+  border-radius: 1.1rem;
+  background: rgb(13 18 23 / 86%);
+  padding: 1rem;
+  box-shadow: 0 1.25rem 3rem rgb(0 0 0 / 22%);
+}
+
+.playlist-card-source {
+  transform: rotate(-1.5deg);
+}
+
+.playlist-card-fork {
+  border-color: rgb(22 123 255 / 32%);
+  transform: rotate(1.5deg);
+}
+
+.playlist-art {
+  display: grid;
+  width: 3.5rem;
+  height: 3.5rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 0.8rem;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.source-art {
+  background: linear-gradient(135deg, #e15b38, #f6b943);
+}
+
+.fork-art {
+  background: linear-gradient(135deg, #1268e8, #23c7e8);
+}

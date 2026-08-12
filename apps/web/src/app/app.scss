@@ -1,0 +1,26 @@
+:host {
+  display: block;
+}
+
+.nav-link {
+  display: flex;
+  min-height: 2.75rem;
+  align-items: center;
+  border-radius: 0.75rem;
+  padding: 0 0.85rem;
+  color: var(--sm-muted);
+  font-size: 0.92rem;
+  font-weight: 550;
+  transition: background-color 160ms ease, color 160ms ease, transform 160ms ease;
+
+  &:hover {
+    background: rgb(255 255 255 / 5%);
+    color: var(--sm-text);
+    transform: translateX(2px);
+  }
+}
+
+.nav-link-active {
+  background: rgb(22 123 255 / 14%);
+  color: #80b8ff;
+}

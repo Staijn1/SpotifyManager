@@ -41,3 +41,11 @@ Thumbs.db
 .nx/cache
 .angular
 .env
+
+# .NET build output and workspace-local SDK
+bin/
+obj/
+.tools/
+.packages/
+*.user
+*.suo

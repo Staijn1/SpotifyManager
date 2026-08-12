@@ -1,0 +1,16 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/SpotifyManager.Api/SpotifyManager.Api.csproj" />
+    <Project Path="src/SpotifyManager.Application/SpotifyManager.Application.csproj" />
+    <Project Path="src/SpotifyManager.DatabaseMigrator/SpotifyManager.DatabaseMigrator.csproj" />
+    <Project Path="src/SpotifyManager.Domain/SpotifyManager.Domain.csproj" />
+    <Project Path="src/SpotifyManager.Infrastructure/SpotifyManager.Infrastructure.csproj" />
+    <Project Path="src/SpotifyManager.Provider.Abstractions/SpotifyManager.Provider.Abstractions.csproj" />
+    <Project Path="src/SpotifyManager.Provider.Spotify/SpotifyManager.Provider.Spotify.csproj" />
+    <Project Path="src/SpotifyManager.Worker/SpotifyManager.Worker.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/SpotifyManager.Architecture.Tests/SpotifyManager.Architecture.Tests.csproj" />
+    <Project Path="tests/SpotifyManager.Domain.Tests/SpotifyManager.Domain.Tests.csproj" />
+  </Folder>
+</Solution>

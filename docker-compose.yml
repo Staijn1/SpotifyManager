@@ -1,58 +1,86 @@
-# set "DOCKER_BUILDKIT=0" & docker-compose build
-# docker run --rm -it id sh
-# set "DOCKER_BUILDKIT=0" & docker build . -t spotifymanager:nx-base
-version: "3.8"
-
-networks:
-  corp:
-    driver: bridge
+name: spotify-manager
 
 services:
-  spotify_api:
-    container_name: spotify_api
+  web:
     build:
-      context: ./
-      cache_from:
-        - staijn/spotifymanager:nx-base
-      dockerfile: ./apps/api/Dockerfile
-    image: staijn/spotifymanager:api
+      context: .
+      dockerfile: deploy/docker/web.Dockerfile
     ports:
-      - 4901:3333
-    networks:
-      - corp
+      - "4900:8080"
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
 
-  spotify_website:
-    container_name: spotify_website
+  postgres:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-spotify_manager}
+      POSTGRES_USER: ${POSTGRES_USER:-spotify_manager}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-spotify_manager}
+    ports:
+      - "5432:5432"
+    volumes:
+      - spotify-manager-postgres:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+
+  migrator:
     build:
-      context: ./
-      cache_from:
-        - staijn/spotifymanager:nx-base
-      dockerfile: ./apps/website/Dockerfile
-    image: staijn/spotifymanager:website
-    ports:
-      - 4900:80
-    networks:
-      - corp
-
-  logging:
-    container_name: spotify_logging
-    image: datalust/seq
+      context: .
+      dockerfile: deploy/docker/migrator.Dockerfile
     environment:
-      ACCEPT_EULA: Y
-    ports:
-      - "5341:80"
-    networks:
-        - corp
+      ConnectionStrings__SpotifyManager: Host=postgres;Port=5432;Database=${POSTGRES_DB:-spotify_manager};Username=${POSTGRES_USER:-spotify_manager};Password=${POSTGRES_PASSWORD:-spotify_manager}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
 
-  spotify_db:
-    container_name: spotify_db
-    image: mongo
+  api:
+    build:
+      context: .
+      dockerfile: deploy/docker/api.Dockerfile
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
-      MONGO_INITDB_DATABASE: spotifymanager
-      MONGO_INITDB_AUTH_DATABASE: admin
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__SpotifyManager: Host=postgres;Port=5432;Database=${POSTGRES_DB:-spotify_manager};Username=${POSTGRES_USER:-spotify_manager};Password=${POSTGRES_PASSWORD:-spotify_manager}
     ports:
-      - "27017:27017"
-    networks:
-      - corp
+      - "4901:8080"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/health/live"]
+      interval: 10s
+      timeout: 3s
+      retries: 6
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrator:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  worker:
+    build:
+      context: .
+      dockerfile: deploy/docker/worker.Dockerfile
+    environment:
+      DOTNET_ENVIRONMENT: Development
+      ConnectionStrings__SpotifyManager: Host=postgres;Port=5432;Database=${POSTGRES_DB:-spotify_manager};Username=${POSTGRES_USER:-spotify_manager};Password=${POSTGRES_PASSWORD:-spotify_manager}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrator:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  mailpit:
+    image: axllent/mailpit:v1.27
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    restart: unless-stopped
+
+volumes:
+  spotify-manager-postgres:

@@ -1,0 +1,81 @@
+<div class="app-dark min-h-screen bg-[var(--sm-bg)] text-[var(--sm-text)]">
+  @if (navigationOpen()) {
+    <button
+      type="button"
+      class="fixed inset-0 z-30 bg-black/60 lg:hidden"
+      aria-label="Close navigation"
+      (click)="closeNavigation()"
+    ></button>
+  }
+
+  <aside
+    class="fixed inset-y-0 left-0 z-40 flex w-72 flex-col border-r border-white/6 bg-[var(--sm-sidebar)] px-5 py-6 transition-transform lg:translate-x-0"
+    [class.-translate-x-full]="!navigationOpen()"
+  >
+    <a routerLink="/" class="mb-10 block px-2" (click)="closeNavigation()">
+      <img src="/assets/logo-white.svg" alt="Spotify Manager" class="h-8 w-auto" />
+    </a>
+
+    <nav class="space-y-1" aria-label="Primary navigation">
+      <a
+        routerLink="/"
+        routerLinkActive="nav-link-active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="nav-link"
+        (click)="closeNavigation()"
+      >Overview</a>
+      <a routerLink="/playlists" routerLinkActive="nav-link-active" class="nav-link" (click)="closeNavigation()">
+        Browse playlists
+      </a>
+      <a routerLink="/forks" routerLinkActive="nav-link-active" class="nav-link" (click)="closeNavigation()">
+        Your forks
+      </a>
+    </nav>
+
+    <div class="mt-9 px-3 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[var(--sm-muted)]">
+      Account
+    </div>
+    <nav class="mt-3 space-y-1" aria-label="Account navigation">
+      <a routerLink="/settings" routerLinkActive="nav-link-active" class="nav-link" (click)="closeNavigation()">
+        Settings
+      </a>
+    </nav>
+
+    <div class="mt-auto rounded-2xl border border-white/7 bg-white/[0.035] p-4">
+      <div class="mb-2 flex items-center gap-2 text-sm font-semibold">
+        <span class="h-2 w-2 rounded-full bg-amber-400"></span>
+        Provider not connected
+      </div>
+      <p class="mb-4 text-xs leading-5 text-[var(--sm-muted)]">
+        Connect Spotify to inspect playlists and create your first remix.
+      </p>
+      <button type="button" class="ui-button ui-button-small w-full">Connect Spotify</button>
+    </div>
+  </aside>
+
+  <div class="lg:pl-72">
+    <header class="sticky top-0 z-20 flex h-20 items-center border-b border-white/6 bg-[color:var(--sm-bg)]/90 px-5 backdrop-blur-xl sm:px-8 lg:px-12">
+      <button
+        type="button"
+        class="mr-4 grid h-10 w-10 place-items-center rounded-xl border border-white/10 text-xl lg:hidden"
+        aria-label="Open navigation"
+        (click)="navigationOpen.set(true)"
+      >
+        <span aria-hidden="true">&#8801;</span>
+      </button>
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--sm-muted)]">Spotify Manager</p>
+        <p class="mt-1 text-sm text-white/80">Keep the songs you love. Review everything else.</p>
+      </div>
+      <div class="ml-auto hidden items-center gap-3 sm:flex">
+        <span class="rounded-full border border-white/8 bg-white/[0.035] px-3 py-1.5 text-xs text-[var(--sm-muted)]">
+          New architecture preview
+        </span>
+      </div>
+    </header>
+
+    <main class="mx-auto w-full max-w-[1500px] px-5 py-8 sm:px-8 lg:px-12 lg:py-12">
+      <router-outlet />
+    </main>
+  </div>
+</div>

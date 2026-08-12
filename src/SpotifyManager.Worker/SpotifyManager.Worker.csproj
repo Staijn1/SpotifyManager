@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SpotifyManager.Application\SpotifyManager.Application.csproj" />
+    <ProjectReference Include="..\SpotifyManager.Infrastructure\SpotifyManager.Infrastructure.csproj" />
+    <ProjectReference Include="..\SpotifyManager.Provider.Spotify\SpotifyManager.Provider.Spotify.csproj" />
+  </ItemGroup>
+</Project>

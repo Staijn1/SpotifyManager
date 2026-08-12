@@ -1,0 +1,56 @@
+# Archived legacy NestJS/MongoDB topology. Kept only as a migration reference.
+version: "3.8"
+
+networks:
+  corp:
+    driver: bridge
+
+services:
+  spotify_api:
+    container_name: spotify_api
+    build:
+      context: ../../
+      cache_from:
+        - staijn/spotifymanager:nx-base
+      dockerfile: ./apps/api/Dockerfile
+    image: staijn/spotifymanager:api
+    ports:
+      - 4901:3333
+    networks:
+      - corp
+
+  spotify_website:
+    container_name: spotify_website
+    build:
+      context: ../../
+      cache_from:
+        - staijn/spotifymanager:nx-base
+      dockerfile: ./apps/website/Dockerfile
+    image: staijn/spotifymanager:website
+    ports:
+      - 4900:80
+    networks:
+      - corp
+
+  logging:
+    container_name: spotify_logging
+    image: datalust/seq
+    environment:
+      ACCEPT_EULA: Y
+    ports:
+      - "5341:80"
+    networks:
+      - corp
+
+  spotify_db:
+    container_name: spotify_db
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: spotifymanager
+      MONGO_INITDB_AUTH_DATABASE: admin
+    ports:
+      - "27017:27017"
+    networks:
+      - corp
