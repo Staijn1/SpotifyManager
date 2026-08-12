@@ -35,9 +35,11 @@ internal static class SpotifyAuthorizationEndpoints
         CancellationToken cancellationToken)
     {
         var token = context.Request.Cookies[SessionCookieName];
-        var session = string.IsNullOrWhiteSpace(token)
-            ? null
-            : await store.FindSessionAsync(Hash(token), timeProvider.GetUtcNow(), cancellationToken);
+        var session = await GetAuthenticatedSessionAsync(
+            context,
+            store,
+            timeProvider,
+            cancellationToken);
         if (session is null && token is not null)
         {
             DeleteSessionCookie(context.Response);
@@ -67,6 +69,18 @@ internal static class SpotifyAuthorizationEndpoints
                     session.ProviderConnection.UpdatedAt,
                 },
         });
+    }
+
+    internal static Task<AuthenticatedSession?> GetAuthenticatedSessionAsync(
+        HttpContext context,
+        IProviderConnectionStore store,
+        TimeProvider timeProvider,
+        CancellationToken cancellationToken)
+    {
+        var token = context.Request.Cookies[SessionCookieName];
+        return string.IsNullOrWhiteSpace(token)
+            ? Task.FromResult<AuthenticatedSession?>(null)
+            : store.FindSessionAsync(Hash(token), timeProvider.GetUtcNow(), cancellationToken);
     }
 
     private static async Task<IResult> StartSpotifyAuthorizationAsync(

@@ -11,6 +11,10 @@ public interface IMusicProviderAdapter
         ProviderConnectionId connectionId,
         CancellationToken cancellationToken);
 
+    Task<IReadOnlyList<ProviderPlaylistSummary>> GetUserPlaylistsAsync(
+        ProviderConnectionId connectionId,
+        CancellationToken cancellationToken);
+
     Task<ProviderPlaylistSnapshot> GetPlaylistSnapshotAsync(
         ProviderConnectionId connectionId,
         ExternalPlaylistId playlistId,

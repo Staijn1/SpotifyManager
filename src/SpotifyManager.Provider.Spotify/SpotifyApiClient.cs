@@ -27,6 +27,24 @@ internal sealed class SpotifyApiClient(
         return await SendAsync<SpotifyPlaylistDto>(request, cancellationToken);
     }
 
+    public async Task<IReadOnlyList<SpotifyPlaylistSummaryDto>> GetAllCurrentUserPlaylistsAsync(
+        ProviderConnectionId connectionId,
+        CancellationToken cancellationToken)
+    {
+        var playlists = new List<SpotifyPlaylistSummaryDto>();
+        string? next = "me/playlists?limit=50";
+
+        while (next is not null)
+        {
+            using var request = await CreateRequestAsync(connectionId, HttpMethod.Get, next, cancellationToken);
+            var page = await SendAsync<SpotifyPlaylistsPageDto>(request, cancellationToken);
+            playlists.AddRange(page.Items);
+            next = page.Next;
+        }
+
+        return playlists;
+    }
+
     public async Task<IReadOnlyList<SpotifyPlaylistItemDto>> GetAllPlaylistItemsAsync(
         ProviderConnectionId connectionId,
         string playlistId,
@@ -174,6 +192,31 @@ internal sealed record SpotifyPlaylistDto(
     string Id,
     string Name,
     [property: JsonPropertyName("snapshot_id")] string? SnapshotId);
+
+internal sealed record SpotifyPlaylistsPageDto(
+    IReadOnlyList<SpotifyPlaylistSummaryDto> Items,
+    string? Next);
+
+internal sealed record SpotifyPlaylistSummaryDto(
+    string Id,
+    string Name,
+    string? Description,
+    SpotifyPlaylistOwnerDto Owner,
+    IReadOnlyList<SpotifyImageDto>? Images,
+    SpotifyPlaylistItemsReferenceDto? Items,
+    SpotifyPlaylistItemsReferenceDto? Tracks,
+    [property: JsonPropertyName("external_urls")] SpotifyExternalUrlsDto? ExternalUrls,
+    [property: JsonPropertyName("snapshot_id")] string? SnapshotId,
+    bool? Public,
+    bool Collaborative);
+
+internal sealed record SpotifyPlaylistOwnerDto(string Id, [property: JsonPropertyName("display_name")] string? DisplayName);
+
+internal sealed record SpotifyImageDto(string Url, int? Height, int? Width);
+
+internal sealed record SpotifyPlaylistItemsReferenceDto(int Total);
+
+internal sealed record SpotifyExternalUrlsDto(string? Spotify);
 
 internal sealed record SpotifyPlaylistItemsPageDto(
     IReadOnlyList<SpotifyPlaylistItemDto> Items,

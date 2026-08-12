@@ -23,6 +23,25 @@ internal sealed class SpotifyMusicProviderAdapter(
             SupportsExternalVersions: true,
             SupportsWebhooks: false));
 
+    public async Task<IReadOnlyList<ProviderPlaylistSummary>> GetUserPlaylistsAsync(
+        ProviderConnectionId connectionId,
+        CancellationToken cancellationToken)
+    {
+        var playlists = await apiClient.GetAllCurrentUserPlaylistsAsync(connectionId, cancellationToken);
+        return playlists.Select(playlist => new ProviderPlaylistSummary(
+                new ExternalPlaylistId(MusicProvider.Spotify, playlist.Id),
+                playlist.Name,
+                playlist.Description ?? string.Empty,
+                playlist.Owner.DisplayName ?? playlist.Owner.Id,
+                playlist.Items?.Total ?? playlist.Tracks?.Total ?? 0,
+                playlist.Images?.FirstOrDefault()?.Url,
+                playlist.ExternalUrls?.Spotify,
+                playlist.SnapshotId,
+                playlist.Public,
+                playlist.Collaborative))
+            .ToArray();
+    }
+
     public async Task<ProviderPlaylistSnapshot> GetPlaylistSnapshotAsync(
         ProviderConnectionId connectionId,
         ExternalPlaylistId playlistId,

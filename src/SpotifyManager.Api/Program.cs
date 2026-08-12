@@ -31,6 +31,7 @@ app.MapHealthChecks("/health/ready", new HealthCheckOptions
 
 var api = app.MapGroup("/api/v1");
 api.MapSpotifyAuthorizationEndpoints();
+api.MapPlaylistEndpoints();
 api.MapGet("/system/status", () => Results.Ok(new
 {
     service = "Spotify Manager API",
