@@ -47,6 +47,9 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ConnectionStrings__SpotifyManager: Host=postgres;Port=5432;Database=${POSTGRES_DB:-spotify_manager};Username=${POSTGRES_USER:-spotify_manager};Password=${POSTGRES_PASSWORD:-spotify_manager}
+      Spotify__ClientId: ${SPOTIFY_CLIENT_ID:-}
+      Spotify__ClientSecret: ${SPOTIFY_CLIENT_SECRET:-}
+      Spotify__RedirectUri: ${SPOTIFY_REDIRECT_URI:-http://localhost:4900/api/v1/auth/spotify/callback}
     ports:
       - "4901:8080"
     healthcheck:
@@ -68,6 +71,9 @@ services:
     environment:
       DOTNET_ENVIRONMENT: Development
       ConnectionStrings__SpotifyManager: Host=postgres;Port=5432;Database=${POSTGRES_DB:-spotify_manager};Username=${POSTGRES_USER:-spotify_manager};Password=${POSTGRES_PASSWORD:-spotify_manager}
+      Spotify__ClientId: ${SPOTIFY_CLIENT_ID:-}
+      Spotify__ClientSecret: ${SPOTIFY_CLIENT_SECRET:-}
+      Spotify__RedirectUri: ${SPOTIFY_REDIRECT_URI:-http://localhost:4900/api/v1/auth/spotify/callback}
     depends_on:
       postgres:
         condition: service_healthy

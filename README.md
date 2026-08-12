@@ -32,6 +32,16 @@ Open:
 
 Stop the stack with `docker compose down`. The PostgreSQL volume is retained.
 
+### Connect Spotify
+
+Copy `.env.example` to `.env`, create an application in the Spotify Developer Dashboard, and provide its client ID and client secret. Register this local callback exactly:
+
+```text
+http://localhost:4900/api/v1/auth/spotify/callback
+```
+
+When credentials are absent, the application remains runnable and clearly reports that Spotify setup is required. OAuth state is single-use, session tokens are stored as hashes, provider tokens are encrypted using database-persisted data-protection keys, and access tokens refresh through a provider-specific strategy.
+
 ## Validate locally
 
 The repository pins .NET in `global.json`. From a machine with .NET 10 and Node 24.18.1 or newer:
@@ -49,6 +59,6 @@ npm test -- --watch=false
 
 ## Current boundary
 
-The domain model, playlist-difference engine, persistence schema, process topology, and responsive application shell are implemented. Spotify OAuth, authenticated playlist browsing, applying proposals, and email digests are the next vertical slices.
+The domain model, playlist-difference engine, persistence schema, process topology, responsive shell, Spotify OAuth/session flow, and connection settings screen are implemented. Authenticated playlist browsing, applying proposals, and email digests are the next vertical slices.
 
 The captured deployed UI reference is documented in `docs/legacy-ui-baseline/README.md`.

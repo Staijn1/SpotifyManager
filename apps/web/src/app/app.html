@@ -42,14 +42,40 @@
     </nav>
 
     <div class="mt-auto rounded-2xl border border-white/7 bg-white/[0.035] p-4">
-      <div class="mb-2 flex items-center gap-2 text-sm font-semibold">
-        <span class="h-2 w-2 rounded-full bg-amber-400"></span>
-        Provider not connected
-      </div>
-      <p class="mb-4 text-xs leading-5 text-[var(--sm-muted)]">
-        Connect Spotify to inspect playlists and create your first remix.
-      </p>
-      <button type="button" class="ui-button ui-button-small w-full">Connect Spotify</button>
+      @if (providerState().loading) {
+        <div class="flex items-center gap-2 text-sm font-semibold">
+          <span class="h-2 w-2 animate-pulse rounded-full bg-blue-400"></span>
+          Checking Spotify
+        </div>
+      } @else if (providerState().connections[0]?.status === 'active') {
+        <div class="mb-2 flex items-center gap-2 text-sm font-semibold">
+          <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+          Spotify connected
+        </div>
+        <p class="mb-4 truncate text-xs leading-5 text-[var(--sm-muted)]">
+          {{ providerState().connections[0]?.displayName }}
+        </p>
+        <button type="button" class="ui-button ui-button-secondary ui-button-small w-full" (click)="disconnectSpotify()">
+          Disconnect
+        </button>
+      } @else {
+        <div class="mb-2 flex items-center gap-2 text-sm font-semibold">
+          <span class="h-2 w-2 rounded-full bg-amber-400"></span>
+          {{ providerState().spotifyConfigured === false ? 'Spotify setup required' : 'Provider not connected' }}
+        </div>
+        <p class="mb-4 text-xs leading-5 text-[var(--sm-muted)]">
+          @if (providerState().spotifyConfigured === false) {
+            Add the Spotify application credentials to enable account connections.
+          } @else {
+            Connect Spotify to inspect playlists and create your first remix.
+          }
+        </p>
+        @if (providerState().spotifyConfigured === false) {
+          <button type="button" class="ui-button ui-button-small w-full opacity-50" disabled>Connect unavailable</button>
+        } @else {
+          <a [href]="spotifyConnectionUrl" class="ui-button ui-button-small w-full">Connect Spotify</a>
+        }
+      }
     </div>
   </aside>
 
@@ -68,9 +94,15 @@
         <p class="mt-1 text-sm text-white/80">Keep the songs you love. Review everything else.</p>
       </div>
       <div class="ml-auto hidden items-center gap-3 sm:flex">
-        <span class="rounded-full border border-white/8 bg-white/[0.035] px-3 py-1.5 text-xs text-[var(--sm-muted)]">
-          New architecture preview
-        </span>
+        @if (authState().status === 'authenticated') {
+          <span class="max-w-48 truncate rounded-full border border-white/8 bg-white/[0.035] px-3 py-1.5 text-xs text-white/80">
+            {{ authState().displayName }}
+          </span>
+        } @else {
+          <span class="rounded-full border border-white/8 bg-white/[0.035] px-3 py-1.5 text-xs text-[var(--sm-muted)]">
+            Connection preview
+          </span>
+        }
       </div>
     </header>
 

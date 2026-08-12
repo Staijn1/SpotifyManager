@@ -35,15 +35,7 @@ export const routes: Routes = [
   },
   {
     path: 'settings',
-    loadComponent: () =>
-      import('./pages/feature-placeholder/feature-placeholder').then(
-        (module) => module.FeaturePlaceholderPage,
-      ),
-    data: {
-      eyebrow: 'Account',
-      title: 'Connections and notifications',
-      description: 'Manage provider access, a verified digest email address, timezone, and delivery defaults.',
-    },
+    loadComponent: () => import('./pages/settings/settings').then((module) => module.SettingsPage),
     title: 'Settings | Spotify Manager',
   },
   { path: '**', redirectTo: '' },

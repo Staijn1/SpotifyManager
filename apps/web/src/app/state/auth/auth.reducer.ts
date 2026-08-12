@@ -5,6 +5,7 @@ export interface AuthState {
   readonly status: 'idle' | 'loading' | 'authenticated' | 'anonymous' | 'error';
   readonly userId: string | null;
   readonly displayName: string | null;
+  readonly email: string | null;
   readonly error: string | null;
 }
 
@@ -12,6 +13,7 @@ const initialState: AuthState = {
   status: 'idle',
   userId: null,
   displayName: null,
+  email: null,
   error: null,
 };
 
@@ -23,6 +25,7 @@ export const authReducer = createReducer(
     status: 'authenticated' as const,
     userId: action.userId,
     displayName: action.displayName,
+    email: action.email,
     error: null,
   })),
   on(AuthActions.sessionMissing, () => ({ ...initialState, status: 'anonymous' as const })),

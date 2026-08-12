@@ -6,8 +6,10 @@ import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { routes } from './app.routes';
 import { authReducer } from './state/auth/auth.reducer';
+import { AuthEffects } from './state/auth/auth.effects';
 import { forksReducer } from './state/forks/forks.reducer';
 import { providerConnectionsReducer } from './state/provider-connections/provider-connections.reducer';
+import { ProviderConnectionsEffects } from './state/provider-connections/provider-connections.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,7 +21,7 @@ export const appConfig: ApplicationConfig = {
       providerConnections: providerConnectionsReducer,
       forks: forksReducer,
     }),
-    provideEffects(),
+    provideEffects(AuthEffects, ProviderConnectionsEffects),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
   ],
 };
