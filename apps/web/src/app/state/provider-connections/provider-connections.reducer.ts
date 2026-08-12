@@ -28,6 +28,11 @@ const initialState: ProviderConnectionsState = {
 export const providerConnectionsReducer = createReducer(
   initialState,
   on(AuthActions.loadSession, (state) => ({ ...state, loading: true, error: null })),
+  on(AuthActions.sessionFailed, (state, action) => ({
+    ...state,
+    loading: false,
+    error: action.message,
+  })),
   on(ProviderConnectionActions.sessionStateLoaded, (state, action) => ({
     ...state,
     spotifyConfigured: action.spotifyConfigured,

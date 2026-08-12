@@ -41,13 +41,7 @@ export class AuthEffects {
       ofType(AuthActions.logoutRequested),
       switchMap(() =>
         this.sessionApi.logout().pipe(
-          mergeMap(() => [
-            AuthActions.sessionMissing(),
-            ProviderConnectionActions.sessionStateLoaded({
-              spotifyConfigured: true,
-              connection: null,
-            }),
-          ]),
+          switchMap(() => of(AuthActions.loadSession())),
           catchError(() =>
             of(AuthActions.sessionFailed({ message: 'Could not sign out.' })),
           ),
