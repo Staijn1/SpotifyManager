@@ -15,3 +15,4 @@ tmp
 **/bin
 **/obj
 docs/legacy-ui-baseline/*.png
+docs/implementation-preview/*.png
