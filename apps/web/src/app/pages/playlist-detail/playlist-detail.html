@@ -1,0 +1,90 @@
+<section>
+  <a routerLink="/playlists" class="inline-flex text-sm font-semibold text-blue-300 hover:text-blue-200">&larr; Back to playlists</a>
+
+  @if (providerState().loading) {
+    <div class="mt-8 rounded-3xl border border-white/7 bg-[var(--sm-panel)] p-10 text-sm text-[var(--sm-muted)]">Checking your Spotify connection&hellip;</div>
+  } @else if (providerState().connections[0]?.status !== 'active') {
+    <div class="mt-8 rounded-3xl border border-white/7 bg-[var(--sm-panel)] p-8 sm:p-12">
+      <p class="text-xs font-bold uppercase tracking-[0.22em] text-blue-400">Playlist inspection</p>
+      <h1 class="mt-5 text-3xl font-semibold tracking-[-0.03em]">Connect Spotify to continue</h1>
+      <p class="mt-4 max-w-xl text-sm leading-6 text-[var(--sm-muted)]">Spotify must authorize playlist access before tracks can be inspected or copied.</p>
+      @if (providerState().spotifyConfigured === false) {
+        <a routerLink="/settings" class="ui-button ui-button-secondary mt-6">View setup status</a>
+      } @else {
+        <a [href]="connectionUrl()" class="ui-button mt-6">Connect Spotify</a>
+      }
+    </div>
+  } @else if (playlistState().selectedLoading) {
+    <div class="mt-8 animate-pulse rounded-3xl border border-white/5 bg-white/[0.035] p-12">
+      <div class="h-4 w-32 rounded bg-white/10"></div>
+      <div class="mt-6 h-12 max-w-xl rounded bg-white/10"></div>
+      <div class="mt-12 h-64 rounded-2xl bg-white/5"></div>
+    </div>
+  } @else if (playlistState().selectedError) {
+    <div role="alert" class="mt-8 rounded-3xl border border-red-400/15 bg-red-400/5 p-8 text-sm text-red-200">{{ playlistState().selectedError }}</div>
+  } @else if (playlistState().selected; as playlist) {
+    <div class="mt-8 grid gap-8 xl:grid-cols-[minmax(0,1fr)_23rem]">
+      <div class="min-w-0">
+        <p class="text-xs font-bold uppercase tracking-[0.22em] text-blue-400">Original playlist</p>
+        <h1 class="mt-5 break-words text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">{{ playlist.name }}</h1>
+        <p class="mt-5 text-sm text-[var(--sm-muted)]">{{ playlist.itemCount }} items inspected from Spotify. The original will never be overwritten.</p>
+
+        <div class="mt-10 overflow-hidden rounded-3xl border border-white/7 bg-[var(--sm-panel)]">
+          <div class="grid grid-cols-[3rem_minmax(0,1fr)_auto] gap-4 border-b border-white/7 px-5 py-3 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-[var(--sm-muted)]">
+            <span>#</span><span>Track</span><span>Status</span>
+          </div>
+          <ol>
+            @for (item of playlist.items; track item.occurrenceKey) {
+              <li class="grid grid-cols-[3rem_minmax(0,1fr)_auto] items-center gap-4 border-b border-white/5 px-5 py-4 last:border-b-0">
+                <span class="text-xs tabular-nums text-[var(--sm-muted)]">{{ item.position + 1 }}</span>
+                <div class="min-w-0">
+                  <p class="truncate text-sm font-semibold">{{ item.title || 'Unavailable item' }}</p>
+                  <p class="mt-1 truncate text-xs text-[var(--sm-muted)]">{{ item.artists.length ? item.artists.join(', ') : 'Artist unavailable' }}</p>
+                </div>
+                <span
+                  class="rounded-full px-2.5 py-1 text-[0.68rem] font-semibold"
+                  [class.bg-emerald-400/10]="item.availability === 'available'"
+                  [class.text-emerald-300]="item.availability === 'available'"
+                  [class.bg-amber-400/10]="item.availability !== 'available'"
+                  [class.text-amber-300]="item.availability !== 'available'"
+                >{{ item.availability }}</span>
+              </li>
+            }
+          </ol>
+        </div>
+      </div>
+
+      <aside class="h-fit rounded-3xl border border-blue-400/15 bg-blue-500/[0.055] p-6 xl:sticky xl:top-28">
+        <p class="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Create your copy</p>
+        <h2 class="mt-4 text-2xl font-semibold">Remix - {{ playlist.name }}</h2>
+        <p class="mt-4 text-sm leading-6 text-[var(--sm-muted)]">Spotify Manager creates a private playlist in your account and stores this snapshot as its source baseline.</p>
+
+        @if (skippedItemCount() > 0) {
+          <div class="mt-5 rounded-2xl border border-amber-400/15 bg-amber-400/5 p-4 text-xs leading-5 text-amber-200">
+            {{ skippedItemCount() }} local or unavailable {{ skippedItemCount() === 1 ? 'item' : 'items' }} cannot be copied and will be skipped.
+          </div>
+        }
+
+        <button type="button" class="ui-button mt-6 w-full" [disabled]="playlistState().forking || !!playlistState().createdFork" (click)="fork()">
+          {{ playlistState().forking ? 'Creating remix...' : playlistState().createdFork ? 'Remix created' : 'Create remix' }}
+        </button>
+
+        @if (playlistState().forkError) {
+          <p role="alert" class="mt-4 text-xs leading-5 text-red-200">{{ playlistState().forkError }}</p>
+        }
+
+        @if (playlistState().createdFork; as fork) {
+          <div class="mt-5 rounded-2xl border border-emerald-400/15 bg-emerald-400/5 p-4">
+            <p class="text-sm font-semibold text-emerald-200">{{ fork.name }} is ready.</p>
+            <div class="mt-4 flex flex-wrap gap-3 text-xs font-semibold">
+              <a routerLink="/forks" class="text-blue-300 hover:text-blue-200">View your forks</a>
+              @if (fork.providerUrl) {
+                <a [href]="fork.providerUrl" target="_blank" rel="noopener noreferrer" class="text-blue-300 hover:text-blue-200">Open in Spotify &nearr;</a>
+              }
+            </div>
+          </div>
+        }
+      </aside>
+    </div>
+  }
+</section>

@@ -25,7 +25,7 @@
   </div>
 
   @if (providerState().loading) {
-    <div class="mt-10 rounded-3xl border border-white/7 bg-[var(--sm-panel)] p-10 text-sm text-[var(--sm-muted)]">Checking your Spotify connection…</div>
+    <div class="mt-10 rounded-3xl border border-white/7 bg-[var(--sm-panel)] p-10 text-sm text-[var(--sm-muted)]">Checking your Spotify connection&hellip;</div>
   } @else if (providerState().connections[0]?.status !== 'active') {
     <div class="mt-10 rounded-3xl border border-white/7 bg-[var(--sm-panel)] p-8 sm:p-12">
       <h2 class="text-2xl font-semibold">Connect Spotify to browse playlists</h2>
@@ -68,9 +68,12 @@
             <h2 class="truncate text-lg font-semibold">{{ playlist.name }}</h2>
             <p class="mt-1 truncate text-sm text-[var(--sm-muted)]">{{ playlist.ownerDisplayName }}</p>
             <p class="mt-4 text-xs text-[var(--sm-muted)]">{{ playlist.itemCount }} items</p>
-            @if (playlist.providerUrl) {
-              <a [href]="playlist.providerUrl" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex text-xs font-semibold text-blue-300 hover:text-blue-200">Open in Spotify ↗</a>
-            }
+            <div class="mt-4 flex flex-wrap gap-4 text-xs font-semibold">
+              <a [routerLink]="['/playlists', playlist.id]" class="text-blue-300 hover:text-blue-200">Inspect &amp; remix</a>
+              @if (playlist.providerUrl) {
+                <a [href]="playlist.providerUrl" target="_blank" rel="noopener noreferrer" class="text-blue-300 hover:text-blue-200">Spotify &nearr;</a>
+              }
+            </div>
           </div>
         </article>
       }

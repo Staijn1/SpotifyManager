@@ -8,6 +8,7 @@ import { routes } from './app.routes';
 import { authReducer } from './state/auth/auth.reducer';
 import { AuthEffects } from './state/auth/auth.effects';
 import { forksReducer } from './state/forks/forks.reducer';
+import { ForksEffects } from './state/forks/forks.effects';
 import { providerConnectionsReducer } from './state/provider-connections/provider-connections.reducer';
 import { ProviderConnectionsEffects } from './state/provider-connections/provider-connections.effects';
 import { PlaylistsEffects } from './state/playlists/playlists.effects';
@@ -24,7 +25,7 @@ export const appConfig: ApplicationConfig = {
       playlists: playlistsReducer,
       forks: forksReducer,
     }),
-    provideEffects(AuthEffects, ProviderConnectionsEffects, PlaylistsEffects),
+    provideEffects(AuthEffects, ProviderConnectionsEffects, PlaylistsEffects, ForksEffects),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
   ],
 };

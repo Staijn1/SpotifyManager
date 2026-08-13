@@ -1,10 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../state/app.state';
 import { PlaylistActions } from '../../state/playlists/playlists.actions';
 
 @Component({
   selector: 'app-playlists-page',
+  imports: [RouterLink],
   templateUrl: './playlists.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

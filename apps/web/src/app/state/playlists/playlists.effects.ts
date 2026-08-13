@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, filter, map, of, switchMap } from 'rxjs';
+import { catchError, exhaustMap, filter, map, of, switchMap } from 'rxjs';
 import { PlaylistApi } from '../../core/playlist-api';
 import { ProviderConnectionActions } from '../provider-connections/provider-connections.actions';
 import { PlaylistActions } from './playlists.actions';
@@ -29,6 +29,38 @@ export class PlaylistsEffects {
       ofType(ProviderConnectionActions.sessionStateLoaded),
       filter(({ connection }) => connection?.status === 'active'),
       map(() => PlaylistActions.load({ query: '' })),
+    ),
+  );
+
+  readonly loadDetails = createEffect(() =>
+    this.actions.pipe(
+      ofType(PlaylistActions.loadDetails),
+      switchMap(({ playlistId }) =>
+        this.playlistApi.get(playlistId).pipe(
+          map((details) => PlaylistActions.detailsLoaded({ details })),
+          catchError(() =>
+            of(PlaylistActions.detailsFailed({ message: 'Could not inspect this playlist.' })),
+          ),
+        ),
+      ),
+    ),
+  );
+
+  readonly fork = createEffect(() =>
+    this.actions.pipe(
+      ofType(PlaylistActions.forkRequested),
+      exhaustMap(({ playlistId, idempotencyKey }) =>
+        this.playlistApi.fork(playlistId, idempotencyKey).pipe(
+          map((result) => PlaylistActions.forkSucceeded({ result })),
+          catchError(() =>
+            of(
+              PlaylistActions.forkFailed({
+                message: 'Spotify could not create this remix. No existing playlist was changed.',
+              }),
+            ),
+          ),
+        ),
+      ),
     ),
   );
 }

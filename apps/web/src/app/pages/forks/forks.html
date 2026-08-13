@@ -1,0 +1,60 @@
+<section>
+  <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+    <div>
+      <p class="text-xs font-bold uppercase tracking-[0.22em] text-blue-400">Your remixes</p>
+      <h1 class="mt-5 text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">Forks stay yours</h1>
+      <p class="mt-5 max-w-2xl text-base leading-7 text-[var(--sm-muted)]">Each copy keeps its source relationship and baseline while remaining a playlist you own in Spotify.</p>
+    </div>
+    <a routerLink="/playlists" class="ui-button">Browse playlists</a>
+  </div>
+
+  @if (providerState().loading || forksState().loading) {
+    <div class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+      @for (item of [1, 2, 3]; track item) {
+        <div class="h-56 animate-pulse rounded-3xl border border-white/5 bg-white/[0.035]"></div>
+      }
+    </div>
+  } @else if (providerState().connections[0]?.status !== 'active') {
+    <div class="mt-10 rounded-3xl border border-white/7 bg-[var(--sm-panel)] p-8 sm:p-12">
+      <h2 class="text-2xl font-semibold">Connect Spotify to see your forks</h2>
+      <p class="mt-4 max-w-xl text-sm leading-6 text-[var(--sm-muted)]">Your Spotify connection identifies the remixes that belong to your account.</p>
+      <a routerLink="/settings" class="ui-button ui-button-secondary mt-6">Open settings</a>
+    </div>
+  } @else if (forksState().error) {
+    <div role="alert" class="mt-10 rounded-3xl border border-red-400/15 bg-red-400/5 p-8 text-sm text-red-200">{{ forksState().error }}</div>
+  } @else if (forksState().items.length === 0) {
+    <div class="mt-10 rounded-3xl border border-dashed border-white/10 p-12 text-center">
+      <h2 class="text-xl font-semibold">No forks yet</h2>
+      <p class="mx-auto mt-3 max-w-lg text-sm leading-6 text-[var(--sm-muted)]">Inspect a Spotify playlist and create a private remix. It will appear here as soon as it is ready.</p>
+      <a routerLink="/playlists" class="ui-button mt-6">Choose an original</a>
+    </div>
+  } @else {
+    <div class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+      @for (fork of forksState().items; track fork.id) {
+        <article class="flex min-h-60 flex-col rounded-3xl border border-white/7 bg-[var(--sm-panel)] p-6">
+          <div class="flex items-start justify-between gap-4">
+            <span class="rounded-full bg-blue-400/10 px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-wide text-blue-300">Spotify</span>
+            <span
+              class="rounded-full px-2.5 py-1 text-[0.68rem] font-semibold"
+              [class.bg-emerald-400/10]="fork.status === 'active'"
+              [class.text-emerald-300]="fork.status === 'active'"
+              [class.bg-amber-400/10]="fork.status !== 'active'"
+              [class.text-amber-300]="fork.status !== 'active'"
+            >{{ fork.status }}</span>
+          </div>
+          <h2 class="mt-6 break-words text-xl font-semibold">{{ fork.name }}</h2>
+          <p class="mt-2 truncate text-sm text-[var(--sm-muted)]">Source: {{ fork.sourceName }}</p>
+          @if (fork.failureReason) {
+            <p class="mt-4 text-xs leading-5 text-red-200">{{ fork.failureReason }}</p>
+          }
+          <div class="mt-auto flex flex-wrap gap-4 pt-7 text-xs font-semibold">
+            <a [routerLink]="['/playlists', fork.sourcePlaylistId]" class="text-blue-300 hover:text-blue-200">Inspect source</a>
+            @if (fork.providerUrl) {
+              <a [href]="fork.providerUrl" target="_blank" rel="noopener noreferrer" class="text-blue-300 hover:text-blue-200">Open in Spotify &nearr;</a>
+            }
+          </div>
+        </article>
+      }
+    </div>
+  }
+</section>

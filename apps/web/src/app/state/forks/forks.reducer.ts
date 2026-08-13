@@ -1,25 +1,31 @@
-import { createReducer } from '@ngrx/store';
-
-export interface ForkSummary {
-  readonly id: string;
-  readonly name: string;
-  readonly sourceName: string;
-  readonly status: 'pending' | 'active' | 'failed' | 'disconnected';
-  readonly proposedChangeCount: number;
-}
+import { createReducer, on } from '@ngrx/store';
+import { ForkSummary } from '../../core/fork-api';
+import { ForkActions } from './forks.actions';
 
 export interface ForksState {
-  readonly entities: Readonly<Record<string, ForkSummary>>;
-  readonly ids: ReadonlyArray<string>;
+  readonly items: ReadonlyArray<ForkSummary>;
   readonly loading: boolean;
   readonly error: string | null;
 }
 
 const initialState: ForksState = {
-  entities: {},
-  ids: [],
+  items: [],
   loading: false,
   error: null,
 };
 
-export const forksReducer = createReducer(initialState);
+export const forksReducer = createReducer(
+  initialState,
+  on(ForkActions.load, (state) => ({ ...state, loading: true, error: null })),
+  on(ForkActions.loaded, (state, action) => ({
+    ...state,
+    items: action.items,
+    loading: false,
+    error: null,
+  })),
+  on(ForkActions.failed, (state, action) => ({
+    ...state,
+    loading: false,
+    error: action.message,
+  })),
+);

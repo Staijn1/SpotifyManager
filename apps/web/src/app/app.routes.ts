@@ -13,16 +13,16 @@ export const routes: Routes = [
     title: 'Browse playlists | Spotify Manager',
   },
   {
-    path: 'forks',
+    path: 'playlists/:playlistId',
     loadComponent: () =>
-      import('./pages/feature-placeholder/feature-placeholder').then(
-        (module) => module.FeaturePlaceholderPage,
+      import('./pages/playlist-detail/playlist-detail').then(
+        (module) => module.PlaylistDetailPage,
       ),
-    data: {
-      eyebrow: 'Your remixes',
-      title: 'Forks stay yours',
-      description: 'Fork summaries, source status, pending proposals, and digest settings will live here.',
-    },
+    title: 'Inspect playlist | Spotify Manager',
+  },
+  {
+    path: 'forks',
+    loadComponent: () => import('./pages/forks/forks').then((module) => module.ForksPage),
     title: 'Forks | Spotify Manager',
   },
   {
