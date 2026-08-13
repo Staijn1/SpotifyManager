@@ -13,6 +13,7 @@ public sealed record ForkListItem(
     string SourceName,
     string Name,
     ForkedPlaylistStatus Status,
+    int ProposedChangeCount,
     string? FailureReason,
     DateTimeOffset CreatedAt,
     DateTimeOffset UpdatedAt);

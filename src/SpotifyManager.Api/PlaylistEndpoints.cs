@@ -196,6 +196,7 @@ internal static class PlaylistEndpoints
                 fork.SourceName,
                 fork.Name,
                 status = fork.Status.ToString().ToLowerInvariant(),
+                fork.ProposedChangeCount,
                 fork.FailureReason,
                 providerUrl = fork.ExternalPlaylistId is null
                     ? null

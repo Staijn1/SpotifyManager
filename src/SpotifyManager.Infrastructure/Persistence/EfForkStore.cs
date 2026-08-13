@@ -41,6 +41,9 @@ internal sealed class EfForkStore(SpotifyManagerDbContext dbContext) : IForkStor
                 SourceName = fork.SourcePlaylist.Name,
                 fork.Name,
                 fork.Status,
+                ProposedChangeCount = dbContext.PlaylistChanges.Count(change =>
+                    change.SourcePlaylistId == fork.SourcePlaylistId &&
+                    change.ReviewStatus == "Proposed"),
                 fork.FailureReason,
                 fork.CreatedAt,
                 fork.UpdatedAt,
@@ -56,6 +59,7 @@ internal sealed class EfForkStore(SpotifyManagerDbContext dbContext) : IForkStor
                 fork.SourceName,
                 fork.Name,
                 fork.Status,
+                fork.ProposedChangeCount,
                 fork.FailureReason,
                 fork.CreatedAt,
                 fork.UpdatedAt))
@@ -156,6 +160,26 @@ internal sealed class EfForkStore(SpotifyManagerDbContext dbContext) : IForkStor
         record.Status = fork.Status;
         record.FailureReason = fork.FailureReason;
         record.UpdatedAt = fork.UpdatedAt;
+
+        if (fork.Status == ForkedPlaylistStatus.Active &&
+            !await dbContext.ScheduledWork.AnyAsync(
+                work =>
+                    work.WorkType == "SourcePlaylistPoll" &&
+                    work.TargetId == fork.Id &&
+                    work.Status != "Completed",
+                cancellationToken))
+        {
+            dbContext.ScheduledWork.Add(new ScheduledWorkRecord
+            {
+                Id = Guid.NewGuid(),
+                WorkType = "SourcePlaylistPoll",
+                TargetId = fork.Id,
+                DueAt = fork.UpdatedAt.AddMinutes(15),
+                Status = "Pending",
+                CreatedAt = fork.UpdatedAt,
+                UpdatedAt = fork.UpdatedAt,
+            });
+        }
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 

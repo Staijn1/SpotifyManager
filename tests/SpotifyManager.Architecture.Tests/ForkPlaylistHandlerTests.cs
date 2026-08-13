@@ -79,6 +79,9 @@ public sealed class ForkPlaylistHandlerTests
 
         public IPlaylistForkStrategy GetForkStrategy(MusicProvider provider) => this;
 
+        public IPlaylistChangeDetectionStrategy GetChangeDetectionStrategy(MusicProvider provider) =>
+            throw new NotSupportedException();
+
         public Task<ProviderCapabilities> GetCapabilitiesAsync(
             ProviderConnectionId connectionId,
             CancellationToken cancellationToken) =>

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using SpotifyManager.Application.Forks;
+using SpotifyManager.Application.Changes;
 using SpotifyManager.Application.Providers;
 using SpotifyManager.Api;
 using SpotifyManager.Infrastructure;
@@ -14,6 +15,7 @@ builder.Services.AddHealthChecks()
 builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddScoped<IProviderStrategyResolver, ProviderStrategyResolver>();
 builder.Services.AddScoped<ForkPlaylistHandler>();
+builder.Services.AddScoped<RefreshForkChangesHandler>();
 builder.Services.AddSpotifyManagerInfrastructure(builder.Configuration);
 builder.Services.AddSpotifyProvider(builder.Configuration);
 
@@ -32,6 +34,7 @@ app.MapHealthChecks("/health/ready", new HealthCheckOptions
 var api = app.MapGroup("/api/v1");
 api.MapSpotifyAuthorizationEndpoints();
 api.MapPlaylistEndpoints();
+api.MapChangeReviewEndpoints();
 api.MapGet("/system/status", () => Results.Ok(new
 {
     service = "Spotify Manager API",

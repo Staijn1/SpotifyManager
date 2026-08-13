@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using SpotifyManager.Application.Connections;
+using SpotifyManager.Application.Changes;
 using SpotifyManager.Application.Forks;
 using SpotifyManager.Infrastructure.Connections;
 using SpotifyManager.Infrastructure.Persistence;
@@ -34,6 +35,7 @@ public static class InfrastructureServiceCollectionExtensions
         services.AddScoped<IProviderConnectionStore, EfProviderConnectionStore>();
         services.AddScoped<IProviderTokenProvider, DatabaseProviderTokenProvider>();
         services.AddScoped<IForkStore, EfForkStore>();
+        services.AddScoped<IChangeReviewStore, EfChangeReviewStore>();
         return services;
     }
 }
