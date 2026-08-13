@@ -26,24 +26,41 @@ internal sealed class EfForkStore(SpotifyManagerDbContext dbContext) : IForkStor
 
     public async Task<IReadOnlyList<ForkListItem>> ListAsync(
         Guid userId,
-        CancellationToken cancellationToken) =>
-        await dbContext.ForkedPlaylists
+        CancellationToken cancellationToken)
+    {
+        var records = await dbContext.ForkedPlaylists
             .AsNoTracking()
             .Where(fork => fork.UserId == userId)
             .OrderByDescending(fork => fork.UpdatedAt)
-            .Select(fork => new ForkListItem(
+            .Select(fork => new
+            {
                 fork.Id,
-                new ExternalPlaylistId(fork.Provider, fork.SourcePlaylist.ExternalPlaylistId),
-                fork.ExternalPlaylistId == null
+                fork.Provider,
+                SourceExternalPlaylistId = fork.SourcePlaylist.ExternalPlaylistId,
+                fork.ExternalPlaylistId,
+                SourceName = fork.SourcePlaylist.Name,
+                fork.Name,
+                fork.Status,
+                fork.FailureReason,
+                fork.CreatedAt,
+                fork.UpdatedAt,
+            })
+            .ToArrayAsync(cancellationToken);
+
+        return records.Select(fork => new ForkListItem(
+                fork.Id,
+                new ExternalPlaylistId(fork.Provider, fork.SourceExternalPlaylistId),
+                fork.ExternalPlaylistId is null
                     ? null
                     : new ExternalPlaylistId(fork.Provider, fork.ExternalPlaylistId),
-                fork.SourcePlaylist.Name,
+                fork.SourceName,
                 fork.Name,
                 fork.Status,
                 fork.FailureReason,
                 fork.CreatedAt,
                 fork.UpdatedAt))
-            .ToArrayAsync(cancellationToken);
+            .ToArray();
+    }
 
     public async Task<SourceSnapshotReference> SaveSourceSnapshotAsync(
         ProviderConnectionId connectionId,

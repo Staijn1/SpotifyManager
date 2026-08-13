@@ -66,6 +66,7 @@ internal static class PlaylistEndpoints
                     playlist.ExternalVersion,
                     playlist.IsPublic,
                     playlist.IsCollaborative,
+                    playlist.CanReadItems,
                 }),
         });
     }

@@ -38,7 +38,8 @@ internal sealed class SpotifyMusicProviderAdapter(
                 playlist.ExternalUrls?.Spotify,
                 playlist.SnapshotId,
                 playlist.Public,
-                playlist.Collaborative))
+                playlist.Collaborative,
+                playlist.Items is not null || playlist.Tracks is not null))
             .ToArray();
     }
 

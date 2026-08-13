@@ -12,4 +12,5 @@ public sealed record ProviderPlaylistSummary(
     string? ProviderUrl,
     string? ExternalVersion,
     bool? IsPublic,
-    bool IsCollaborative);
+    bool IsCollaborative,
+    bool CanReadItems);

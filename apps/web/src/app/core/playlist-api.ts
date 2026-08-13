@@ -13,6 +13,7 @@ export interface PlaylistSummary {
   readonly externalVersion: string | null;
   readonly isPublic: boolean | null;
   readonly isCollaborative: boolean;
+  readonly canReadItems: boolean;
 }
 
 export type PlaylistItemAvailability = 'available' | 'unavailable' | 'local' | 'skipped';

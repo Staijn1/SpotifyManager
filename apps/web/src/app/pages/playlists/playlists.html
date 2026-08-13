@@ -4,7 +4,7 @@
       <p class="text-xs font-bold uppercase tracking-[0.22em] text-blue-400">Playlist library</p>
       <h1 class="mt-5 text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">Choose an original</h1>
       <p class="mt-5 max-w-2xl text-base leading-7 text-[var(--sm-muted)]">
-        Browse playlists you own or follow. Spotify images and links remain attributed to their source.
+        Browse playlists you own or follow. Spotify allows remixing playlists you own or collaborate on.
       </p>
     </div>
 
@@ -69,7 +69,11 @@
             <p class="mt-1 truncate text-sm text-[var(--sm-muted)]">{{ playlist.ownerDisplayName }}</p>
             <p class="mt-4 text-xs text-[var(--sm-muted)]">{{ playlist.itemCount }} items</p>
             <div class="mt-4 flex flex-wrap gap-4 text-xs font-semibold">
-              <a [routerLink]="['/playlists', playlist.id]" class="text-blue-300 hover:text-blue-200">Inspect &amp; remix</a>
+              @if (playlist.canReadItems) {
+                <a [routerLink]="['/playlists', playlist.id]" class="text-blue-300 hover:text-blue-200">Inspect &amp; remix</a>
+              } @else {
+                <span class="text-[var(--sm-muted)]">Followed playlist &middot; metadata only</span>
+              }
               @if (playlist.providerUrl) {
                 <a [href]="playlist.providerUrl" target="_blank" rel="noopener noreferrer" class="text-blue-300 hover:text-blue-200">Spotify &nearr;</a>
               }
