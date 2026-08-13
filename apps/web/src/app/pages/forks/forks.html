@@ -44,10 +44,14 @@
           </div>
           <h2 class="mt-6 break-words text-xl font-semibold">{{ fork.name }}</h2>
           <p class="mt-2 truncate text-sm text-[var(--sm-muted)]">Source: {{ fork.sourceName }}</p>
+          @if (fork.proposedChangeCount > 0) {
+            <p class="mt-4 text-sm font-semibold text-amber-300">{{ fork.proposedChangeCount }} proposed {{ fork.proposedChangeCount === 1 ? 'change' : 'changes' }}</p>
+          }
           @if (fork.failureReason) {
             <p class="mt-4 text-xs leading-5 text-red-200">{{ fork.failureReason }}</p>
           }
           <div class="mt-auto flex flex-wrap gap-4 pt-7 text-xs font-semibold">
+            <a [routerLink]="['/forks', fork.id]" class="text-blue-300 hover:text-blue-200">Review changes</a>
             <a [routerLink]="['/playlists', fork.sourcePlaylistId]" class="text-blue-300 hover:text-blue-200">Inspect source</a>
             @if (fork.providerUrl) {
               <a [href]="fork.providerUrl" target="_blank" rel="noopener noreferrer" class="text-blue-300 hover:text-blue-200">Open in Spotify &nearr;</a>

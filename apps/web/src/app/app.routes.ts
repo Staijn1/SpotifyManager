@@ -26,6 +26,12 @@ export const routes: Routes = [
     title: 'Forks | Spotify Manager',
   },
   {
+    path: 'forks/:forkId',
+    loadComponent: () =>
+      import('./pages/fork-detail/fork-detail').then((module) => module.ForkDetailPage),
+    title: 'Review changes | Spotify Manager',
+  },
+  {
     path: 'settings',
     loadComponent: () => import('./pages/settings/settings').then((module) => module.SettingsPage),
     title: 'Settings | Spotify Manager',
