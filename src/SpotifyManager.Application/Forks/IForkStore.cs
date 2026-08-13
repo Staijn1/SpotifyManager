@@ -6,11 +6,26 @@ namespace SpotifyManager.Application.Forks;
 
 public sealed record SourceSnapshotReference(Guid SourcePlaylistId, Guid SnapshotId);
 
+public sealed record ForkListItem(
+    Guid Id,
+    ExternalPlaylistId SourcePlaylistId,
+    ExternalPlaylistId? ExternalPlaylistId,
+    string SourceName,
+    string Name,
+    ForkedPlaylistStatus Status,
+    string? FailureReason,
+    DateTimeOffset CreatedAt,
+    DateTimeOffset UpdatedAt);
+
 public interface IForkStore
 {
     Task<ForkedPlaylist?> FindByIdempotencyKeyAsync(
         Guid userId,
         string idempotencyKey,
+        CancellationToken cancellationToken);
+
+    Task<IReadOnlyList<ForkListItem>> ListAsync(
+        Guid userId,
         CancellationToken cancellationToken);
 
     Task<SourceSnapshotReference> SaveSourceSnapshotAsync(

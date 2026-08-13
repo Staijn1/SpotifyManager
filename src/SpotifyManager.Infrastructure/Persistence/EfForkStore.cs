@@ -24,6 +24,27 @@ internal sealed class EfForkStore(SpotifyManagerDbContext dbContext) : IForkStor
         return record is null ? null : ToDomain(record);
     }
 
+    public async Task<IReadOnlyList<ForkListItem>> ListAsync(
+        Guid userId,
+        CancellationToken cancellationToken) =>
+        await dbContext.ForkedPlaylists
+            .AsNoTracking()
+            .Where(fork => fork.UserId == userId)
+            .OrderByDescending(fork => fork.UpdatedAt)
+            .Select(fork => new ForkListItem(
+                fork.Id,
+                new ExternalPlaylistId(fork.Provider, fork.SourcePlaylist.ExternalPlaylistId),
+                fork.ExternalPlaylistId == null
+                    ? null
+                    : new ExternalPlaylistId(fork.Provider, fork.ExternalPlaylistId),
+                fork.SourcePlaylist.Name,
+                fork.Name,
+                fork.Status,
+                fork.FailureReason,
+                fork.CreatedAt,
+                fork.UpdatedAt))
+            .ToArrayAsync(cancellationToken);
+
     public async Task<SourceSnapshotReference> SaveSourceSnapshotAsync(
         ProviderConnectionId connectionId,
         ProviderPlaylistSnapshot snapshot,
